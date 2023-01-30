@@ -1,0 +1,4 @@
+Error Handling
+
+If the user enters a postcode that returns a 500 internal server error, they are returned
+to the form page. 

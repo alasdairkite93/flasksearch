@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+ <link rel="stylesheet" href=
+"https://cdn.jsdelivr.net/npm/foundation-sites@6.7.4/dist/css/foundation.min.css"
+        crossorigin="anonymous">
+
+     <!-- Compressed JavaScript -->
+     <script src=
+"https://cdnjs.cloudflare.com/ajax/libs/foundation/6.0.1/js/vendor/jquery.min.js">
+    </script>
+     <script src=
+"https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/js/foundation.min.js"
+       crossorigin="anonymous">
+     </script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
+    </script>
+    <script type=text/javascript>
+
+
+        $(function(){
+            $('a#soldpricejson').click(function(){
+                $.get("/landregistry", function (data){
+                    $("#forsale").html(JSON.stringify(data));
+                    alert("data: "+JSON.stringify(data));
+                });
+            });
+        });
+
+        /**Zoopla Requests**/
+
+        $(function(){
+            $('a#zooplasale').click(function() {
+                $.get("/zooplasale", function (data){
+                    forSale(data, 0);
+                })
+            })
+        });
+
+        $(function(){
+            $('a#zooplalets').click(function() {
+                $.get("/zooplalet", function (data){
+                    forSale(data, 5);
+                })
+            })
+        });
+
+        /**Right Move AJAX Requests**/
+        $(function(){
+            $('a#rmovesale').click(function() {
+                $.get("/rightmovesale", function (data){
+                    forSale(data, 1);
+                })
+            })
+        });
+
+        $(function(){
+            $('a#rmovelets').click(function() {
+                $.get("/rmoverent", function (data){
+                    forSale(data, 3);
+                })
+            })
+        });
+
+        /**ONtheMarket AJAX Requests**/
+
+         $(function(){
+            $('a#otmsale').click(function() {
+                $.get("/otmsale", function (data){
+                    forSale(data, 2);
+                })
+            })
+        });
+
+          $(function(){
+            $('a#otmrent').click(function() {
+                $.get("/otmrent", function (data){
+                    forSale(data, 4);
+                })
+            })
+        });
+
+
+    /**Sold Prices**/
+
+    $(function(){
+            $('a#rmovesold').click(function() {
+                $.get("/rmovesold", function (data){
+                    sold(data);
+                })
+            })
+        });
+
+
+    /**Area Statistics**/
+
+    $(function() {
+        $('a#crysdata').click(function() {
+            $.get("/crystalroof", function (data){
+                crysStats(data);
+            })
+        })
+    });
+
+    /**Planning Data**/
+
+    $(function() {
+        $('a#planningdata').click(function() {
+            $.get("/planningdata", function (data){
+                planning(data);
+            })
+        })
+    });
+
+    function planning(json_data){
+        const section = document.getElementById('forsale');
+        section.innerHTML = "";
+
+        for (entry of json_data){
+            var table = document.createElement('table');
+
+            for (var i=0; i<entry.length; i++){
+                var tr = document.createElement('tr');
+                var td = document.createElement('td');
+                var txt = document.createTextNode(entry[i]);
+                td.appendChild(txt);
+                tr.appendChild(td);
+                table.appendChild(tr);
+            }
+
+            section.appendChild(table);
+        }
+    }
+
+    function forSale(json_data, ind){
+
+        var index = parseInt(ind);
+        const section = document.getElementById('forsale');
+        section.innerHTML = "";
+        const title = document.createElement("h1");
+        var url = ''
+        var endurl = ''
+
+        switch(index) {
+            case 0:
+                const ti_cont = document.createTextNode("Zoopla For Sale Results");
+                title.appendChild(ti_cont);
+                url = 'https://www.zoopla.co.uk/for-sale/details/';
+                break;
+            case 1:
+                const rmov_txt = document.createTextNode("RightMove For Sale Results");
+                title.appendChild(rmov_txt);
+                url = 'https://www.rightmove.co.uk/properties/';
+                break;
+            case 2:
+                const ontm_txt = document.createTextNode("On The Market For Sale Results");
+                title.appendChild(ontm_txt);
+                url = 'https://www.onthemarket.com/details/'
+                break;
+            case 3:
+                const rmov_lets = document.createTextNode("RightMove Lettings");
+                title.appendChild(rmov_lets);
+                url = 'https://www.rightmove.co.uk/properties/'
+                endurl = '#/?channel=RES_LET';
+                break;
+            case 4:
+                const ontm_lets = document.createTextNode("On The Market Lettings");
+                title.appendChild(ontm_lets);
+                url = 'https://www.onthemarket.com/details/'
+                break;
+            case 5:
+                const zoop_lets = document.createTextNode("Zoopla Lettings");
+                title.appendChild(zoop_lets);
+                url = 'https://www.zoopla.co.uk/to-rent/details/'
+                break;
+            }
+
+        section.appendChild(title);
+
+        var number = json_data.length;
+        const count = document.createTextNode("Total Number of Properties: "+number);
+        title.appendChild(count);
+
+        for (prop of json_data) {
+
+            const address = prop[0];
+            const price = prop[1];
+            const image = prop[2];
+            const branchname = prop[3];
+            const l_url = prop[4];
+
+            const section = document.getElementById('forsale');
+
+            const newDiv = document.createElement("div");
+            newDiv.setAttribute("class", "card mb-3");
+            newDiv.setAttribute("style", "max-width: 540px;");
+            section.appendChild(newDiv);
+
+            const rowdiv2 = document.createElement("div");
+            rowdiv2.setAttribute("class", "row no-gutters");
+            newDiv.appendChild(rowdiv2);
+
+            const rowdiv = document.createElement("div");
+            rowdiv.setAttribute("class", "row no-gutters");
+            newDiv.appendChild(rowdiv);
+
+            const a_url = document.createElement("a");
+            a_url.setAttribute("style", "padding-bottom: 25px;")
+            const acontent = document.createTextNode(url+l_url+endurl);
+            a_url.appendChild(acontent);
+
+            const coldiv = document.createElement("div");
+            coldiv.setAttribute("class", "col-md-4");
+            const img = document.createElement("img");
+            img.src = image;
+            coldiv.appendChild(img);
+            rowdiv.appendChild(coldiv);
+
+            const divcolmd8 = document.createElement("div");
+            divcolmd8.setAttribute("class", "col-md-8");
+            rowdiv.appendChild(divcolmd8);
+            const cardbody = document.createElement("div");
+            cardbody.setAttribute("class", "card=body");
+            divcolmd8.appendChild(cardbody);
+
+
+            const h5 = document.createElement("h5");
+            const h5_content = document.createTextNode(address);
+            h5.appendChild(h5_content);
+            cardbody.appendChild(h5);
+
+            const p_rice = document.createElement("p");
+            p_rice.setAttribute("class", "card-text");
+            const p_content = document.createTextNode(price);
+            p_rice.appendChild(p_content);
+            cardbody.appendChild(p_rice);
+
+            cardbody.appendChild(a_url);
+
+            const b_name = document.createElement("p");
+            b_name.setAttribute("class", "card-text");
+            const b_n = document.createTextNode("Branch: "+branchname);
+            b_name.appendChild(b_n);
+            cardbody.appendChild(b_name);
+
+        }
+    }
+
+    function sold(json_data){
+
+        const section = document.getElementById('forsale');
+        section.innerHTML = "";
+        const title = document.createElement("h1");
+        const rmov_sold = document.createTextNode("RightMove Sold");
+        title.appendChild(rmov_sold);
+        section.appendChild(title);
+
+        var number = json_data.length;
+        const count = document.createTextNode("Total Number of Properties: "+number);
+        title.appendChild(count);
+
+        for (const prop of json_data) {
+
+            const myArticle = document.createElement('article');
+
+            const address = prop[0];
+            const price = prop[1];
+            const image = prop[2];
+            const url = prop[3];
+
+            const h2 = document.createElement("h3");
+            const addr_cont = document.createTextNode(address);
+            h2.appendChild(addr_cont);
+
+            const list = document.createElement('ul');
+
+            const img = document.createElement('li');
+            img.textContent = image;
+            list.appendChild(img);
+
+            //Creating sublist of prices property has been sold for
+            const sublist = document.createElement('ul');
+            price.forEach((item)=>{
+                let li = document.createElement("li");
+                li.innerText = item;
+                sublist.appendChild(li);
+            })
+            list.appendChild(sublist);
+
+            const url_listing = document.createElement('li');
+            url_listing.textContent = url;
+            list.appendChild(url_listing);
+
+            myArticle.appendChild(h2);
+            myArticle.appendChild(list);
+
+            section.appendChild(myArticle);
+      }
+    }
+
+    {#function crysStats(data){#}
+    {##}
+    {#    const section = document.getElementById('forsale');#}
+    {#    section.innerHTML = "";#}
+    {#    const title = document.createElement("h1");#}
+    {#    const rmov_sold = document.createTextNode("RightMove Sold");#}
+    {#    title.appendChild(rmov_sold);#}
+    {#    section.appendChild(title);#}
+    {##}
+    {#    row_num = data.length();#}
+    {#    col_num = 2;#}
+    {#    var table = document.createElement("TABLE");#}
+    {#    table.setAttribute("id", "crys_table");#}
+    {#    section.appendChild(table);#}
+    {#    for (const entry of data){#}
+    {#        #}
+    {#    }#}
+
+    </script>
+</head>
+<body>
+
+<div class="container">
+  <h2>Searching: {{ session['postcode'] }}</h2>
+    <div class="container">
+    <div class="row align-items-stat">
+        <div class="col"></div>
+        <div class="col">
+            <form action="{{ url_for("update_session")}}" method="post" name="search" onsubmit="return validateForm()">
+                <div class="form-group">
+                    <label for="postcode">Enter a Post Code:</label>
+                    <input type="text" class="form-control" id="postcode" name="pcodeupdate" placeholder="postcode" required>
+                </div>
+            <button type="submit" class="btn btn-default">Search</button>
+            </form>
+        </div>
+    </div>
+</div>
+      <p>The radius of the search is set to 0.5km.</p>
+      <p>Postcodes will only be searched if entered correctly e.g. 'TN8 5FS'.</p>
+      <p>Changes to for instance the search radius can be made so please ask for improvements.</p>
+    <p>If you notice any issues while using the software or would like to many improvements please contact <u>onlinewebservices93@gmail.com</u>.</p>
+
+    <ul class="dropdown menu" data-dropown-menu>
+        <li class="list-group-item">
+            <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">For Sale
+            <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href=# id=zooplasale>Zoopla</a></li>
+                    <li><a href=# id=rmovesale>RightMove</a></li>
+                    <li><a href=# id=otmsale>OnTheMarket</a></li>
+                </ul>
+            </div>
+        </li>
+
+        <li class="list-group-item">
+            <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Lettings
+            <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href=# id=zooplalets>Zoopla</a></li>
+                    <li><a href=# id=rmovelets>RightMove</a></li>
+                    <li><a href=# id=otmrent>On The Market</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Transactions
+                <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href=# id=soldpricejson>Land Registry Sold</a></li>
+                    <li><a href=# id=rmovesold>RightMove Sold</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Crystal Roof Data
+                <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href=# id=crysdata>CrystalRoof Data</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Land Planning
+                <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href=# id=planningdata>Data</a></li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</div>
+<script>
+    $(document).foundation();
+</script>
+<span id=result></span>
+
+<div id="forsale" class="container" style="padding-top: 75px;"></div>
+
+</body>
+
+</html>
+
+  {#  function forSale(ind, json_data) {#}
+  {##}
+  {#      var index = parseInt(ind);#}
+  {#      const section = document.getElementById('forsale');#}
+  {#      section.innerHTML = "";#}
+  {#      const title = document.createElement("h1");#}
+  {#      switch(index) {#}
+  {#          case 0:#}
+  {#              const ti_cont = document.createTextNode("Zoopla For Sale Results");#}
+  {#              title.appendChild(ti_cont);#}
+  {#              break;#}
+  {#          case 1:#}
+  {#              const rmov_txt = document.createTextNode("RightMove For Sale Results");#}
+  {#              title.appendChild(rmov_txt);#}
+  {#              break;#}
+  {#          case 2:#}
+  {#              const ontm_txt = document.createTextNode("On The Market For Sale Results");#}
+  {#              title.appendChild(ontm_txt);#}
+  {#              break;#}
+  {#          case 3:#}
+  {#              const rmov_lets = document.createTextNode("RightMove Lettings");#}
+  {#              title.appendChild(rmov_lets);#}
+  {#              break;#}
+  {#          case 4:#}
+  {#              const ontm_lets = document.createTextNode("On The Market Lettings");#}
+  {#              title.appendChild(ontm_lets);#}
+  {#              break;#}
+  {#          case 5:#}
+  {#              const zoop_lets = document.createTextNode("Zoopla Lettings");#}
+  {#              title.appendChild(zoop_lets);#}
+  {#              break;#}
+  {#          }#}
+  {##}
+  {#      section.appendChild(title);#}
+  {##}
+  {#      var number = json_data.length;#}
+  {#      const count = document.createTextNode("Total Number of Properties: "+number);#}
+  {#      title.appendChild(count);#}
+  {##}
+  {#      for (const prop of json_data) {#}
+  {##}
+  {#          const myArticle = document.createElement('article');#}
+  {##}
+  {#          const address = prop[0];#}
+  {#          const price = prop[1];#}
+  {#          const image = prop[2];#}
+  {#          const branchname = prop[3];#}
+  {#          const url = prop[4];#}
+  {##}
+  {#          const h2 = document.createElement("h3");#}
+  {#          const addr_cont = document.createTextNode(address);#}
+  {#          h2.appendChild(addr_cont);#}
+  {##}
+  {#          const list = document.createElement('ul');#}
+  {##}
+  {#          const pricelist = document.createElement('li');#}
+  {#          pricelist.textContent = price;#}
+  {#          list.appendChild(pricelist);#}
+  {##}
+  {#          const branch = document.createElement('li');#}
+  {#          branch.textContent = branchname;#}
+  {#          list.appendChild(branch);#}
+  {##}
+  {#          const img = document.createElement('li');#}
+  {#          img.textContent = image;#}
+  {#          list.appendChild(img);#}
+  {##}
+  {#          const url_listing = document.createElement('li');#}
+  {#          url_listing.textContent = url;#}
+  {#          list.appendChild(url_listing);#}
+  {##}
+  {#          myArticle.appendChild(h2);#}
+  {#          myArticle.appendChild(list);#}
+  {##}
+  {#          section.appendChild(myArticle);#}
+  {#    }#}
