@@ -1,0 +1,11 @@
+beautifulsoup4==4.11.1
+certifi==2021.10.8
+cloudscraper==1.2.68
+colorama==0.4.6
+Flask==2.2.2
+html_to_json==2.0.0
+requests==2.26.0
+SPARQLWrapper==2.0.0
+utils==1.0.1
+Werkzeug==2.2.2
+xmltojson==2.0.1
