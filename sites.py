@@ -67,9 +67,9 @@ class Zoopla:
             res_text = r.text
             found = list(self.find_json_objects(res_text))
             list_js = found[0]
-            jsonfile=json.dumps(list_js)
+            res_json=json.dumps(list_js)
 
-        test = json.loads(jsonfile)
+        test = json.loads(res_json)
 
         # function to get list of results
         listings = test['props']['pageProps']['initialProps']['searchResults']['listings']['extended']
