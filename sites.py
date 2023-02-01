@@ -299,16 +299,43 @@ class CrystalRoof:
 
 class LandRegistry:
 
+    def __init__(self, pcode):
+        self.pcode = pcode
     def req(self):
 
         print("makeing a request to land registry")
 
-        base_url = 'https://landregistry.data.gov.uk/data/ppi/transaction-record.json?propertyAddress.postcode=CT6%205HZ&_page=0'
-        x = requests.get(base_url)
-        soup = BeautifulSoup(x.text, 'html.parser')
-        reg_json = json.loads(soup.text)
-        return reg_json
+        pcode = self.pcode.split(" ")
+        pcode1 = pcode[0]
+        pcode2 = '%20' + pcode[1]
+        p_fin = pcode1 + pcode2
+        num = 10
+        li = []
+        for i in range(num):
+            base_url = f'https://landregistry.data.gov.uk/data/ppi/transaction-record.json?propertyAddress.postcode={p_fin}&_page={i}'
+            x = requests.get(base_url).text
+            loaded = json.loads(x)
+            items = loaded['result']['items']
+            if len(items) > 0:
+                li.append(items)
 
+        regs = []
+        for itm in li:
+            for list in itm:
+                trans = []
+                try:
+                    trans.append((list['propertyAddress']['paon'], " " + list['propertyAddress']['street'],
+                                  " " + list['propertyAddress']['town'], " " + list['propertyAddress']['county'],
+                                  " " + list['propertyAddress']['district'], " " + list['propertyAddress']['locality'], " "+list['propertyAddress']['postcode']))
+                    trans.append("£" + str(list['pricePaid']))
+                    trans.append(list['transactionDate'])
+                    regs.append(trans)
+                except TypeError:
+                    pass
+                except KeyError:
+                    pass
+
+        return regs
 
     #Both methods below are for use with SPARQL
     # def getData(self):

@@ -20,7 +20,7 @@ def planning_data():
 
 @app.route('/landregistry')
 def sold_prices():
-    landregister = sites.LandRegistry()
+    landregister = sites.LandRegistry(session['postcode'])
     registry = landregister.req()
     return registry
 

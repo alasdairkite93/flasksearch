@@ -24,12 +24,13 @@
     </script>
     <script type=text/javascript>
 
-
+    /**Land Registry**/
         $(function(){
             $('a#soldpricejson').click(function(){
                 $.get("/landregistry", function (data){
                     $("#forsale").html(JSON.stringify(data));
                     alert("data: "+JSON.stringify(data));
+                    soldLR(data);
                 });
             });
         });
@@ -118,6 +119,32 @@
             })
         })
     });
+
+    function soldLR(json_data){
+        const section = document.getElementById('forsale');
+        section.innerHTML="";
+        var table = document.createElement('table');
+        table.border = "1";
+
+        var headers = new Array();
+        headers.push("Address", "Price", "Date");
+        var headerrow = table.insertRow(-1);
+        for (var i =0; i<headers.length; i++) {
+            var headerc = document.createElement("TH");
+            headerc.innerHTML=headers[i];
+            headerrow.append(headerc);
+        }
+
+        for (entry of json_data) {
+            row = table.insertRow(-1);
+            for (var i =0; i<entry.length; i++){
+                var cell = row.insertCell(-1);
+                cell.innerHTML = entry[i];
+            }
+        }
+
+        section.appendChild(table);
+    }
 
     function planning(json_data){
         const section = document.getElementById('forsale');
