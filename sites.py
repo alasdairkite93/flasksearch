@@ -227,7 +227,8 @@ class OnTheMarket:
             li.append(prop['price'])
             li.append(prop['images'][0]['default'])
             li.append(prop['agent']['name'])
-            li.append(prop['property-link'])
+            li.append("https://www.onthemarket.com/"+prop['property-link'])
+            print(li)
             otm_li.append(li)
 
         return otm_li

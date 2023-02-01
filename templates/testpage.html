@@ -160,6 +160,7 @@
                     var cell1 = row.insertCell(-1);
                     cell1.innerHTML = entry[0];
 
+
                     var cell2 = row.insertCell(-1);
                     cell2.innerHTML = entry[1];
                 }
@@ -216,7 +217,7 @@
             case 2:
                 const ontm_txt = document.createTextNode("On The Market For Sale Results");
                 title.appendChild(ontm_txt);
-                url = 'https://www.onthemarket.com/details/'
+                url = 'https://www.onthemarket.com'
                 break;
             case 3:
                 const rmov_lets = document.createTextNode("RightMove Lettings");
@@ -227,7 +228,7 @@
             case 4:
                 const ontm_lets = document.createTextNode("On The Market Lettings");
                 title.appendChild(ontm_lets);
-                url = 'https://www.onthemarket.com/details/'
+                url = 'https://www.onthemarket.com'
                 break;
             case 5:
                 const zoop_lets = document.createTextNode("Zoopla Lettings");
@@ -250,6 +251,8 @@
             const branchname = prop[3];
             const l_url = prop[4];
 
+            {#const aurl = url+l_url+endurl#}
+
             const section = document.getElementById('forsale');
 
             const newDiv = document.createElement("div");
@@ -266,15 +269,20 @@
             newDiv.appendChild(rowdiv);
 
             const a_url = document.createElement("a");
-            a_url.setAttribute("style", "padding-bottom: 25px;")
-            const acontent = document.createTextNode(url+l_url+endurl);
+            a_url.setAttribute("style", "padding-bottom: 25px;");
+            a_url.setAttribute("target", "blank");
+            const acontent = document.createTextNode(l_url);
             a_url.appendChild(acontent);
 
             const coldiv = document.createElement("div");
             coldiv.setAttribute("class", "col-md-4");
+            const anchor = document.createElement("a");
+            anchor.setAttribute("href", l_url);
+            anchor.setAttribute("target", "blank");
             const img = document.createElement("img");
             img.src = image;
-            coldiv.appendChild(img);
+            anchor.appendChild(img);
+            coldiv.appendChild(anchor);
             rowdiv.appendChild(coldiv);
 
             const divcolmd8 = document.createElement("div");
