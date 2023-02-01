@@ -59,7 +59,10 @@ class Zoopla:
 
         url = b_url+self.channel+"/property/"+self.searchquery+radius
 
-        req_resp = requests.get(url)
+        head = {'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:80.0) Gecko/20100101 Firefox/80.0'}
+
+        req_resp = requests.get(url, headers=head)
+        print(req_resp.text)
         soup = BeautifulSoup(req_resp.text, 'html.parser')
         results = soup.findAll('script', {'type':'application/json'})
 
@@ -69,7 +72,9 @@ class Zoopla:
             res_text = r.text
             found = list(self.find_json_objects(res_text))
             list_js = found[0]
+            print(found[0])
             res_json=json.dumps(list_js)
+            print(res_json)
 
         test = json.loads(res_json)
 
@@ -141,11 +146,15 @@ class Rightmove:
         code = x[0]
 
         baseurl = "https://www.rightmove.co.uk/api/_search?locationIdentifier=POSTCODE%5E"
-        midurl = "&numberOfPropertiesPerPage=50&radius=0.5&sortType=2&index=0&includeSSTC=false&viewType=LIST&channel="
+        midurl = "&radius=0.5&sortType=2&index=0&includeSSTC=false&viewType=LIST&channel="
         endurl = "&areaSizeUnit=sqft&currencyCode=GBP&isFetching=false&viewport="
+
+        "https://www.rightmove.co.uk/api/_search?locationIdentifier=POSTCODE%5E756476radius=0.5&sortType=2&index=0&includeSSTC=false&viewType=LIST"
+        # https://www.rightmove.co.uk/property-for-sale/find.html?locationIdentifier=POSTCODE%5E756476&maxBedrooms=0&minBedrooms=0&radius=0.5&propertyTypes=&mustHave=&dontShow=&furnishTypes=&keywords=
 
         apiurl = baseurl + code + midurl + self.channel + endurl
         req_url = requests.get(apiurl)
+        print(req_url)
         soup = BeautifulSoup(req_url.text, 'html.parser')
         soup_json = json.loads(soup.text)
         properties = soup_json['properties']
