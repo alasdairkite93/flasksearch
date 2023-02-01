@@ -28,8 +28,6 @@
         $(function(){
             $('a#soldpricejson').click(function(){
                 $.get("/landregistry", function (data){
-                    $("#forsale").html(JSON.stringify(data));
-                    alert("data: "+JSON.stringify(data));
                     soldLR(data);
                 });
             });
