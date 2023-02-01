@@ -63,6 +63,8 @@ class Zoopla:
         soup = BeautifulSoup(req_resp.text, 'html.parser')
         results = soup.findAll('script', {'type':'application/json'})
 
+        res_json = ''
+
         for r in results:
             res_text = r.text
             found = list(self.find_json_objects(res_text))
