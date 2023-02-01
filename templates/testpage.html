@@ -28,7 +28,7 @@
         $(function(){
             $('a#soldpricejson').click(function(){
                 $.get("/landregistry", function (data){
-                    soldLR(data);
+                    soldLR(data, 0);
                 });
             });
         });
@@ -103,7 +103,7 @@
     $(function() {
         $('a#crysdata').click(function() {
             $.get("/crystalroof", function (data){
-                crysStats(data);
+                soldLR(data, 1);
             })
         })
     });
@@ -118,28 +118,57 @@
         })
     });
 
-    function soldLR(json_data){
+    function soldLR(json_data, ind){
+
         const section = document.getElementById('forsale');
         section.innerHTML="";
         var table = document.createElement('table');
         table.border = "1";
 
+        console.log(json_data);
+
         var headers = new Array();
-        headers.push("Address", "Price", "Date");
-        var headerrow = table.insertRow(-1);
-        for (var i =0; i<headers.length; i++) {
-            var headerc = document.createElement("TH");
-            headerc.innerHTML=headers[i];
-            headerrow.append(headerc);
+        switch (ind){
+            case 0:
+                headers.push("Address", "Price", "Date");
+                var headerrow = table.insertRow(-1);
+                for (var i =0; i<headers.length; i++) {
+                    var headerc = document.createElement("TH");
+                    headerc.innerHTML=headers[i];
+                    headerrow.append(headerc);
+                }
+                for (entry of json_data) {
+                    row = table.insertRow(-1);
+                    for (var i =0; i<entry.length; i++){
+                        var cell = row.insertCell(-1);
+                        cell.innerHTML = entry[i];
+                    }
+                }
+                break;
+            case 1:
+                headers.push("Description", "Data");
+                var headerrow = table.insertRow(-1);
+                for (var i =0; i<headers.length; i++) {
+                    var headerc = document.createElement("TH");
+                    headerc.innerHTML=headers[i];
+                    headerrow.append(headerc);
+                }
+                for (entry of json_data){
+                    console.log("Entry length: "+entry.length);
+                    row = table.insertRow(-1);
+
+                    var cell1 = row.insertCell(-1);
+                    cell1.innerHTML = entry[0];
+
+                    var cell2 = row.insertCell(-1);
+                    cell2.innerHTML = entry[1];
+                }
+                break;
         }
 
-        for (entry of json_data) {
-            row = table.insertRow(-1);
-            for (var i =0; i<entry.length; i++){
-                var cell = row.insertCell(-1);
-                cell.innerHTML = entry[i];
-            }
-        }
+
+
+
 
         section.appendChild(table);
     }
