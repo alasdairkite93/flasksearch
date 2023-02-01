@@ -22,7 +22,7 @@ def planning_data():
 def sold_prices():
     landregister = sites.LandRegistry(session['postcode'])
     registry = landregister.req()
-    return registry
+    return jsonify(registry)
 
 @app.route('/zooplasale', methods=["GET"])
 def zoopla_sales():
