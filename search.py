@@ -16,13 +16,12 @@ def pageNotFound(error):
 def planning_data():
     planapps = sites.Planning(session['postcode'])
     plans = planapps.request()
-    return plans
+    return jsonify(plans)
 
 @app.route('/landregistry')
 def sold_prices():
     landregister = sites.LandRegistry()
     registry = landregister.req()
-    print(registry)
     return registry
 
 @app.route('/zooplasale', methods=["GET"])

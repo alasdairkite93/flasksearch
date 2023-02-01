@@ -154,7 +154,6 @@ class Rightmove:
 
         apiurl = baseurl + code + midurl + self.channel + endurl
         req_url = requests.get(apiurl)
-        print(req_url)
         soup = BeautifulSoup(req_url.text, 'html.parser')
         soup_json = json.loads(soup.text)
         properties = soup_json['properties']
