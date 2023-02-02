@@ -79,17 +79,16 @@
       padding: 9px 19px;
     }
 
+
     .container {
-        height: 200px;
-        position: relative;
+        height: 700px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    .form {
-            margin: 0;
-          position: absolute;
-          top: 50%;
-          -ms-transform: translateY(-50%);
-          transform: translateY(-50%);
+    .item {
+        width: 10em;
     }
 
 </style>
@@ -98,7 +97,9 @@
 <body>
 
 <div class="container">
-    <form action="{{ url_for("search")}}" method="post" class="form" name="search" onsubmit="return validateForm()">
+    <div class="item">
+        <h3>Property Search</h3>
+    <form action="{{ url_for("search")}}" method="post" name="search" onsubmit="return validateForm()">
     <div class="bar" >
       <input class="searchbar" type="text"  id="postcode" name="pcode" title="Search" placeholder="Enter postcode..." required>
       <a href="#"> <img class="voice" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Google_mic.svg/716px-Google_mic.svg.png" title="Search by Voice"></a>
@@ -107,6 +108,7 @@
       <button class="button" type="submit" >Search</button>
     </div>
     </form>
+    </div>
 </div>
 </body>
 </html>
