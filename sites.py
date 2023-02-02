@@ -94,9 +94,80 @@ class Zoopla:
 
 class Rightmove:
 
-    def __init__(self, query, channel):
+    def __init__(self, query, channel, radius, bedrooms):
         self.pcode = query
         self.channel = channel
+        self.radius = radius
+        self.bedrooms = bedrooms
+
+    def requestScrape(self):
+
+        utils = Utility()
+
+        # Function to postcode
+        x = requests.get('https://www.rightmove.co.uk/property-for-sale/search.html?searchLocation=' + self.pcode)
+        soup = BeautifulSoup(x.text, 'html.parser')
+        results = soup.find('input', {'id': 'locationIdentifier'}).get('value')
+        txt = results
+        x = re.findall("[^^]*$", txt)
+        code = x[0]
+        print("CODE: ", code)
+
+        radius = 0
+        properties = []
+
+        for i in range(10):
+
+            ind = i * 24
+
+            if len(self.pcode) > 4 and self.channel == 'SALE':
+                t_url = f'https://www.rightmove.co.uk/property-for-sale/find.html?searchType=SALE&locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&minPrice=&maxPrice=&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}&displayPropertyType=&maxDaysSinceAdded=&_includeSSTC=on&sortByPriceDescending=&primaryDisplayPropertyType=&secondaryDisplayPropertyType=&oldDisplayPropertyType=&oldPrimaryDisplayPropertyType=&newHome=&auction=false'
+            if len(self.pcode) <= 4 and self.channel == 'SALE':
+                t_url = f'https://www.rightmove.co.uk/property-for-sale/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&areaSizeUnit=sqft&googleAnalyticsChannel=buying&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}'
+            if len(self.pcode) <= 4 and self.channel == 'RENT':
+                t_url = f'https://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}'
+            if len(self.pcode) > 4 and self.channel == 'RENT':
+                t_url = f'https://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={radius}&areaSizeUnit=sqft&googleAnalyticsChannel=renting&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}'
+
+            req_url = requests.get(t_url)
+            print("t_url: ", t_url)
+            print(req_url)
+            soup = BeautifulSoup(req_url.text, 'html.parser')
+
+            results = soup.findAll('script')
+
+            json_r = ''
+
+            for r in results:
+                print(r)
+                l_r = list(utils.find_json_objects(r.text))
+                for res in l_r:
+                    if len(res) > 0:
+                        print(res)
+                        json_r = res['properties']
+
+            try:
+
+                print(json_r[0]['id'])
+
+                url = 'https://www.rightmove.co.uk/properties/'
+                for props in json_r:
+                    print(props['id'])
+                    li = []
+                    li.append(props['displayAddress'])
+                    li.append(props['summary'])
+                    li.append(props['customer']['branchDisplayName'])
+                    li.append(props['bedrooms'])
+                    li.append(props['price']['displayPrices'][0]['displayPrice'])
+                    li.append(url + str(props['id']))
+                    li.append(props['propertyImages']['images'][0]['srcUrl'])
+                    properties.append(li)
+                print(properties)
+
+            except IndexError:
+                break
+
+        return properties
 
     def requestSold(self):
 
@@ -133,44 +204,6 @@ class Rightmove:
                     print("\n")
         return res
 
-    def request(self):
-
-        postcode = self.pcode
-
-        x = requests.get('https://www.rightmove.co.uk/property-for-sale/search.html?searchLocation=' + postcode)
-        soup = BeautifulSoup(x.text, 'html.parser')
-        results = soup.find('input', {'id': 'locationIdentifier'}).get('value')
-
-        txt = results
-        x = re.findall("[^^]*$", txt)
-        code = x[0]
-
-        baseurl = "https://www.rightmove.co.uk/api/_search?locationIdentifier=POSTCODE%5E"
-        midurl = "&radius=0.5&sortType=2&index=0&includeSSTC=false&viewType=LIST&channel="
-        endurl = "&areaSizeUnit=sqft&currencyCode=GBP&isFetching=false&viewport="
-
-        "https://www.rightmove.co.uk/api/_search?locationIdentifier=POSTCODE%5E756476radius=0.5&sortType=2&index=0&includeSSTC=false&viewType=LIST"
-        # https://www.rightmove.co.uk/property-for-sale/find.html?locationIdentifier=POSTCODE%5E756476&maxBedrooms=0&minBedrooms=0&radius=0.5&propertyTypes=&mustHave=&dontShow=&furnishTypes=&keywords=
-
-        apiurl = baseurl + code + midurl + self.channel + endurl
-        req_url = requests.get(apiurl)
-        soup = BeautifulSoup(req_url.text, 'html.parser')
-        soup_json = json.loads(soup.text)
-        properties = soup_json['properties']
-
-        li_props = []
-
-        for p in properties:
-            li = []
-            li.append(p['displayAddress'])
-            li.append(p['price']['displayPrices'][0]['displayPrice'])
-            li.append(p['propertyImages']['images'][0]['srcUrl'])
-            li.append(p['customer']['branchDisplayName'])
-            li.append(p['propertyUrl'])
-            print("RMOVE: ", p['propertyUrl'])
-            li_props.append(li)
-
-        return li_props
 
 class OnTheMarket:
 
@@ -181,17 +214,16 @@ class OnTheMarket:
     def request(self):
 
         print("On The Market Request")
-
-        # base_url = 'https://www.onthemarket.com/for-sale/property/'
+        utils = Utility()
 
         url = 'https://www.onthemarket.com/'
-
-
-
         pcode = self.pcode.split(" ")
         p1 = pcode[0].lower()
-        p2 = pcode[1].lower()
-        p_tot = p1+"-"+p2
+        if len(pcode) > 1:
+            p2 = pcode[1].lower()
+            p_tot = p1+"-"+p2
+        else:
+            p_tot = p1
         url_end = '/?radius=0.5&view=grid'
         search_url = url + self.channel + "/property/" + p_tot+url_end
 
@@ -200,51 +232,38 @@ class OnTheMarket:
         scraper = cloudscraper.create_scraper()
         req = scraper.get(search_url)
 
-        # req_resp = requests.get(search_url, headers=user_agent)
-
         soup = BeautifulSoup(req.text, 'html.parser')
         results = soup.findAll('script', {'type': 'text/javascript'})
-
         for r in results:
             res_text = r.text
             try:
-                found = list(self.find_json_objects(res_text))
+                found = list(utils.find_json_objects(res_text))
                 try:
                     for f in found:
                         if len(f) > 20:
-                            var = f
-
+                            value = f
                 except IndexError:
                     pass
             except TypeError:
                 pass
 
         otm_li = []
-
-        for prop in var['properties']:
+        str = ""
+        url="https://www.onthemarket.com"
+        for prop in value['properties']:
             li = []
             li.append(prop['display_address'])
-            li.append(prop['price'])
-            li.append(prop['images'][0]['default'])
+            for s in prop['features']:
+                str+=s+" "
+            li.append(prop['property-title']+str)
             li.append(prop['agent']['name'])
-            li.append("https://www.onthemarket.com/"+prop['property-link'])
-            print(li)
+            li.append(prop['bedrooms-text'])
+            li.append(prop['price'])
+            li.append(url+prop['property-link'])
+            li.append(prop['images'][0]['default'])
             otm_li.append(li)
 
         return otm_li
-
-    def find_json_objects(self, text: str, decoder=json.JSONDecoder()):
-        pos = 0
-        while True:
-            match = text.find("{", pos)
-            if match == -1:
-                break
-            try:
-                result, index = decoder.raw_decode(text[match:])
-                yield result
-                pos = match + index
-            except ValueError:
-                pos = match + 1
 
 class CrystalRoof:
 

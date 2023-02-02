@@ -243,17 +243,9 @@
         const count = document.createTextNode("Total Number of Properties: "+number);
         title.appendChild(count);
 
+
+
         for (prop of json_data) {
-
-            const address = prop[0];
-            const price = prop[1];
-            const image = prop[2];
-            const branchname = prop[3];
-            const l_url = prop[4];
-
-            {#const aurl = url+l_url+endurl#}
-
-            const section = document.getElementById('forsale');
 
             const newDiv = document.createElement("div");
             newDiv.setAttribute("class", "card mb-3");
@@ -268,23 +260,6 @@
             rowdiv.setAttribute("class", "row no-gutters");
             newDiv.appendChild(rowdiv);
 
-            const a_url = document.createElement("a");
-            a_url.setAttribute("style", "padding-bottom: 25px;");
-            a_url.setAttribute("target", "blank");
-            const acontent = document.createTextNode(l_url);
-            a_url.appendChild(acontent);
-
-            const coldiv = document.createElement("div");
-            coldiv.setAttribute("class", "col-md-4");
-            const anchor = document.createElement("a");
-            anchor.setAttribute("href", l_url);
-            anchor.setAttribute("target", "blank");
-            const img = document.createElement("img");
-            img.src = image;
-            anchor.appendChild(img);
-            coldiv.appendChild(anchor);
-            rowdiv.appendChild(coldiv);
-
             const divcolmd8 = document.createElement("div");
             divcolmd8.setAttribute("class", "col-md-8");
             rowdiv.appendChild(divcolmd8);
@@ -292,26 +267,55 @@
             cardbody.setAttribute("class", "card=body");
             divcolmd8.appendChild(cardbody);
 
+            for (var i =0; i<prop.length; i++){
 
-            const h5 = document.createElement("h5");
-            const h5_content = document.createTextNode(address);
-            h5.appendChild(h5_content);
-            cardbody.appendChild(h5);
-
-            const p_rice = document.createElement("p");
-            p_rice.setAttribute("class", "card-text");
-            const p_content = document.createTextNode(price);
-            p_rice.appendChild(p_content);
-            cardbody.appendChild(p_rice);
-
-            cardbody.appendChild(a_url);
-
-            const b_name = document.createElement("p");
-            b_name.setAttribute("class", "card-text");
-            const b_n = document.createTextNode("Branch: "+branchname);
-            b_name.appendChild(b_n);
-            cardbody.appendChild(b_name);
-
+                switch (i){
+                    case 0:
+                        const h5 = document.createElement("h5");
+                        const h5_content = document.createTextNode(prop[i]);
+                        h5.appendChild(h5_content);
+                        cardbody.appendChild(h5);
+                        break;
+                    case 1:
+                        const p = document.createElement("p");
+                        const p_content = document.createTextNode(prop[i]);
+                        p.appendChild(p_content);
+                        cardbody.appendChild(p);
+                        break;
+                    case 2:
+                        const p_branch = document.createElement("p");
+                        const b_cont = document.createTextNode(prop[i]);
+                        p_branch.appendChild(b_cont);
+                        cardbody.appendChild(p_branch);
+                        break;
+                    case 3:
+                        const p_rooms = document.createElement("p");
+                        const room_cont = document.createTextNode(prop[i]);
+                        p_rooms.appendChild(room_cont);
+                        cardbody.appendChild(p_rooms);
+                        break;
+                    case 4:
+                        const p_price = document.createElement("p");
+                        const pric_cont = document.createTextNode(prop[i]);
+                        p_price.appendChild(pric_cont);
+                        cardbody.appendChild(p_price);
+                        break;
+                    case 5:
+                        const coldiv = document.createElement("div");
+                        coldiv.setAttribute("class", "col-md-4");
+                        const anchor = document.createElement("a");
+                        anchor.setAttribute("href", prop[i]);
+                        anchor.setAttribute("target", "blank");
+                        const img = document.createElement("img");
+                        img.src = prop[i+1];
+                        anchor.appendChild(img);
+                        coldiv.appendChild(anchor);
+                        rowdiv.appendChild(coldiv);
+                        break;
+                    case 6:
+                        break;
+                }
+            }
         }
     }
 
@@ -399,6 +403,10 @@
                 <div class="form-group">
                     <label for="postcode">Enter a Post Code:</label>
                     <input type="text" class="form-control" id="postcode" name="pcodeupdate" placeholder="postcode" required>
+                    <label for="radius">Enter search radius:</label>
+                    <input type="text" class="form-control" id="radius" name="radius" placeholder="radius" required>
+                    <label for="bedroomnum">Enter number of bedrooms</label>
+                    <input type="text" class="form-control" id="bedroomnum" name="bedroomnum" placeholder="bedroom number" required>
                 </div>
             <button type="submit" class="btn btn-default">Search</button>
             </form>
@@ -417,7 +425,7 @@
             <span class="caret"></span></button>
                 <ul class="dropdown-menu">
                     <li><a href=# id=zooplasale>Zoopla</a></li>
-{#                    <li><a href=# id=rmovesale>RightMove</a></li>#}
+                    <li><a href=# id=rmovesale>RightMove</a></li>
                     <li><a href=# id=otmsale>OnTheMarket</a></li>
                 </ul>
             </div>
@@ -429,7 +437,7 @@
             <span class="caret"></span></button>
                 <ul class="dropdown-menu">
                     <li><a href=# id=zooplalets>Zoopla</a></li>
-{#                    <li><a href=# id=rmovelets>RightMove</a></li>#}
+                    <li><a href=# id=rmovelets>RightMove</a></li>
                     <li><a href=# id=otmrent>On The Market</a></li>
                 </ul>
             </div>

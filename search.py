@@ -38,14 +38,14 @@ def zoopla_lets():
 
 @app.route('/rightmovesale', methods=["GET"])
 def rmove_sales():
-    rmove = sites.Rightmove(session['postcode'], "BUY")
-    rmove_results = rmove.request()
+    rmove = sites.Rightmove(session['postcode'], "SALE", session['radius'], session['bedroomnum'])
+    rmove_results = rmove.requestScrape()
     return jsonify(rmove_results)
 
 @app.route('/rmoverent', methods=["GET"])
 def rmove_lets():
-    rmove = sites.Rightmove(session['postcode'], "RENT")
-    rmove_results = rmove.request()
+    rmove = sites.Rightmove(session['postcode'], "RENT", session['radius'], session['bedroomnum'])
+    rmove_results = rmove.requestScrape()
     return jsonify(rmove_results)
 
 @app.route('/rmovesold', methods=["GET"])
@@ -85,6 +85,10 @@ def search():
     if request.method == "POST":
         search_query = request.form.get("pcode")
         session['postcode'] = search_query
+        bedrooms = request.form.get("bedroomnum")
+        session['bedroomnum'] = bedrooms
+        radius = request.form.get("radius")
+        session['radius'] = radius
         return render_template('testpage.html')
 
     return render_template('form.html')
