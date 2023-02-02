@@ -130,7 +130,7 @@
         var headers = new Array();
         switch (ind){
             case 0:
-                headers.push("Address", "Price", "Date");
+                headers.push("LAND REGISTRY: Address", "Price", "Date");
                 var headerrow = table.insertRow(-1);
                 for (var i =0; i<headers.length; i++) {
                     var headerc = document.createElement("TH");
@@ -146,7 +146,7 @@
                 }
                 break;
             case 1:
-                headers.push("Description", "Data");
+                headers.push("RIGHT MOVE: Description", "Data");
                 var headerrow = table.insertRow(-1);
                 for (var i =0; i<headers.length; i++) {
                     var headerc = document.createElement("TH");
@@ -679,9 +679,9 @@
 </div>
     <ul class="dropdown menu" data-dropown-menu>
         <li class="list-group-item">
-            <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">For Sale
-            <span class="caret"></span></button>
+            <div class="dropdown show">
+            <a class="dropdown-toggle" data-toggle="dropdown">For Sale
+            <span class="caret"></span></a>
                 <ul class="dropdown-menu">
 {#                    <li><a href=# id=zooplasale>Zoopla</a></li>#}
                     <li><a href=# id=rmovesale>RightMove</a></li>
@@ -692,8 +692,8 @@
 
         <li class="list-group-item">
             <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Lettings
-            <span class="caret"></span></button>
+            <a class="dropdown-toggle" data-toggle="dropdown">Lettings
+            <span class="caret"></span></a>
                 <ul class="dropdown-menu">
 {#                    <li><a href=# id=zooplalets>Zoopla</a></li>#}
                     <li><a href=# id=rmovelets>RightMove</a></li>
@@ -703,8 +703,8 @@
         </li>
         <li class="list-group-item">
             <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Transactions
-                <span class="caret"></span></button>
+                <a class="dropdown-toggle" data-toggle="dropdown">Transactions
+                <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href=# id=soldpricejson>Land Registry Sold</a></li>
                     <li><a href=# id=rmovesold>RightMove Sold</a></li>
@@ -713,8 +713,8 @@
         </li>
         <li class="list-group-item">
             <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Crystal Roof Data
-                <span class="caret"></span></button>
+                <a class="dropdown-toggle" data-toggle="dropdown">Local Area Data
+                <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href=# id=crysdata>CrystalRoof Data</a></li>
                 </ul>
@@ -722,8 +722,8 @@
         </li>
         <li class="list-group-item">
             <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Land Planning
-                <span class="caret"></span></button>
+                <a class="dropdown-toggle" data-toggle="dropdown">Land Planning
+                <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href=# id=planningdata>Data</a></li>
                 </ul>

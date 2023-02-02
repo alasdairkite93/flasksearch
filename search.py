@@ -50,7 +50,7 @@ def rmove_lets():
 
 @app.route('/rmovesold', methods=["GET"])
 def rmov_sold():
-    rmove = sites.Rightmove(session['postcode'], None)
+    rmove = sites.Rightmove(session['postcode'], None, None, None, None, None)
     rmov_res = rmove.requestSold()
     return jsonify(rmov_res)
 
