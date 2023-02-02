@@ -106,13 +106,28 @@ def update_max_price():
         session['maxprice'] = maxprice
         return render_template('testpage.html')
 
+@app.route('/returnsales', methods=["POST"])
+def salesform():
+    if request.method == "POST":
+        search_query = request.form.get("pcode")
+        session['postcode'] = search_query
+        return render_template('testpage.html')
+    return render_template('form.html')
+
+@app.route('/lettings', methods=["POST"])
+def letsform():
+    if request.method == "POST":
+        search_query = request.form.get("pcode")
+        session['postcode'] = search_query
+        return render_template('file2.html')
+    return render_template('form.html')
+
 @app.route('/', methods =["GET", "POST"])
 def search():
     if request.method == "POST":
         search_query = request.form.get("pcode")
         session['postcode'] = search_query
         return render_template('testpage.html')
-
     return render_template('form.html')
 
 if __name__ == '__main__':
