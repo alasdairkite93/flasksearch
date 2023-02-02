@@ -217,6 +217,13 @@ class OnTheMarket:
         print("On The Market Request")
         utils = Utility()
 
+        print("pcode: ", self.pcode)
+        print("channel: ", self.channel)
+        print("radius: ", self.radius)
+        print("bedrooms: ", self.bedrooms)
+        print("min price: ", self.minprice)
+        print("maxprice: ", self.maxprice)
+
         url = 'https://www.onthemarket.com/'
         pcode = self.pcode.split(" ")
         p1 = pcode[0].lower()
@@ -225,9 +232,10 @@ class OnTheMarket:
             p_tot = p1+"-"+p2
         else:
             p_tot = p1
-        url_end = f'/?max-bedrooms={self.bedrooms}&max-price={self.maxprice}&min-price={self.minprice}&radius={self.radius}&view=grid'
+        url_end = f'/?min-bedrooms={self.bedrooms}&max-bedrooms={self.bedrooms}&max-price={self.maxprice}&min-price={self.minprice}&radius={self.radius}&view=grid'
         search_url = url + self.channel + "/property/" + p_tot+url_end
 
+        print(search_url)
         # search_url = base_url + p_tot + url_end
 
         scraper = cloudscraper.create_scraper()

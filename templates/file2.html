@@ -447,7 +447,7 @@
         <div class="form-group">
             <div class="item">
                 <div class="bar" >
-                  <input class="searchbar" type="text"  id="postcode" name="pcodeupdate" title="Search" placeholder="Enter postcode..." required>
+                  <input class="searchbar" type="text"  id="postcode" name="pcode" title="Search" placeholder="Enter postcode..." required>
                   <a href="#"> <img class="voice" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Google_mic.svg/716px-Google_mic.svg.png" title="Search by Voice"></a>
                 </div>
                 <div class="buttons">
@@ -457,8 +457,8 @@
         </div>
         </form>
 </div>
+    <form class="row g-3">
 
-<div class="container">
     <form action="{{ url_for("update_rooms") }}" method="post" name="minrooms">
         <div class="form-group">
             <label for="minrooms">Enter number of bedrooms</label>
@@ -726,7 +726,7 @@
         </select>
     </div>
 </form>
-    </form>
+</form>
 </div>
 <div class="container">
     <ul>
