@@ -94,18 +94,22 @@ class Zoopla:
 
 class Rightmove:
 
-    def __init__(self, query, channel, radius, bedrooms):
+    def __init__(self, query, channel, radius, bedrooms, minprice, maxprice):
         self.pcode = query
         self.channel = channel
         self.radius = radius
         self.bedrooms = bedrooms
+        self.minprice = minprice
+        self.maxprice = maxprice
 
     def requestScrape(self):
 
         utils = Utility()
 
+        headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36"}
         # Function to postcode
-        x = requests.get('https://www.rightmove.co.uk/property-for-sale/search.html?searchLocation=' + self.pcode)
+        print('https://www.rightmove.co.uk/property-for-sale/search.html?searchLocation=' + self.pcode)
+        x = requests.get('https://www.rightmove.co.uk/property-for-sale/search.html?searchLocation=' + self.pcode, headers=headers)
         soup = BeautifulSoup(x.text, 'html.parser')
         results = soup.find('input', {'id': 'locationIdentifier'}).get('value')
         txt = results
@@ -113,7 +117,7 @@ class Rightmove:
         code = x[0]
         print("CODE: ", code)
 
-        radius = 0
+
         properties = []
 
         for i in range(10):
@@ -121,17 +125,16 @@ class Rightmove:
             ind = i * 24
 
             if len(self.pcode) > 4 and self.channel == 'SALE':
-                t_url = f'https://www.rightmove.co.uk/property-for-sale/find.html?searchType=SALE&locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&minPrice=&maxPrice=&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}&displayPropertyType=&maxDaysSinceAdded=&_includeSSTC=on&sortByPriceDescending=&primaryDisplayPropertyType=&secondaryDisplayPropertyType=&oldDisplayPropertyType=&oldPrimaryDisplayPropertyType=&newHome=&auction=false'
+                t_url = f'https://www.rightmove.co.uk/property-for-sale/find.html?locationIdentifier=POSTCODE%5E{code}&maxBedrooms={self.bedrooms}&minBedrooms={self.bedrooms}&maxPrice={self.maxprice}&minPrice={self.minprice}&radius={self.radius}&propertyTypes=&mustHave=&dontShow=&furnishTypes=&keywords='
             if len(self.pcode) <= 4 and self.channel == 'SALE':
-                t_url = f'https://www.rightmove.co.uk/property-for-sale/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&areaSizeUnit=sqft&googleAnalyticsChannel=buying&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}'
+                t_url = f'https://www.rightmove.co.uk/property-for-sale/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&areaSizeUnit=sqft&googleAnalyticsChannel=buying&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}'
             if len(self.pcode) <= 4 and self.channel == 'RENT':
-                t_url = f'https://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}'
+                t_url = f'https://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}'
             if len(self.pcode) > 4 and self.channel == 'RENT':
-                t_url = f'https://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={radius}&areaSizeUnit=sqft&googleAnalyticsChannel=renting&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}'
+                t_url = f'https://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&areaSizeUnit=sqft&googleAnalyticsChannel=renting&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}'
 
             req_url = requests.get(t_url)
             print("t_url: ", t_url)
-            print(req_url)
             soup = BeautifulSoup(req_url.text, 'html.parser')
 
             results = soup.findAll('script')
@@ -139,20 +142,15 @@ class Rightmove:
             json_r = ''
 
             for r in results:
-                print(r)
                 l_r = list(utils.find_json_objects(r.text))
                 for res in l_r:
                     if len(res) > 0:
-                        print(res)
                         json_r = res['properties']
 
             try:
 
-                print(json_r[0]['id'])
-
                 url = 'https://www.rightmove.co.uk/properties/'
                 for props in json_r:
-                    print(props['id'])
                     li = []
                     li.append(props['displayAddress'])
                     li.append(props['summary'])
@@ -162,7 +160,6 @@ class Rightmove:
                     li.append(url + str(props['id']))
                     li.append(props['propertyImages']['images'][0]['srcUrl'])
                     properties.append(li)
-                print(properties)
 
             except IndexError:
                 break
@@ -207,9 +204,13 @@ class Rightmove:
 
 class OnTheMarket:
 
-    def __init__(self, query, channel):
+    def __init__(self, query, channel, radius, bedrooms, minprice, maxprice):
         self.pcode = query
         self.channel = channel
+        self.radius = radius
+        self.bedrooms = bedrooms
+        self.minprice = minprice
+        self.maxprice = maxprice
 
     def request(self):
 
@@ -224,7 +225,7 @@ class OnTheMarket:
             p_tot = p1+"-"+p2
         else:
             p_tot = p1
-        url_end = '/?radius=0.5&view=grid'
+        url_end = f'/?max-bedrooms={self.bedrooms}&max-price={self.maxprice}&min-price={self.minprice}&radius={self.radius}&view=grid'
         search_url = url + self.channel + "/property/" + p_tot+url_end
 
         # search_url = base_url + p_tot + url_end

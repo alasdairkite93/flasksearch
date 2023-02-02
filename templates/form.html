@@ -27,30 +27,86 @@
     body {
         font-size: 30px;
     }
+
+    .bar{
+      margin:0 auto;
+      width:575px;
+      border-radius:30px;
+      border:1px solid #dcdcdc;
+    }
+    .bar:hover{
+      box-shadow: 1px 1px 8px 1px #dcdcdc;
+    }
+    .bar:focus-within{
+      box-shadow: 1px 1px 8px 1px #dcdcdc;
+      outline:none;
+    }
+    .searchbar{
+      height:45px;
+      border:none;
+      width:500px;
+      font-size:16px;
+      outline: none;
+
+    }
+    .voice{
+      height:20px;
+      position:relative;
+      top:5px;
+      left:10px;
+    }
+
+    .buttons{
+    margin-top:30px;
+    }
+    .button{
+      background-color: #f5f5f5;
+      border:none;
+      color:#707070;
+      font-size:15px;
+      padding: 10px 20px;
+      margin:5px;
+      border-radius:4px;
+      outline:none;
+    }
+    .button:hover{
+      border: 1px solid #c8c8c8;
+      padding: 9px 19px;
+      color:#808080;
+    }
+    .button:focus{
+      border:1px solid #4885ed;
+      padding: 9px 19px;
+    }
+
+    .container {
+        height: 200px;
+        position: relative;
+    }
+
+    .form {
+            margin: 0;
+          position: absolute;
+          top: 50%;
+          -ms-transform: translateY(-50%);
+          transform: translateY(-50%);
+    }
+
 </style>
 
 </head>
 <body>
+
 <div class="container">
-    <div class="row align-items-stat">
-        <div class="col"></div>
-        <div class="col">
-            <form action="{{ url_for("search")}}" method="post" name="search" onsubmit="return validateForm()">
-                <div class="form-group">
-                    <label for="postcode">Enter a Post Code with space e.g. 'TN8 5FS':</label>
-                    <input type="text" class="form-control" id="postcode" name="pcode" placeholder="postcode" required>
-                    <label for="radius">Enter search radius:</label>
-                    <input type="text" class="form-control" id="radius" name="radius" placeholder="radius" required>
-                    <label for="bedroomnum">Enter number of bedrooms</label>
-                    <input type="text" class="form-control" id="bedroomnum" name="bedroomnum" placeholder="bedroom number" required>
-                </div>
-            <button type="submit" class="btn btn-default">Search</button>
-            </form>
-        </div>
+    <form action="{{ url_for("search")}}" method="post" class="form" name="search" onsubmit="return validateForm()">
+    <div class="bar" >
+      <input class="searchbar" type="text"  id="postcode" name="pcode" title="Search" placeholder="Enter postcode..." required>
+      <a href="#"> <img class="voice" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Google_mic.svg/716px-Google_mic.svg.png" title="Search by Voice"></a>
     </div>
-</div>
-<div class="container-fluid">
-    <p>Welcome to property search. Search radius is set to a default 0.5km. Please ask about adding additional functions to change search radius.</p>
+    <div class="buttons">
+      <button class="button" type="submit" >Search</button>
+    </div>
+    </form>
 </div>
 </body>
 </html>
