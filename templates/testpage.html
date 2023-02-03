@@ -162,20 +162,6 @@
         const tbody = document.createElement("tbody");
         table.appendChild(tbody);
 
-        var headers = new Array();
-        headers.push("SuperGroupName", "SuperGroupDescription", "GroupName", "GroupDescription", "MeanIncome",
-        "MedianIncome", "Deprivation Indicie", "Crime Rate",
-        "Metro Transport Name", "Overground Metro Lines",
-        "National Rail", "Rail", "Rail Lines", "Supermarkets", "School Names",
-        "Road Noise", "Rail Noise", "Aircraft Noise", "Total Ethnicgroups",
-        "White British", "White Irish", "Gypsy", "Other White", "Mixed",
-        "Indian", "Pakistani", "Bangladeshi", "Chinese", "Other Asian", "Black",
-        "other", "No Religion", "Household Total", "One Person Household", "Couple with Children",
-        "Couple without Children", "Same sex Couples", "Lone Parent with Children",
-        "Lone Parent without Children", "Multi Person Student Households", "Other Multi Person Households",
-        "Total Lifestage Households", "Households Under 35", "Households 35-54", "Households 55-64",
-        "Households 65 and Above");
-
         //Create table data rows here
         for (var i=0; i<json_data.length; i++){
 
@@ -184,9 +170,7 @@
             num.setAttribute("scope", "col");
             num.innerHTML = headers[i];
             const td = document.createElement("td");
-            td.innerHTML = json_data[i];
-
-            tr.appendChild(num);
+            td.innerHTML = JSON.stringify(json_data[i]);
             tr.appendChild(td);
             tbody.appendChild(tr);
         }
@@ -253,19 +237,58 @@
         section.innerHTML = "";
 
         for (entry of json_data){
-            var table = document.createElement('table');
 
-            for (var i=0; i<entry.length; i++){
-                var tr = document.createElement('tr');
-                var td = document.createElement('td');
-                var txt = document.createTextNode(entry[i]);
-                td.appendChild(txt);
-                tr.appendChild(td);
-                table.appendChild(tr);
+            let col = [];
+
+            for (let i = 0; i <entry.length; i++){
+                for (let key in entry[i]){
+                    if (col.indexOf(key) === -1){
+                        console.log(key);
+                        col.push(key);
+                    }
+                }
+            }
+
+            const table = document.createElement("table");
+
+            let tr = table.insertRow(-1);
+
+            for (let i =0; i< col.length; i++){
+                let th = document.createElement("th");
+                th.innerHTML = col[i];
+                tr.appendChild(th);
+            }
+
+            for (let i=0; i<entry.length; i++)
+            {
+                tr = table.insertRow(-1);
+
+                for (let j=0; j<col.length; j++){
+                    console.log(col.length);
+                    let tabcel = tr.insertCell(-1);
+                    let text = entry[i][col[j]];
+                    let patt = 'https?:\/\/';
+                    try {
+                        let result = text.match(patt);
+                        console.log(result);
+                        if (result != null){
+                            const a = document.createElement("a");
+                            a.setAttribute("href", entry[i][col[j]]);
+                            a.innerHTML = entry[i][col[j]];
+                            tabcel.appendChild(a);
+                        }
+                        else {
+                            tabcel.innerHTML = entry[i][col[j]];
+                        }
+                    } catch (error){}
+                }
             }
 
             section.appendChild(table);
+
         }
+
+
     }
 
     function forSale(json_data, ind){

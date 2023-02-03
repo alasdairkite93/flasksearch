@@ -287,7 +287,6 @@ class CrystalRoof:
         pc = p1+p2
 
         search_url = f"https://crystalroof.co.uk/report/postcode/{pc}/overview"
-
         response = urllib.request.urlopen(search_url)
         data = response.read()  # a `bytes` object
         soup = BeautifulSoup(data, 'html.parser')
@@ -312,7 +311,7 @@ class CrystalRoof:
         li.append(data['ethnicgroup'])
         li.append(data['religion'])
         li.append(data['household'])
-        li.append(data['houesholdlifestage'])
+        li.append(data['householdlifestage'])
 
         return li
 
