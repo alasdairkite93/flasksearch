@@ -112,7 +112,8 @@
     $(function() {
         $('a#crysdata').click(function() {
             $.get("/crystalroof", function (data){
-                soldLR(data, 1);
+                crysRoof(data);
+                {#soldLR(data, 1);#}
             })
         })
     });
@@ -129,7 +130,69 @@
 
     /**body on load function**/
 
+    function crysRoof(json_data){
+        const section = document.getElementById('forsale');
+        section.innerHTML="";
 
+        const table = document.createElement("table");
+        table.setAttribute("class", "table");
+
+        const thead = document.createElement("thead");
+
+        const th = document.createElement("th");
+        th.setAttribute("scope", "col");
+
+        const label = document.createElement("th");
+        label.setAttribute("scope", "col");
+
+        const data = document.createElement("th");
+        data.setAttribute("scope", "col");
+
+        th.innerHTML="#";
+        data.innerHTML = "Data";
+
+        const tr = document.createElement("tr");
+        tr.appendChild(th);
+        tr.appendChild(label);
+        tr.appendChild(data);
+
+        thead.appendChild(tr);
+        table.appendChild(thead);
+
+        const tbody = document.createElement("tbody");
+        table.appendChild(tbody);
+
+        var headers = new Array();
+        headers.push("SuperGroupName", "SuperGroupDescription", "GroupName", "GroupDescription", "MeanIncome",
+        "MedianIncome", "Deprivation Indicie", "Crime Rate",
+        "Metro Transport Name", "Overground Metro Lines",
+        "National Rail", "Rail", "Rail Lines", "Supermarkets", "School Names",
+        "Road Noise", "Rail Noise", "Aircraft Noise", "Total Ethnicgroups",
+        "White British", "White Irish", "Gypsy", "Other White", "Mixed",
+        "Indian", "Pakistani", "Bangladeshi", "Chinese", "Other Asian", "Black",
+        "other", "No Religion", "Household Total", "One Person Household", "Couple with Children",
+        "Couple without Children", "Same sex Couples", "Lone Parent with Children",
+        "Lone Parent without Children", "Multi Person Student Households", "Other Multi Person Households",
+        "Total Lifestage Households", "Households Under 35", "Households 35-54", "Households 55-64",
+        "Households 65 and Above");
+
+        //Create table data rows here
+        for (var i=0; i<json_data.length; i++){
+
+            const tr = document.createElement("tr");
+            const num = document.createElement("th");
+            num.setAttribute("scope", "col");
+            num.innerHTML = headers[i];
+            const td = document.createElement("td");
+            td.innerHTML = json_data[i];
+
+            tr.appendChild(num);
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+        }
+
+        section.appendChild(tbody);
+    }
 
     function soldLR(json_data, ind){
 
@@ -210,7 +273,7 @@
         var index = parseInt(ind);
         const section = document.getElementById('forsale');
         section.innerHTML = "";
-        const title = document.createElement("h2");
+        const title = document.createElement("h4");
         var url = ''
         var endurl = ''
 
@@ -221,7 +284,7 @@
                 url = 'https://www.zoopla.co.uk/for-sale/details/';
                 break;
             case 1:
-                const rmov_txt = document.createTextNode("{{ session['postcode'] }} Sale Results from Rightove");
+                const rmov_txt = document.createTextNode("{{ session['postcode'] }} Sale Results from Rightmove");
                 title.appendChild(rmov_txt);
                 url = 'https://www.rightmove.co.uk/properties/';
                 break;
@@ -251,7 +314,7 @@
         section.appendChild(title);
 
         var number = json_data.length;
-        const count = document.createTextNode("Total Number of Properties: "+number);
+        const count = document.createTextNode("Number of properties: "+number);
         title.appendChild(count);
 
 
@@ -316,7 +379,6 @@
                         coldiv.setAttribute("class", "col-md-4");
                         const anchor = document.createElement("a");
                         anchor.setAttribute("href", prop[i]);
-                        anchor.setAttribute("target", "blank");
                         const img = document.createElement("img");
                         img.src = prop[i+1];
                         anchor.appendChild(img);

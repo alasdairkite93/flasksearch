@@ -78,6 +78,7 @@ def otm_rent():
 def crystal_stats():
     crysstats = sites.CrystalRoof(session['postcode'])
     resp = crysstats.stats()
+    print(resp)
     return jsonify(resp)
 
 @app.route('/pcodeupdate', methods=["POST"])

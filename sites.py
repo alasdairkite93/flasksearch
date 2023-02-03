@@ -287,6 +287,7 @@ class CrystalRoof:
         pc = p1+p2
 
         search_url = f"https://crystalroof.co.uk/report/postcode/{pc}/overview"
+
         response = urllib.request.urlopen(search_url)
         data = response.read()  # a `bytes` object
         soup = BeautifulSoup(data, 'html.parser')
@@ -299,67 +300,19 @@ class CrystalRoof:
         print(json.dumps(data, indent=4))
 
         li = []
-        li.append(("Supergroupname", data['loac']['supergroupname']))
-        li.append(("Supergroupdescription", data['loac']['supergroupdescription']))
-        li.append(("Groupname", data['loac']['groupname']))
-        li.append(("Groupdescription", data['loac']['groupdescription']))
-        li.append(("Income Mean", data['income_lsoa']['mean']))
-        li.append(("Income Median", data['income_lsoa']['median']))
-        li.append(("Deprivation imdb_score", data['indices_of_deprivation_lsoa']['imdb_score']))
-        li.append(("Crime Rate", data['crime_lsoa']['rate']))
-        if data['transport']['metro']['name'] != None:
-            li.append(("Metro Name", data['transport']['metro']['name']))
-            li.append(("Metro Lines", data['transport']['metro']['lines'][0]['overground']))
-            li.append(("National Rail Lines", data['transport']['metro']['lines'][0]['national-rail']))
-        if data['transport']['rail']['name'] != None:
-            li.append(data['transport']['rail']['name'])
-            li.append(data['transport']['rail']['lines'])
-        li.append(("Amenities Supermarkets", data['amenities']['supermarkets']['businessname']))
-        schools = []
-        for school in range(len(data['schools']['name'])):
-            schools.append((("Schools name", data['schools']['name'][school]),
-                            ("Schools Ofsted Rating", data['schools']['ofstedrating'][school])))
-        li.append(schools)
-        li.append(("Road Noise", data['noise']['road']['noiseclass']))
-        li.append(("Rail Noise", data['noise']['rail']['noiseclass']))
-        li.append(("Aircraft Noise", data['noise']['aircraft']['noiseclass']))
-        li.append(("Total EthnicGroups", data['ethnicgroup']['total']))
-        li.append(("White British", data['ethnicgroup']['white_british']))
-        li.append(("White Irish", data['ethnicgroup']['white_irish']))
-        li.append(("Gypsy", data['ethnicgroup']['gypsy']))
-        li.append(("Other-White", data['ethnicgroup']['other_white']))
-        li.append(("Mixed Ethnicity", data['ethnicgroup']['mixed']))
-        li.append(("Indian", data['ethnicgroup']['indian']))
-        li.append(("Pakistani", data['ethnicgroup']['pakistani']))
-        li.append(("Bangladeshi", data['ethnicgroup']['bangladeshi']))
-        li.append(("Chinese", data['ethnicgroup']['chinese']))
-        li.append(("Other Asian", data['ethnicgroup']['other_asian']))
-        li.append(("Black", data['ethnicgroup']['black']))
-        li.append(("Other", data['ethnicgroup']['other']))
-        li.append(("Total Religion", data['religion']['total']))
-        li.append(("Has Religion", data['religion']['has_religion']))
-        li.append(("Christian", data['religion']['christian']))
-        li.append(("Buddhist", data['religion']['buddhist']))
-        li.append(("Hindu", data['religion']['hindu']))
-        li.append(("Jewish", data['religion']['jewish']))
-        li.append(("Muslim", data['religion']['muslim']))
-        li.append(("Sikh", data['religion']['sikh']))
-        li.append(("Other Religion", data['religion']['other']))
-        li.append(("No-Religion", data['religion']['no_religion']))
-        li.append(("Total Household", data['household']['total']))
-        li.append(("One Person Household", data['household']['one_person']))
-        li.append(("Couples with Children", data['household']['couple_with_children']))
-        li.append(("Couples without Children", data['household']['couple_without_children']))
-        li.append(("Same sex couples", data['household']['same_sex_couple']))
-        li.append(("Lone Parents with Children", data['household']['lone_parent_with_children']))
-        li.append(("Lone parents without Children", data['household']['lone_parent_without_children']))
-        li.append(("Multi Student Households", data['household']['multi_person_student']))
-        li.append(("Other Multi Person Households", data['household']['multi_person_other']))
-        li.append(("Total Household Lifestage", data['householdlifestage']['total']))
-        li.append(("Lifestage Under 35", data['householdlifestage']['ageunder35']))
-        li.append(("Lifesstage 35-64", data['householdlifestage']['age35to54']))
-        li.append(("Lifestage 55-64", data['householdlifestage']['age55to64']))
-        li.append(("Lifestage 65 and Above", data['householdlifestage']['age65above']))
+        li.append(data['loac'])
+        li.append(data['income_lsoa'])
+        li.append(data['indices_of_deprivation_lsoa'])
+        li.append(data['crime_lsoa'])
+        li.append(data['transport']['metro'])
+        li.append(data['amenities']['supermarkets'])
+        li.append(data['amenities']['groceries'])
+        li.append(data['schools']['name'])
+        li.append(data['noise'])
+        li.append(data['ethnicgroup'])
+        li.append(data['religion'])
+        li.append(data['household'])
+        li.append(data['houesholdlifestage'])
 
         return li
 
