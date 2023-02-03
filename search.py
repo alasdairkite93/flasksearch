@@ -36,8 +36,12 @@ def zoopla_lets():
     zooplaresults = zoop.requests()
     return jsonify(zooplaresults)
 
+@app.route('/pageload', methods=["GET"])
+def get_page():
+
 @app.route('/rightmovesale', methods=["GET"])
 def rmove_sales():
+    print("rmov_sales called")
     rmove = sites.Rightmove(session['postcode'], "SALE", session['radius'], session['brooms'], session['minprice'], session['maxprice'])
     rmove_results = rmove.requestScrape()
     return jsonify(rmove_results)
@@ -113,6 +117,7 @@ def salesform():
         session['postcode'] = search_query
         return render_template('testpage.html')
     return render_template('form.html')
+
 
 @app.route('/lettings', methods=["POST"])
 def letsform():

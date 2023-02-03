@@ -13,7 +13,14 @@
 "https://cdn.jsdelivr.net/npm/foundation-sites@6.7.4/dist/css/foundation.min.css"
         crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.5/dist/js/foundation.min.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 
+<script src="semantic/dist/semantic.min.js"></script>
      <!-- Compressed JavaScript -->
      <script src=
 "https://cdnjs.cloudflare.com/ajax/libs/foundation/6.0.1/js/vendor/jquery.min.js">
@@ -120,10 +127,25 @@
         })
     });
 
+    /**body on load function**/
+
+    (document).ready(function(){
+        $.get("/rightmovesale", function(data){
+            forSale(data, 1);
+        });
+    });
+
+      $( window ).on( "load", function() {
+        console.log( "window loaded" );
+    });
+
     function soldLR(json_data, ind){
 
         const section = document.getElementById('forsale');
         section.innerHTML="";
+
+        //proposed to aad a function to add search filters here
+
         var table = document.createElement('table');
         table.border = "1";
 
@@ -399,10 +421,11 @@
     .button:focus{
       border:1px solid #4885ed;
       padding: 9px 19px;
+    }
 
     </style>
 </head>
-<body>
+<body >
 <ul class="nav nav-pills navbar-left">
   <li class="nav-item">
     <a class="nav-link active" href="#">Active</a>
@@ -423,7 +446,7 @@
     <img class="hero-search-filter-logo" src="https://placehold.it/160x80" alt="" />
     <form class="hero-search-filter-form" action="">
     <div class="input-group input-group-rounded">
-        <input class="input-group-field" type="search">
+        <input class="input-group-field" type="search" placeholder="Search postcode...">
         <div class="input-group-button">
             <input type="submit" class="button secondary" value="Search">
         </div>
@@ -433,9 +456,10 @@
       <li><a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i>
           <form action="{{ url_for("update_rooms") }}" method="post" name="minrooms">
                 <div class="form-group">
-                    <label for="minrooms" style="font-size: 10px;">Number of Beds</label>
+                    <label for="minrooms" style="font-size: 10px; text-align: center;">Number of Beds</label>
                     <select id="minrooms" class="form-select form-select-sm" name="minrooms" style="width: 100px; font-size: 12px;" onchange="this.form.submit()">
-                        <option value="studio">Studio</option>
+                        <option value="{{ session['brooms'] }}">{{ session['brooms'] }}</option>
+                        <option value="0">Studio</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -451,6 +475,7 @@
             <div class="form-group">
              <label for="radius" style="font-size: 10px;">Enter search radius:</label>
                 <select id="radius" class="form-select form-select-sm" style="width: 100px; font-size: 12px;" onchange="this.form.submit()" name="radius">
+                    <option>{{ session['radius'] }} miles</option>
                     <option value="0">+0 miles</option>
                     <option value="0.25">+1/4 miles</option>
                     <option value="0.5">+1/2 miles</option>
@@ -472,7 +497,7 @@
             <div class="form-group">
               <label for="minprice" style="font-size: 10px;">Select minimum price</label>
                 <select id="minpriceoptions" name="minprice" style="font-size: 12px;" onchange="this.form.submit()">
-                    <option value="MinPrice" id="mpc"></option>
+                    <option>£{{ session['minprice'] }}</option>
                      <option value="50000"
                     >£50,000</option>
                         <option value="60000"
@@ -592,6 +617,7 @@
     <div class="form-group">
         <label for="maxprice" style="font-size: 10px;">Select max price</label>
         <select id="maxprice" name="maxprice" style="font-size: 12px;" onchange="this.form.submit()">
+            <option>£{{ session['maxprice'] }}</option>
              <option value="50000"
             >£50,000</option>
                 <option value="60000"
@@ -704,11 +730,11 @@
             >£20,000,000</option>
         </select>
     </div>
-</form>
+    </form>
       </a>
       </li>
     </ul>
-    <ul class="hero-search-filter-menu menu align-center">
+      <ul class="hero-search-filter-menu menu align-center">
           <li><a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i>
            <div class="dropdown show">
             <a class="dropdown-toggle" data-toggle="dropdown">For Sale
@@ -754,15 +780,6 @@
   </div>
 </header>
 </div>
-
- <ul>
-        <li>PostCode: {{ session['postcode'] }}</li>
-        <li>Radius: {{ session['radius'] }}</li>
-        <li>Rooms: {{ session['brooms'] }}</li>
-        <li>Minimum Price: {{ session['minprice'] }}</li>
-        <li>Max price: {{ session['maxprice'] }}</li>
-    </ul>
-
 <script>
     $(document).foundation();
 </script>
