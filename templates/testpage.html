@@ -129,15 +129,7 @@
 
     /**body on load function**/
 
-    (document).ready(function(){
-        $.get("/rightmovesale", function(data){
-            forSale(data, 1);
-        });
-    });
 
-      $( window ).on( "load", function() {
-        console.log( "window loaded" );
-    });
 
     function soldLR(json_data, ind){
 
@@ -218,7 +210,7 @@
         var index = parseInt(ind);
         const section = document.getElementById('forsale');
         section.innerHTML = "";
-        const title = document.createElement("h1");
+        const title = document.createElement("h2");
         var url = ''
         var endurl = ''
 
@@ -229,23 +221,23 @@
                 url = 'https://www.zoopla.co.uk/for-sale/details/';
                 break;
             case 1:
-                const rmov_txt = document.createTextNode("RightMove For Sale Results");
+                const rmov_txt = document.createTextNode("{{ session['postcode'] }} Sale Results from Rightove");
                 title.appendChild(rmov_txt);
                 url = 'https://www.rightmove.co.uk/properties/';
                 break;
             case 2:
-                const ontm_txt = document.createTextNode("On The Market For Sale Results");
+                const ontm_txt = document.createTextNode("{{ session['postcode'] }} Sales Results from on The Market");
                 title.appendChild(ontm_txt);
                 url = 'https://www.onthemarket.com'
                 break;
             case 3:
-                const rmov_lets = document.createTextNode("RightMove Lettings");
+                const rmov_lets = document.createTextNode("{{ session['postcode'] }} Lettings on Rightmove");
                 title.appendChild(rmov_lets);
                 url = 'https://www.rightmove.co.uk/properties/'
                 endurl = '#/?channel=RES_LET';
                 break;
             case 4:
-                const ontm_lets = document.createTextNode("On The Market Lettings");
+                const ontm_lets = document.createTextNode("{{ session['postcode'] }} on The Market Lettings");
                 title.appendChild(ontm_lets);
                 url = 'https://www.onthemarket.com'
                 break;

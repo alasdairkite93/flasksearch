@@ -36,12 +36,16 @@ def zoopla_lets():
     zooplaresults = zoop.requests()
     return jsonify(zooplaresults)
 
-# @app.route('/pageload', methods=["GET"])
-# def get_page():
+@app.route('/pageloadsales', methods=["GET"])
+def get_page():
+    print("PAGE LOAD")
+    rmove= sites.Rightmove(session['postcode'], "SALE", 0.5, 2, 90000, 350000)
+    rmove_results = rmove.requestScrape()
+    return jsonify(rmove_results)
+
 
 @app.route('/rightmovesale', methods=["GET"])
 def rmove_sales():
-    print("rmov_sales called")
     rmove = sites.Rightmove(session['postcode'], "SALE", session['radius'], session['brooms'], session['minprice'], session['maxprice'])
     rmove_results = rmove.requestScrape()
     return jsonify(rmove_results)
