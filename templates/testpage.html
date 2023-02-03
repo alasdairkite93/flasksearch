@@ -112,7 +112,7 @@
     $(function() {
         $('a#crysdata').click(function() {
             $.get("/crystalroof", function (data){
-                crysRoof(data);
+                planning(data);
                 {#soldLR(data, 1);#}
             })
         })
@@ -130,7 +130,7 @@
 
     /**body on load function**/
 
-    function crysRoof(json_data){
+    function crysData(json_data){
         const section = document.getElementById('forsale');
         section.innerHTML="";
 
@@ -145,8 +145,19 @@
         const label = document.createElement("th");
         label.setAttribute("scope", "col");
 
-        const data = document.createElement("th");
-        data.setAttribute("scope", "col");
+        for (entry of json_data) {
+
+
+            for (let i = 0; i < entry.length; i++) {
+                for (let key of entry[i]) {
+                    if (col.indexOf(key) === -1) {
+                        col.push(key);
+                    }
+                }
+            }
+
+        }
+
 
         th.innerHTML="#";
         data.innerHTML = "Data";
@@ -188,7 +199,6 @@
         var table = document.createElement('table');
         table.border = "1";
 
-        console.log(json_data);
 
         var headers = new Array();
         switch (ind){
@@ -217,7 +227,6 @@
                     headerrow.append(headerc);
                 }
                 for (entry of json_data){
-                    console.log("Entry length: "+entry.length);
                     row = table.insertRow(-1);
 
                     var cell1 = row.insertCell(-1);
@@ -243,7 +252,6 @@
             for (let i = 0; i <entry.length; i++){
                 for (let key in entry[i]){
                     if (col.indexOf(key) === -1){
-                        console.log(key);
                         col.push(key);
                     }
                 }
@@ -264,13 +272,11 @@
                 tr = table.insertRow(-1);
 
                 for (let j=0; j<col.length; j++){
-                    console.log(col.length);
                     let tabcel = tr.insertCell(-1);
                     let text = entry[i][col[j]];
                     let patt = 'https?:\/\/';
                     try {
                         let result = text.match(patt);
-                        console.log(result);
                         if (result != null){
                             const a = document.createElement("a");
                             a.setAttribute("href", entry[i][col[j]]);
@@ -340,8 +346,6 @@
         const count = document.createTextNode("Number of properties: "+number);
         title.appendChild(count);
 
-
-
         for (prop of json_data) {
 
             const newDiv = document.createElement("div");
@@ -364,54 +368,41 @@
             cardbody.setAttribute("class", "card=body");
             divcolmd8.appendChild(cardbody);
 
-            for (var i =0; i<prop.length; i++){
+            const anchor = document.createElement("a");
+            url = prop[4];
+            anchor.setAttribute("href", url);
 
-                switch (i){
-                    case 0:
-                        const h5 = document.createElement("h5");
-                        const h5_content = document.createTextNode(prop[i]);
-                        h5.appendChild(h5_content);
-                        cardbody.appendChild(h5);
-                        break;
-                    case 1:
-                        const p = document.createElement("p");
-                        const p_content = document.createTextNode(prop[i]);
-                        p.appendChild(p_content);
-                        cardbody.appendChild(p);
-                        break;
-                    case 2:
-                        const p_branch = document.createElement("p");
-                        const b_cont = document.createTextNode(prop[i]);
-                        p_branch.appendChild(b_cont);
-                        cardbody.appendChild(p_branch);
-                        break;
-                    case 3:
-                        const p_rooms = document.createElement("p");
-                        const room_cont = document.createTextNode(prop[i]);
-                        p_rooms.appendChild(room_cont);
-                        cardbody.appendChild(p_rooms);
-                        break;
-                    case 4:
-                        const p_price = document.createElement("p");
-                        const pric_cont = document.createTextNode(prop[i]);
-                        p_price.appendChild(pric_cont);
-                        cardbody.appendChild(p_price);
-                        break;
-                    case 5:
-                        const coldiv = document.createElement("div");
-                        coldiv.setAttribute("class", "col-md-4");
-                        const anchor = document.createElement("a");
-                        anchor.setAttribute("href", prop[i]);
-                        const img = document.createElement("img");
-                        img.src = prop[i+1];
-                        anchor.appendChild(img);
-                        coldiv.appendChild(anchor);
-                        rowdiv.appendChild(coldiv);
-                        break;
-                    case 6:
-                        break;
-                }
-            }
+            const dispaddres = document.createElement("h5");
+            const add_cont = document.createTextNode(prop[0]);
+            dispaddres.appendChild(add_cont);
+            anchor.appendChild(dispaddres);
+            cardbody.appendChild(anchor);
+
+            const branchname = document.createElement("p");
+            const branch_cont = document.createTextNode("Branch: "+prop[1]);
+            branchname.appendChild(branch_cont);
+            cardbody.appendChild(branchname);
+
+            const bedrooms = document.createElement("p");
+            const bed_rooms = document.createTextNode("Rooms: "+prop[2]);
+            bedrooms.appendChild(bed_rooms);
+            cardbody.appendChild(bedrooms);
+
+            const price = document.createElement("p");
+            const price_fig = document.createTextNode("Price: "+prop[3]);
+            price.appendChild(price_fig);
+            cardbody.appendChild(price);
+
+            const coldiv = document.createElement("div");
+            coldiv.setAttribute("class", "col-md-4");
+            const img_anch = document.createElement("a");
+            img_anch.setAttribute("href", prop[4]);
+            const img = document.createElement("img");
+            img.src = prop[5];
+            img_anch.appendChild(img);
+            coldiv.appendChild(img_anch);
+            rowdiv.appendChild(coldiv);
+
         }
     }
 
@@ -476,7 +467,7 @@
     </script>
     <style>
 
-        input {
+    input {
             display: inline;
         }
 
@@ -521,11 +512,11 @@
 <header class="hero-search-filter">
   <div class="hero-search-filter-content">
     <img class="hero-search-filter-logo" src="https://placehold.it/160x80" alt="" />
-    <form class="hero-search-filter-form" action="">
+    <form class="hero-search-filter-form" action="{{ url_for("update_pcode") }}" method="post">
     <div class="input-group input-group-rounded">
-        <input class="input-group-field" type="search" placeholder="Search postcode...">
+        <input class="input-group-field" type="text" name="pcodeupdate" placeholder="{{ session['postcode'] }}">
         <div class="input-group-button">
-            <input type="submit" class="button secondary" value="Search">
+            <input type="submit" class="button secondary">
         </div>
     </div>
     </form>
@@ -553,7 +544,6 @@
              <label for="radius" style="font-size: 10px;">Enter search radius:</label>
                 <select id="radius" class="form-select form-select-sm" style="width: 100px; font-size: 12px;" onchange="this.form.submit()" name="radius">
                     <option>{{ session['radius'] }} miles</option>
-                    <option value="0">+0 miles</option>
                     <option value="0.25">+1/4 miles</option>
                     <option value="0.5">+1/2 miles</option>
                     <option value="1">+1 miles</option>

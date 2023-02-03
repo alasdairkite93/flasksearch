@@ -99,15 +99,15 @@
 <div class="container">
     <div class="item">
         <h3>Property Search</h3>
-    <form action="{{ url_for("search")}}" method="post" name="search" onsubmit="return validateForm()">
-    <div class="bar" >
-      <input class="searchbar" type="text"  id="postcode" name="pcode" title="Search" placeholder="Enter postcode..." required>
-      <a href="#"> <img class="voice" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Google_mic.svg/716px-Google_mic.svg.png" title="Search by Voice"></a>
-    </div>
-    <div class="buttons">
-        <button class="button" type="submit" formaction="/returnsales">Sales</button>
-        <button class="button" type="submit" formaction="/lettings">Lettings</button>
-    </div>
+        <form action="{{ url_for("search")}}" method="post" name="search" onsubmit="return validateForm()">
+        <div class="bar" >
+          <input class="searchbar" type="text"  id="postcode" name="pcode" title="Search" placeholder="Enter postcode..." required>
+          <a href="#"> <img class="voice" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Google_mic.svg/716px-Google_mic.svg.png" title="Search by Voice"></a>
+        </div>
+        <div class="buttons">
+            <button class="button" type="submit" name="sales" value="sales">Sales</button>
+            <button class="button" type="submit" name="lettings" value="lettings">Lettings</button>
+        </div>
     </form>
     </div>
 </div>

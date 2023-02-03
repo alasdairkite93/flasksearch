@@ -16,7 +16,6 @@ def pageNotFound(error):
 def planning_data():
     planapps = sites.Planning(session['postcode'])
     plans = planapps.request()
-    print(plans)
     return jsonify(plans)
 
 @app.route('/landregistry')
@@ -39,7 +38,6 @@ def zoopla_lets():
 
 @app.route('/pageloadsales', methods=["GET"])
 def get_page():
-    print("PAGE LOAD")
     rmove= sites.Rightmove(session['postcode'], "SALE", 0.5, 2, 90000, 350000)
     rmove_results = rmove.requestScrape()
     return jsonify(rmove_results)
@@ -82,41 +80,69 @@ def crystal_stats():
     print(resp)
     return jsonify(resp)
 
-@app.route('/pcodeupdate', methods=["POST"])
+@app.route('/pcodeupdate', methods=["GET", "POST"])
 def update_pcode():
+
     if request.method == "POST":
         update = request.form.get("pcodeupdate")
         session['postcode'] = update
-        return render_template('testpage.html')
+        print("UPDATED POSTCODE", session['postcode'])
+        if session['type'] == 'sales':
+            return render_template('testpage.html')
+
+        if session['type'] == 'lettings':
+            return render_template('file2.html')
+
+    return render_template('testpage.html')
 
 @app.route('/broomupdate', methods=["POST"])
 def update_rooms():
     if request.method == "POST":
         brooms = request.form.get("minrooms")
         session['brooms'] = brooms
-        return render_template('testpage.html')
+
+        if session['type'] == 'sales':
+            return render_template('testpage.html')
+
+        if session['type'] == 'lettings':
+            return render_template('file2.html')
 
 @app.route('/radiusupdate', methods=["POST"])
 def update_radius():
     if request.method == "POST":
         radius = request.form.get("radius")
         session['radius'] = radius
-        return render_template('testpage.html')
+
+        if session['type'] == 'sales':
+            return render_template('testpage.html')
+
+        if session['type'] == 'lettings':
+            return render_template('file2.html')
 
 @app.route('/priceupdate', methods=["POST"])
 def update_min_price():
     if request.method == "POST":
         minprice = request.form.get("minprice")
         session['minprice'] = minprice
-        return render_template('testpage.html')
+
+        if session['type'] == 'sales':
+            return render_template('testpage.html')
+
+        if session['type'] == 'lettings':
+            return render_template('file2.html')
 @app.route('/maxpriceupdate', methods=["POST"])
 def update_max_price():
     if request.method == "POST":
         maxprice = request.form.get("maxprice")
         session['maxprice'] = maxprice
-        return render_template('testpage.html')
 
-@app.route('/returnsales', methods=["POST"])
+        if session['type'] == 'sales':
+            return render_template('testpage.html')
+
+        if session['type'] == 'lettings':
+            return render_template('file2.html')
+
+@app.route('/returnsales', methods=["GET", "POST"])
 def salesform():
     if request.method == "POST":
         search_query = request.form.get("pcode")
@@ -138,7 +164,17 @@ def search():
     if request.method == "POST":
         search_query = request.form.get("pcode")
         session['postcode'] = search_query
-        return render_template('testpage.html')
+
+        salestype = request.form.get("sales")
+        if salestype == 'sales':
+            session['type'] = salestype
+            return render_template('testpage.html')
+
+        lets = request.form.get("lettings")
+        if lets == 'lettings':
+            session['type'] = lets
+            return render_template('file2.html')
+
     return render_template('form.html')
 
 if __name__ == '__main__':

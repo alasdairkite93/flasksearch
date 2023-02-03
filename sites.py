@@ -106,10 +106,20 @@ class Rightmove:
 
         utils = Utility()
 
+
         headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36"}
         # Function to postcode
-        print('https://www.rightmove.co.uk/property-for-sale/search.html?searchLocation=' + self.pcode)
-        x = requests.get('https://www.rightmove.co.uk/property-for-sale/search.html?searchLocation=' + self.pcode, headers=headers)
+
+        rent = 'property-to-rent'
+        sales = 'property-for-sale'
+
+        if self.channel == "SALE":
+            search_url = f'https://www.rightmove.co.uk/{sales}/search.html?searchLocation='
+
+        else:
+            search_url = f'https://www.rightmove.co.uk/{rent}/search.html?searchLocation='
+
+        x = requests.get(search_url + self.pcode, headers=headers)
         soup = BeautifulSoup(x.text, 'html.parser')
         results = soup.find('input', {'id': 'locationIdentifier'}).get('value')
         txt = results
@@ -120,7 +130,7 @@ class Rightmove:
 
         properties = []
 
-        for i in range(10):
+        for i in range(4):
 
             ind = i * 24
 
@@ -153,7 +163,6 @@ class Rightmove:
                 for props in json_r:
                     li = []
                     li.append(props['displayAddress'])
-                    li.append(props['summary'])
                     li.append(props['customer']['branchDisplayName'])
                     li.append(props['bedrooms'])
                     li.append(props['price']['displayPrices'][0]['displayPrice'])
@@ -161,9 +170,13 @@ class Rightmove:
                     li.append(props['propertyImages']['images'][0]['srcUrl'])
                     properties.append(li)
 
+                    prop_len = len(properties)
+
+                    print("prop_len: ", prop_len)
             except IndexError:
                 break
 
+        print(properties)
         return properties
 
     def requestSold(self):
@@ -214,15 +227,7 @@ class OnTheMarket:
 
     def request(self):
 
-        print("On The Market Request")
         utils = Utility()
-
-        print("pcode: ", self.pcode)
-        print("channel: ", self.channel)
-        print("radius: ", self.radius)
-        print("bedrooms: ", self.bedrooms)
-        print("min price: ", self.minprice)
-        print("maxprice: ", self.maxprice)
 
         url = 'https://www.onthemarket.com/'
         pcode = self.pcode.split(" ")
@@ -234,9 +239,6 @@ class OnTheMarket:
             p_tot = p1
         url_end = f'/?min-bedrooms={self.bedrooms}&max-bedrooms={self.bedrooms}&max-price={self.maxprice}&min-price={self.minprice}&radius={self.radius}&view=grid'
         search_url = url + self.channel + "/property/" + p_tot+url_end
-
-        print(search_url)
-        # search_url = base_url + p_tot + url_end
 
         scraper = cloudscraper.create_scraper()
         req = scraper.get(search_url)
@@ -262,9 +264,6 @@ class OnTheMarket:
         for prop in value['properties']:
             li = []
             li.append(prop['display_address'])
-            for s in prop['features']:
-                str+=s+" "
-            li.append(prop['property-title']+str)
             li.append(prop['agent']['name'])
             li.append(prop['bedrooms-text'])
             li.append(prop['price'])
