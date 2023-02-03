@@ -17,7 +17,7 @@ def planning_data():
     planapps = sites.Planning(session['postcode'])
     plans = planapps.request()
     print(plans)
-    return plans
+    return jsonify(plans)
 
 @app.route('/landregistry')
 def sold_prices():
