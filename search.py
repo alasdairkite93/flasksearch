@@ -3,8 +3,7 @@ from flask import Flask, session, request, render_template, json, jsonify
 from werkzeug.serving import make_ssl_devcert
 import json
 import sites
-import ssl
-import os
+
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
@@ -185,8 +184,6 @@ def search():
 
 if __name__ == '__main__':
     context = ('local.crt', 'local.key')
-    # , ssl_context = context
     app.secret_key = "super secret key"
     app.config['SECRET_KEY'] = 'the random string'
     app.run()
-    # ssl_context = 'adhoc'
