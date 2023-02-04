@@ -1,3 +1,4 @@
+import werkzeug
 from flask import Flask, session, request, render_template, json, jsonify
 from werkzeug.serving import make_ssl_devcert
 import json
@@ -8,9 +9,6 @@ import os
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
-@app.errorhandler(500)
-def pageNotFound(error):
-    return render_template('form.html'), 500
 
 @app.route('/planningdata', methods=["GET"])
 def planning_data():
@@ -42,10 +40,10 @@ def get_page():
     rmove_results = rmove.requestScrape()
     return jsonify(rmove_results)
 
-
 @app.route('/rightmovesale', methods=["GET"])
 def rmove_sales():
-    rmove = sites.Rightmove(session['postcode'], "SALE", session['radius'], session['brooms'], session['minprice'], session['maxprice'])
+    session['page'] = 0
+    rmove = sites.Rightmove(session['postcode'], "SALE", session['radius'], session['brooms'], session['minprice'], session['maxprice'], session['page'])
     rmove_results = rmove.requestScrape()
     return jsonify(rmove_results)
 
@@ -88,12 +86,12 @@ def update_pcode():
         session['postcode'] = update
         print("UPDATED POSTCODE", session['postcode'])
         if session['type'] == 'sales':
-            return render_template('testpage.html')
+            return render_template('sales.html')
 
         if session['type'] == 'lettings':
-            return render_template('file2.html')
+            return render_template('lettings.html')
 
-    return render_template('testpage.html')
+    return render_template('sales.html')
 
 @app.route('/broomupdate', methods=["POST"])
 def update_rooms():
@@ -102,10 +100,10 @@ def update_rooms():
         session['brooms'] = brooms
 
         if session['type'] == 'sales':
-            return render_template('testpage.html')
+            return render_template('sales.html')
 
         if session['type'] == 'lettings':
-            return render_template('file2.html')
+            return render_template('lettings.html')
 
 @app.route('/radiusupdate', methods=["POST"])
 def update_radius():
@@ -114,10 +112,10 @@ def update_radius():
         session['radius'] = radius
 
         if session['type'] == 'sales':
-            return render_template('testpage.html')
+            return render_template('sales.html')
 
         if session['type'] == 'lettings':
-            return render_template('file2.html')
+            return render_template('lettings.html')
 
 @app.route('/priceupdate', methods=["POST"])
 def update_min_price():
@@ -126,10 +124,10 @@ def update_min_price():
         session['minprice'] = minprice
 
         if session['type'] == 'sales':
-            return render_template('testpage.html')
+            return render_template('sales.html')
 
         if session['type'] == 'lettings':
-            return render_template('file2.html')
+            return render_template('lettings.html')
 @app.route('/maxpriceupdate', methods=["POST"])
 def update_max_price():
     if request.method == "POST":
@@ -137,17 +135,17 @@ def update_max_price():
         session['maxprice'] = maxprice
 
         if session['type'] == 'sales':
-            return render_template('testpage.html')
+            return render_template('sales.html')
 
         if session['type'] == 'lettings':
-            return render_template('file2.html')
+            return render_template('lettings.html')
 
 @app.route('/returnsales', methods=["GET", "POST"])
 def salesform():
     if request.method == "POST":
         search_query = request.form.get("pcode")
         session['postcode'] = search_query
-        return render_template('testpage.html')
+        return render_template('sales.html')
     return render_template('form.html')
 
 
@@ -156,7 +154,12 @@ def letsform():
     if request.method == "POST":
         search_query = request.form.get("pcode")
         session['postcode'] = search_query
-        return render_template('file2.html')
+        return render_template('lettings.html')
+    return render_template('form.html')
+
+@app.route('/back', methods=["GET"])
+def goBack():
+    session.clear()
     return render_template('form.html')
 
 @app.route('/', methods =["GET", "POST"])
@@ -164,16 +167,19 @@ def search():
     if request.method == "POST":
         search_query = request.form.get("pcode")
         session['postcode'] = search_query
+        session['minprice'] = 'Min Price'
+        session['maxprice'] = 'Max Price'
 
         salestype = request.form.get("sales")
         if salestype == 'sales':
             session['type'] = salestype
-            return render_template('testpage.html')
+            return render_template('sales.html')
 
         lets = request.form.get("lettings")
         if lets == 'lettings':
             session['type'] = lets
-            return render_template('file2.html')
+
+            return render_template('lettings.html')
 
     return render_template('form.html')
 

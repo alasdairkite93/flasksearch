@@ -94,13 +94,14 @@ class Zoopla:
 
 class Rightmove:
 
-    def __init__(self, query, channel, radius, bedrooms, minprice, maxprice):
+    def __init__(self, query, channel, radius, bedrooms, minprice, maxprice, page):
         self.pcode = query
         self.channel = channel
         self.radius = radius
         self.bedrooms = bedrooms
         self.minprice = minprice
         self.maxprice = maxprice
+        self.page = page
 
     def requestScrape(self):
 
@@ -130,53 +131,51 @@ class Rightmove:
 
         properties = []
 
-        for i in range(4):
 
-            ind = i * 24
+        ind = self.page * 24
 
-            if len(self.pcode) > 4 and self.channel == 'SALE':
-                t_url = f'https://www.rightmove.co.uk/property-for-sale/find.html?locationIdentifier=POSTCODE%5E{code}&maxBedrooms={self.bedrooms}&minBedrooms={self.bedrooms}&maxPrice={self.maxprice}&minPrice={self.minprice}&radius={self.radius}&propertyTypes=&mustHave=&dontShow=&furnishTypes=&keywords='
-            if len(self.pcode) <= 4 and self.channel == 'SALE':
-                t_url = f'https://www.rightmove.co.uk/property-for-sale/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&areaSizeUnit=sqft&googleAnalyticsChannel=buying&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}'
-            if len(self.pcode) <= 4 and self.channel == 'RENT':
-                t_url = f'https://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}'
-            if len(self.pcode) > 4 and self.channel == 'RENT':
-                t_url = f'https://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&areaSizeUnit=sqft&googleAnalyticsChannel=renting&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}'
+        if len(self.pcode) > 4 and self.channel == 'SALE':
+            t_url = f'https://www.rightmove.co.uk/property-for-sale/find.html?locationIdentifier=POSTCODE%5E{code}&maxBedrooms={self.bedrooms}&minBedrooms={self.bedrooms}&maxPrice={self.maxprice}&minPrice={self.minprice}&radius={self.radius}&propertyTypes=&mustHave=&dontShow=&furnishTypes=&keywords='
+        if len(self.pcode) <= 4 and self.channel == 'SALE':
+            t_url = f'https://www.rightmove.co.uk/property-for-sale/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&areaSizeUnit=sqft&googleAnalyticsChannel=buying&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}'
+        if len(self.pcode) <= 4 and self.channel == 'RENT':
+            t_url = f'https://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}'
+        if len(self.pcode) > 4 and self.channel == 'RENT':
+            t_url = f'https://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&areaSizeUnit=sqft&googleAnalyticsChannel=renting&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}'
 
-            req_url = requests.get(t_url)
-            print("t_url: ", t_url)
-            soup = BeautifulSoup(req_url.text, 'html.parser')
+        req_url = requests.get(t_url)
+        print("t_url: ", t_url)
+        soup = BeautifulSoup(req_url.text, 'html.parser')
 
-            results = soup.findAll('script')
+        results = soup.findAll('script')
 
-            json_r = ''
+        json_r = ''
 
-            for r in results:
-                l_r = list(utils.find_json_objects(r.text))
-                for res in l_r:
-                    if len(res) > 0:
-                        json_r = res['properties']
+        for r in results:
+            l_r = list(utils.find_json_objects(r.text))
+            for res in l_r:
+                if len(res) > 0:
+                    json_r = res['properties']
 
-            try:
+        try:
 
-                url = 'https://www.rightmove.co.uk/properties/'
-                for props in json_r:
-                    li = []
-                    li.append(props['displayAddress'])
-                    li.append(props['customer']['branchDisplayName'])
-                    li.append(props['bedrooms'])
-                    li.append(props['price']['displayPrices'][0]['displayPrice'])
-                    li.append(url + str(props['id']))
-                    li.append(props['propertyImages']['images'][0]['srcUrl'])
-                    properties.append(li)
+            url = 'https://www.rightmove.co.uk/properties/'
+            for props in json_r:
+                li = []
+                li.append(props['displayAddress'])
+                li.append(props['customer']['branchDisplayName'])
+                li.append(props['bedrooms'])
+                li.append(props['price']['displayPrices'][0]['displayPrice'])
+                li.append(url + str(props['id']))
+                li.append(props['propertyImages']['images'][0]['srcUrl'])
+                properties.append(li)
 
-                    prop_len = len(properties)
+                prop_len = len(properties)
+                print("prop_len: ", prop_len)
 
-                    print("prop_len: ", prop_len)
-            except IndexError:
-                break
+        except IndexError:
+            pass
 
-        print(properties)
         return properties
 
     def requestSold(self):
@@ -280,39 +279,82 @@ class CrystalRoof:
 
     def stats(self):
 
-        split = self.pcode.split(" ")
-        p1 = split[0]
-        p2 = split[1]
-        pc = p1+p2
+        try:
 
-        search_url = f"https://crystalroof.co.uk/report/postcode/{pc}/overview"
-        response = urllib.request.urlopen(search_url)
-        data = response.read()  # a `bytes` object
-        soup = BeautifulSoup(data, 'html.parser')
-        results = soup.findAll('script', {"id": "__NEXT_DATA__"})
+            split = self.pcode.split(" ")
+            p1 = split[0]
+            p2 = split[1]
+            pc = p1+p2
 
-        r = results[0].text
-        parsed = json.loads(r)
-        data = parsed['props']['initialReduxState']['report']['sectionResponses']['overview']['data']
+            search_url = f"https://crystalroof.co.uk/report/postcode/{pc}/overview"
+            response = urllib.request.urlopen(search_url)
+            data = response.read()  # a `bytes` object
+            soup = BeautifulSoup(data, 'html.parser')
+            results = soup.findAll('script', {"id": "__NEXT_DATA__"})
 
-        print(json.dumps(data, indent=4))
+            r = results[0].text
 
-        li = []
-        li.append(data['loac'])
-        li.append(data['income_lsoa'])
-        li.append(data['indices_of_deprivation_lsoa'])
-        li.append(data['crime_lsoa'])
-        li.append(data['transport']['metro'])
-        li.append(data['amenities']['supermarkets'])
-        li.append(data['amenities']['groceries'])
-        li.append(data['schools']['name'])
-        li.append(data['noise'])
-        li.append(data['ethnicgroup'])
-        li.append(data['religion'])
-        li.append(data['household'])
-        li.append(data['householdlifestage'])
+            parsed = json.loads(r)
+            data = parsed['props']['initialReduxState']['report']['sectionResponses']['overview']['data']
 
-        return li
+            li = []
+            li.append(data['loac']['supergroupname'])
+            li.append(data['loac']['supergroupdescription'])
+            li.append(data['loac']['groupname'])
+            li.append(data['loac']['groupdescription'])
+            li.append(data['income_lsoa']['mean'])
+            li.append(data['income_lsoa']['median'])
+            li.append(data['indices_of_deprivation_lsoa']['imdb_score'])
+            li.append(data['crime_lsoa']['rate'])
+            li.append(data['crime_lsoa']['rank'])
+            li.append(data['transport']['metro']['name'])
+            li.append(data['transport']['metro']['lines'])
+            li.append(data['transport']['rail']['name'])
+            li.append(data['transport']['rail']['lines'])
+            li.append(data['amenities']['supermarkets']['businessname'])
+            li.append(data['amenities']['groceries']['businessname'])
+            li.append(data['schools']['name'])
+            li.append(data['noise']['road']['noiseclass'])
+            li.append(data['noise']['rail']['noiseclass'])
+            li.append(data['noise']['aircraft']['noiseclass'])
+            li.append(data['ethnicgroup']['white_british'])
+            li.append(data['ethnicgroup']['white_irish'])
+            li.append(data['ethnicgroup']['gypsy'])
+            li.append(data['ethnicgroup']['other_white'])
+            li.append(data['ethnicgroup']['mixed'])
+            li.append(data['ethnicgroup']['indian'])
+            li.append(data['ethnicgroup']['pakistani'])
+            li.append(data['ethnicgroup']['bangladeshi'])
+            li.append(data['ethnicgroup']['chinese'])
+            li.append(data['ethnicgroup']['other_asian'])
+            li.append(data['ethnicgroup']['black'])
+            li.append(data['ethnicgroup']['arab'])
+            li.append(data['ethnicgroup']['other'])
+            li.append(data['religion']['christian'])
+            li.append(data['religion']['buddhist'])
+            li.append(data['religion']['hindu'])
+            li.append(data['religion']['jewish'])
+            li.append(data['religion']['muslim'])
+            li.append(data['religion']['sikh'])
+            li.append(data['religion']['other'])
+            li.append(data['religion']['no_religion'])
+            li.append(data['household']['one_person'])
+            li.append(data['household']['couple_with_children'])
+            li.append(data['household']['couple_without_children'])
+            li.append(data['household']['same_sex_couple'])
+            li.append(data['household']['lone_parent_with_children'])
+            li.append(data['household']['lone_parent_without_children'])
+            li.append(data['household']['multi_person_student'])
+            li.append(data['household']['multi_person_other'])
+            li.append(data['householdlifestage']['ageunder35'])
+            li.append(data['householdlifestage']['age35to54'])
+            li.append(data['householdlifestage']['age55to64'])
+            li.append(data['householdlifestage']['age65above'])
+
+            return li
+
+        except IndexError:
+            return "Index error"
 
     # print(data['income_lsoa']['mean'])
     # print(data['income_lsoa']['median'])
