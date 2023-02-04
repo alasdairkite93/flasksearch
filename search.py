@@ -188,5 +188,5 @@ if __name__ == '__main__':
     # , ssl_context = context
     app.secret_key = "super secret key"
     app.config['SECRET_KEY'] = 'the random string'
-    app.run(host= '0.0.0.0', debug=False)
+    app.run()
     # ssl_context = 'adhoc'
