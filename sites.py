@@ -1,19 +1,9 @@
-import xmltojson
 import json
 import requests
-import utils
 import re
-import html_to_json
 from bs4 import BeautifulSoup
 import urllib.request
 import cloudscraper
-
-import certifi
-
-from string import Template
-from SPARQLWrapper import SPARQLWrapper, JSON
-
-import ssl
 
 class Utility:
 
@@ -105,6 +95,7 @@ class Rightmove:
 
     def requestScrape(self):
 
+        global t_url
         utils = Utility()
 
 
@@ -224,11 +215,12 @@ class OnTheMarket:
         self.minprice = minprice
         self.maxprice = maxprice
 
-    def request(self):
+    def request(self, otm_li=None):
 
+        global value
         utils = Utility()
 
-        url = 'https://www.onthemarket.com/'
+        baseurl = 'https://www.onthemarket.com/'
         pcode = self.pcode.split(" ")
         p1 = pcode[0].lower()
         if len(pcode) > 1:
@@ -237,38 +229,36 @@ class OnTheMarket:
         else:
             p_tot = p1
         url_end = f'/?min-bedrooms={self.bedrooms}&max-bedrooms={self.bedrooms}&max-price={self.maxprice}&min-price={self.minprice}&radius={self.radius}&view=grid'
-        search_url = url + self.channel + "/property/" + p_tot+url_end
-
+        search_url = baseurl + self.channel + "/property/" + p_tot+url_end
+        print(search_url)
         scraper = cloudscraper.create_scraper()
         req = scraper.get(search_url)
 
         soup = BeautifulSoup(req.text, 'html.parser')
         results = soup.findAll('script', {'type': 'text/javascript'})
+        otm_li = []
         for r in results:
             res_text = r.text
             try:
                 found = list(utils.find_json_objects(res_text))
                 try:
-                    for f in found:
-                        if len(f) > 20:
-                            value = f
+                    for value in found:
+                        if len(value) > 20:
+
+                            for prop in value['properties']:
+                                li = []
+                                li.append(prop['display_address'])
+                                li.append(prop['agent']['name'])
+                                li.append(prop['bedrooms-text'])
+                                li.append(prop['price'])
+                                li.append(baseurl + prop['property-link'])
+                                li.append(prop['images'][0]['default'])
+                                otm_li.append(li)
+
                 except IndexError:
                     pass
             except TypeError:
                 pass
-
-        otm_li = []
-        str = ""
-        url="https://www.onthemarket.com"
-        for prop in value['properties']:
-            li = []
-            li.append(prop['display_address'])
-            li.append(prop['agent']['name'])
-            li.append(prop['bedrooms-text'])
-            li.append(prop['price'])
-            li.append(url+prop['property-link'])
-            li.append(prop['images'][0]['default'])
-            otm_li.append(li)
 
         return otm_li
 

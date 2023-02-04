@@ -524,7 +524,7 @@
     <h4>Property Search for: {{ session['postcode'] }}</h4>
     <form class="hero-search-filter-form" action="{{ url_for("update_pcode") }}" method="post">
     <div class="input-group input-group-rounded">
-        <input class="input-group-field" type="text" name="pcodeupdate" value="{{ session['postcode'] }}">
+        <input class="input-group-field" style="border-radius: 10px;" type="text" name="pcodeupdate" value="{{ session['postcode'] }}">
         <div class="input-group-button">
             <input type="submit" class="button secondary">
         </div>
