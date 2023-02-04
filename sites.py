@@ -279,108 +279,77 @@ class CrystalRoof:
 
     def stats(self):
 
-        try:
+        split = self.pcode.split(" ")
+        p1 = split[0]
+        p2 = split[1]
+        pc = p1+p2
 
-            split = self.pcode.split(" ")
-            p1 = split[0]
-            p2 = split[1]
-            pc = p1+p2
+        search_url = f"https://crystalroof.co.uk/report/postcode/{pc}/overview"
+        response = urllib.request.urlopen(search_url)
+        data = response.read()  # a `bytes` object
+        soup = BeautifulSoup(data, 'html.parser')
+        results = soup.findAll('script', {"id": "__NEXT_DATA__"})
 
-            search_url = f"https://crystalroof.co.uk/report/postcode/{pc}/overview"
-            response = urllib.request.urlopen(search_url)
-            data = response.read()  # a `bytes` object
-            soup = BeautifulSoup(data, 'html.parser')
-            results = soup.findAll('script', {"id": "__NEXT_DATA__"})
+        r = results[0].text
 
-            r = results[0].text
+        parsed = json.loads(r)
+        data = parsed['props']['initialReduxState']['report']['sectionResponses']['overview']['data']
 
-            parsed = json.loads(r)
-            data = parsed['props']['initialReduxState']['report']['sectionResponses']['overview']['data']
+        li = []
+        li.append(data['loac']['supergroupname'])
+        li.append(data['loac']['supergroupdescription'])
+        li.append(data['loac']['groupname'])
+        li.append(data['loac']['groupdescription'])
+        li.append(data['income_lsoa']['mean'])
+        li.append(data['income_lsoa']['median'])
+        li.append(data['indices_of_deprivation_lsoa']['imdb_score'])
+        li.append(data['crime_lsoa']['rate'])
+        li.append(data['crime_lsoa']['rank'])
+        li.append(data['transport']['metro']['name'])
+        li.append(data['transport']['metro']['lines'])
+        li.append(data['transport']['rail']['name'])
+        li.append(data['transport']['rail']['lines'])
+        li.append(data['amenities']['supermarkets']['businessname'])
+        li.append(data['amenities']['groceries']['businessname'])
+        li.append(data['schools']['name'])
+        li.append(data['noise']['road']['noiseclass'])
+        li.append(data['noise']['rail']['noiseclass'])
+        li.append(data['noise']['aircraft']['noiseclass'])
+        li.append(data['ethnicgroup']['white_british'])
+        li.append(data['ethnicgroup']['white_irish'])
+        li.append(data['ethnicgroup']['gypsy'])
+        li.append(data['ethnicgroup']['other_white'])
+        li.append(data['ethnicgroup']['mixed'])
+        li.append(data['ethnicgroup']['indian'])
+        li.append(data['ethnicgroup']['pakistani'])
+        li.append(data['ethnicgroup']['bangladeshi'])
+        li.append(data['ethnicgroup']['chinese'])
+        li.append(data['ethnicgroup']['other_asian'])
+        li.append(data['ethnicgroup']['black'])
+        li.append(data['ethnicgroup']['arab'])
+        li.append(data['ethnicgroup']['other'])
+        li.append(data['religion']['christian'])
+        li.append(data['religion']['buddhist'])
+        li.append(data['religion']['hindu'])
+        li.append(data['religion']['jewish'])
+        li.append(data['religion']['muslim'])
+        li.append(data['religion']['sikh'])
+        li.append(data['religion']['other'])
+        li.append(data['religion']['no_religion'])
+        li.append(data['household']['one_person'])
+        li.append(data['household']['couple_with_children'])
+        li.append(data['household']['couple_without_children'])
+        li.append(data['household']['same_sex_couple'])
+        li.append(data['household']['lone_parent_with_children'])
+        li.append(data['household']['lone_parent_without_children'])
+        li.append(data['household']['multi_person_student'])
+        li.append(data['household']['multi_person_other'])
+        li.append(data['householdlifestage']['ageunder35'])
+        li.append(data['householdlifestage']['age35to54'])
+        li.append(data['householdlifestage']['age55to64'])
+        li.append(data['householdlifestage']['age65above'])
 
-            li = []
-            li.append(data['loac']['supergroupname'])
-            li.append(data['loac']['supergroupdescription'])
-            li.append(data['loac']['groupname'])
-            li.append(data['loac']['groupdescription'])
-            li.append(data['income_lsoa']['mean'])
-            li.append(data['income_lsoa']['median'])
-            li.append(data['indices_of_deprivation_lsoa']['imdb_score'])
-            li.append(data['crime_lsoa']['rate'])
-            li.append(data['crime_lsoa']['rank'])
-            li.append(data['transport']['metro']['name'])
-            li.append(data['transport']['metro']['lines'])
-            li.append(data['transport']['rail']['name'])
-            li.append(data['transport']['rail']['lines'])
-            li.append(data['amenities']['supermarkets']['businessname'])
-            li.append(data['amenities']['groceries']['businessname'])
-            li.append(data['schools']['name'])
-            li.append(data['noise']['road']['noiseclass'])
-            li.append(data['noise']['rail']['noiseclass'])
-            li.append(data['noise']['aircraft']['noiseclass'])
-            li.append(data['ethnicgroup']['white_british'])
-            li.append(data['ethnicgroup']['white_irish'])
-            li.append(data['ethnicgroup']['gypsy'])
-            li.append(data['ethnicgroup']['other_white'])
-            li.append(data['ethnicgroup']['mixed'])
-            li.append(data['ethnicgroup']['indian'])
-            li.append(data['ethnicgroup']['pakistani'])
-            li.append(data['ethnicgroup']['bangladeshi'])
-            li.append(data['ethnicgroup']['chinese'])
-            li.append(data['ethnicgroup']['other_asian'])
-            li.append(data['ethnicgroup']['black'])
-            li.append(data['ethnicgroup']['arab'])
-            li.append(data['ethnicgroup']['other'])
-            li.append(data['religion']['christian'])
-            li.append(data['religion']['buddhist'])
-            li.append(data['religion']['hindu'])
-            li.append(data['religion']['jewish'])
-            li.append(data['religion']['muslim'])
-            li.append(data['religion']['sikh'])
-            li.append(data['religion']['other'])
-            li.append(data['religion']['no_religion'])
-            li.append(data['household']['one_person'])
-            li.append(data['household']['couple_with_children'])
-            li.append(data['household']['couple_without_children'])
-            li.append(data['household']['same_sex_couple'])
-            li.append(data['household']['lone_parent_with_children'])
-            li.append(data['household']['lone_parent_without_children'])
-            li.append(data['household']['multi_person_student'])
-            li.append(data['household']['multi_person_other'])
-            li.append(data['householdlifestage']['ageunder35'])
-            li.append(data['householdlifestage']['age35to54'])
-            li.append(data['householdlifestage']['age55to64'])
-            li.append(data['householdlifestage']['age65above'])
-
-            return li
-
-        except IndexError:
-            return "Index error"
-
-    # print(data['income_lsoa']['mean'])
-    # print(data['income_lsoa']['median'])
-    # print("crime rate: ", data['crime_lsoa']['rate'])
-    # print("crime rank: ", data['crime_lsoa']['rank'])
-    # print("\n")
-    #
-    # # Transport
-    # print("transport metro: ", data['transport']['metro']['name'])
-    # print("transport rail name: ", data['transport']['rail']['name'])
-    # print("transport rail lines: ", data['transport']['rail']['lines'][0])
-    #
-    # # Amenities
-    # print("Supermarkets names: ", data['amenities']['supermarkets']['businessname'])
-    #
-    # # Schools
-    # print("School name: ", data['schools']['name'])
-    # print("School ofsted ratings: ", data['schools']['ofstedrating'])
-    #
-    # # noise
-    # print("Road noise class: ", data['noise']['road']['noiseclass'])
-    #
-    # # ethnicity
-    # print("Ethnicity total: ", data['ethnicgroup']['total'])
-    # print("Religion total: ", data['religion']['total'])
-    # print("Household total: ", data['household']['total'])
+        return li
 
 class LandRegistry:
 
