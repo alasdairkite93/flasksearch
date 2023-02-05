@@ -41,14 +41,13 @@ def get_page():
 
 @app.route('/rightmovesale', methods=["GET"])
 def rmove_sales():
-    session['page'] = 0
-    rmove = sites.Rightmove(session['postcode'], "SALE", session['radius'], session['brooms'], session['minprice'], session['maxprice'], session['page'])
+    rmove = sites.Rightmove(session['postcode'], "SALE", session['radius'], session['brooms'], session['minprice'], session['maxprice'], session['resnum'])
     rmove_results = rmove.requestScrape()
     return jsonify(rmove_results)
 
 @app.route('/rmoverent', methods=["GET"])
 def rmove_lets():
-    rmove = sites.Rightmove(session['postcode'], "RENT", session['radius'], session['brooms'], session['minprice'], session['maxprice'])
+    rmove = sites.Rightmove(session['postcode'], "RENT", session['radius'], session['brooms'], session['minprice'], session['maxprice'], session['resnum'])
     rmove_results = rmove.requestScrape()
     return jsonify(rmove_results)
 
@@ -60,13 +59,15 @@ def rmov_sold():
 
 @app.route('/otmsale', methods=["GET"])
 def otm_sales():
-    otmsale = sites.OnTheMarket(session['postcode'], "for-sale", session['radius'], session['brooms'], session['minprice'], session['maxprice'])
+    print("OTM SALES pages: ", session['resnum'])
+    otmsale = sites.OnTheMarket(session['postcode'], "for-sale", session['radius'], session['brooms'], session['minprice'], session['maxprice'], session['resnum'])
     otm_results = otmsale.request()
     return jsonify(otm_results)
 
 @app.route('/otmrent', methods=["GET"])
 def otm_rent():
-    otmrent = sites.OnTheMarket(session['postcode'], "to-rent", session['radius'], session['brooms'], session['minprice'], session['maxprice'])
+    print("OTM Rent pages: ", session['page'], " radius: ", session['radius'], " minprice ", session['minprice'])
+    otmrent = sites.OnTheMarket(session['postcode'], "to-rent", session['radius'], session['brooms'], session['minprice'], session['maxprice'], session['resnum'])
     otm_results = otmrent.request()
     return jsonify(otm_results)
 
@@ -74,7 +75,6 @@ def otm_rent():
 def crystal_stats():
     crysstats = sites.CrystalRoof(session['postcode'])
     resp = crysstats.stats()
-    print(resp)
     return jsonify(resp)
 
 @app.route('/pcodeupdate', methods=["GET", "POST"])
@@ -83,7 +83,20 @@ def update_pcode():
     if request.method == "POST":
         update = request.form.get("pcodeupdate")
         session['postcode'] = update
-        print("UPDATED POSTCODE", session['postcode'])
+        if session['type'] == 'sales':
+            return render_template('sales.html')
+
+        if session['type'] == 'lettings':
+            return render_template('lettings.html')
+
+    return render_template('sales.html')
+
+@app.route('/numres', methods=["GET", "POST"])
+def update_results():
+    print("update_results")
+    if request.method == "POST":
+        update = request.form.get("resultnum")
+        session['resnum'] = update
         if session['type'] == 'sales':
             return render_template('sales.html')
 

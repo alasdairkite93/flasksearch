@@ -48,6 +48,29 @@
             })
         });
 
+    /**Update number of results**/
+
+        $(function(){
+
+            $('#numres').click(function() {
+                let x = document.getElementById("numres").value
+                console.log("x value got: "+x);
+                var num = $('#numres').val();
+                console.log("num value got: "+num);
+                $.ajax({
+                    url: '/numres',
+                    data: $('form').serialize(),
+                    type: 'POST',
+                    success: function (response){
+                        console.log(response);
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                });
+            })
+        });
+
     /**Right Move AJAX Requests**/
 
     $(function(){
@@ -305,7 +328,7 @@
 
         switch(index) {
             case 0:
-                const ti_cont = document.createTextNode("Zoopla For Sale Results");
+                const ti_cont = document.createTextNode("Zoopla For Sale Results "+number);
                 title.appendChild(ti_cont);
                 url = 'https://www.zoopla.co.uk/for-sale/details/';
                 break;
@@ -316,12 +339,12 @@
                 url = 'https://www.rightmove.co.uk/properties/';
                 break;
             case 2:
-                const ontm_txt = document.createTextNode("{{ session['postcode'] }} Sales Results from on The Market");
+                const ontm_txt = document.createTextNode("{{ session['postcode'] }} Sales Results from on The Market "+number);
                 title.appendChild(ontm_txt);
                 url = 'https://www.onthemarket.com'
                 break;
             case 3:
-                const rmov_lets = document.createTextNode("{{ session['postcode'] }} Lettings on Rightmove");
+                const rmov_lets = document.createTextNode("{{ session['postcode'] }} Lettings on Rightmove "+number);
                 title.appendChild(rmov_lets);
                 url = 'https://www.rightmove.co.uk/properties/'
                 endurl = '#/?channel=RES_LET';
@@ -339,9 +362,6 @@
             }
 
         section.appendChild(title);
-
-        const count = document.createTextNode("Number of properties: "+number);
-        title.appendChild(count);
 
         for (prop of json_data) {
 
@@ -401,24 +421,6 @@
             rowdiv.appendChild(coldiv);
 
         }
-
-        {##}
-        {#const nav = document.createElement("nav");#}
-        {#const ul = document.createElement("ul");#}
-        {#ul.setAttribute('class', 'pagination');#}
-        {#nav.appendChild(ul);#}
-        {##}
-        {#for (var i=0; i<5; i++){#}
-        {#    const li = document.createElement("li");#}
-        {#    li.setAttribute('class', 'page-item');#}
-        {#    const anc = document.createElement("a");#}
-        {#    anc.setAttribute('class', 'page-link');#}
-        {#    anc.setAttribute('value', i);#}
-        {#    anc.setAttribute('id', id)#}
-        {#    anc.innerHTML = i;#}
-        {#    li.appendChild(anc);#}
-        {#    ul.appendChild(li);#}
-
 
         section.appendChild(nav);
     }
@@ -521,7 +523,7 @@
 <div class="container" style="padding-top: 100px;">
 <header class="hero-search-filter">
   <div class="hero-search-filter-content">
-    <h4>Property Search for: {{ session['postcode'] }}</h4>
+    <h4>{{ session['type'] }} results for: {{ session['postcode'] }}</h4>
     <form class="hero-search-filter-form" action="{{ url_for("update_pcode") }}" method="post">
     <div class="input-group input-group-rounded">
         <input class="input-group-field" style="border-radius: 10px;" type="text" name="pcodeupdate" value="{{ session['postcode'] }}">
@@ -548,8 +550,8 @@
             </form>
       </a>
       </li>
-      <li>
-          <a href="#"><i class="fa fa-glass" aria-hidden="true"></i>
+        <li>
+        <a href="#"><i class="fa fa-glass" aria-hidden="true"></i>
         <form action="{{ url_for("update_radius") }}" method="post" name="radius">
             <div class="form-group">
              <label for="radius" style="font-size: 10px;">Enter search radius:</label>
@@ -567,6 +569,23 @@
                     <option value="20">+20 miles</option>
                     <option value="30">+30 miles</option>
                     <option value="40">+40 miles</option>
+                </select>
+            </div>
+        </form>
+      </a>
+      </li>
+        <li>
+        <a href="#"><i class="fa fa-glass" aria-hidden="true"></i>
+        <form action="{{ url_for("update_results") }}" method="post" name="resultnum">
+            <div class="form-group">
+             <label for="updateresults" style="font-size: 10px;">Select number of pages:</label>
+                <select class="form-select form-select-sm" name="resultnum" style="width: 100px; font-size: 12px;" onchange="this.form.submit()">
+                    <option>{{ session['resnum'] }} Pages</option>
+                    <option value="1" id="numres">1</option>
+                    <option value="2" id="numres">2</option>
+                    <option value="3" id="numres">3</option>
+                    <option value="4" id="numres">4</option>
+                    <option value="5" id="numres">5</option>
                 </select>
             </div>
         </form>

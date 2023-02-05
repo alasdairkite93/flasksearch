@@ -121,52 +121,49 @@ class Rightmove:
 
 
         properties = []
+        print(type(self.page))
+        num = int(self.page)
+        for ind in range(num):
+            print("Right move ")
 
+            if len(self.pcode) > 4 and self.channel == 'SALE':
+                t_url = f'https://www.rightmove.co.uk/property-for-sale/find.html?locationIdentifier=POSTCODE%5E{code}&index={ind}&maxBedrooms={self.bedrooms}&minBedrooms={self.bedrooms}&maxPrice={self.maxprice}&minPrice={self.minprice}&radius={self.radius}&propertyTypes=&mustHave=&dontShow=&furnishTypes=&keywords='
+            if len(self.pcode) <= 4 and self.channel == 'SALE':
+                t_url = f'https://www.rightmove.co.uk/property-for-sale/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&areaSizeUnit=sqft&googleAnalyticsChannel=buying&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}'
+            if len(self.pcode) <= 4 and self.channel == 'RENT':
+                t_url = f'https://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}'
+            if len(self.pcode) > 4 and self.channel == 'RENT':
+                t_url = f'https://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&areaSizeUnit=sqft&googleAnalyticsChannel=renting&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}'
 
-        ind = self.page * 24
+            req_url = requests.get(t_url)
+            print("t_url: ", t_url)
+            soup = BeautifulSoup(req_url.text, 'html.parser')
+            results = soup.findAll('script')
 
-        if len(self.pcode) > 4 and self.channel == 'SALE':
-            t_url = f'https://www.rightmove.co.uk/property-for-sale/find.html?locationIdentifier=POSTCODE%5E{code}&maxBedrooms={self.bedrooms}&minBedrooms={self.bedrooms}&maxPrice={self.maxprice}&minPrice={self.minprice}&radius={self.radius}&propertyTypes=&mustHave=&dontShow=&furnishTypes=&keywords='
-        if len(self.pcode) <= 4 and self.channel == 'SALE':
-            t_url = f'https://www.rightmove.co.uk/property-for-sale/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&areaSizeUnit=sqft&googleAnalyticsChannel=buying&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}'
-        if len(self.pcode) <= 4 and self.channel == 'RENT':
-            t_url = f'https://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}'
-        if len(self.pcode) > 4 and self.channel == 'RENT':
-            t_url = f'https://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&areaSizeUnit=sqft&googleAnalyticsChannel=renting&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}'
+            json_r = ''
 
-        req_url = requests.get(t_url)
-        print("t_url: ", t_url)
-        soup = BeautifulSoup(req_url.text, 'html.parser')
+            for r in results:
+                l_r = list(utils.find_json_objects(r.text))
+                for res in l_r:
+                    if len(res) > 0:
+                        json_r = res['properties']
 
-        results = soup.findAll('script')
+            try:
 
-        json_r = ''
+                url = 'https://www.rightmove.co.uk/properties/'
+                for props in json_r:
+                    li = []
+                    li.append(props['displayAddress'])
+                    li.append(props['customer']['branchDisplayName'])
+                    li.append(props['bedrooms'])
+                    li.append(props['price']['displayPrices'][0]['displayPrice'])
+                    li.append(url + str(props['id']))
+                    li.append(props['propertyImages']['images'][0]['srcUrl'])
+                    properties.append(li)
 
-        for r in results:
-            l_r = list(utils.find_json_objects(r.text))
-            for res in l_r:
-                if len(res) > 0:
-                    json_r = res['properties']
-
-        try:
-
-            url = 'https://www.rightmove.co.uk/properties/'
-            for props in json_r:
-                li = []
-                li.append(props['displayAddress'])
-                li.append(props['customer']['branchDisplayName'])
-                li.append(props['bedrooms'])
-                li.append(props['price']['displayPrices'][0]['displayPrice'])
-                li.append(url + str(props['id']))
-                li.append(props['propertyImages']['images'][0]['srcUrl'])
-                properties.append(li)
-
-                prop_len = len(properties)
-                print("prop_len: ", prop_len)
-
-        except IndexError:
-            pass
-
+            except IndexError:
+                pass
+        print(properties)
         return properties
 
     def requestSold(self):
@@ -207,18 +204,21 @@ class Rightmove:
 
 class OnTheMarket:
 
-    def __init__(self, query, channel, radius, bedrooms, minprice, maxprice):
+    def __init__(self, query, channel, radius, bedrooms, minprice, maxprice, resnum):
         self.pcode = query
         self.channel = channel
         self.radius = radius
         self.bedrooms = bedrooms
         self.minprice = minprice
         self.maxprice = maxprice
+        self.resnum = resnum
 
     def request(self, otm_li=None):
 
         global value
         utils = Utility()
+
+        num = '0'
 
         baseurl = 'https://www.onthemarket.com/'
         pcode = self.pcode.split(" ")
@@ -228,37 +228,42 @@ class OnTheMarket:
             p_tot = p1+"-"+p2
         else:
             p_tot = p1
-        url_end = f'/?min-bedrooms={self.bedrooms}&max-bedrooms={self.bedrooms}&max-price={self.maxprice}&min-price={self.minprice}&radius={self.radius}&view=grid'
-        search_url = baseurl + self.channel + "/property/" + p_tot+url_end
-        print(search_url)
-        scraper = cloudscraper.create_scraper()
-        req = scraper.get(search_url)
 
-        soup = BeautifulSoup(req.text, 'html.parser')
-        results = soup.findAll('script', {'type': 'text/javascript'})
         otm_li = []
-        for r in results:
-            res_text = r.text
-            try:
-                found = list(utils.find_json_objects(res_text))
+
+        num = int(self.resnum)
+        for i in range(num):
+            print('i in num: ', i)
+            url_end = f'/?min-bedrooms={self.bedrooms}&max-bedrooms={self.bedrooms}&max-price={self.maxprice}&min-price={self.minprice}&page={i}&radius={self.radius}&view=grid'
+            search_url = baseurl + self.channel + "/property/" + p_tot+url_end
+            print(search_url)
+            scraper = cloudscraper.create_scraper()
+            req = scraper.get(search_url)
+
+            soup = BeautifulSoup(req.text, 'html.parser')
+            results = soup.findAll('script', {'type': 'text/javascript'})
+            for r in results:
+                res_text = r.text
                 try:
-                    for value in found:
-                        if len(value) > 20:
+                    found = list(utils.find_json_objects(res_text))
+                    try:
+                        for value in found:
+                            if len(value) > 20:
 
-                            for prop in value['properties']:
-                                li = []
-                                li.append(prop['display_address'])
-                                li.append(prop['agent']['name'])
-                                li.append(prop['bedrooms-text'])
-                                li.append(prop['price'])
-                                li.append(baseurl + prop['property-link'])
-                                li.append(prop['images'][0]['default'])
-                                otm_li.append(li)
+                                for prop in value['properties']:
+                                    li = []
+                                    li.append(prop['display_address'])
+                                    li.append(prop['agent']['name'])
+                                    li.append(prop['bedrooms-text'])
+                                    li.append(prop['price'])
+                                    li.append(baseurl + prop['property-link'])
+                                    li.append(prop['images'][0]['default'])
+                                    otm_li.append(li)
 
-                except IndexError:
+                    except IndexError:
+                        pass
+                except TypeError:
                     pass
-            except TypeError:
-                pass
 
         return otm_li
 
@@ -381,115 +386,6 @@ class LandRegistry:
 
         return regs
 
-    #Both methods below are for use with SPARQL
-    # def getData(self):
-    #
-    #
-    #     print("GET DATA")
-    #
-    #
-    #
-    #     # query built from https://landregistry.data.gov.uk/app/qonsole#
-    #
-    #     sparql = SPARQLWrapper("http://landregistry.data.gov.uk/landregistry/query", custom_cert_filename=certifi.where())
-    #     sparql.setReturnFormat(JSON)
-    #
-    #     print("AFTER URL")
-    #
-    #     string = Template("""
-    #         prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-    #         prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    #         prefix owl: <http://www.w3.org/2002/07/owl#>
-    #         prefix xsd: <http://www.w3.org/2001/XMLSchema#>
-    #         prefix sr: <http://data.ordnancesurvey.co.uk/ontology/spatialrelations/>
-    #         prefix ukhpi: <http://landregistry.data.gov.uk/def/ukhpi/>
-    #         prefix lrppi: <http://landregistry.data.gov.uk/def/ppi/>
-    #         prefix skos: <http://www.w3.org/2004/02/skos/core#>
-    #         prefix lrcommon: <http://landregistry.data.gov.uk/def/common/>
-    #
-    #         SELECT ?paon ?saon ?street ?town ?county ?postcode ?amount ?date ?category
-    #         WHERE
-    #         {
-    #           VALUES ?postcode {"$p1 $p2"^^xsd:string}
-    #
-    #           ?addr lrcommon:postcode ?postcode.
-    #
-    #           ?transx lrppi:propertyAddress ?addr ;
-    #                   lrppi:pricePaid ?amount ;
-    #                   lrppi:transactionDate ?date ;
-    #                   lrppi:transactionCategory/skos:prefLabel ?category.
-    #
-    #           OPTIONAL {?addr lrcommon:county ?county}
-    #           OPTIONAL {?addr lrcommon:paon ?paon}
-    #           OPTIONAL {?addr lrcommon:saon ?saon}
-    #           OPTIONAL {?addr lrcommon:street ?street}
-    #           OPTIONAL {?addr lrcommon:town ?town}
-    #         }
-    #         ORDER BY ?amount
-    #             """)
-    #
-    #     sparql.setQuery(string.substitute(p1='CT6', p2='5HZ'))
-    #     li = []
-    #     try:
-    #         ret = sparql.queryAndConvert()
-    #
-    #         for r in ret["results"]["bindings"]:
-    #             li.append(r)
-    #             print(r)
-    #         return li
-    #     except Exception as e:
-    #         print("ERROR")
-    #         print(e)
-
-    # def data2(self):
-    #
-    #
-    #     # query built from https://landregistry.data.gov.uk/app/qonsole#
-    #
-    #     sparql = SPARQLWrapper("https://landregistry.data.gov.uk/landregistry/query")
-    #     sparql.setReturnFormat(JSON)
-    #
-    #     string = Template("""
-    #         prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-    #         prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    #         prefix owl: <http://www.w3.org/2002/07/owl#>
-    #         prefix xsd: <http://www.w3.org/2001/XMLSchema#>
-    #         prefix sr: <http://data.ordnancesurvey.co.uk/ontology/spatialrelations/>
-    #         prefix ukhpi: <http://landregistry.data.gov.uk/def/ukhpi/>
-    #         prefix lrppi: <http://landregistry.data.gov.uk/def/ppi/>
-    #         prefix skos: <http://www.w3.org/2004/02/skos/core#>
-    #         prefix lrcommon: <http://landregistry.data.gov.uk/def/common/>
-    #
-    #         SELECT ?paon ?saon ?street ?town ?county ?postcode ?amount ?date ?category
-    #         WHERE
-    #         {
-    #           VALUES ?postcode {"$p1 $p2"^^xsd:string}
-    #
-    #           ?addr lrcommon:postcode ?postcode.
-    #
-    #           ?transx lrppi:propertyAddress ?addr ;
-    #                   lrppi:pricePaid ?amount ;
-    #                   lrppi:transactionDate ?date ;
-    #                   lrppi:transactionCategory/skos:prefLabel ?category.
-    #
-    #           OPTIONAL {?addr lrcommon:county ?county}
-    #           OPTIONAL {?addr lrcommon:paon ?paon}
-    #           OPTIONAL {?addr lrcommon:saon ?saon}
-    #           OPTIONAL {?addr lrcommon:street ?street}
-    #           OPTIONAL {?addr lrcommon:town ?town}
-    #         }
-    #         ORDER BY ?amount
-    #             """)
-    #
-    #     sparql.setQuery(string.substitute(p1='CT6', p2='5HZ'))
-    #
-    #     try:
-    #         ret = sparql.queryAndConvert()
-    #
-    #         for r in ret["results"]["bindings"]:
-    #             print(r)
-    #     except Exception as e:
-    #         print(e)
 
 class Planning:
 
