@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="refresh"/>
     <title>Property Search: Sales</title>
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='foundation.css') }}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -20,33 +21,34 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type=text/javascript>
 
+    $(document).ajaxSend(function(){
+        loading();
+    });
+
+
+   function loading(){
+
+       const section = document.getElementById("forsale");
+       const p = document.createElement('p');
+       const textcont = document.createTextNode("Loading content");
+       p.appendChild(textcont);
+       section.appendChild(p);
+
+   }
+
     /**Land Registry**/
 
     $(function(){
             $('a#soldpricejson').click(function(){
                 $.get("/landregistry", function (data){
                     soldLR(data, 0);
-                });
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                alert(errorThrown+" Try using correct format of postcode");
+            })
             });
         });
 
-    /**Zoopla Requests**/
-
-    $(function(){
-            $('a#zooplasale').click(function() {
-                $.get("/zooplasale", function (data){
-                    forSale(data, 0);
-                })
-            })
-        });
-
-    $(function(){
-            $('a#zooplalets').click(function() {
-                $.get("/zooplalet", function (data){
-                    forSale(data, 5);
-                })
-            })
-        });
 
     /**Update number of results**/
 
@@ -54,9 +56,7 @@
 
             $('#numres').click(function() {
                 let x = document.getElementById("numres").value
-                console.log("x value got: "+x);
                 var num = $('#numres').val();
-                console.log("num value got: "+num);
                 $.ajax({
                     url: '/numres',
                     data: $('form').serialize(),
@@ -71,7 +71,20 @@
             })
         });
 
+    /**Gumtree Request**/
+
+    $(function() {
+        $('a#gumtree').click(function(){
+
+            $.get("/gumtree", function(data){
+                gumtree(data);
+            })
+        })
+    });
+
+
     /**Right Move AJAX Requests**/
+
 
     $(function(){
             $('a#rmovesale').click(function() {
@@ -80,6 +93,7 @@
                 })
             })
         });
+
 
     $(function(){
             $('a#rmovelets').click(function() {
@@ -114,6 +128,9 @@
                 $.get("/rmovesold", function (data){
                     sold(data);
                 })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                alert(errorThrown+" Try using correct format of postcode");
+            })
             })
         });
 
@@ -425,6 +442,62 @@
         section.appendChild(nav);
     }
 
+    function gumtree(data) {
+
+        var index = parseInt(ind);
+        const section = document.getElementById('forsale');
+        section.innerHTML = "";
+
+        for (prop of data) {
+
+            const newDiv = document.createElement("div");
+            newDiv.setAttribute("class", "card mb-6");
+            newDiv.setAttribute("style", "max-width: 840px;");
+            section.appendChild(newDiv);
+
+            const rowdiv2 = document.createElement("div");
+            rowdiv2.setAttribute("class", "row no-gutters");
+            newDiv.appendChild(rowdiv2);
+
+            const rowdiv = document.createElement("div");
+            rowdiv.setAttribute("class", "row no-gutters");
+            newDiv.appendChild(rowdiv);
+
+            const divcolmd8 = document.createElement("div");
+            divcolmd8.setAttribute("class", "col-md-8");
+            rowdiv.appendChild(divcolmd8);
+            const cardbody = document.createElement("div");
+            cardbody.setAttribute("class", "card=body");
+            divcolmd8.appendChild(cardbody);
+
+            const anchor = document.createElement("a");
+            url = prop[2];
+            anchor.setAttribute("href", url);
+
+            const dispaddres = document.createElement("h5");
+            const add_cont = document.createTextNode(prop[0]);
+            dispaddres.appendChild(add_cont);
+            anchor.appendChild(dispaddres);
+            cardbody.appendChild(anchor);
+
+            const address = document.createElement("p");
+            const cont_add = document.createTextNode(prop[1]);
+            address.appendChild(cont_add);
+            cardbody.appendChild(address);
+
+            const price = document.createElement("p");
+            const price_cont = document.createTextNode(prop[2]);
+            price.appendChild(price_cont);
+            cardbody.appendChild(price);
+
+            const decription = document.createElement("p");
+            const desc_cont = document.createTextNode(prop[3]);
+            decription.appendChild(desc_cont);
+            cardbody.appendChild(description);
+        }
+
+        section.appendChild(cardbody);
+    }
 
     function sold(json_data){
 
@@ -482,6 +555,8 @@
     </script>
     <style>
 
+        {#search features#}
+
     ::placeholder {
         color: black;
     }
@@ -511,87 +586,528 @@
       padding: 9px 19px;
     }
 
+    .overlay{
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    background: url("{{ url_for('static', filename='loading.gif') }}") center no-repeat;
+    }
+    /* Turn off scrollbar when body element has the loading class */
+    body.loading{
+        overflow: hidden;
+    }
+    /* Make spinner image visible when body element has the loading class */
+    body.loading .overlay{
+        display: block;
+    }
+
     </style>
 </head>
 <body>
 <div class="content">
-<ul class="nav nav-pills navbar-left">
-  <li class="nav-item">
-    <a class="nav-link active" id=back href="/">Back</a>
-  </li>
-</ul>
+    <ul class="nav nav-pills navbar-left">
+      <li class="nav-item">
+        <a class="nav-link active" id=back href="/">Back</a>
+      </li>
+    </ul>
+</div>
 <div class="container" style="padding-top: 100px;">
-<header class="hero-search-filter">
-  <div class="hero-search-filter-content">
-    <h4>{{ session['type'] }} results for: {{ session['postcode'] }}</h4>
-    <form class="hero-search-filter-form" action="{{ url_for("update_pcode") }}" method="post">
+    <header class="hero-search-filter">
+        <div class="hero-search-filter-content">
+            <h4>{{ session['type'] }} results for: {{ session['postcode'] }}</h4>
+            <form class="hero-search-filter-form" action="{{ url_for("update_pcode") }}" method="post">
     <div class="input-group input-group-rounded">
         <input class="input-group-field" style="border-radius: 10px;" type="text" name="pcodeupdate" value="{{ session['postcode'] }}">
         <div class="input-group-button">
             <input type="submit" class="button secondary">
         </div>
     </div>
+            </form></form>
+            {#  This area will be used to add the jinja templates for each session type#}
+            <ul class="hero-search-filter-menu menu align-center">
+                <li><li><a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i>
+        <form action="{{ url_for("update_rooms") }}" method="post" name="minrooms">
+            <div class="form-group">
+                <label for="minrooms" style="font-size: 10px;">Number of Beds</label>
+                <select id="minrooms" class="form-select form-select-sm" name="minrooms" style="width: 100px; font-size: 12px;" onchange="this.form.submit()">
+                    <option value="{{ session['brooms'] }}">{{ session['brooms'] }}</option>
+                    <option value="0">Studio</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
         </form>
+    </a>
+    </li>
+    <a href="#"><i class="fa fa-glass" aria-hidden="true"></i>
+    <form action="{{ url_for("update_radius") }}" method="post" name="radius">
+        <div class="form-group">
+         <label for="radius" style="font-size: 10px;">Enter search radius:</label>
+            <select id="radius" class="form-select form-select-sm" style="width: 100px; font-size: 12px;" onchange="this.form.submit()" name="radius">
+                <option>{{ session['radius'] }} miles</option>
+                <option value="0">+0 miles</option>
+                <option value="0.25">+1/4 miles</option>
+                <option value="0.5">+1/2 miles</option>
+                <option value="1">+1 miles</option>
+                <option value="2">+2 miles</option>
+                <option value="3">+3 miles</option>
+                <option value="5">+5 miles</option>
+                <option value="10">+10 miles</option>
+                <option value="15">+15 miles</option>
+                <option value="20">+20 miles</option>
+                <option value="30">+30 miles</option>
+                <option value="40">+40 miles</option>
+            </select>
+        </div>
+    </form>
+    </a>
+    </li>
+    <li>
+    <a href="#"><i class="fa fa-glass" aria-hidden="true"></i>
+    <form action="{{ url_for("update_results") }}" method="post" name="resultnum">
+        <div class="form-group">
+         <label for="updateresults" style="font-size: 10px;">Select number of pages:</label>
+            <select class="form-select form-select-sm" name="resultnum" style="width: 100px; font-size: 12px;" onchange="this.form.submit()">
+                <option>{{ session['resnum'] }} Pages</option>
+                <option value="1" id="numres">1</option>
+                <option value="2" id="numres">2</option>
+                <option value="3" id="numres">3</option>
+                <option value="4" id="numres">4</option>
+                <option value="5" id="numres">5</option>
+            </select>
+        </div>
+    </form>
+    </a>
+    </li>
+{% if session['type'] == 'sales' %}
+    <li>
+    <a href="#"><i class="fa fa-wrench" aria-hidden="true"></i>
+    <form action="{{ url_for("update_min_price") }}" style="width: 100px; " id="minprice" method="post" name="minprice">
+        <div class="form-group">
+          <label for="minprice" style="font-size: 10px;">Select minimum price</label>
+            <select id="minpriceoptions" name="minprice" style="font-size: 12px;" onchange="this.form.submit()">
+                <option>£{{ session['minprice'] }}</option>
+                 <option value="50000"
+                >£50,000</option>
+                    <option value="60000"
+                >£60,000</option>
+                    <option value="70000"
+                >£70,000</option>
+                    <option value="80000"
+                >£80,000</option>
+                    <option value="90000"
+                >£90,000</option>
+                    <option value="100000"
+                >£100,000</option>
+                    <option value="110000"
+                >£110,000</option>
+                    <option value="120000"
+                >£120,000</option>
+                    <option value="125000"
+                >£125,000</option>
+                    <option value="130000"
+                >£130,000</option>
+                    <option value="140000"
+                >£140,000</option>
+                    <option value="150000"
+                >£150,000</option>
+                    <option value="160000"
+                >£160,000</option>
+                    <option value="170000"
+                >£170,000</option>
+                    <option value="175000"
+                >£175,000</option>
+                    <option value="180000"
+                >£180,000</option>
+                    <option value="190000"
+                >£190,000</option>
+                    <option value="200000"
+                >£200,000</option>
+                    <option value="210000"
+                >£210,000</option>
+                    <option value="220000"
+                >£220,000</option>
+                    <option value="230000"
+                >£230,000</option>
+                    <option value="240000"
+                >£240,000</option>
+                    <option value="250000"
+                >£250,000</option>
+                    <option value="260000"
+                >£260,000</option>
+                    <option value="270000"
+                >£270,000</option>
+                    <option value="280000"
+                >£280,000</option>
+                    <option value="290000"
+                >£290,000</option>
+                    <option value="300000"
+                >£300,000</option>
+                    <option value="325000"
+                >£325,000</option>
+                    <option value="350000"
+                >£350,000</option>
+                    <option value="375000"
+                >£375,000</option>
+                    <option value="400000"
+                >£400,000</option>
+                    <option value="425000"
+                >£425,000</option>
+                    <option value="450000"
+                >£450,000</option>
+                    <option value="475000"
+                >£475,000</option>
+                    <option value="500000"
+                >£500,000</option>
+                    <option value="550000"
+                >£550,000</option>
+                    <option value="600000"
+                >£600,000</option>
+                    <option value="650000"
+                >£650,000</option>
+                    <option value="700000"
+                >£700,000</option>
+                    <option value="800000"
+                >£800,000</option>
+                    <option value="900000"
+                >£900,000</option>
+                    <option value="1000000"
+                >£1,000,000</option>
+                    <option value="1250000"
+                >£1,250,000</option>
+                    <option value="1500000"
+                >£1,500,000</option>
+                    <option value="1750000"
+                >£1,750,000</option>
+                    <option value="2000000"
+                >£2,000,000</option>
+                    <option value="2500000"
+                >£2,500,000</option>
+                    <option value="3000000"
+                >£3,000,000</option>
+                    <option value="4000000"
+                >£4,000,000</option>
+                    <option value="5000000"
+                >£5,000,000</option>
+                    <option value="7500000"
+                >£7,500,000</option>
+                    <option value="10000000"
+                >£10,000,000</option>
+                    <option value="15000000"
+                >£15,000,000</option>
+                    <option value="20000000"
+                >£20,000,000</option>
+            </select>
+        </div>
+    </form>
+    </a>
+    </li>
+    <li>
+      <a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i>
+        <form action="{{ url_for("update_max_price") }}" id="maxprice" style="width: 100px; " method="post" name="maxprice">
+            <div class="form-group">
+                <label for="maxprice" style="font-size: 10px;">Select max price</label>
+                <select id="maxprice" name="maxprice" style="font-size: 12px;" onchange="this.form.submit()">
+            <option>£{{ session['maxprice'] }}</option>
+             <option value="50000"
+            >£50,000</option>
+                <option value="60000"
+            >£60,000</option>
+                <option value="70000"
+            >£70,000</option>
+                <option value="80000"
+            >£80,000</option>
+                <option value="90000"
+            >£90,000</option>
+                <option value="100000"
+            >£100,000</option>
+                <option value="110000"
+            >£110,000</option>
+                <option value="120000"
+            >£120,000</option>
+                <option value="125000"
+            >£125,000</option>
+                <option value="130000"
+            >£130,000</option>
+                <option value="140000"
+            >£140,000</option>
+                <option value="150000"
+            >£150,000</option>
+                <option value="160000"
+            >£160,000</option>
+                <option value="170000"
+            >£170,000</option>
+                <option value="175000"
+            >£175,000</option>
+                <option value="180000"
+            >£180,000</option>
+                <option value="190000"
+            >£190,000</option>
+                <option value="200000"
+            >£200,000</option>
+                <option value="210000"
+            >£210,000</option>
+                <option value="220000"
+            >£220,000</option>
+                <option value="230000"
+            >£230,000</option>
+                <option value="240000"
+            >£240,000</option>
+                <option value="250000"
+            >£250,000</option>
+                <option value="260000"
+            >£260,000</option>
+                <option value="270000"
+            >£270,000</option>
+                <option value="280000"
+            >£280,000</option>
+                <option value="290000"
+            >£290,000</option>
+                <option value="300000"
+            >£300,000</option>
+                <option value="325000"
+            >£325,000</option>
+                <option value="350000"
+            >£350,000</option>
+                <option value="375000"
+            >£375,000</option>
+                <option value="400000"
+            >£400,000</option>
+                <option value="425000"
+            >£425,000</option>
+                <option value="450000"
+            >£450,000</option>
+                <option value="475000"
+            >£475,000</option>
+                <option value="500000"
+            >£500,000</option>
+                <option value="550000"
+            >£550,000</option>
+                <option value="600000"
+            >£600,000</option>
+                <option value="650000"
+            >£650,000</option>
+                <option value="700000"
+            >£700,000</option>
+                <option value="800000"
+            >£800,000</option>
+                <option value="900000"
+            >£900,000</option>
+                <option value="1000000"
+            >£1,000,000</option>
+                <option value="1250000"
+            >£1,250,000</option>
+                <option value="1500000"
+            >£1,500,000</option>
+                <option value="1750000"
+            >£1,750,000</option>
+                <option value="2000000"
+            >£2,000,000</option>
+                <option value="2500000"
+            >£2,500,000</option>
+                <option value="3000000"
+            >£3,000,000</option>
+                <option value="4000000"
+            >£4,000,000</option>
+                <option value="5000000"
+            >£5,000,000</option>
+                <option value="7500000"
+            >£7,500,000</option>
+                <option value="10000000"
+            >£10,000,000</option>
+                <option value="15000000"
+            >£15,000,000</option>
+                <option value="20000000"
+            >£20,000,000</option>
+        </select>
+            </div>
+        </form>
+        </a>
+      </li>
+        </ul>
         <ul class="hero-search-filter-menu menu align-center">
-      <li><a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i>
-          <form action="{{ url_for("update_rooms") }}" method="post" name="minrooms">
-                <div class="form-group">
-                    <label for="minrooms" style="font-size: 10px;">Number of Beds</label>
-                    <select id="minrooms" class="form-select form-select-sm" name="minrooms" style="width: 100px; font-size: 12px;" onchange="this.form.submit()">
-                        <option value="{{ session['brooms'] }}">{{ session['brooms'] }}</option>
-                        <option value="0">Studio</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                </div>
+          <li>
+            <a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i>
+            <div class="dropdown show">
+                <a class="dropdown-toggle" data-toggle="dropdown">For Sale
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href=# id=rmovesale value=0>RightMove</a></li>
+                    <li><a href=# id=otmsale>OnTheMarket</a></li>
+                    <li><a href=# id=gumtree>Gumtree</a></li>
+                </ul>
+            </div>
+            </a>
+          </li>
+{% else %}
+    <li>
+           <a href="#"><i class="fa fa-wrench" aria-hidden="true"></i>
+            <form action="{{ url_for("update_min_price") }}" style="width: 100px; " id="minprice" method="post" name="minprice">
+            <div class="form-group">
+              <label for="minprice" style="font-size: 10px;">Select minimum price</label>
+                <select id="minpriceoptions" name="minprice" style="font-size: 12px;" onchange="this.form.submit()">
+                    <option value="100">{{ session['minprice'] }} PCM</option>
+                    <option value="150">150 PCM</option>
+                    <option value="200">200 PCM</option>
+                    <option value="250">250 PCM</option>
+                    <option value="300">300 PCM</option>
+                    <option value="350">350 PCM</option>
+                    <option value="400">400 PCM</option>
+                    <option value="450">450 PCM</option>
+                    <option value="500">500 PCM</option>
+                    <option value="600">600 PCM</option>
+                    <option value="700">700 PCM</option>
+                    <option value="800">800 PCM</option>
+                    <option value="900">900 PCM</option>
+                    <option value="1000">1,000 PCM</option>
+                    <option value="1100">1,100 PCM</option>
+                    <option value="1200">1,200 PCM</option>
+                    <option value="1250">1,250 PCM</option>
+                    <option value="1300">1,300 PCM</option>
+                    <option value="1400">1,400 PCM</option>
+                    <option value="1500">1,500 PCM</option>
+                    <option value="1750">1,750 PCM</option>
+                    <option value="2000">2,000 PCM</option>
+                    <option value="2250">2,250 PCM</option>
+                    <option value="2500">2,500 PCM</option>
+                    <option value="2750">2,750 PCM</option>
+                    <option value="3000">3,000 PCM</option>
+                    <option value="3500">3,500 PCM</option>
+                    <option value="4000">4,000 PCM</option>
+                    <option value="4500">4,500 PCM</option>
+                    <option value="5000">5,000 PCM</option>
+                    <option value="5500">5,500 PCM</option>
+                    <option value="6000">6,000 PCM</option>
+                    <option value="6500">6,500 PCM</option>
+                    <option value="7000">7,000 PCM</option>
+                    <option value="8000">8,000 PCM</option>
+                    <option value="9000">9,000 PCM</option>
+                    <option value="10000">10,000 PCM</option>
+                    <option value="12500">12,500 PCM</option>
+                    <option value="15000">15,000 PCM</option>
+                    <option value="17500">17,500 PCM</option>
+                    <option value="20000">20,000 PCM</option>
+                    <option value="25000">25,000 PCM</option>
+                    <option value="30000">30,000 PCM</option>
+                    <option value="35000">35,000 PCM</option>
+                    <option value="40000">40,000 PCM</option>
+                </select>
+            </div>
+        </form>
+      </a>
+      </li>
+  <li>
+         <a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i>
+            <form action="{{ url_for("update_max_price") }}" id="maxprice" style="width: 100px; " method="post" name="maxprice">
+            <div class="form-group">
+                <label for="maxprice" style="font-size: 10px;">Select max price</label>
+                <select id="maxprice" name="maxprice" style="font-size: 12px;" onchange="this.form.submit()">
+                   <option value="100">{{ session['maxprice'] }} PCM</option>
+                    <option value="150">150 PCM</option>
+                    <option value="200">200 PCM</option>
+                    <option value="250">250 PCM</option>
+                    <option value="300">300 PCM</option>
+                    <option value="350">350 PCM</option>
+                    <option value="400">400 PCM</option>
+                    <option value="450">450 PCM</option>
+                    <option value="500">500 PCM</option>
+                    <option value="600">600 PCM</option>
+                    <option value="700">700 PCM</option>
+                    <option value="800">800 PCM</option>
+                    <option value="900">900 PCM</option>
+                    <option value="1000">1,000 PCM</option>
+                    <option value="1100">1,100 PCM</option>
+                    <option value="1200">1,200 PCM</option>
+                    <option value="1250">1,250 PCM</option>
+                    <option value="1300">1,300 PCM</option>
+                    <option value="1400">1,400 PCM</option>
+                    <option value="1500">1,500 PCM</option>
+                    <option value="1750">1,750 PCM</option>
+                    <option value="2000">2,000 PCM</option>
+                    <option value="2250">2,250 PCM</option>
+                    <option value="2500">2,500 PCM</option>
+                    <option value="2750">2,750 PCM</option>
+                    <option value="3000">3,000 PCM</option>
+                    <option value="3500">3,500 PCM</option>
+                    <option value="4000">4,000 PCM</option>
+                    <option value="4500">4,500 PCM</option>
+                    <option value="5000">5,000 PCM</option>
+                    <option value="5500">5,500 PCM</option>
+                    <option value="6000">6,000 PCM</option>
+                    <option value="6500">6,500 PCM</option>
+                    <option value="7000">7,000 PCM</option>
+                    <option value="8000">8,000 PCM</option>
+                    <option value="9000">9,000 PCM</option>
+                    <option value="10000">10,000 PCM</option>
+                    <option value="12500">12,500 PCM</option>
+                    <option value="15000">15,000 PCM</option>
+                    <option value="17500">17,500 PCM</option>
+                    <option value="20000">20,000 PCM</option>
+                    <option value="25000">25,000 PCM</option>
+                    <option value="30000">30,000 PCM</option>
+                    <option value="35000">35,000 PCM</option>
+                    <option value="40000">40,000 PCM</option>
+            </select>
+        </div>
             </form>
-      </a>
+         </a>
       </li>
-        <li>
-        <a href="#"><i class="fa fa-glass" aria-hidden="true"></i>
-        <form action="{{ url_for("update_radius") }}" method="post" name="radius">
-            <div class="form-group">
-             <label for="radius" style="font-size: 10px;">Enter search radius:</label>
-                <select id="radius" class="form-select form-select-sm" style="width: 100px; font-size: 12px;" onchange="this.form.submit()" name="radius">
-                    <option>{{ session['radius'] }} miles</option>
-                    <option value="0">+0 miles</option>
-                    <option value="0.25">+1/4 miles</option>
-                    <option value="0.5">+1/2 miles</option>
-                    <option value="1">+1 miles</option>
-                    <option value="2">+2 miles</option>
-                    <option value="3">+3 miles</option>
-                    <option value="5">+5 miles</option>
-                    <option value="10">+10 miles</option>
-                    <option value="15">+15 miles</option>
-                    <option value="20">+20 miles</option>
-                    <option value="30">+30 miles</option>
-                    <option value="40">+40 miles</option>
-                </select>
+        </ul>
+            <ul class="hero-search-filter-menu menu align-center">
+          <li><a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i>
+           <div class="dropdown show">
+            <a class="dropdown-toggle" data-toggle="dropdown">To Rent
+            <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href=# id=rmovelets>RightMove</a></li>
+                    <li><a href=# id=otmsale>OnTheMarket</a></li>
+                    <li><a href=# id=gumtree>Gumtree</a></li>
+                </ul>
             </div>
-        </form>
-      </a>
-      </li>
-        <li>
-        <a href="#"><i class="fa fa-glass" aria-hidden="true"></i>
-        <form action="{{ url_for("update_results") }}" method="post" name="resultnum">
-            <div class="form-group">
-             <label for="updateresults" style="font-size: 10px;">Select number of pages:</label>
-                <select class="form-select form-select-sm" name="resultnum" style="width: 100px; font-size: 12px;" onchange="this.form.submit()">
-                    <option>{{ session['resnum'] }} Pages</option>
-                    <option value="1" id="numres">1</option>
-                    <option value="2" id="numres">2</option>
-                    <option value="3" id="numres">3</option>
-                    <option value="4" id="numres">4</option>
-                    <option value="5" id="numres">5</option>
-                </select>
+          </a></li>
+{% endif %}
+
+        <li><a href="#"><i class="fa fa-glass" aria-hidden="true"></i>
+            <div class="dropdown">
+                <a class="dropdown-toggle" id=planningdata data-toggle="dropdown">Land Planning</a>
             </div>
-        </form>
-      </a>
-      </li>
-    {% block content %} {% endblock %}
+          </a></li>
+          <li><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i>
+                <div class="dropdown">
+                    <a id=crysdata>Local Area Statistics</a>
+                </div>
+            </a>
+          </li>
+          <li>
+            <a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">Sold Properties
+                    <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href=# id=soldpricejson>Land Registry Sold</a></li>
+                        <li><a href=# id=rmovesold>RightMove Sold</a></li>
+                    </ul>
+                </div>
+                </a>
+              </li>
+            </ul>
+        </div>
+    </header>
 </div>
+<script>
+    $(document).foundation();
+</script>
+
+<div id="forsale" class="container" style="padding-top: 75px;"></div>
+
+
 </body>
+
 </html>

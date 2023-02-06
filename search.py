@@ -1,7 +1,4 @@
-import werkzeug
-from flask import Flask, session, request, render_template, json, jsonify
-from werkzeug.serving import make_ssl_devcert
-import json
+from flask import Flask, session, request, render_template, jsonify, redirect, url_for
 import sites
 
 
@@ -33,17 +30,28 @@ def zoopla_lets():
     zooplaresults = zoop.requests()
     return jsonify(zooplaresults)
 
-@app.route('/pageloadsales', methods=["GET"])
-def get_page():
-    rmove= sites.Rightmove(session['postcode'], "SALE", 0.5, 2, 90000, 350000)
-    rmove_results = rmove.requestScrape()
-    return jsonify(rmove_results)
-
-@app.route('/rightmovesale', methods=["GET"])
+@app.route('/rightmovesale/', methods=["GET"])
 def rmove_sales():
     rmove = sites.Rightmove(session['postcode'], "SALE", session['radius'], session['brooms'], session['minprice'], session['maxprice'], session['resnum'])
     rmove_results = rmove.requestScrape()
     return jsonify(rmove_results)
+
+
+@app.route('/allsaleresults', methods=["GET"])
+def all_results():
+    rmove = sites.Rightmove(session['postcode'], "SALE", session['radius'], session['brooms'], session['minprice'],
+                            session['maxprice'], session['resnum'])
+    rmove_results = rmove.requestScrape()
+    otmsale = sites.OnTheMarket(session['postcode'], "for-sale", session['radius'], session['brooms'],
+                                session['minprice'], session['maxprice'], session['resnum'])
+    otm_results = otmsale.request()
+    return jsonify(rmove_results+otm_results)
+
+@app.route('/gumtree', methods=["GET"])
+def gumtree_scrape():
+    gum = sites.Gumtree(session['postcode'])
+    gumresults = gum.request()
+    return jsonify(gumresults)
 
 @app.route('/rmoverent', methods=["GET"])
 def rmove_lets():
@@ -53,13 +61,12 @@ def rmove_lets():
 
 @app.route('/rmovesold', methods=["GET"])
 def rmov_sold():
-    rmove = sites.Rightmove(session['postcode'], None, None, None, None, None)
+    rmove = sites.Rightmove(session['postcode'], None, None, None, None, None, None)
     rmov_res = rmove.requestSold()
     return jsonify(rmov_res)
 
 @app.route('/otmsale', methods=["GET"])
 def otm_sales():
-    print("OTM SALES pages: ", session['resnum'])
     otmsale = sites.OnTheMarket(session['postcode'], "for-sale", session['radius'], session['brooms'], session['minprice'], session['maxprice'], session['resnum'])
     otm_results = otmsale.request()
     return jsonify(otm_results)
@@ -83,13 +90,9 @@ def update_pcode():
     if request.method == "POST":
         update = request.form.get("pcodeupdate")
         session['postcode'] = update
-        if session['type'] == 'sales':
-            return render_template('sales.html')
+        return render_template('base.html')
 
-        if session['type'] == 'lettings':
-            return render_template('lettings.html')
-
-    return render_template('sales.html')
+    return render_template('base.html')
 
 @app.route('/numres', methods=["GET", "POST"])
 def update_results():
@@ -97,13 +100,9 @@ def update_results():
     if request.method == "POST":
         update = request.form.get("resultnum")
         session['resnum'] = update
-        if session['type'] == 'sales':
-            return render_template('sales.html')
+        return render_template('base.html')
 
-        if session['type'] == 'lettings':
-            return render_template('lettings.html')
-
-    return render_template('sales.html')
+    return render_template('base.html')
 
 @app.route('/broomupdate', methods=["POST"])
 def update_rooms():
@@ -111,11 +110,8 @@ def update_rooms():
         brooms = request.form.get("minrooms")
         session['brooms'] = brooms
 
-        if session['type'] == 'sales':
-            return render_template('sales.html')
+        return render_template('base.html')
 
-        if session['type'] == 'lettings':
-            return render_template('lettings.html')
 
 @app.route('/radiusupdate', methods=["POST"])
 def update_radius():
@@ -123,11 +119,8 @@ def update_radius():
         radius = request.form.get("radius")
         session['radius'] = radius
 
-        if session['type'] == 'sales':
-            return render_template('sales.html')
+        return render_template('base.html')
 
-        if session['type'] == 'lettings':
-            return render_template('lettings.html')
 
 @app.route('/priceupdate', methods=["POST"])
 def update_min_price():
@@ -135,22 +128,17 @@ def update_min_price():
         minprice = request.form.get("minprice")
         session['minprice'] = minprice
 
-        if session['type'] == 'sales':
-            return render_template('sales.html')
+        return render_template('base.html')
 
-        if session['type'] == 'lettings':
-            return render_template('lettings.html')
+
 @app.route('/maxpriceupdate', methods=["POST"])
 def update_max_price():
     if request.method == "POST":
         maxprice = request.form.get("maxprice")
         session['maxprice'] = maxprice
 
-        if session['type'] == 'sales':
-            return render_template('sales.html')
+        return render_template('base.html')
 
-        if session['type'] == 'lettings':
-            return render_template('lettings.html')
 
 @app.route('/returnsales', methods=["GET", "POST"])
 def salesform():
@@ -174,24 +162,27 @@ def goBack():
     session.clear()
     return render_template('form.html')
 
+
 @app.route('/', methods =["GET", "POST"])
 def search():
     if request.method == "POST":
         search_query = request.form.get("pcode")
         session['postcode'] = search_query
-        session['minprice'] = 'Min Price'
-        session['maxprice'] = 'Max Price'
+        session['radius'] = 0.5
+        session['brooms'] = 2
+        session['resnum'] = 1
 
         salestype = request.form.get("sales")
-        if salestype == 'sales':
+        if salestype:
+            session['minprice'] = 50000
+            session['maxprice'] = 250000
             session['type'] = salestype
-            return render_template('sales.html')
-
-        lets = request.form.get("lettings")
-        if lets == 'lettings':
-            session['type'] = lets
-
-            return render_template('lettings.html')
+        lettings = request.form.get("lettings")
+        if lettings:
+            session['type'] = lettings
+            session['minprice'] = 450
+            session['maxprice'] = 2000
+        return render_template('base.html')
 
     return render_template('form.html')
 

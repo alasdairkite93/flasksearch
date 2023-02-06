@@ -1,7 +1,7 @@
 import json
 import requests
 import re
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, SoupStrainer
 import urllib.request
 import cloudscraper
 
@@ -201,7 +201,6 @@ class Rightmove:
                     print("\n")
         return res
 
-
 class OnTheMarket:
 
     def __init__(self, query, channel, radius, bedrooms, minprice, maxprice, resnum):
@@ -386,7 +385,6 @@ class LandRegistry:
 
         return regs
 
-
 class Planning:
 
     def __init__(self, pcode):
@@ -423,3 +421,65 @@ class Planning:
             applications.append(li)
 
         return applications
+
+class Gumtree:
+
+    def __init__(self, query):
+        self.query = query
+
+    def request(self):
+
+        proxies = {
+            "http": "185.157.241.63",
+            "http": "168.227.158.85",
+        }
+
+        header = {
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36'}
+
+        con = requests.get(f'https://www.gumtree.com/search?search_category=all&q=SE4', headers=header, proxies=proxies)
+        s_l = []
+
+        h2strain = SoupStrainer('h2', {'class': 'listing-title'})
+        s_l.append(h2strain)
+
+        pstrain = SoupStrainer('p',
+                               {'class': 'listing-description txt-sub txt-tertiary truncate-paragraph hide-fully-to-m'})
+
+        spanstrain = SoupStrainer('span', {'class': 'truncate-line'})
+        s_l.append(spanstrain)
+
+        ul = SoupStrainer('ul', {'class': 'listing-attributes inline-list hide-fully-to-m'})
+        props = []
+
+        for s in s_l:
+            list = []
+            s2soup = BeautifulSoup(con.text, "html.parser", parse_only=s)
+            texts = s2soup.text
+            li = texts.split('\n')
+            for l in li:
+                if l != '':
+                    list.append(l)
+            props.append(list)
+
+        titles = props[0]
+        n_list = []
+
+        strongst = SoupStrainer('strong', {'class': 'h3-responsive'})
+        alink = SoupStrainer('a', {'class': 'listing-link '})
+
+        price = BeautifulSoup(con.text, 'html.parser', parse_only=strongst)
+        res = price.findAll('strong')
+        pricelist = []
+        for r in res:
+            pricelist.append(r.text)
+
+        links = []
+        achs = BeautifulSoup(con.text, 'html.parser', parse_only=alink)
+        for link in achs.find_all('a'):
+            links.append(link.get('href'))
+
+        for i in range(len(titles)):
+            n_list.append([titles[i], links[i], pricelist[i]])
+
+        return n_list
