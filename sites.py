@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup, SoupStrainer
 import urllib.request
 import cloudscraper
 from scrapingbee import ScrapingBeeClient
+from requests_ip_rotator import ApiGateway
 
 
 class Utility:
@@ -445,14 +446,23 @@ class Gumtree:
         if self.type == "lettings":
             url = f'https://www.gumtree.com/search?search_category=property-to-rent&search_location={self.pcode}&property_number_beds={self.beds}&q=&distance={self.radius}&min_price={self.minprice}&max_price={self.maxprice}'
 
-        con = requests.get(url, headers=header)
-
-        client = ScrapingBeeClient(
-            api_key='O88WYU1DDXB6J32C783X8P2VVJB8V0O526W57V3KOHQYN8OXMJMER6V87HMM1O8P1OUF24W1SUDVDVWC')
-
-        response = client.get(
+        gateway_2 = ApiGateway(
             url,
-        )
+            access_key_id='AKIA2SXC5LI54GBK6IXG', access_key_secret='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')
+        gateway_2.start()
+
+        session = requests.Session()
+        session.mount(
+            url,
+            gateway_2)
+
+        header = {
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36'
+        }
+
+        response = session.get(
+            url,
+            headers=header)
 
         listingcont = SoupStrainer('article', {'class': 'listing-maxi'})
         count = BeautifulSoup(response.text, "html.parser", parse_only=listingcont)
@@ -487,5 +497,4 @@ class Gumtree:
 
             props.append(li)
 
-        print(props)
         return props
