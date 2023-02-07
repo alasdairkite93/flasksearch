@@ -192,7 +192,7 @@ def goBack():
 def search():
     if request.method == "POST":
         search_query = request.form.get("pcode")
-        session['postcode'] = search_query
+        session['postcode'] = search_query.upper()
         session['radius'] = 0
         session['brooms'] = 2
         session['resnum'] = 1
