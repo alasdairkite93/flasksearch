@@ -96,7 +96,7 @@ def update_pcode():
 
     if request.method == "POST":
         update = request.form.get("pcodeupdate")
-        session['postcode'] = update
+        session['postcode'] = update.upper()
         return render_template('base.html')
 
     return render_template('base.html')
@@ -160,7 +160,7 @@ def salesform():
 def letsform():
     if request.method == "POST":
         search_query = request.form.get("pcode")
-        session['postcode'] = search_query
+        session['postcode'] = search_query.upper()
         return render_template('lettings.html')
     return render_template('form.html')
 
