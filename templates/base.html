@@ -53,6 +53,26 @@
     /**Update number of results**/
 
         $(function(){
+            $('a#formupdate').click(function(){
+                console.log("formupdate function");
+                let x = document.getElementById("formupdate").value
+                $.ajax({
+                url: '/pagination',
+                data: x,
+                type: "POST",
+                success: function (response)
+                    {
+                        console.log(response);
+                    },
+                error: function(error)
+                    {
+                        console.log(error);
+                    }
+                });
+            })
+        });
+
+        $(function(){
 
             $('#numres').click(function() {
                 let x = document.getElementById("numres").value
@@ -135,6 +155,12 @@
         });
 
     /**Area Statistics**/
+
+    $(function() {
+        $('a#paginate').click(function(){
+            paginate(5, 't');
+        })
+    })
 
     $(function() {
         $('a#crysdata').click(function() {
@@ -438,15 +464,18 @@
             rowdiv.appendChild(coldiv);
 
         }
+        section.appendChild(paginate(4, id));
 
-        section.appendChild(nav);
     }
 
     function gumtree(data) {
 
-        var index = parseInt(ind);
+        console.log("GUMTREE")
+
         const section = document.getElementById('forsale');
         section.innerHTML = "";
+
+        baseurl = 'https://www.gumtree.com'
 
         for (prop of data) {
 
@@ -471,32 +500,36 @@
             divcolmd8.appendChild(cardbody);
 
             const anchor = document.createElement("a");
-            url = prop[2];
+            url = baseurl+prop[0];
             anchor.setAttribute("href", url);
 
             const dispaddres = document.createElement("h5");
-            const add_cont = document.createTextNode(prop[0]);
+            const add_cont = document.createTextNode(prop[1]);
             dispaddres.appendChild(add_cont);
             anchor.appendChild(dispaddres);
             cardbody.appendChild(anchor);
-
-            const address = document.createElement("p");
-            const cont_add = document.createTextNode(prop[1]);
-            address.appendChild(cont_add);
-            cardbody.appendChild(address);
 
             const price = document.createElement("p");
             const price_cont = document.createTextNode(prop[2]);
             price.appendChild(price_cont);
             cardbody.appendChild(price);
 
-            const decription = document.createElement("p");
+            const description = document.createElement("p");
             const desc_cont = document.createTextNode(prop[3]);
-            decription.appendChild(desc_cont);
+            description.appendChild(desc_cont);
             cardbody.appendChild(description);
+
+            const coldiv = document.createElement("div");
+            coldiv.setAttribute("class", "col-md-4");
+            const img_anch = document.createElement("a");
+            img_anch.setAttribute("href", baseurl+prop[0]);
+            const img = document.createElement("img");
+            img.src = prop[4];
+            img_anch.appendChild(img);
+            coldiv.appendChild(img_anch);
+            rowdiv.appendChild(coldiv);
         }
 
-        section.appendChild(cardbody);
     }
 
     function sold(json_data){
@@ -550,6 +583,40 @@
             section.appendChild(myArticle);
       }
 
+    }
+
+    /**paginate**/
+
+    function paginate(num, id){
+
+        console.log("paginate");
+
+        const section = document.getElementById('pages');
+        section.innerHTML = "";
+
+        const nav = document.createElement('nav');
+        const ul = document.createElement('ul');
+        ul.setAttribute('class', 'pagination');
+        nav.appendChild(ul);
+        for (var i=0; i<num; i++){
+            const li = document.createElement('li');
+            li.setAttribute('class', 'page-item');
+            const a = document.createElement('a');
+            a.setAttribute('id', 'formupdate');
+            a.setAttribute('value', i);
+            const textcont = document.createTextNode(i);
+            a.appendChild(textcont);
+            a.setAttribute('href', '#');
+            li.appendChild(a);
+            ul.appendChild(li);
+        }
+
+        return nav;
+    }
+
+    function formsubmit(id){
+        var form = document.getElementById("resultnum");
+        document.getElementById("resultnum").click();
     }
 
     </script>
@@ -664,23 +731,6 @@
                 <option value="20">+20 miles</option>
                 <option value="30">+30 miles</option>
                 <option value="40">+40 miles</option>
-            </select>
-        </div>
-    </form>
-    </a>
-    </li>
-    <li>
-    <a href="#"><i class="fa fa-glass" aria-hidden="true"></i>
-    <form action="{{ url_for("update_results") }}" method="post" name="resultnum">
-        <div class="form-group">
-         <label for="updateresults" style="font-size: 10px;">Select number of pages:</label>
-            <select class="form-select form-select-sm" name="resultnum" style="width: 100px; font-size: 12px;" onchange="this.form.submit()">
-                <option>{{ session['resnum'] }} Pages</option>
-                <option value="1" id="numres">1</option>
-                <option value="2" id="numres">2</option>
-                <option value="3" id="numres">3</option>
-                <option value="4" id="numres">4</option>
-                <option value="5" id="numres">5</option>
             </select>
         </div>
     </form>
@@ -1106,7 +1156,8 @@
 </script>
 
 <div id="forsale" class="container" style="padding-top: 75px;"></div>
-
+<div id="pages" class="container">
+</div>
 
 </body>
 

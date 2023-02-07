@@ -4,6 +4,8 @@ import re
 from bs4 import BeautifulSoup, SoupStrainer
 import urllib.request
 import cloudscraper
+from scrapingbee import ScrapingBeeClient
+
 
 class Utility:
 
@@ -123,7 +125,7 @@ class Rightmove:
         properties = []
         print(type(self.page))
         num = int(self.page)
-        for ind in range(num):
+        for ind in range(2):
             print("Right move ")
 
             if len(self.pcode) > 4 and self.channel == 'SALE':
@@ -231,7 +233,7 @@ class OnTheMarket:
         otm_li = []
 
         num = int(self.resnum)
-        for i in range(num):
+        for i in range(2):
             print('i in num: ', i)
             url_end = f'/?min-bedrooms={self.bedrooms}&max-bedrooms={self.bedrooms}&max-price={self.maxprice}&min-price={self.minprice}&page={i}&radius={self.radius}&view=grid'
             search_url = baseurl + self.channel + "/property/" + p_tot+url_end
@@ -424,62 +426,66 @@ class Planning:
 
 class Gumtree:
 
-    def __init__(self, query):
-        self.query = query
+    def __init__(self, pcode, beds, minprice, maxprice, radius, type):
+        self.pcode = pcode
+        self.beds = beds
+        self.minprice = minprice
+        self.maxprice = maxprice
+        self.radius = radius
+        self.type = type
 
     def request(self):
-
-        proxies = {
-            "http": "185.157.241.63",
-            "http": "168.227.158.85",
-        }
 
         header = {
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36'}
 
-        con = requests.get(f'https://www.gumtree.com/search?search_category=all&q=SE4', headers=header, proxies=proxies)
-        s_l = []
+        # gumtree: 1, 3, 5, 10, 15, 30, 50, 75, 100, 1000
+        if self.type == "sales":
+            url = f'https://www.gumtree.com/search?search_category=property-for-sale&search_location={self.pcode}&property_number_beds={self.beds}&q=&distance={self.radius}&min_price={self.minprice}&max_price={self.maxprice}'
+        if self.type == "lettings":
+            url = f'https://www.gumtree.com/search?search_category=property-to-rent&search_location={self.pcode}&property_number_beds={self.beds}&q=&distance={self.radius}&min_price={self.minprice}&max_price={self.maxprice}'
 
-        h2strain = SoupStrainer('h2', {'class': 'listing-title'})
-        s_l.append(h2strain)
+        con = requests.get(url, headers=header)
 
-        pstrain = SoupStrainer('p',
-                               {'class': 'listing-description txt-sub txt-tertiary truncate-paragraph hide-fully-to-m'})
+        client = ScrapingBeeClient(
+            api_key='O88WYU1DDXB6J32C783X8P2VVJB8V0O526W57V3KOHQYN8OXMJMER6V87HMM1O8P1OUF24W1SUDVDVWC')
 
-        spanstrain = SoupStrainer('span', {'class': 'truncate-line'})
-        s_l.append(spanstrain)
+        response = client.get(
+            url,
+        )
 
-        ul = SoupStrainer('ul', {'class': 'listing-attributes inline-list hide-fully-to-m'})
+        listingcont = SoupStrainer('article', {'class': 'listing-maxi'})
+        count = BeautifulSoup(response.text, "html.parser", parse_only=listingcont)
         props = []
 
-        for s in s_l:
-            list = []
-            s2soup = BeautifulSoup(con.text, "html.parser", parse_only=s)
-            texts = s2soup.text
-            li = texts.split('\n')
-            for l in li:
-                if l != '':
-                    list.append(l)
-            props.append(list)
+        for listing in count:
+            li = []
 
-        titles = props[0]
-        n_list = []
+            link_strain = SoupStrainer('a')
+            a_soup = BeautifulSoup(str(listing), 'html.parser', parse_only=link_strain)
+            li.append(a_soup.find('a', href=True)['href'])
 
-        strongst = SoupStrainer('strong', {'class': 'h3-responsive'})
-        alink = SoupStrainer('a', {'class': 'listing-link '})
+            title = SoupStrainer('h2', {'class': 'listing-title'})
+            title_s = BeautifulSoup(str(listing), 'html.parser', parse_only=title)
+            li.append(title_s.text)
 
-        price = BeautifulSoup(con.text, 'html.parser', parse_only=strongst)
-        res = price.findAll('strong')
-        pricelist = []
-        for r in res:
-            pricelist.append(r.text)
+            price_st = SoupStrainer('strong', {'class': 'h3-responsive'})
+            price_soup = BeautifulSoup(str(listing), 'html.parser', parse_only=price_st)
+            li.append(price_soup.text)
 
-        links = []
-        achs = BeautifulSoup(con.text, 'html.parser', parse_only=alink)
-        for link in achs.find_all('a'):
-            links.append(link.get('href'))
+            desc_st = SoupStrainer('p', {
+                'class': 'listing-description txt-sub txt-tertiary truncate-paragraph hide-fully-to-m'})
+            desc_soup = BeautifulSoup(str(listing), 'html.parser', parse_only=desc_st)
+            li.append(desc_soup.text)
 
-        for i in range(len(titles)):
-            n_list.append([titles[i], links[i], pricelist[i]])
+            images = SoupStrainer('img')
+            img_soup = BeautifulSoup(str(listing), 'html.parser', parse_only=images)
+            try:
+                li.append(img_soup.find('img', src=True)['data-src'])
+            except KeyError:
+                li.append(img_soup.find('img', src=True)['src'])
 
-        return n_list
+            props.append(li)
+
+        print(props)
+        return props

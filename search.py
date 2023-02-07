@@ -37,6 +37,12 @@ def rmove_sales():
     return jsonify(rmove_results)
 
 
+@app.route('/pagination', methods=["GET"])
+def pagination(req):
+    if request.method == "POST":
+        update = req.form
+        print(update)
+
 @app.route('/allsaleresults', methods=["GET"])
 def all_results():
     rmove = sites.Rightmove(session['postcode'], "SALE", session['radius'], session['brooms'], session['minprice'],
@@ -49,8 +55,11 @@ def all_results():
 
 @app.route('/gumtree', methods=["GET"])
 def gumtree_scrape():
-    gum = sites.Gumtree(session['postcode'])
+    gum = sites.Gumtree(session['postcode'], session['brooms'], session['minprice'], session['maxprice'], session['radius'], session['type'])
     gumresults = gum.request()
+    print("\n")
+    print("GUMRESULTS")
+    print(gumresults)
     return jsonify(gumresults)
 
 @app.route('/rmoverent', methods=["GET"])
