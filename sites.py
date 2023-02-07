@@ -4,7 +4,6 @@ import re
 from bs4 import BeautifulSoup, SoupStrainer
 import urllib.request
 import cloudscraper
-from scrapingbee import ScrapingBeeClient
 from requests_ip_rotator import ApiGateway
 
 
