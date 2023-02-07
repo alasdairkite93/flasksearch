@@ -177,7 +177,7 @@ def search():
     if request.method == "POST":
         search_query = request.form.get("pcode")
         session['postcode'] = search_query
-        session['radius'] = 0.5
+        session['radius'] = 1
         session['brooms'] = 2
         session['resnum'] = 1
 

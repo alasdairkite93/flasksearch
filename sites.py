@@ -444,13 +444,16 @@ class Gumtree:
         if self.type == "lettings":
             url = f'https://www.gumtree.com/search?search_category=property-to-rent&search_location={self.pcode}&property_number_beds={self.beds}&q=&distance={self.radius}&min_price={self.minprice}&max_price={self.maxprice}'
 
-
+        proxlist = {
+            'http':'http://user-spox3wdwyy-sessionduration-1:jabawooky@gate.smartproxy.com:10000',
+        }
 
         header = {
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36'
         }
 
-        response = requests.get(url, headers=header)
+
+        response = requests.get(url, headers=header, proxies=proxlist)
 
         listingcont = SoupStrainer('article', {'class': 'listing-maxi'})
         count = BeautifulSoup(response.text, "html.parser", parse_only=listingcont)
