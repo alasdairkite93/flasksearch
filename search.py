@@ -56,10 +56,8 @@ def all_results():
 @app.route('/gumtree', methods=["GET"])
 def gumtree_scrape():
     gum = sites.Gumtree(session['postcode'], session['brooms'], session['minprice'], session['maxprice'], session['radius'], session['type'])
+    print(session['maxprice'], " ", session['minprice'])
     gumresults = gum.request()
-    print("\n")
-    print("GUMRESULTS")
-    print(gumresults)
     return jsonify(gumresults)
 
 @app.route('/rmoverent', methods=["GET"])
@@ -166,6 +164,24 @@ def letsform():
         return render_template('lettings.html')
     return render_template('form.html')
 
+@app.route('/returnall', methods=["GET"])
+def returnAll():
+    if session['type'] == 'sales':
+        otmsale = sites.OnTheMarket(session['postcode'], session['type'], session['radius'], session['brooms'],
+                                    session['minprice'], session['maxprice'], session['resnum'])
+        otm_results = otmsale.request()
+
+        rmove = sites.Rightmove(session['postcode'], "SALE", session['radius'], session['brooms'], session['minprice'],
+                                session['maxprice'], session['resnum'])
+        rmove_results = rmove.requestScrape()
+        gum = sites.Gumtree(session['postcode'], session['brooms'], session['minprice'], session['maxprice'],
+                            session['radius'], session['type'])
+        gumresults = gum.request()
+
+        return [otm_results, rmove_results, gumresults]
+
+
+
 @app.route('/back', methods=["GET"])
 def goBack():
     session.clear()
@@ -177,7 +193,7 @@ def search():
     if request.method == "POST":
         search_query = request.form.get("pcode")
         session['postcode'] = search_query
-        session['radius'] = 1
+        session['radius'] = 0
         session['brooms'] = 2
         session['resnum'] = 1
 

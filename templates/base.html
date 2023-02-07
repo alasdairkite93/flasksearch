@@ -187,7 +187,33 @@
         })
     });
 
+    /**Return all sales**/
+
+    $(function() {
+        $('a#allsales').click(function() {
+            $.get("/returnall", function (data){
+                all(data);
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                alert(errorThrown+" Try using correct format of postcode");
+            })
+        })
+    });
+
     /**body on load function**/
+
+    function all(json_data){
+
+        console.log("ALL");
+        forSale(json_data[0], 2);
+        console.log('prop[0]');
+        forSale(json_data[1], 1);
+                console.log('prop[1]');
+
+        gumtree(json_data[2]);
+                console.log('prop[2]');
+
+    }
 
     function crysData(json_data) {
 
@@ -353,21 +379,23 @@
             section.appendChild(table);
 
         }
-
-
     }
 
     function forSale(json_data, ind){
 
         var index = parseInt(ind);
+
         const section = document.getElementById('forsale');
         section.innerHTML = "";
+
         const title = document.createElement("h4");
         var url = ''
         var id = ''
         var endurl = ''
+        var sec = '';
 
         var number = json_data.length;
+
 
         switch(index) {
             case 0:
@@ -377,23 +405,27 @@
                 break;
             case 1:
                 const rmov_txt = document.createTextNode("{{ session['postcode'] }} Sale Results from Rightmove: "+number);
+                sec ='forsale'
                 title.appendChild(rmov_txt);
                 id = 'rmovesale'
                 url = 'https://www.rightmove.co.uk/properties/';
                 break;
             case 2:
                 const ontm_txt = document.createTextNode("{{ session['postcode'] }} Sales Results from on The Market "+number);
+                sec = 'OTM'
                 title.appendChild(ontm_txt);
                 url = 'https://www.onthemarket.com'
                 break;
             case 3:
                 const rmov_lets = document.createTextNode("{{ session['postcode'] }} Lettings on Rightmove "+number);
+                sec ='forsale'
                 title.appendChild(rmov_lets);
                 url = 'https://www.rightmove.co.uk/properties/'
                 endurl = '#/?channel=RES_LET';
                 break;
             case 4:
                 const ontm_lets = document.createTextNode("{{ session['postcode'] }} on The Market Lettings");
+                sec = 'OTM'
                 title.appendChild(ontm_lets);
                 url = 'https://www.onthemarket.com'
                 break;
@@ -403,6 +435,7 @@
                 url = 'https://www.zoopla.co.uk/to-rent/details/'
                 break;
             }
+
 
         section.appendChild(title);
 
@@ -465,7 +498,7 @@
 
         }
         section.appendChild(paginate(4, id));
-
+        return;
     }
 
     function gumtree(data) {
@@ -529,7 +562,7 @@
             coldiv.appendChild(img_anch);
             rowdiv.appendChild(coldiv);
         }
-
+        return;
     }
 
     function sold(json_data){
@@ -722,6 +755,7 @@
          <label for="radius" style="font-size: 10px;">Enter search radius:</label>
             <select id="radius" class="form-select form-select-sm" style="width: 100px; font-size: 12px;" onchange="this.form.submit()" name="radius">
                 <option>{{ session['radius'] }} miles</option>
+                <option value="0">+0 miles</option>
                 <option value="1">+1 miles</option>
                 <option value="3">+3 miles</option>
                 <option value="5">+5 miles</option>
@@ -987,6 +1021,7 @@
                 <a class="dropdown-toggle" data-toggle="dropdown">For Sale
                 <span class="caret"></span></a>
                 <ul class="dropdown-menu">
+                   <li><a href=# id=allsales>Return All</a></li>
                     <li><a href=# id=rmovesale value=0>RightMove</a></li>
                     <li><a href=# id=otmsale>OnTheMarket</a></li>
                     <li><a href=# id=gumtree>Gumtree</a></li>
@@ -1114,6 +1149,7 @@
             <a class="dropdown-toggle" data-toggle="dropdown">To Rent
             <span class="caret"></span></a>
                 <ul class="dropdown-menu">
+                    <li><a href=# id=allsales>Return All</a></li>
                     <li><a href=# id=rmovelets>RightMove</a></li>
                     <li><a href=# id=otmsale>OnTheMarket</a></li>
                     <li><a href=# id=gumtree>Gumtree</a></li>
@@ -1153,9 +1189,12 @@
     $(document).foundation();
 </script>
 
+<div id="pages" class="container"></div>
 <div id="forsale" class="container" style="padding-top: 75px;"></div>
-<div id="pages" class="container">
-</div>
+<div id="gumtreeres" class="container"></div>
+<div id="rightmoveres" class="container"></div>
+<div id="otm" class="container"></div>
+
 
 </body>
 
