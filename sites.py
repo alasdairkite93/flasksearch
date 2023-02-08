@@ -230,7 +230,9 @@ class OnTheMarket:
             p_tot = p1
 
         otm_li = []
-        r_d = self.radius +0.5
+
+        if self.radius < 1
+            self.radius = self.radius +0.5
         num = int(self.resnum)
         for i in range(2):
             print('i in num: ', i)
