@@ -56,8 +56,8 @@ def all_results():
 @app.route('/gumtree', methods=["GET"])
 def gumtree_scrape():
     gum = sites.Gumtree(session['postcode'], session['brooms'], session['minprice'], session['maxprice'], session['radius'], session['type'])
-    print(session['maxprice'], " ", session['minprice'])
     gumresults = gum.request()
+    print(gumresults)
     return jsonify(gumresults)
 
 @app.route('/rmoverent', methods=["GET"])
@@ -80,7 +80,7 @@ def otm_sales():
 
 @app.route('/otmrent', methods=["GET"])
 def otm_rent():
-    print("OTM Rent pages: ", session['page'], " radius: ", session['radius'], " minprice ", session['minprice'])
+    print("OTM Rent pages: ", " radius: ", session['radius'], " minprice ", session['minprice'])
     otmrent = sites.OnTheMarket(session['postcode'], "to-rent", session['radius'], session['brooms'], session['minprice'], session['maxprice'], session['resnum'])
     otm_results = otmrent.request()
     return jsonify(otm_results)
@@ -193,7 +193,7 @@ def search():
     if request.method == "POST":
         search_query = request.form.get("pcode")
         session['postcode'] = search_query.upper()
-        session['radius'] = 0
+        session['radius'] = 1
         session['brooms'] = 2
         session['resnum'] = 1
 
