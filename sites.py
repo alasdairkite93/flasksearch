@@ -230,11 +230,11 @@ class OnTheMarket:
             p_tot = p1
 
         otm_li = []
-
+        r_d = self.radius +0.5
         num = int(self.resnum)
         for i in range(2):
             print('i in num: ', i)
-            url_end = f'/?min-bedrooms={self.bedrooms}&max-bedrooms={self.bedrooms}&max-price={self.maxprice}&min-price={self.minprice}&page={i}&radius={self.radius}&view=grid'
+            url_end = f'/?min-bedrooms={self.bedrooms}&max-bedrooms={self.bedrooms}&max-price={self.maxprice}&min-price={self.minprice}&page={i}&radius={r_d}&view=grid'
             search_url = baseurl + self.channel + "/property/" + p_tot+url_end
             print(search_url)
             scraper = cloudscraper.create_scraper()
