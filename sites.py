@@ -220,7 +220,7 @@ class OnTheMarket:
 
         num = '0'
 
-        baseurl = 'https://www.onthemarket.com/'
+        baseurl = 'https://www.onthemarket.com'
         pcode = self.pcode.split(" ")
         p1 = pcode[0].lower()
         if len(pcode) > 1:
@@ -231,16 +231,23 @@ class OnTheMarket:
 
         otm_li = []
 
-        if self.radius < 1
-            self.radius = self.radius +0.5
-        num = int(self.resnum)
+        proxlist = {
+            'http': 'http://user-spox3wdwyy-sessionduration-1:jabawooky@gate.smartproxy.com:10000',
+        }
+
+        header = {
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36'
+        }
+
+        if int(self.radius) < 1:
+            self.radius = '0.5'
         for i in range(2):
             print('i in num: ', i)
-            url_end = f'/?min-bedrooms={self.bedrooms}&max-bedrooms={self.bedrooms}&max-price={self.maxprice}&min-price={self.minprice}&page={i}&radius={r_d}&view=grid'
+            url_end = f'/?min-bedrooms={self.bedrooms}&max-bedrooms={self.bedrooms}&max-price={self.maxprice}&min-price={self.minprice}&page={i}&radius={self.radius}&view=grid'
             search_url = baseurl + self.channel + "/property/" + p_tot+url_end
             print(search_url)
             scraper = cloudscraper.create_scraper()
-            req = scraper.get(search_url)
+            req = scraper.get(search_url, headers=header, proxies=proxlist)
 
             soup = BeautifulSoup(req.text, 'html.parser')
             results = soup.findAll('script', {'type': 'text/javascript'})
@@ -259,6 +266,7 @@ class OnTheMarket:
                                     li.append(prop['bedrooms-text'])
                                     li.append(prop['price'])
                                     li.append(baseurl + prop['property-link'])
+                                    print(baseurl+prop['property-link'])
                                     li.append(prop['images'][0]['default'])
                                     otm_li.append(li)
 
@@ -442,9 +450,10 @@ class Gumtree:
 
         # gumtree: 1, 3, 5, 10, 15, 30, 50, 75, 100, 1000
         if self.type == "sales":
-            url = f'https://www.gumtree.com/search?search_category=property-for-sale&search_location={self.pcode}&property_number_beds={self.beds}&q=&distance={self.radius}&min_price={self.minprice}&max_price={self.maxprice}'
+            url = f'https://www.gumtree.com/search?search_category=flats-houses&search_location={self.pcode}&property_number_beds={self.beds}&q=&distance={self.radius}&min_price={self.minprice}&max_price={self.maxprice}'
         if self.type == "lettings":
-            url = f'https://www.gumtree.com/search?search_category=property-to-rent&search_location={self.pcode}&property_number_beds={self.beds}&q=&distance={self.radius}&min_price={self.minprice}&max_price={self.maxprice}'
+            url = f'https://www.gumtree.com/search?search_category=flats-houses&search_location={self.pcode}&property_number_beds={self.beds}&q=&distance={self.radius}&min_price={self.minprice}&max_price={self.maxprice}'
+
 
         proxlist = {
             'http':'http://user-spox3wdwyy-sessionduration-1:jabawooky@gate.smartproxy.com:10000',
@@ -457,6 +466,8 @@ class Gumtree:
 
 
         response = requests.get(url, headers=header, proxies=proxlist)
+        print(response.status_code)
+        print(response.text)
 
         listingcont = SoupStrainer('article', {'class': 'listing-maxi'})
         count = BeautifulSoup(response.text, "html.parser", parse_only=listingcont)
@@ -491,4 +502,6 @@ class Gumtree:
 
             props.append(li)
 
+        if (len(props)) == 0:
+            return url
         return props
