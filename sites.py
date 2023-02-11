@@ -4,6 +4,56 @@ import re
 from bs4 import BeautifulSoup, SoupStrainer
 import urllib.request
 import cloudscraper
+import os
+from fake_useragent import UserAgent
+from proxy_requests import ProxyRequests
+from playwright.sync_api import sync_playwright
+
+class Proxies:
+
+    def createProxyList(self):
+
+
+        url = 'https://free-proxy-list.net/'
+
+        response = requests.get(url)
+
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        table = soup.find("table", {"class": "table table-striped table-bordered"})
+        tbody = table.find("tbody")
+
+        proxies = []
+
+        for tr in tbody:
+            cells = tr.findAll("td")
+            proxies.append(cells[0].text)
+
+        if os.path.exists('proxies.txt'):
+            print('proxy path exists')
+        else:
+            with open('proxies.txt', 'w') as f:
+                for proxy in proxies:
+                    f.write(proxy)
+                    f.write('\n')
+
+    def getProxyList(self):
+
+        p_list = []
+        with open('proxies.txt', 'r') as p:
+            for proxy in p:
+                p_list.append(proxy)
+
+        return p_list
+
+    def increaseProxVar(self, ind):
+        print("INCREASE PROX VAR")
+        proxlength = len(self.getProxyList())
+        if ind >= proxlength:
+            ind = 0
+        else:
+            ind+=1
+        return ind
 
 
 class Utility:
@@ -40,48 +90,73 @@ class Zoopla:
             except ValueError:
                 pos = match + 1
 
+    def returnResults(self):
+        print("return results")
+        with open('static/zoopla/zooplafile.json', 'r') as f:
+            props = []
+            data = json.loads(f.read())
+            # print(data['props']['pageProps']['regularListingsFormatted'])
+            listings = data['props']['pageProps']['regularListingsFormatted']
+            for listing in listings:
+                li = []
+                li.append(listing['address'])
+                li.append(listing['branch']['name'])
+                li.append(listing['features'][0]['content'])
+                li.append(listing['price'])
+                li.append('http://www.zoopla.co.uk'+listing['listingUris']['detail'])
+                li.append(listing['image']['src'])
+                props.append(li)
+        return props
+    def getResults(self):
+
+        util = Utility()
+
+
+        print("searching: ", f'https://www.zoopla.co.uk/{self.channel}/property/{self.searchquery}/?q={self.searchquery}&results_sort=newest_listings&search_source={self.channel}')
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=False)
+            page = browser.new_page()
+            page.goto(
+                f'https://www.zoopla.co.uk/{self.channel}/property/{self.searchquery}/?q={self.searchquery}&results_sort=newest_listings&search_source={self.channel}')
+            all_quotes = page.query_selector('body')
+            found = list(util.find_json_objects(all_quotes.inner_html()))
+            print(found)
+            l_one = found[1]
+            print("found: ", found)
+            with open('static/zoopla/search.json', 'w') as search:
+                search.write(json.dumps(found[0], indent=4))
+                print("write search")
+            with open('static/zoopla/zooplafile.json', 'w') as all_quotes:
+                all_quotes.write(json.dumps(found[1], indent=4))
+                print("write zoopla results")
+            return
+
+
     def requests(self):
 
-        print("Zoopla Request")
+        util = Utility()
+        print("Zoopla requests")
 
-        b_url = 'https://www.zoopla.co.uk/'
+        #if search.json exists check to see what the last search was and whether it contains values of the new search
+        if os.path.isfile('static/zoopla/search.json') and os.path.isfile('static/zoopla/zooplafile.json'):
+            with open('static/zoopla/search.json') as f, open('static/zoopla/zooplafile.json') as res:
+                data = json.loads(f.read())
+                data2 = json.loads(res.read())
+                print("file found: ")
+                print(data2['props']['pageProps']['initialState']['dfpAdTargeting']['search_location'])
+                if data['search_location'] == self.searchquery and data2['props']['pageProps']['initialState']['dfpAdTargeting']['search_location']:
+                    print("Match: ", data['search_location'], " ", self.searchquery)
+                    a = self.returnResults()
+                    return a
+                else:
+                    self.getResults()
+                    a = self.returnResults()
+                    return a
+        else:
+            self.getResults()
+            a = self.returnResults()
+            return a
 
-        radius = '?q=ct65hz&radius=0.5&search_source=refine&view_type=list'
-
-        url = b_url+self.channel+"/property/"+self.searchquery+radius
-
-        head = {'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:80.0) Gecko/20100101 Firefox/80.0'}
-
-        req_resp = requests.get(url, headers=head)
-        print(req_resp.text)
-        soup = BeautifulSoup(req_resp.text, 'html.parser')
-        results = soup.findAll('script', {'type':'application/json'})
-
-        res_json = ''
-
-        for r in results:
-            res_text = r.text
-            found = list(self.find_json_objects(res_text))
-            list_js = found[0]
-            print(found[0])
-            res_json=json.dumps(list_js)
-            print(res_json)
-
-        test = json.loads(res_json)
-
-        # function to get list of results
-        listings = test['props']['pageProps']['initialProps']['searchResults']['listings']['extended']
-        set = []
-        for i in listings:
-            li = []
-            li.append(i['address'])
-            li.append(i['price'])
-            li.append(i['image']['src'])
-            li.append(i['branch']['name'])
-            li.append(i['listingId'])
-            set.append(li)
-
-        return set
 
 class Rightmove:
 
@@ -96,11 +171,10 @@ class Rightmove:
 
     def requestScrape(self):
 
-        global t_url
         utils = Utility()
+        ua = UserAgent()
 
 
-        headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36"}
         # Function to postcode
 
         rent = 'property-to-rent'
@@ -112,7 +186,13 @@ class Rightmove:
         else:
             search_url = f'https://www.rightmove.co.uk/{rent}/search.html?searchLocation='
 
-        x = requests.get(search_url + self.pcode, headers=headers)
+        header = {
+            'User-Agent': ua.random}
+
+        print('header: ', header)
+
+        x = requests.get(search_url + self.pcode, headers=header)
+
         soup = BeautifulSoup(x.text, 'html.parser')
         results = soup.find('input', {'id': 'locationIdentifier'}).get('value')
         txt = results
@@ -136,8 +216,9 @@ class Rightmove:
             if len(self.pcode) > 4 and self.channel == 'RENT':
                 t_url = f'https://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&areaSizeUnit=sqft&googleAnalyticsChannel=renting&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}'
 
-            req_url = requests.get(t_url)
+            req_url = requests.get(t_url, headers=header)
             print("t_url: ", t_url)
+            print(req_url)
             soup = BeautifulSoup(req_url.text, 'html.parser')
             results = soup.findAll('script')
 
@@ -164,7 +245,6 @@ class Rightmove:
 
             except IndexError:
                 pass
-        print(properties)
         return properties
 
     def requestSold(self):
@@ -213,12 +293,13 @@ class OnTheMarket:
         self.maxprice = maxprice
         self.resnum = resnum
 
-    def request(self, otm_li=None):
+    def request(self):
 
-        global value
+
+        ua = UserAgent()
         utils = Utility()
-
-        num = '0'
+        header = {
+            'User-Agent': ua.random}
 
         baseurl = 'https://www.onthemarket.com'
         pcode = self.pcode.split(" ")
@@ -231,14 +312,6 @@ class OnTheMarket:
 
         otm_li = []
 
-        proxlist = {
-            'http': 'http://user-spox3wdwyy-sessionduration-1:jabawooky@gate.smartproxy.com:10000',
-        }
-
-        header = {
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36'
-        }
-
         if int(self.radius) < 1:
             self.radius = '0.5'
         for i in range(2):
@@ -246,10 +319,15 @@ class OnTheMarket:
             url_end = f'/?min-bedrooms={self.bedrooms}&max-bedrooms={self.bedrooms}&max-price={self.maxprice}&min-price={self.minprice}&page={i}&radius={self.radius}&view=grid'
             search_url = baseurl + self.channel + "/property/" + p_tot+url_end
             print(search_url)
-            scraper = cloudscraper.create_scraper()
-            req = scraper.get(search_url, headers=header, proxies=proxlist)
 
-            soup = BeautifulSoup(req.text, 'html.parser')
+            r = ProxyRequests(search_url)
+            r = requests.get(search_url, headers=header)
+
+
+            # scraper = cloudscraper.create_scraper()
+            # req = scraper.get(search_url, headers=header, proxies=proxlist)
+
+            soup = BeautifulSoup(r.text, 'html.parser')
             results = soup.findAll('script', {'type': 'text/javascript'})
             for r in results:
                 res_text = r.text
@@ -435,7 +513,7 @@ class Planning:
 
 class Gumtree:
 
-    def __init__(self, pcode, beds, minprice, maxprice, radius, type):
+    def __init__(self, pcode, radius, beds, minprice, maxprice, type):
         self.pcode = pcode
         self.beds = beds
         self.minprice = minprice
@@ -445,29 +523,25 @@ class Gumtree:
 
     def request(self):
 
+        ua = UserAgent()
+
         header = {
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36'}
+            'User-Agent': ua.random}
 
         # gumtree: 1, 3, 5, 10, 15, 30, 50, 75, 100, 1000
+        print("GUMTREE self.type: ", self.type)
+
         if self.type == "sales":
-            url = f'https://www.gumtree.com/search?search_category=flats-houses&search_location={self.pcode}&property_number_beds={self.beds}&q=&distance={self.radius}&min_price={self.minprice}&max_price={self.maxprice}'
+            # url = f'https://www.gumtree.com/search?search_category=flats-houses&search_location={self.pcode}&property_number_beds={self.beds}&q=&distance={self.radius}&min_price={self.minprice}&max_price={self.maxprice}'
+            url = f'https://www.gumtree.com/search?featured_filter=false&q=&search_category=property-for-sale&urgent_filter=false&sort=date&search_scope=false&photos_filter=false&search_location={self.pcode}&tl=&distance={self.radius}&property_number_beds={self.beds}&min_price={self.minprice}&max_price={self.maxprice}'
         if self.type == "lettings":
             url = f'https://www.gumtree.com/search?search_category=flats-houses&search_location={self.pcode}&property_number_beds={self.beds}&q=&distance={self.radius}&min_price={self.minprice}&max_price={self.maxprice}'
 
-
-        proxlist = {
-            'http':'http://user-spox3wdwyy-sessionduration-1:jabawooky@gate.smartproxy.com:10000',
-        }
-
-        header = {
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36'
-        }
-
-
-
-        response = requests.get(url, headers=header, proxies=proxlist)
+        print(url)
+        response = requests.get(url, headers=header)
         print(response.status_code)
         print(response.text)
+
 
         listingcont = SoupStrainer('article', {'class': 'listing-maxi'})
         count = BeautifulSoup(response.text, "html.parser", parse_only=listingcont)
