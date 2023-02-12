@@ -64,6 +64,8 @@ def rmov_sold():
 def otm_sales():
     otmsale = sites.OnTheMarket(session['postcode'], "for-sale", session['radius'], session['brooms'], session['minprice'], session['maxprice'], session['resnum'])
     otm_results = otmsale.request()
+    print("\n")
+    print(otm_results)
     # session['proxindex'] = proxies.increaseProxVar(session['proxindex'])
     return jsonify(otm_results)
 

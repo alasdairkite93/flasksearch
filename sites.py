@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup, SoupStrainer
 import urllib.request
 import cloudscraper
 import os
-
+from Naked.toolshed.shell import execute_js, muterun_js
 
 class Proxies:
 
@@ -294,7 +294,7 @@ class OnTheMarket:
         utils = Utility()
 
 
-        baseurl = 'https://www.onthemarket.com'
+        baseurl = 'https://www.onthemarket.com/'
         pcode = self.pcode.split(" ")
         p1 = pcode[0].lower()
         if len(pcode) > 1:
@@ -307,45 +307,69 @@ class OnTheMarket:
 
         if int(self.radius) < 1:
             self.radius = '0.5'
-        for i in range(2):
+        for i in range(1):
             print('i in num: ', i)
             url_end = f'/?min-bedrooms={self.bedrooms}&max-bedrooms={self.bedrooms}&max-price={self.maxprice}&min-price={self.minprice}&page={i}&radius={self.radius}&view=grid'
             search_url = baseurl + self.channel + "/property/" + p_tot+url_end
-            print(search_url)
 
-            r = requests.get(search_url)
+            file = open('urls.txt', 'w')
+            file.write(search_url)
+            file.close()
+
+            # r = requests.get(search_url)
+            # print(r)
 
 
-            # scraper = cloudscraper.create_scraper()
-            # req = scraper.get(search_url, headers=header, proxies=proxlist)
+            #Add in call to Puppeteer here and then write output to json file
 
-            soup = BeautifulSoup(r.text, 'html.parser')
-            results = soup.findAll('script', {'type': 'text/javascript'})
-            for r in results:
-                res_text = r.text
-                try:
-                    found = list(utils.find_json_objects(res_text))
-                    try:
-                        for value in found:
-                            if len(value) > 20:
+        response = muterun_js('otm.js')
+        if response.exitcode == 0:
+            print(response.stdout)
+        else:
+            execute_js('otm.js')
 
-                                for prop in value['properties']:
-                                    li = []
-                                    li.append(prop['display_address'])
-                                    li.append(prop['agent']['name'])
-                                    li.append(prop['bedrooms-text'])
-                                    li.append(prop['price'])
-                                    li.append(baseurl + prop['property-link'])
-                                    print(baseurl+prop['property-link'])
-                                    li.append(prop['images'][0]['default'])
-                                    otm_li.append(li)
-
-                    except IndexError:
-                        pass
-                except TypeError:
-                    pass
+        with open('file.json') as r:
+            data = json.load(r)
+            print(data)
+            for prop in data['properties']:
+                li = []
+                li.append(prop['display_address'])
+                li.append(prop['agent']['name'])
+                li.append(prop['bedrooms-text'])
+                li.append(prop['price'])
+                li.append(baseurl + prop['property-link'])
+                li.append(prop['images'][0]['default'])
+                otm_li.append(li)
 
         return otm_li
+
+        #     soup = BeautifulSoup(r.text, 'html.parser')
+        #     results = soup.findAll('script', {'type': 'text/javascript'})
+        #     for r in results:
+        #         res_text = r.text
+        #         try:
+        #             found = list(utils.find_json_objects(res_text))
+        #             try:
+        #                 for value in found:
+        #                     if len(value) > 20:
+        #
+        #                         for prop in value['properties']:
+        #                             li = []
+        #                             li.append(prop['display_address'])
+        #                             li.append(prop['agent']['name'])
+        #                             li.append(prop['bedrooms-text'])
+        #                             li.append(prop['price'])
+        #                             li.append(baseurl + prop['property-link'])
+        #                             print(baseurl+prop['property-link'])
+        #                             li.append(prop['images'][0]['default'])
+        #                             otm_li.append(li)
+        #
+        #             except IndexError:
+        #                 pass
+        #         except TypeError:
+        #             pass
+        #
+        # return otm_li
 
 class CrystalRoof:
 
