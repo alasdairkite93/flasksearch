@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup, SoupStrainer
 import urllib.request
 import cloudscraper
 import os
-from playwright.sync_api import sync_playwright
+
 
 class Proxies:
 
@@ -110,24 +110,24 @@ class Zoopla:
         util = Utility()
 
 
-        print("searching: ", f'https://www.zoopla.co.uk/{self.channel}/property/{self.searchquery}/?q={self.searchquery}&results_sort=newest_listings&search_source={self.channel}')
-        with sync_playwright() as p:
-            browser = p.chromium.launch(headless=False)
-            page = browser.new_page()
-            page.goto(
-                f'https://www.zoopla.co.uk/{self.channel}/property/{self.searchquery}/?q={self.searchquery}&results_sort=newest_listings&search_source={self.channel}')
-            all_quotes = page.query_selector('body')
-            found = list(util.find_json_objects(all_quotes.inner_html()))
-            print(found)
-            l_one = found[1]
-            print("found: ", found)
-            with open('static/zoopla/search.json', 'w') as search:
-                search.write(json.dumps(found[0], indent=4))
-                print("write search")
-            with open('static/zoopla/zooplafile.json', 'w') as all_quotes:
-                all_quotes.write(json.dumps(found[1], indent=4))
-                print("write zoopla results")
-            return
+        # print("searching: ", f'https://www.zoopla.co.uk/{self.channel}/property/{self.searchquery}/?q={self.searchquery}&results_sort=newest_listings&search_source={self.channel}')
+        # with sync_playwright() as p:
+        #     browser = p.chromium.launch(headless=False)
+        #     page = browser.new_page()
+        #     page.goto(
+        #         f'https://www.zoopla.co.uk/{self.channel}/property/{self.searchquery}/?q={self.searchquery}&results_sort=newest_listings&search_source={self.channel}')
+        #     all_quotes = page.query_selector('body')
+        #     found = list(util.find_json_objects(all_quotes.inner_html()))
+        #     print(found)
+        #     l_one = found[1]
+        #     print("found: ", found)
+        #     with open('static/zoopla/search.json', 'w') as search:
+        #         search.write(json.dumps(found[0], indent=4))
+        #         print("write search")
+        #     with open('static/zoopla/zooplafile.json', 'w') as all_quotes:
+        #         all_quotes.write(json.dumps(found[1], indent=4))
+        #         print("write zoopla results")
+        #     return
 
 
     def requests(self):
