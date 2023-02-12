@@ -5,7 +5,6 @@ from bs4 import BeautifulSoup, SoupStrainer
 import urllib.request
 import cloudscraper
 import os
-from fake_useragent import UserAgent
 from proxy_requests import ProxyRequests
 from playwright.sync_api import sync_playwright
 
@@ -172,7 +171,6 @@ class Rightmove:
     def requestScrape(self):
 
         utils = Utility()
-        ua = UserAgent()
 
 
         # Function to postcode
@@ -186,12 +184,10 @@ class Rightmove:
         else:
             search_url = f'https://www.rightmove.co.uk/{rent}/search.html?searchLocation='
 
-        header = {
-            'User-Agent': ua.random}
 
-        print('header: ', header)
 
-        x = requests.get(search_url + self.pcode, headers=header)
+
+        x = requests.get(search_url + self.pcode)
 
         soup = BeautifulSoup(x.text, 'html.parser')
         results = soup.find('input', {'id': 'locationIdentifier'}).get('value')
@@ -216,7 +212,7 @@ class Rightmove:
             if len(self.pcode) > 4 and self.channel == 'RENT':
                 t_url = f'https://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&areaSizeUnit=sqft&googleAnalyticsChannel=renting&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}'
 
-            req_url = requests.get(t_url, headers=header)
+            req_url = requests.get(t_url)
             print("t_url: ", t_url)
             print(req_url)
             soup = BeautifulSoup(req_url.text, 'html.parser')
@@ -296,10 +292,8 @@ class OnTheMarket:
     def request(self):
 
 
-        ua = UserAgent()
         utils = Utility()
-        header = {
-            'User-Agent': ua.random}
+
 
         baseurl = 'https://www.onthemarket.com'
         pcode = self.pcode.split(" ")
@@ -321,7 +315,7 @@ class OnTheMarket:
             print(search_url)
 
             r = ProxyRequests(search_url)
-            r = requests.get(search_url, headers=header)
+            r = requests.get(search_url)
 
 
             # scraper = cloudscraper.create_scraper()
@@ -523,10 +517,7 @@ class Gumtree:
 
     def request(self):
 
-        ua = UserAgent()
 
-        header = {
-            'User-Agent': ua.random}
 
         # gumtree: 1, 3, 5, 10, 15, 30, 50, 75, 100, 1000
         print("GUMTREE self.type: ", self.type)
@@ -538,7 +529,7 @@ class Gumtree:
             url = f'https://www.gumtree.com/search?search_category=flats-houses&search_location={self.pcode}&property_number_beds={self.beds}&q=&distance={self.radius}&min_price={self.minprice}&max_price={self.maxprice}'
 
         print(url)
-        response = requests.get(url, headers=header)
+        response = requests.get(url)
         print(response.status_code)
         print(response.text)
 
