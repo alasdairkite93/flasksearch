@@ -186,7 +186,7 @@ def returnAll():
         d = zoopla_sales()
 
         #Removed otm from the list
-        return [a, b, c, d]
+        return [b, c, d]
 
 
 
