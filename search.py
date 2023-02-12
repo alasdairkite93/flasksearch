@@ -4,8 +4,8 @@ import sites
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
-proxies = sites.Proxies()
-prox_list = proxies.getProxyList()
+# proxies = sites.Proxies()
+# prox_list = proxies.getProxyList()
 
 @app.route('/planningdata', methods=["GET"])
 def planning_data():
@@ -35,7 +35,7 @@ def zoopla_lets():
 def rmove_sales():
     rmove = sites.Rightmove(session['postcode'], "SALE", session['radius'], session['brooms'], session['minprice'], session['maxprice'], session['resnum'])
     rmove_results = rmove.requestScrape()
-    session['proxindex'] = proxies.increaseProxVar(session['proxindex'])
+    # session['proxindex'] = proxies.increaseProxVar(session['proxindex'])
     return jsonify(rmove_results)
 
 
@@ -43,7 +43,7 @@ def rmove_sales():
 def gumtree_scrape():
     gum = sites.Gumtree(session['postcode'], session['brooms'], session['minprice'], session['maxprice'], session['radius'], session['type'])
     gumresults = gum.request()
-    session['proxindex'] = proxies.increaseProxVar(session['proxindex'])
+    # session['proxindex'] = proxies.increaseProxVar(session['proxindex'])
     print("Gumtree scrape results: ", gumresults)
     return jsonify(gumresults)
 
@@ -51,7 +51,7 @@ def gumtree_scrape():
 def rmove_lets():
     rmove = sites.Rightmove(session['postcode'], "RENT", session['radius'], session['brooms'], session['minprice'], session['maxprice'], session['resnum'])
     rmove_results = rmove.requestScrape()
-    session['proxindex'] = proxies.increaseProxVar(session['proxindex'])
+    # session['proxindex'] = proxies.increaseProxVar(session['proxindex'])
     return jsonify(rmove_results)
 
 @app.route('/rmovesold', methods=["GET"])
@@ -64,7 +64,7 @@ def rmov_sold():
 def otm_sales():
     otmsale = sites.OnTheMarket(session['postcode'], "for-sale", session['radius'], session['brooms'], session['minprice'], session['maxprice'], session['resnum'])
     otm_results = otmsale.request()
-    session['proxindex'] = proxies.increaseProxVar(session['proxindex'])
+    # session['proxindex'] = proxies.increaseProxVar(session['proxindex'])
     return jsonify(otm_results)
 
 @app.route('/otmrent', methods=["GET"])
@@ -72,7 +72,6 @@ def otm_rent():
     print("OTM Rent pages: ", " radius: ", session['radius'], " minprice ", session['minprice'])
     otmrent = sites.OnTheMarket(session['postcode'], "to-rent", session['radius'], session['brooms'], session['minprice'], session['maxprice'], session['resnum'])
     otm_results = otmrent.request()
-    session['proxindex'] = proxies.increaseProxVar(session['proxindex'])
     return jsonify(otm_results)
 
 @app.route('/crystalroof', methods=["GET"])
@@ -223,8 +222,8 @@ def search():
 
 if __name__ == '__main__':
 
-    proxy = sites.Proxies()
-    proxy.createProxyList()
+    # proxy = sites.Proxies()
+    # proxy.createProxyList()
 
 
     context = ('local.crt', 'local.key')
