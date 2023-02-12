@@ -1,0 +1,80 @@
+{
+    "props": {
+        "pageProps": {
+            "initialState": {
+                "favourites": {
+                    "listings": []
+                },
+                "dfpAdTargeting": {
+                    "activity": "",
+                    "area_name": "",
+                    "brand": "",
+                    "brand_primary": "",
+                    "country_code": "",
+                    "currency_code": "",
+                    "device": "",
+                    "listings_category": "",
+                    "outcode": "",
+                    "outcodes": [
+                        ""
+                    ],
+                    "os": "",
+                    "page": "",
+                    "platform": "",
+                    "postal_area": "",
+                    "price_max": "",
+                    "price_min": "",
+                    "region_name": "",
+                    "results_sort": "",
+                    "search_location": "",
+                    "search_results_count": "0",
+                    "section": "",
+                    "total_results": "0",
+                    "url": "",
+                    "view_type": ""
+                },
+                "seoAccordions": [],
+                "links": {
+                    "saveSearch": "",
+                    "createAlert": ""
+                },
+                "currentSearchSource": "",
+                "searchType": "for-sale",
+                "searchCategory": "",
+                "transactionType": "sale",
+                "pageTitle": "",
+                "showLocationValidation": false,
+                "userAlertId": null,
+                "savedSearchAndAlerts": null,
+                "previousSavedSearchUri": null,
+                "isEditSavedSearchBannerVisible": true,
+                "isEditSavedSearchSuccess": null,
+                "actionAfterAuth": null,
+                "totalResults": 0,
+                "pageNumber": 0,
+                "pageNumberMax": null,
+                "totalResultsWasLimited": false,
+                "polyenc": null
+            },
+            "error": {
+                "message": "undefined"
+            }
+        },
+        "__N_SSP": true
+    },
+    "page": "/for-sale/[...search-path]",
+    "query": {
+        "search_source": "for-sale",
+        "results_sort": "newest_listings",
+        "q": "CT6 5HZ",
+        "search-path": [
+            "property",
+            "CT6 5HZ"
+        ]
+    },
+    "buildId": "Jk7NAn3Tzttws7xNvh41M",
+    "assetPrefix": "https://cdn.prod.zoopla.co.uk",
+    "isFallback": false,
+    "gssp": true,
+    "scriptLoader": []
+}

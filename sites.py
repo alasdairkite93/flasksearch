@@ -5,7 +5,6 @@ from bs4 import BeautifulSoup, SoupStrainer
 import urllib.request
 import cloudscraper
 import os
-from proxy_requests import ProxyRequests
 from playwright.sync_api import sync_playwright
 
 class Proxies:
@@ -314,7 +313,6 @@ class OnTheMarket:
             search_url = baseurl + self.channel + "/property/" + p_tot+url_end
             print(search_url)
 
-            r = ProxyRequests(search_url)
             r = requests.get(search_url)
 
 
