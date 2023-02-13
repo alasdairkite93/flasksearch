@@ -523,7 +523,8 @@ class Planning:
             li.append(('latitude: ', app['lat']))
             li.append(('longitude: ', app['lng']))
             li.append(('distance: ', app['distance']))
-            applications.append(li)
+            if app['distance'] == 0:
+                applications.append(li)
 
         return applications
 
