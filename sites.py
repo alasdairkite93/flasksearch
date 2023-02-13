@@ -1,0 +1,491 @@
+import json
+import requests
+import re
+from bs4 import BeautifulSoup, SoupStrainer
+import urllib.request
+import cloudscraper
+import random
+
+class Proxies:
+
+    def createProxyList(self):
+        url = 'https://free-proxy-list.net/'
+
+        response = requests.get(url)
+
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        table = soup.find("table", {"class": "table table-striped table-bordered"})
+        tbody = table.find("tbody")
+
+        proxies = []
+
+        for tr in tbody:
+            cells = tr.findAll("td")
+            ip = cells[0].text + ":" + cells[1].text
+            proxies.append(ip)
+
+        with open('proxies.txt', 'w') as p:
+            for proxy in proxies:
+                p.write(proxy)
+                p.write("\n")
+
+    def getProxy(self):
+
+        p_list = []
+        with open('proxies.txt', 'r') as p:
+            for proxy in p:
+                p_list.append(proxy)
+
+        rand_ind = random.randrange(0, len(p_list))
+        return p_list[rand_ind]
+
+    def increaseProxVar(self, ind):
+        print("INCREASE PROX VAR")
+        proxlength = len(self.getProxyList())
+        if ind >= proxlength:
+            ind = 0
+        else:
+            ind+=1
+        return ind
+
+
+class Utility:
+
+    def find_json_objects(self, text: str, decoder=json.JSONDecoder()):
+        pos = 0
+        while True:
+            match = text.find("{", pos)
+            if match == -1:
+                break
+            try:
+                result, index = decoder.raw_decode(text[match:])
+                yield result
+                pos = match + index
+            except ValueError:
+                pos = match + 1
+
+class Zoopla:
+
+    def __init__(self, query, channel):
+        self.searchquery = query
+        self.channel = channel
+
+    def requests(self):
+
+        util = Utility()
+
+        searchurl = f'https://www.zoopla.co.uk/{self.channel}/property/{self.searchquery}/?q={self.searchquery}&results_sort=newest_listings&search_source={self.channel}'
+        print("Zoopla requests: ", searchurl)
+        baseurl = 'https://www.zoopla.co.uk/'
+        file = open('urls.txt', 'w')
+        file.write(searchurl)
+        file.close()
+
+
+
+        zoop_l = []
+
+        with open('file.json') as r:
+            data = json.load(r)
+            listings = data['properties']['pageProps']['regularListingsFormatted']
+
+            for listing in listings:
+                li = []
+                li.append(listing['address'])
+                li.append(listing['branch']['name'])
+                li.append(listing['features'][0]['content'])
+                li.append(listing['price'])
+                li.append('http://www.zoopla.co.uk' + listing['listingUris']['detail'])
+                li.append(listing['image']['src'])
+                zoop_l.append(li)
+
+        return zoop_l
+
+class Rightmove:
+
+    def __init__(self, query, channel, radius, bedrooms, minprice, maxprice, page):
+        self.pcode = query
+        self.channel = channel
+        self.radius = radius
+        self.bedrooms = bedrooms
+        self.minprice = minprice
+        self.maxprice = maxprice
+        self.page = page
+
+    def requestScrape(self):
+
+        utils = Utility()
+
+
+        # Function to postcode
+
+        rent = 'property-to-rent'
+        sales = 'property-for-sale'
+
+        if self.channel == "SALE":
+            search_url = f'https://www.rightmove.co.uk/{sales}/search.html?searchLocation='
+
+        else:
+            search_url = f'https://www.rightmove.co.uk/{rent}/search.html?searchLocation='
+
+
+
+
+        x = requests.get(search_url + self.pcode)
+
+        soup = BeautifulSoup(x.text, 'html.parser')
+        results = soup.find('input', {'id': 'locationIdentifier'}).get('value')
+        txt = results
+        x = re.findall("[^^]*$", txt)
+        code = x[0]
+        print("CODE: ", code)
+
+
+        properties = []
+        print(type(self.page))
+        num = int(self.page)
+        for ind in range(2):
+            print("Right move ")
+
+            if len(self.pcode) > 4 and self.channel == 'SALE':
+                t_url = f'https://www.rightmove.co.uk/property-for-sale/find.html?locationIdentifier=POSTCODE%5E{code}&index={ind}&maxBedrooms={self.bedrooms}&minBedrooms={self.bedrooms}&maxPrice={self.maxprice}&minPrice={self.minprice}&radius={self.radius}&propertyTypes=&mustHave=&dontShow=&furnishTypes=&keywords='
+            if len(self.pcode) <= 4 and self.channel == 'SALE':
+                t_url = f'https://www.rightmove.co.uk/property-for-sale/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&areaSizeUnit=sqft&googleAnalyticsChannel=buying&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}'
+            if len(self.pcode) <= 4 and self.channel == 'RENT':
+                t_url = f'https://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}'
+            if len(self.pcode) > 4 and self.channel == 'RENT':
+                t_url = f'https://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&areaSizeUnit=sqft&googleAnalyticsChannel=renting&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}'
+
+            req_url = requests.get(t_url)
+            print("t_url: ", t_url)
+            print(req_url)
+            soup = BeautifulSoup(req_url.text, 'html.parser')
+            results = soup.findAll('script')
+
+            json_r = ''
+
+            for r in results:
+                l_r = list(utils.find_json_objects(r.text))
+                for res in l_r:
+                    if len(res) > 0:
+                        json_r = res['properties']
+
+            try:
+
+                url = 'https://www.rightmove.co.uk/properties/'
+                for props in json_r:
+                    li = []
+                    li.append(props['displayAddress'])
+                    li.append(props['customer']['branchDisplayName'])
+                    li.append(props['bedrooms'])
+                    li.append(props['price']['displayPrices'][0]['displayPrice'])
+                    li.append(url + str(props['id']))
+                    li.append(props['propertyImages']['images'][0]['srcUrl'])
+                    properties.append(li)
+
+            except IndexError:
+                pass
+        return properties
+
+    def requestSold(self):
+
+        utils = Utility()
+        pcode = self.pcode
+        res = []
+
+        for i in range(1, 20, 1):
+            pconv = str(i)
+            apiurl = f"https://www.rightmove.co.uk/house-prices/{pcode}.html?page={pconv}"
+            req_url = requests.get(apiurl)
+
+            soup = BeautifulSoup(req_url.text, 'html.parser')
+            results = soup.findAll('script')
+
+            li = []
+            for r in results:
+                res_text = r.text
+                found = list(utils.find_json_objects(res_text))
+                li.append(found)
+            itm = li[3][0]['results']['properties']
+
+            if len(itm) != 0:
+                for prop in itm:
+                    p_li = []
+                    p_li.append(prop['address'])
+                    pric_li = []
+                    for transaction in prop['transactions']:
+                        pric_li.append([transaction['displayPrice'], transaction['dateSold']])
+                    p_li.append(pric_li)
+                    p_li.append(prop['images']['imageUrl'])
+                    p_li.append(prop['detailUrl'])
+                    res.append(p_li)
+                    print("\n")
+        return res
+
+class OnTheMarket:
+
+    def __init__(self, query, channel, radius, bedrooms, minprice, maxprice, resnum):
+        self.pcode = query
+        self.channel = channel
+        self.radius = radius
+        self.bedrooms = bedrooms
+        self.minprice = minprice
+        self.maxprice = maxprice
+        self.resnum = resnum
+
+    def request(self):
+
+
+        utils = Utility()
+
+
+        baseurl = 'https://www.onthemarket.com/'
+        pcode = self.pcode.split(" ")
+        p1 = pcode[0].lower()
+        if len(pcode) > 1:
+            p2 = pcode[1].lower()
+            p_tot = p1+"-"+p2
+        else:
+            p_tot = p1
+
+        otm_li = []
+
+        if int(self.radius) < 1:
+            self.radius = '0.5'
+        for i in range(1):
+            print('i in num: ', i)
+            url_end = f'/?min-bedrooms={self.bedrooms}&max-bedrooms={self.bedrooms}&max-price={self.maxprice}&min-price={self.minprice}&page={i}&radius={self.radius}&view=grid'
+            search_url = baseurl + self.channel + "/property/" + p_tot+url_end
+
+            file = open('urls.txt', 'w')
+            file.write(search_url)
+            file.close()
+
+
+
+        with open('file.json') as r:
+            data = json.load(r)
+            print(data)
+            for prop in data['properties']:
+                li = []
+                li.append(prop['display_address'])
+                li.append(prop['agent']['name'])
+                li.append(prop['bedrooms-text'])
+                li.append(prop['price'])
+                li.append(baseurl + prop['property-link'])
+                li.append(prop['images'][0]['default'])
+                otm_li.append(li)
+
+        return otm_li
+
+class CrystalRoof:
+
+    def __init__(self, pcode):
+        self.pcode = pcode
+
+    def stats(self):
+
+        split = self.pcode.split(" ")
+        p1 = split[0]
+        p2 = split[1]
+        pc = p1+p2
+
+        search_url = f"https://crystalroof.co.uk/report/postcode/{pc}/overview"
+        response = urllib.request.urlopen(search_url)
+        data = response.read()  # a `bytes` object
+        soup = BeautifulSoup(data, 'html.parser')
+        results = soup.findAll('script', {"id": "__NEXT_DATA__"})
+
+        r = results[0].text
+
+        parsed = json.loads(r)
+        data = parsed['props']['initialReduxState']['report']['sectionResponses']['overview']['data']
+
+        li = []
+        li.append(data['loac']['supergroupname'])
+        li.append(data['loac']['supergroupdescription'])
+        li.append(data['loac']['groupname'])
+        li.append(data['loac']['groupdescription'])
+        li.append(data['income_lsoa']['mean'])
+        li.append(data['income_lsoa']['median'])
+        li.append(data['indices_of_deprivation_lsoa']['imdb_score'])
+        li.append(data['crime_lsoa']['rate'])
+        li.append(data['crime_lsoa']['rank'])
+        li.append(data['transport']['metro']['name'])
+        li.append(data['transport']['metro']['lines'])
+        li.append(data['transport']['rail']['name'])
+        li.append(data['transport']['rail']['lines'])
+        li.append(data['amenities']['supermarkets']['businessname'])
+        li.append(data['amenities']['groceries']['businessname'])
+        li.append(data['schools']['name'])
+        li.append(data['noise']['road']['noiseclass'])
+        li.append(data['noise']['rail']['noiseclass'])
+        li.append(data['noise']['aircraft']['noiseclass'])
+        li.append(data['ethnicgroup']['white_british'])
+        li.append(data['ethnicgroup']['white_irish'])
+        li.append(data['ethnicgroup']['gypsy'])
+        li.append(data['ethnicgroup']['other_white'])
+        li.append(data['ethnicgroup']['mixed'])
+        li.append(data['ethnicgroup']['indian'])
+        li.append(data['ethnicgroup']['pakistani'])
+        li.append(data['ethnicgroup']['bangladeshi'])
+        li.append(data['ethnicgroup']['chinese'])
+        li.append(data['ethnicgroup']['other_asian'])
+        li.append(data['ethnicgroup']['black'])
+        li.append(data['ethnicgroup']['arab'])
+        li.append(data['ethnicgroup']['other'])
+        li.append(data['religion']['christian'])
+        li.append(data['religion']['buddhist'])
+        li.append(data['religion']['hindu'])
+        li.append(data['religion']['jewish'])
+        li.append(data['religion']['muslim'])
+        li.append(data['religion']['sikh'])
+        li.append(data['religion']['other'])
+        li.append(data['religion']['no_religion'])
+        li.append(data['household']['one_person'])
+        li.append(data['household']['couple_with_children'])
+        li.append(data['household']['couple_without_children'])
+        li.append(data['household']['same_sex_couple'])
+        li.append(data['household']['lone_parent_with_children'])
+        li.append(data['household']['lone_parent_without_children'])
+        li.append(data['household']['multi_person_student'])
+        li.append(data['household']['multi_person_other'])
+        li.append(data['householdlifestage']['ageunder35'])
+        li.append(data['householdlifestage']['age35to54'])
+        li.append(data['householdlifestage']['age55to64'])
+        li.append(data['householdlifestage']['age65above'])
+
+        return li
+
+class LandRegistry:
+
+    def __init__(self, pcode):
+        self.pcode = pcode
+    def req(self):
+
+        print("makeing a request to land registry")
+
+        pcode = self.pcode.split(" ")
+        pcode1 = pcode[0]
+        pcode2 = '%20' + pcode[1]
+        p_fin = pcode1 + pcode2
+        num = 10
+        li = []
+        for i in range(num):
+            base_url = f'https://landregistry.data.gov.uk/data/ppi/transaction-record.json?propertyAddress.postcode={p_fin}&_page={i}'
+            x = requests.get(base_url).text
+            loaded = json.loads(x)
+            items = loaded['result']['items']
+            if len(items) > 0:
+                li.append(items)
+
+        regs = []
+        for itm in li:
+            for list in itm:
+                trans = []
+                try:
+                    trans.append((list['propertyAddress']['paon'], " " + list['propertyAddress']['street'],
+                                  " " + list['propertyAddress']['town'], " " + list['propertyAddress']['county'],
+                                  " " + list['propertyAddress']['district'], " " + list['propertyAddress']['locality'], " "+list['propertyAddress']['postcode']))
+                    trans.append("£" + str(list['pricePaid']))
+                    trans.append(list['transactionDate'])
+                    regs.append(trans)
+                except TypeError:
+                    pass
+                except KeyError:
+                    pass
+
+        return regs
+
+class Planning:
+
+    def __init__(self, pcode):
+        self.pcode = pcode
+
+    def request(self):
+        API_KEY = 'KVB3BXNFRZ'
+        P_CODE = self.pcode
+        requestobj = f'https://api.propertydata.co.uk/planning?key={API_KEY}&postcode={P_CODE}&decision_rating=positive&category=EXTENSION,LOFT%20CONVERSION&max_age_update=120&results=20'
+        obj = requests.get(requestobj)
+
+        load = json.loads(obj.text)
+        data = load['data']['planning_applications']
+
+        applications = []
+
+        for app in data:
+            li = []
+            li.append(('url: ', app['url']))
+            li.append(('address: ', app['address']))
+            li.append(('type: ', app['type']))
+            li.append(('status: ', app['status']))
+            li.append(('proposal: ', app['proposal']))
+            li.append(('type: ', app['type']))
+            li.append(('status: ', app['status']))
+            li.append(('decision: ', app['decision']['text']))
+            li.append(('date_received: ', app['dates']['received_at']))
+            li.append(('date_validated: ', app['dates']['validated_at']))
+            li.append(('date_decided: ', app['dates']['decided_at']))
+            li.append(('date_published: ', app['dates']['published_at']))
+            li.append(('latitude: ', app['lat']))
+            li.append(('longitude: ', app['lng']))
+            li.append(('distance: ', app['distance']))
+            applications.append(li)
+
+        return applications
+
+class Gumtree:
+
+    def __init__(self, channel, pcode, radius, beds, minprice, maxprice, type):
+        self.pcode = pcode
+        self.channel = channel
+        self.beds = beds
+        self.minprice = minprice
+        self.maxprice = maxprice
+        self.radius = radius
+        self.type = type
+
+    def request(self):
+
+        print("GUMTREE self.type: ", self.type)
+
+        if self.channel == 'for-sale':
+            url = f"https://www.gumtree.com/search?search_category=property-for-sale&search_location={self.pcode}&property_number_beds={self.beds}-bedroom&max_price={self.minprice}&min_price={self.maxprice}"
+        elif self.channel == "to-rent":
+            url = f"https://www.gumtree.com/search?search_category=property-to-rent&search_location={self.pcode}&property_number_beds={self.beds}-bedroom&max_price={self.minprice}&min_price={self.maxprice}"
+
+        file = open('urls.txt', 'w')
+        file.write(url)
+        file.close()
+
+        with open('temp.txt') as f:
+            soup = BeautifulSoup(f.read(), 'html.parser')
+            articles = soup.find_all('article', {"class", "listing-maxi"})
+            props = []
+            for article in articles:
+                li = []
+                s_link = soup.find('a', {'class': 'listing-link'})
+                r_link = s_link.get('href')
+                li.append(r_link)
+
+                s_img = soup.find('img', {"class": "data-lazy hide-fully-no-js main-image loaded"})
+                r_img = s_img.get('data-src')
+                li.append(r_img)
+
+                h2_soup = soup.find('h2', {'class': 'listing-title'})
+                h2_r = h2_soup.text
+                li.append(h2_r)
+
+                p_soup = soup.find('p', {
+                    'class': 'listing-description txt-sub txt-tertiary truncate-paragraph hide-fully-to-m'})
+                p_r = p_soup.text
+                li.append(p_r)
+
+                price_soup = soup.find('strong', {'class', 'h3-responsive'})
+                price = price_soup.text
+                li.append(price)
+
+                props.append(li)
+
+        return props

@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="refresh"/>
+    <title>Property Search: Sales</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='foundation.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.4/dist/css/foundation.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.5/dist/js/foundation.min.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.0.1/js/vendor/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/js/foundation.min.js"
+       crossorigin="anonymous">
+     </script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type=text/javascript>
+
+    $(document).ajaxSend(function(){
+        loading();
+    });
+
+
+   function loading(){
+
+       const div_sec = document.getElementById('forsale')
+       div_sec.innerHTML = ''
+
+       const section = document.getElementById("forsale");
+       const p = document.createElement('p');
+       const textcont = document.createTextNode("Loading content");
+       p.appendChild(textcont);
+       section.appendChild(p);
+
+   }
+
+    /**Land Registry**/
+
+    $(function(){
+            $('a#soldpricejson').click(function(){
+                $.get("/landregistry", function (data){
+                    soldLR(data, 0);
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                alert(errorThrown+" Try using correct format of postcode");
+            })
+            });
+        });
+
+
+    /**Update number of results**/
+
+        $(function(){
+            $('a#formupdate').click(function(){
+                console.log("formupdate function");
+                let x = document.getElementById("formupdate").value
+                $.ajax({
+                url: '/pagination',
+                data: x,
+                type: "POST",
+                success: function (response)
+                    {
+                        console.log(response);
+                    },
+                error: function(error)
+                    {
+                        console.log(error);
+                    }
+                });
+            })
+        });
+
+        $(function(){
+
+            $('#numres').click(function() {
+                $.ajax({
+                    url: '/numres',
+                    data: $('form').serialize(),
+                    type: 'POST',
+                    success: function (response){
+                        console.log(response);
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                });
+            })
+        });
+
+    /**Gumtree Request**/
+
+    $(function() {
+        $('a#gumtree').click(function(){
+
+            $.get("/gumtreesales", function(data){
+                gumtree(data);
+            })
+        })
+    });
+
+
+    /**Right Move AJAX Requests**/
+
+
+    $(function(){
+            $('a#rmovesale').click(function() {
+                $.get("/rightmovesale", 2, function (data){
+                    forSale(data, 1);
+                })
+            })
+        });
+
+
+    $(function(){
+            $('a#rmovelets').click(function() {
+                $.get("/rmoverent", function (data){
+                    forSale(data, 3);
+                })
+            })
+        });
+
+    /**ONtheMarket AJAX Requests**/
+
+    $(function(){
+        $('a#otmsale').click(function() {
+            $.get("/otmsale", function (data){
+                forSale(data, 2);
+            })
+        })
+    });
+
+    $(function(){
+        $('a#otmrent').click(function() {
+            $.get("/otmrent", function (data){
+                forSale(data, 4);
+            })
+        })
+    });
+
+    /**Sold Prices**/
+
+    $(function(){
+            $('a#rmovesold').click(function() {
+                $.get("/rmovesold", function (data){
+                    sold(data);
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                alert(errorThrown+" Try using correct format of postcode");
+            })
+            })
+        });
+
+    /**Area Statistics**/
+
+    $(function() {
+        $('a#paginate').click(function(){
+            paginate(5, 't');
+        })
+    })
+
+    $(function() {
+        $('a#crysdata').click(function() {
+            $.get("/crystalroof", function (data){
+                crysData(data);
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                alert(errorThrown+" Try using correct format of postcode");
+            })
+        })
+    });
+
+    /**Planning Data**/
+
+    $(function() {
+        $('a#planningdata').click(function() {
+            $.get("/planningdata", function (data){
+                console.log(data);
+                planning(data);
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                alert(errorThrown+" Try using correct format of postcode");
+            })
+        })
+    });
+
+    /**Sales and lettings pages**/
+
+    $(function() {
+        $('a#lettingspage').click(function() {
+            $.get("/returnall", function (data){
+                all(data);
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                alert(errorThrown+" Try using correct format of postcode");
+            })
+        })
+    });
+
+    /**Return all sales**/
+
+    $(function() {
+        $('a#allsales').click(function() {
+            $.get("/returnall", function (data){
+                all(data);
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                alert(errorThrown+" Try using correct format of postcode");
+            })
+        })
+    });
+
+    $(function() {
+        $('a#zooplasales').click(function() {
+            $.get("/zooplasale", function (data){
+                forSale(data);
+            })
+        })
+    })
+
+    /**Update page **/
+
+    $(function() {
+        $('a#lettingspage').click(function() {
+            $.post("/updatesession", function() {
+                updateToLettings();
+            })
+        })
+    })
+
+    /**body on load function**/
+
+    function updateToLettings(){
+        //change session variable to lettings
+        //refresh the page
+
+        location.reload();
+    }
+
+    function all(json_data){
+
+        const section = document.getElementById('forsale');
+        section.innerHTML = "";
+
+        for (var i =0; i<json_data.length; i++){
+            for (data of json_data[i]){
+                for (prop of json_data) {
+
+                    const newDiv = document.createElement("div");
+                    newDiv.setAttribute("class", "card mb-6");
+                    newDiv.setAttribute("style", "max-width: 840px;");
+                    section.appendChild(newDiv);
+
+                    const rowdiv2 = document.createElement("div");
+                    rowdiv2.setAttribute("class", "row no-gutters");
+                    newDiv.appendChild(rowdiv2);
+
+                    const rowdiv = document.createElement("div");
+                    rowdiv.setAttribute("class", "row no-gutters");
+                    newDiv.appendChild(rowdiv);
+
+                    const divcolmd8 = document.createElement("div");
+                    divcolmd8.setAttribute("class", "col-md-8");
+                    rowdiv.appendChild(divcolmd8);
+                    const cardbody = document.createElement("div");
+                    cardbody.setAttribute("class", "card=body");
+                    divcolmd8.appendChild(cardbody);
+
+                    const anchor = document.createElement("a");
+                    url = prop[4];
+                    anchor.setAttribute("href", url);
+
+                    const dispaddres = document.createElement("h5");
+                    const add_cont = document.createTextNode(prop[0]);
+                    dispaddres.appendChild(add_cont);
+                    anchor.appendChild(dispaddres);
+                    cardbody.appendChild(anchor);
+
+                    const branchname = document.createElement("p");
+                    const branch_cont = document.createTextNode("Branch: "+prop[1]);
+                    branchname.appendChild(branch_cont);
+                    cardbody.appendChild(branchname);
+
+                    const bedrooms = document.createElement("p");
+                    const bed_rooms = document.createTextNode("Rooms: "+prop[2]);
+                    bedrooms.appendChild(bed_rooms);
+                    cardbody.appendChild(bedrooms);
+
+                    const price = document.createElement("p");
+                    const price_fig = document.createTextNode("Price: "+prop[3]);
+                    price.appendChild(price_fig);
+                    cardbody.appendChild(price);
+
+                    const site = document.createElement("p");
+
+                          switch(i){
+                              case 0:
+                                    const site_content = document.createTextNode("On the Market Result");
+                                    site.appendChild(site_content)
+                                    break;
+                                case 1:
+                                    const site_rmovet = document.createTextNode("Right Move Results");
+                                    site.appendChild(site_rmovet)
+                                    break;
+                                case 2:
+                                    const site_gum = document.createTextNode("Gumtree Result");
+                                    site.appendChild(site_gum)
+                                    break;
+                                case 3:
+                                    const site_zoop = document.createTextNode("Zoopla Result");
+                                    site.appendChild(site_zoop)
+                                    break;
+                            }
+                    cardbody.appendChild(site);
+
+                    const coldiv = document.createElement("div");
+                    coldiv.setAttribute("class", "col-md-4");
+                    const img_anch = document.createElement("a");
+                    img_anch.setAttribute("href", prop[4]);
+                    const img = document.createElement("img");
+                    img.src = prop[5];
+                    img_anch.appendChild(img);
+                    coldiv.appendChild(img_anch);
+                    rowdiv.appendChild(coldiv);
+
+                }
+            }
+        }
+
+    }
+
+    function crysData(json_data) {
+
+        const section = document.getElementById('forsale');
+        section.innerHTML = "";
+
+        const table = document.createElement("table");
+        table.setAttribute("class", "table");
+
+        /**Table header**/
+
+        const thead = document.createElement("thead");
+        table.appendChild(thead);
+        const trel = document.createElement("tr");
+        table.appendChild(trel);
+
+        const thlabel = document.createElement("th");
+        thlabel.setAttribute("scope", "col");
+        thlabel.innerHTML = 'Label';
+        table.appendChild(thlabel);
+
+        const thdata = document.createElement("th");
+        thdata.setAttribute("scope", "col");
+        thdata.innerHTML = 'Data';
+        table.appendChild(thdata);
+
+        /**table body**/
+
+        const tbody = document.createElement("tbody");
+        table.appendChild(tbody);
+
+        //Create array of headers and loop through for label as loop over entries
+        var headers = [];
+        headers.push("Supergroupname", "Supergroupdescription", "Groupname", "Groupdescription",
+        "Indicies of Deprvation", "Mean Income", "Median Income", "Crime Rate", "Crime Rank", "Metro Name", "Metro Lines",
+        "Rail Name", "Rail Lines", "Supermarkets", "Groceries", "Schools",
+        "Road Noise", "Rail Noise", "Aircraft Noise", "White British", "White Irish", "Gypsy",
+        "Other White", "Mixed", "Indian", "Pakistani", "Bangladeshi", "Chinese",
+        "Other Asian", "Black", "Arab", "Other", "Christian", "Buddhist",
+        "Hindu", "Jewish", "Muslim", "Sikh", "Other", "No Religion", "One Person Household",
+        "Couple with Children", "Couple without Children", "Same Sex Couple", "Lone Parent with Children",
+        "Lone Parent without Children", "Multi Person Student", "Other Multi Person", "Age Under 35",
+        "Age 35 to 54", "Age 55 to 64", "Above 65");
+
+        let i=0;
+        for (const[, value] of Object.entries(json_data)) {
+            const trbody = document.createElement("tr");
+            tbody.appendChild(trbody);
+            const td_label = document.createElement("td");
+            td_label.innerHTML = headers[i];
+            trbody.appendChild(td_label);
+            const td_data = document.createElement("td");
+            td_data.innerHTML = value;
+            trbody.appendChild(td_data);
+            i++;
+        }
+
+        section.appendChild(table);
+
+    }
+
+    function soldLR(json_data, ind){
+
+        const section = document.getElementById('forsale');
+        section.innerHTML="";
+
+        //proposed to aad a function to add search filters here
+
+        var table = document.createElement('table');
+        table.border = "1";
+
+
+        var headers = new Array();
+        switch (ind){
+            case 0:
+                headers.push("LAND REGISTRY: Address", "Price", "Date");
+                var headerrow = table.insertRow(-1);
+                for (var i =0; i<headers.length; i++) {
+                    var headerc = document.createElement("TH");
+                    headerc.innerHTML=headers[i];
+                    headerrow.append(headerc);
+                }
+                for (entry of json_data) {
+                    row = table.insertRow(-1);
+                    for (var i =0; i<entry.length; i++){
+                        var cell = row.insertCell(-1);
+                        cell.innerHTML = entry[i];
+                    }
+                }
+                break;
+            case 1:
+                headers.push("RIGHT MOVE: Description", "Data");
+                var headerrow = table.insertRow(-1);
+                for (var i =0; i<headers.length; i++) {
+                    var headerc = document.createElement("TH");
+                    headerc.innerHTML=headers[i];
+                    headerrow.append(headerc);
+                }
+                for (entry of json_data){
+                    row = table.insertRow(-1);
+
+                    var cell1 = row.insertCell(-1);
+                    cell1.innerHTML = entry[0];
+
+
+                    var cell2 = row.insertCell(-1);
+                    cell2.innerHTML = entry[1];
+                }
+                break;
+        }
+        section.appendChild(table);
+    }
+
+    function planning(json_data){
+        const section = document.getElementById('forsale');
+        section.innerHTML = "";
+
+        for (entry of json_data){
+
+            let col = [];
+
+            for (let i = 0; i <entry.length; i++){
+                for (let key in entry[i]){
+                    if (col.indexOf(key) === -1){
+                        col.push(key);
+                    }
+                }
+            }
+
+            const table = document.createElement("table");
+
+            let tr = table.insertRow(-1);
+
+            for (let i =0; i< col.length; i++){
+                let th = document.createElement("th");
+                th.innerHTML = col[i];
+                tr.appendChild(th);
+            }
+
+            for (let i=0; i<entry.length; i++)
+            {
+                tr = table.insertRow(-1);
+
+                for (let j=0; j<col.length; j++){
+                    let tabcel = tr.insertCell(-1);
+                    let text = entry[i][col[j]];
+                    let patt = 'https?:\/\/';
+                    try {
+                        let result = text.match(patt);
+                        if (result != null){
+                            const a = document.createElement("a");
+                            a.setAttribute("href", entry[i][col[j]]);
+                            a.innerHTML = entry[i][col[j]];
+                            tabcel.appendChild(a);
+                        }
+                        else {
+                            tabcel.innerHTML = entry[i][col[j]];
+                        }
+                    } catch (error){}
+                }
+            }
+
+            section.appendChild(table);
+
+        }
+    }
+
+    function forSale(json_data, ind){
+
+        var index = parseInt(ind);
+
+        const section = document.getElementById('forsale');
+        section.innerHTML = "";
+
+        const title = document.createElement("h4");
+        var url = ''
+        var id = ''
+        var endurl = ''
+        var sec = '';
+
+        var number = json_data.length;
+
+
+        switch(index) {
+            case 0:
+                const ti_cont = document.createTextNode("Zoopla For Sale Results "+number);
+                title.appendChild(ti_cont);
+                url = 'https://www.zoopla.co.uk/for-sale/details/';
+                break;
+            case 1:
+                const rmov_txt = document.createTextNode("{{ session['postcode'] }} Sale Results from Rightmove: "+number);
+                sec ='forsale'
+                title.appendChild(rmov_txt);
+                id = 'rmovesale'
+                url = 'https://www.rightmove.co.uk/properties/';
+                break;
+            case 2:
+                const ontm_txt = document.createTextNode("{{ session['postcode'] }} Sales Results from on The Market "+number);
+                sec = 'OTM'
+                title.appendChild(ontm_txt);
+                url = 'https://www.onthemarket.com'
+                break;
+            case 3:
+                const rmov_lets = document.createTextNode("{{ session['postcode'] }} Lettings on Rightmove "+number);
+                sec ='forsale'
+                title.appendChild(rmov_lets);
+                url = 'https://www.rightmove.co.uk/properties/'
+                endurl = '#/?channel=RES_LET';
+                break;
+            case 4:
+                const ontm_lets = document.createTextNode("{{ session['postcode'] }} on The Market Lettings");
+                sec = 'OTM'
+                title.appendChild(ontm_lets);
+                url = 'https://www.onthemarket.com'
+                break;
+            case 5:
+                const zoop_lets = document.createTextNode("Zoopla Lettings");
+                title.appendChild(zoop_lets);
+                url = 'https://www.zoopla.co.uk/to-rent/details/'
+                break;
+            }
+
+
+        section.appendChild(title);
+
+        for (prop of json_data) {
+
+            const newDiv = document.createElement("div");
+            newDiv.setAttribute("class", "card mb-6");
+            newDiv.setAttribute("style", "max-width: 840px;");
+            section.appendChild(newDiv);
+
+            const rowdiv2 = document.createElement("div");
+            rowdiv2.setAttribute("class", "row no-gutters");
+            newDiv.appendChild(rowdiv2);
+
+            const rowdiv = document.createElement("div");
+            rowdiv.setAttribute("class", "row no-gutters");
+            newDiv.appendChild(rowdiv);
+
+            const divcolmd8 = document.createElement("div");
+            divcolmd8.setAttribute("class", "col-md-8");
+            rowdiv.appendChild(divcolmd8);
+            const cardbody = document.createElement("div");
+            cardbody.setAttribute("class", "card=body");
+            divcolmd8.appendChild(cardbody);
+
+            const anchor = document.createElement("a");
+            url = prop[4];
+            anchor.setAttribute("href", url);
+
+            const dispaddres = document.createElement("h5");
+            const add_cont = document.createTextNode(prop[0]);
+            dispaddres.appendChild(add_cont);
+            anchor.appendChild(dispaddres);
+            cardbody.appendChild(anchor);
+
+            const branchname = document.createElement("p");
+            const branch_cont = document.createTextNode("Branch: "+prop[1]);
+            branchname.appendChild(branch_cont);
+            cardbody.appendChild(branchname);
+
+            const bedrooms = document.createElement("p");
+            const bed_rooms = document.createTextNode("Rooms: "+prop[2]);
+            bedrooms.appendChild(bed_rooms);
+            cardbody.appendChild(bedrooms);
+
+            const price = document.createElement("p");
+            const price_fig = document.createTextNode("Price: "+prop[3]);
+            price.appendChild(price_fig);
+            cardbody.appendChild(price);
+
+            const coldiv = document.createElement("div");
+            coldiv.setAttribute("class", "col-md-4");
+            const img_anch = document.createElement("a");
+            img_anch.setAttribute("href", prop[4]);
+            const img = document.createElement("img");
+            img.src = prop[5];
+            img_anch.appendChild(img);
+            coldiv.appendChild(img_anch);
+            rowdiv.appendChild(coldiv);
+
+        }
+        {#section.appendChild(paginate(4, id));#}
+        return;
+    }
+
+    function gumtree(data) {
+
+        console.log("GUMTREE")
+
+        const section = document.getElementById('forsale');
+        section.innerHTML = "";
+
+        baseurl = 'https://www.gumtree.com'
+
+        for (prop of data) {
+
+            const newDiv = document.createElement("div");
+            newDiv.setAttribute("class", "card mb-6");
+            newDiv.setAttribute("style", "max-width: 840px;");
+            section.appendChild(newDiv);
+
+            const rowdiv2 = document.createElement("div");
+            rowdiv2.setAttribute("class", "row no-gutters");
+            newDiv.appendChild(rowdiv2);
+
+            const rowdiv = document.createElement("div");
+            rowdiv.setAttribute("class", "row no-gutters");
+            newDiv.appendChild(rowdiv);
+
+            const divcolmd8 = document.createElement("div");
+            divcolmd8.setAttribute("class", "col-md-8");
+            rowdiv.appendChild(divcolmd8);
+            const cardbody = document.createElement("div");
+            cardbody.setAttribute("class", "card=body");
+            divcolmd8.appendChild(cardbody);
+
+            const anchor = document.createElement("a");
+            url = baseurl+prop[0];
+            anchor.setAttribute("href", url);
+
+            const dispaddres = document.createElement("h5");
+            const add_cont = document.createTextNode(prop[1]);
+            dispaddres.appendChild(add_cont);
+            anchor.appendChild(dispaddres);
+            cardbody.appendChild(anchor);
+
+            const price = document.createElement("p");
+            const price_cont = document.createTextNode(prop[2]);
+            price.appendChild(price_cont);
+            cardbody.appendChild(price);
+
+            const description = document.createElement("p");
+            const desc_cont = document.createTextNode(prop[3]);
+            description.appendChild(desc_cont);
+            cardbody.appendChild(description);
+
+            const coldiv = document.createElement("div");
+            coldiv.setAttribute("class", "col-md-4");
+            const img_anch = document.createElement("a");
+            img_anch.setAttribute("href", baseurl+prop[0]);
+            const img = document.createElement("img");
+            img.src = prop[4];
+            img_anch.appendChild(img);
+            coldiv.appendChild(img_anch);
+            rowdiv.appendChild(coldiv);
+        }
+        return;
+    }
+
+    function sold(json_data){
+
+        const section = document.getElementById('forsale');
+        section.innerHTML = "";
+        const title = document.createElement("h1");
+        const rmov_sold = document.createTextNode("RightMove Sold");
+        title.appendChild(rmov_sold);
+        section.appendChild(title);
+
+        var number = json_data.length;
+        const count = document.createTextNode("Total Number of Properties: "+number);
+        title.appendChild(count);
+
+        for (const prop of json_data) {
+
+            const myArticle = document.createElement('article');
+
+            const address = prop[0];
+            const price = prop[1];
+            const image = prop[2];
+            const url = prop[3];
+
+            const h2 = document.createElement("h3");
+            const addr_cont = document.createTextNode(address);
+            h2.appendChild(addr_cont);
+
+            const list = document.createElement('ul');
+
+            const img = document.createElement('li');
+            img.textContent = image;
+            list.appendChild(img);
+
+            //Creating sublist of prices property has been sold for
+            const sublist = document.createElement('ul');
+            price.forEach((item)=>{
+                let li = document.createElement("li");
+                li.innerText = item;
+                sublist.appendChild(li);
+            })
+            list.appendChild(sublist);
+
+            const url_listing = document.createElement('li');
+            url_listing.textContent = url;
+            list.appendChild(url_listing);
+
+            myArticle.appendChild(h2);
+            myArticle.appendChild(list);
+
+            section.appendChild(myArticle);
+      }
+
+    }
+
+    /**paginate**/
+
+    function paginate(num, id){
+
+        console.log("paginate");
+
+        const section = document.getElementById('pages');
+        section.innerHTML = "";
+
+        const nav = document.createElement('nav');
+        const ul = document.createElement('ul');
+        ul.setAttribute('class', 'pagination');
+        nav.appendChild(ul);
+        for (var i=0; i<num; i++){
+            const li = document.createElement('li');
+            li.setAttribute('class', 'page-item');
+            const a = document.createElement('a');
+            a.setAttribute('id', 'formupdate');
+            a.setAttribute('value', i);
+            const textcont = document.createTextNode(i);
+            a.appendChild(textcont);
+            a.setAttribute('href', '#');
+            li.appendChild(a);
+            ul.appendChild(li);
+        }
+
+        return nav;
+    }
+
+    function formsubmit(id){
+        var form = document.getElementById("resultnum");
+        document.getElementById("resultnum").click();
+    }
+
+    </script>
+    <style>
+
+        {#search features#}
+
+    ::placeholder {
+        color: black;
+    }
+
+    .searchbar{
+      height:45px;
+      border:none;
+      width:500px;
+      font-size:16px;
+      outline: none;
+        margin-left: 20px;
+        border: black solid 2px;
+    }
+
+    input {
+            display: inline;
+        }
+
+    .button{
+      background-color: #f5f5f5;
+      border:none;
+      color:#707070;
+      font-size:15px;
+      padding: 10px 20px;
+      margin:5px;
+      border-radius:4px;
+      outline:none;
+    }
+    .button:hover{
+      border: 1px solid #c8c8c8;
+      padding: 9px 19px;
+      color:#808080;
+    }
+    .button:focus{
+      border:1px solid #4885ed;
+      padding: 9px 19px;
+    }
+
+    .overlay{
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    background: url("{{ url_for('static', filename='loading.gif') }}") center no-repeat;
+    }
+    /* Turn off scrollbar when body element has the loading class */
+    body.loading{
+        overflow: hidden;
+    }
+    /* Make spinner image visible when body element has the loading class */
+    body.loading .overlay{
+        display: block;
+    }
+
+    </style>
+</head>
+<body>
+<div class="content">
+    <ul class="nav nav-pills navbar-left">
+      <li class="nav-item">
+        <a class="nav-link active" id=back href="/">Back</a>
+      </li>
+    {% if session['type'] == 'sales' %}
+        <li class="nav-item">
+            <form action="{{ url_for("search")}}" method="post" name="search" >
+                <input type="hidden" name="page" value="lettings">
+                <input type="hidden" name="pcode" value="{{ session['postcode'] }}">
+            <div class="buttons">
+                <button class="button" type="submit" name="lettings" value="lettings">Lettings</button>
+            </div>
+            </form>
+        </li>
+    {% endif %}
+    {% if session['type'] == 'lettings' %}
+        <li class="nav-item">
+            <form action="{{ url_for("search")}}" method="post" name="search" >
+                <input type="hidden" name="page" value="lettings">
+                <input type="hidden" name="pcode" value="{{ session['postcode'] }}">
+            <div class="buttons">
+                <button class="button" type="submit" name="sales" value="sales">Sales</button>
+            </div>
+            </form>
+        </li>
+    {% endif %}
+    </ul>
+</div>
+<div class="container" style="padding-top: 100px;">
+    <header class="hero-search-filter">
+        <div class="hero-search-filter-content">
+            <h4>{{ session['type'] }} results for: {{ session['postcode'] }}</h4>
+            <form class="hero-search-filter-form" action="{{ url_for("update_pcode") }}" method="post">
+    <div class="input-group input-group-rounded">
+        <input class="searchbar" style="border-radius: 10px;" type="text" name="pcodeupdate" value="{{ session['postcode'] }}">
+        <div class="input-group-button">
+            <input type="submit" class="button secondary">
+        </div>
+    </div>
+            </form></form>
+            {#  This area will be used to add the jinja templates for each session type#}
+            <ul class="hero-search-filter-menu menu align-center">
+                <li><li><a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i>
+        <form action="{{ url_for("update_rooms") }}" method="post" name="minrooms">
+            <div class="form-group">
+                <label for="minrooms" style="font-size: 10px;">Number of Beds</label>
+                <select id="minrooms" class="form-select form-select-sm" name="minrooms" style="width: 100px; font-size: 12px;" onchange="this.form.submit()">
+                    <option value="{{ session['brooms'] }}">{{ session['brooms'] }}</option>
+                    <option value="0">Studio</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+        </form>
+    </a>
+    </li>
+
+    <a href="#"><i class="fa fa-glass" aria-hidden="true"></i>
+    <form action="{{ url_for("update_radius") }}" method="post" name="radius">
+        <div class="form-group">
+         <label for="radius" style="font-size: 10px;">Enter search radius:</label>
+            <select id="radius" class="form-select form-select-sm" style="width: 100px; font-size: 12px;" onchange="this.form.submit()" name="radius">
+                <option>{{ session['radius'] }} miles</option>
+                <option value="0">+0 miles</option>
+                <option value="1">+1 miles</option>
+                <option value="3">+3 miles</option>
+                <option value="5">+5 miles</option>
+                <option value="10">+10 miles</option>
+                <option value="15">+15 miles</option>
+                <option value="30">+30 miles</option>
+                <option value="50">+50 miles</option>
+            </select>
+        </div>
+    </form>
+    </a>
+    </li>
+{% if session['type'] == 'sales' %}
+    <li>
+    <a href="#"><i class="fa fa-wrench" aria-hidden="true"></i>
+    <form action="{{ url_for("update_min_price") }}" style="width: 100px; " id="minprice" method="post" name="minprice">
+        <div class="form-group">
+          <label for="minprice" style="font-size: 10px;">Select minimum price</label>
+            <select id="minpriceoptions" name="minprice" style="font-size: 12px;" onchange="this.form.submit()">
+                <option>£{{ session['minprice'] }}</option>
+                 <option value="50000"
+                >£50,000</option>
+                    <option value="60000"
+                >£60,000</option>
+                    <option value="70000"
+                >£70,000</option>
+                    <option value="80000"
+                >£80,000</option>
+                    <option value="90000"
+                >£90,000</option>
+                    <option value="100000"
+                >£100,000</option>
+                    <option value="110000"
+                >£110,000</option>
+                    <option value="120000"
+                >£120,000</option>
+                    <option value="125000"
+                >£125,000</option>
+                    <option value="130000"
+                >£130,000</option>
+                    <option value="140000"
+                >£140,000</option>
+                    <option value="150000"
+                >£150,000</option>
+                    <option value="160000"
+                >£160,000</option>
+                    <option value="170000"
+                >£170,000</option>
+                    <option value="175000"
+                >£175,000</option>
+                    <option value="180000"
+                >£180,000</option>
+                    <option value="190000"
+                >£190,000</option>
+                    <option value="200000"
+                >£200,000</option>
+                    <option value="210000"
+                >£210,000</option>
+                    <option value="220000"
+                >£220,000</option>
+                    <option value="230000"
+                >£230,000</option>
+                    <option value="240000"
+                >£240,000</option>
+                    <option value="250000"
+                >£250,000</option>
+                    <option value="260000"
+                >£260,000</option>
+                    <option value="270000"
+                >£270,000</option>
+                    <option value="280000"
+                >£280,000</option>
+                    <option value="290000"
+                >£290,000</option>
+                    <option value="300000"
+                >£300,000</option>
+                    <option value="325000"
+                >£325,000</option>
+                    <option value="350000"
+                >£350,000</option>
+                    <option value="375000"
+                >£375,000</option>
+                    <option value="400000"
+                >£400,000</option>
+                    <option value="425000"
+                >£425,000</option>
+                    <option value="450000"
+                >£450,000</option>
+                    <option value="475000"
+                >£475,000</option>
+                    <option value="500000"
+                >£500,000</option>
+                    <option value="550000"
+                >£550,000</option>
+                    <option value="600000"
+                >£600,000</option>
+                    <option value="650000"
+                >£650,000</option>
+                    <option value="700000"
+                >£700,000</option>
+                    <option value="800000"
+                >£800,000</option>
+                    <option value="900000"
+                >£900,000</option>
+                    <option value="1000000"
+                >£1,000,000</option>
+                    <option value="1250000"
+                >£1,250,000</option>
+                    <option value="1500000"
+                >£1,500,000</option>
+                    <option value="1750000"
+                >£1,750,000</option>
+                    <option value="2000000"
+                >£2,000,000</option>
+                    <option value="2500000"
+                >£2,500,000</option>
+                    <option value="3000000"
+                >£3,000,000</option>
+                    <option value="4000000"
+                >£4,000,000</option>
+                    <option value="5000000"
+                >£5,000,000</option>
+                    <option value="7500000"
+                >£7,500,000</option>
+                    <option value="10000000"
+                >£10,000,000</option>
+                    <option value="15000000"
+                >£15,000,000</option>
+                    <option value="20000000"
+                >£20,000,000</option>
+            </select>
+        </div>
+    </form>
+    </a>
+    </li>
+    <li>
+      <a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i>
+        <form action="{{ url_for("update_max_price") }}" id="maxprice" style="width: 100px; " method="post" name="maxprice">
+            <div class="form-group">
+                <label for="maxprice" style="font-size: 10px;">Select max price</label>
+                <select id="maxprice" name="maxprice" style="font-size: 12px;" onchange="this.form.submit()">
+            <option>£{{ session['maxprice'] }}</option>
+             <option value="50000"
+            >£50,000</option>
+                <option value="60000"
+            >£60,000</option>
+                <option value="70000"
+            >£70,000</option>
+                <option value="80000"
+            >£80,000</option>
+                <option value="90000"
+            >£90,000</option>
+                <option value="100000"
+            >£100,000</option>
+                <option value="110000"
+            >£110,000</option>
+                <option value="120000"
+            >£120,000</option>
+                <option value="125000"
+            >£125,000</option>
+                <option value="130000"
+            >£130,000</option>
+                <option value="140000"
+            >£140,000</option>
+                <option value="150000"
+            >£150,000</option>
+                <option value="160000"
+            >£160,000</option>
+                <option value="170000"
+            >£170,000</option>
+                <option value="175000"
+            >£175,000</option>
+                <option value="180000"
+            >£180,000</option>
+                <option value="190000"
+            >£190,000</option>
+                <option value="200000"
+            >£200,000</option>
+                <option value="210000"
+            >£210,000</option>
+                <option value="220000"
+            >£220,000</option>
+                <option value="230000"
+            >£230,000</option>
+                <option value="240000"
+            >£240,000</option>
+                <option value="250000"
+            >£250,000</option>
+                <option value="260000"
+            >£260,000</option>
+                <option value="270000"
+            >£270,000</option>
+                <option value="280000"
+            >£280,000</option>
+                <option value="290000"
+            >£290,000</option>
+                <option value="300000"
+            >£300,000</option>
+                <option value="325000"
+            >£325,000</option>
+                <option value="350000"
+            >£350,000</option>
+                <option value="375000"
+            >£375,000</option>
+                <option value="400000"
+            >£400,000</option>
+                <option value="425000"
+            >£425,000</option>
+                <option value="450000"
+            >£450,000</option>
+                <option value="475000"
+            >£475,000</option>
+                <option value="500000"
+            >£500,000</option>
+                <option value="550000"
+            >£550,000</option>
+                <option value="600000"
+            >£600,000</option>
+                <option value="650000"
+            >£650,000</option>
+                <option value="700000"
+            >£700,000</option>
+                <option value="800000"
+            >£800,000</option>
+                <option value="900000"
+            >£900,000</option>
+                <option value="1000000"
+            >£1,000,000</option>
+                <option value="1250000"
+            >£1,250,000</option>
+                <option value="1500000"
+            >£1,500,000</option>
+                <option value="1750000"
+            >£1,750,000</option>
+                <option value="2000000"
+            >£2,000,000</option>
+                <option value="2500000"
+            >£2,500,000</option>
+                <option value="3000000"
+            >£3,000,000</option>
+                <option value="4000000"
+            >£4,000,000</option>
+                <option value="5000000"
+            >£5,000,000</option>
+                <option value="7500000"
+            >£7,500,000</option>
+                <option value="10000000"
+            >£10,000,000</option>
+                <option value="15000000"
+            >£15,000,000</option>
+                <option value="20000000"
+            >£20,000,000</option>
+        </select>
+            </div>
+        </form>
+        </a>
+      </li>
+        </ul>
+        <ul class="hero-search-filter-menu menu align-center">
+          <li>
+            <a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i>
+            <div class="dropdown show">
+                <a class="dropdown-toggle" data-toggle="dropdown">For Sale
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href=# id=rmovesale value=0>RightMove</a></li>
+                    <li><a href=# id=otmsale>OnTheMarket</a></li>
+                    <li><a href=# id=gumtree>Gumtree</a></li>
+                    <li><a href=# id=zooplasales>Zoopla Sales</a></li>
+                    <li><a href=# id=allsales>All Results</a>/li>
+                </ul>
+            </div>
+            </a>
+          </li>
+            <li><a href="#"><i class="fa fa-glass" aria-hidden="true"></i>
+            <div class="dropdown">
+                <a class="dropdown-toggle" id=planningdata data-toggle="dropdown">Land Planning</a>
+            </div>
+          </a></li>
+          <li><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i>
+                <div class="dropdown">
+                    <a id=crysdata>Local Area Statistics</a>
+                </div>
+            </a>
+          </li>
+          <li>
+            <a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">Sold Properties
+                    <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href=# id=soldpricejson>Land Registry Sold</a></li>
+                        <li><a href=# id=rmovesold>RightMove Sold</a></li>
+                    </ul>
+                </div>
+                </a>
+              </li>
+            </ul>
+        </div>
+{% else %}
+    <li>
+           <a href="#"><i class="fa fa-wrench" aria-hidden="true"></i>
+            <form action="{{ url_for("update_min_price") }}" style="width: 100px; " id="minprice" method="post" name="minprice">
+            <div class="form-group">
+              <label for="minprice" style="font-size: 10px;">Select minimum price</label>
+                <select id="minpriceoptions" name="minprice" style="font-size: 12px;" onchange="this.form.submit()">
+                    <option value="100">{{ session['minprice'] }} PCM</option>
+                    <option value="150">150 PCM</option>
+                    <option value="200">200 PCM</option>
+                    <option value="250">250 PCM</option>
+                    <option value="300">300 PCM</option>
+                    <option value="350">350 PCM</option>
+                    <option value="400">400 PCM</option>
+                    <option value="450">450 PCM</option>
+                    <option value="500">500 PCM</option>
+                    <option value="600">600 PCM</option>
+                    <option value="700">700 PCM</option>
+                    <option value="800">800 PCM</option>
+                    <option value="900">900 PCM</option>
+                    <option value="1000">1,000 PCM</option>
+                    <option value="1100">1,100 PCM</option>
+                    <option value="1200">1,200 PCM</option>
+                    <option value="1250">1,250 PCM</option>
+                    <option value="1300">1,300 PCM</option>
+                    <option value="1400">1,400 PCM</option>
+                    <option value="1500">1,500 PCM</option>
+                    <option value="1750">1,750 PCM</option>
+                    <option value="2000">2,000 PCM</option>
+                    <option value="2250">2,250 PCM</option>
+                    <option value="2500">2,500 PCM</option>
+                    <option value="2750">2,750 PCM</option>
+                    <option value="3000">3,000 PCM</option>
+                    <option value="3500">3,500 PCM</option>
+                    <option value="4000">4,000 PCM</option>
+                    <option value="4500">4,500 PCM</option>
+                    <option value="5000">5,000 PCM</option>
+                    <option value="5500">5,500 PCM</option>
+                    <option value="6000">6,000 PCM</option>
+                    <option value="6500">6,500 PCM</option>
+                    <option value="7000">7,000 PCM</option>
+                    <option value="8000">8,000 PCM</option>
+                    <option value="9000">9,000 PCM</option>
+                    <option value="10000">10,000 PCM</option>
+                    <option value="12500">12,500 PCM</option>
+                    <option value="15000">15,000 PCM</option>
+                    <option value="17500">17,500 PCM</option>
+                    <option value="20000">20,000 PCM</option>
+                    <option value="25000">25,000 PCM</option>
+                    <option value="30000">30,000 PCM</option>
+                    <option value="35000">35,000 PCM</option>
+                    <option value="40000">40,000 PCM</option>
+                </select>
+            </div>
+        </form>
+      </a>
+      </li>
+  <li>
+         <a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i>
+            <form action="{{ url_for("update_max_price") }}" id="maxprice" style="width: 100px; " method="post" name="maxprice">
+            <div class="form-group">
+                <label for="maxprice" style="font-size: 10px;">Select max price</label>
+                <select id="maxprice" name="maxprice" style="font-size: 12px;" onchange="this.form.submit()">
+                   <option value="100">{{ session['maxprice'] }} PCM</option>
+                    <option value="150">150 PCM</option>
+                    <option value="200">200 PCM</option>
+                    <option value="250">250 PCM</option>
+                    <option value="300">300 PCM</option>
+                    <option value="350">350 PCM</option>
+                    <option value="400">400 PCM</option>
+                    <option value="450">450 PCM</option>
+                    <option value="500">500 PCM</option>
+                    <option value="600">600 PCM</option>
+                    <option value="700">700 PCM</option>
+                    <option value="800">800 PCM</option>
+                    <option value="900">900 PCM</option>
+                    <option value="1000">1,000 PCM</option>
+                    <option value="1100">1,100 PCM</option>
+                    <option value="1200">1,200 PCM</option>
+                    <option value="1250">1,250 PCM</option>
+                    <option value="1300">1,300 PCM</option>
+                    <option value="1400">1,400 PCM</option>
+                    <option value="1500">1,500 PCM</option>
+                    <option value="1750">1,750 PCM</option>
+                    <option value="2000">2,000 PCM</option>
+                    <option value="2250">2,250 PCM</option>
+                    <option value="2500">2,500 PCM</option>
+                    <option value="2750">2,750 PCM</option>
+                    <option value="3000">3,000 PCM</option>
+                    <option value="3500">3,500 PCM</option>
+                    <option value="4000">4,000 PCM</option>
+                    <option value="4500">4,500 PCM</option>
+                    <option value="5000">5,000 PCM</option>
+                    <option value="5500">5,500 PCM</option>
+                    <option value="6000">6,000 PCM</option>
+                    <option value="6500">6,500 PCM</option>
+                    <option value="7000">7,000 PCM</option>
+                    <option value="8000">8,000 PCM</option>
+                    <option value="9000">9,000 PCM</option>
+                    <option value="10000">10,000 PCM</option>
+                    <option value="12500">12,500 PCM</option>
+                    <option value="15000">15,000 PCM</option>
+                    <option value="17500">17,500 PCM</option>
+                    <option value="20000">20,000 PCM</option>
+                    <option value="25000">25,000 PCM</option>
+                    <option value="30000">30,000 PCM</option>
+                    <option value="35000">35,000 PCM</option>
+                    <option value="40000">40,000 PCM</option>
+            </select>
+        </div>
+            </form>
+         </a>
+      </li>
+        </ul>
+            <ul class="hero-search-filter-menu menu align-center">
+          <li><a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i>
+           <div class="dropdown show">
+            <a class="dropdown-toggle" data-toggle="dropdown">To Rent
+            <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href=# id=rmovelets>RightMove</a></li>
+                    <li><a href=# id=otmrent>OnTheMarket</a></li>
+                    <li><a href=# id=gumtree>Gumtree</a></li>
+                    <li><a href=# id=zooprent>Zoopla</a></li>
+                </ul>
+            </div>
+          </a></li>
+                     <li><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i>
+                <div class="dropdown">
+                    <a id=crysdata>Local Area Statistics</a>
+                </div>
+            </a>
+          </li>
+    </ul>
+{% endif %}
+
+
+    </header>
+</div>
+<script>
+    $(document).foundation();
+</script>
+
+<div id="pages" class="container"></div>
+<div id="forsale" class="container" style="padding-top: 75px;"></div>
+<div id="gumtreeres" class="container"></div>
+<div id="rightmoveres" class="container"></div>
+<div id="otm" class="container"></div>
+
+
+</body>
+
+</html>
