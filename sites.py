@@ -5,7 +5,6 @@ import requests
 import re
 from bs4 import BeautifulSoup, SoupStrainer
 import urllib.request
-import cloudscraper
 import os
 from Naked.toolshed.shell import execute_js, muterun_js
 import random
