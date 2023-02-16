@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="refresh"/>
+    <title>Property Search: Sales</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='foundation.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.4/dist/css/foundation.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.5/dist/js/foundation.min.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.0.1/js/vendor/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/js/foundation.min.js"
+       crossorigin="anonymous">
+     </script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <style>
+
+        h1, h2, button {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+
+    .wrapper {
+            display: inline-grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-auto-rows: 100px;
+        }
+
+    .box1 {
+          grid-column-start: 1;
+          grid-column-end: 4;
+          grid-row-start: 1;
+          grid-row-end: 3;
+        }
+
+    .box2 {
+        grid-column-start: 2;
+        grid-column-end: 3;
+        grid-row-start: 3;
+        grid-row-end: 5;
+        background-color: #1A2090;
+        border-radius: 4px;
+        min-width: 500px;
+    }
+
+    .box3 {
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 7;
+        grid-row-end: 10;
+        background-color: red;
+    }
+
+    .box4 {
+        grid-column-start: 2;
+        grid-column-end: 3;
+        grid-row-start: 7;
+        grid-row-end: 10;
+        background-color: blue;
+    }
+
+    .box5 {
+        grid-column-start: 3;
+        grid-column-end: 4;
+        grid-row-start: 7;
+        grid-row-end: 10;
+        background-color: green;
+    }
+
+    .searchbox {
+        width: 100%;
+        background-color: #1A2090;
+        display: inline-block;
+        border-radius: 4px;
+        text-align: center;
+        padding: 24px 8px 24px 8px;
+        min-width: 500px;
+
+    }
+
+    .footer {
+        grid-column-start: 1;
+        grid-column-end: 4;
+        grid-row-start: 11;
+        grid-row-end: 12;
+        background-color: indigo;
+    }
+
+    .h1style {
+        color: white;
+    }
+
+    .h2style {
+        color: white;
+        font-size: 20px;
+    }
+
+    .searchbar{
+          border:none;
+          font-size:16px;
+          outline: none;
+        border-radius: 6px;
+    }
+
+   .button {
+        border-radius: 6px;
+       min-width: 100px;
+       font-family: 'Montserrat', sans-serif;
+       background-color: #FF0C1E;
+    }
+
+    </style>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-light bg-light justify-content-between">
+      <a class="navbar-brand"><img src="/static/images/mainlogo.png" alt="mainlogo" width="100" height="100" ></a>
+    </nav>
+</header>
+<div class="wrapper">
+    <div class="box1">
+        <img src="/static/images/background.jpeg">
+    </div>
+    <div class="box2">
+        <div class="searchbox">
+            <h1 class="h1style"><b>Property Scanner</b></h1>
+            <h2 class="h2style">Search properties for sale and rent.</h2>
+                <form action="{{ url_for("search")}}" style="padding-left: 20px; padding-top: 20px; padding-right: 20px;" method="post" name="search" onsubmit="return validateForm()">
+                <div class="bar" >
+                  <input class="searchbar" type="text"  id="postcode" name="pcode" title="Search" placeholder="Postcode e.g. SE1 or SE3 2NP" required>
+                </div>
+                  <div class="buttons">
+                    <button class="button" type="submit" name="sales" value="sales"><b>Sales</b></button>
+                    <button class="button" type="submit" name="lettings" value="lettings"><b>Lettings</b></button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="box3" style="padding-top: 125px; margin-left: 20px; margin-right: 20px;">
+
+     </div>
+    <div class="box4" style="padding-top: 125px; margin-left: 20px; margin-right: 20px;">
+    </div>
+    <div class="box5" style="padding-top: 125px; margin-left: 20px; margin-right: 20px;">
+    </div>
+    <div class="footer" style="padding-top: 125px;">
+
+    </div>
+</div>
+
+</body>
+</html>

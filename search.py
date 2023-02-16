@@ -1,11 +1,11 @@
+import json
+
 from flask import Flask, session, request, render_template, jsonify, redirect, url_for
 import sites
-
+import threading
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
-# proxies = sites.Proxies()
-# prox_list = proxies.getProxyList()
 
 @app.route('/planningdata', methods=["GET"])
 def planning_data():
@@ -21,9 +21,9 @@ def sold_prices():
 
 @app.route('/zooplasale', methods=["GET"])
 def zoopla_sales():
-    zoop = sites.Zoopla(session['postcode'], "for-sale")
+    zoop = sites.Zoopla(session['postcode'], "for-sale", session['brooms'], session['minprice'], session['maxprice'])
     zooplaresults = zoop.requests()
-    return jsonify(zooplaresults)
+    return zooplaresults
 
 @app.route('/zooplalet', methods=["GET"])
 def zoopla_lets():
@@ -35,15 +35,21 @@ def zoopla_lets():
 def rmove_sales():
     rmove = sites.Rightmove(session['postcode'], "SALE", session['radius'], session['brooms'], session['minprice'], session['maxprice'], session['resnum'])
     rmove_results = rmove.requestScrape()
-    # session['proxindex'] = proxies.increaseProxVar(session['proxindex'])
     return jsonify(rmove_results)
 
 
 @app.route('/gumtreesales', methods=["GET"])
 def gumtree_scrape():
-    gum = sites.Gumtree(session['postcode'], session['brooms'], session['minprice'], session['maxprice'], session['radius'], session['type'])
+    gum = sites.Gumtree('for-sale', session['postcode'], session['brooms'], session['minprice'], session['maxprice'], session['radius'], session['type'])
     gumresults = gum.request()
     # session['proxindex'] = proxies.increaseProxVar(session['proxindex'])
+    return jsonify(gumresults)
+
+@app.route('/gumtreesales', methods=["GET"])
+def gumtree_lets():
+    gum = sites.Gumtree('to-rent', session['postcode'], session['brooms'], session['minprice'], session['maxprice'],
+                       session['radius'], session['type'])
+    gumresults = gum.request()
     print("Gumtree scrape results: ", gumresults)
     return jsonify(gumresults)
 
@@ -64,9 +70,6 @@ def rmov_sold():
 def otm_sales():
     otmsale = sites.OnTheMarket(session['postcode'], "for-sale", session['radius'], session['brooms'], session['minprice'], session['maxprice'], session['resnum'])
     otm_results = otmsale.request()
-    print("\n")
-    print(otm_results)
-    # session['proxindex'] = proxies.increaseProxVar(session['proxindex'])
     return jsonify(otm_results)
 
 @app.route('/otmrent', methods=["GET"])
@@ -82,12 +85,25 @@ def crystal_stats():
     resp = crysstats.stats()
     return jsonify(resp)
 
+
+# Updates
 @app.route('/pcodeupdate', methods=["GET", "POST"])
 def update_pcode():
 
     if request.method == "POST":
         update = request.form.get("pcodeupdate")
         session['postcode'] = update.upper()
+        return render_template('base.html')
+
+    return render_template('base.html')
+@app.route('/pandr_update', methods=["GET", "POST"])
+def update_pcode_radius():
+    print("UPDATE RADIUS")
+    if request.method == "POST":
+        update = request.form.get("pcodeupdate")
+        session['postcode'] = update.upper()
+        radius = request.form.get("radius")
+        session['radius'] = radius
         return render_template('base.html')
 
     return render_template('base.html')
@@ -178,20 +194,38 @@ def letsform():
 def returnAll():
     if session['type'] == 'sales':
 
+        print("Return all")
 
-        # a = otm_sales()
+        otmsale = sites.OnTheMarket(session['postcode'], "for-sale", session['radius'], session['brooms'],
+                                    session['minprice'], session['maxprice'], session['resnum'])
+        otm_results = otmsale.request()
+        print("returned results of a")
 
-        b = rmove_sales()
+        rmove = sites.Rightmove(session['postcode'], "SALE", session['radius'], session['brooms'], session['minprice'],
+                                session['maxprice'], session['resnum'])
+        rmove_results = rmove.requestScrape()
+        print("returned results of b")
 
-        c = gumtree_scrape()
+        gum = sites.Gumtree('for-sale', session['postcode'], session['brooms'], session['minprice'],
+                            session['maxprice'], session['radius'], session['type'])
+        gumresults = gum.request()
+        print("returned results of c")
 
-        d = zoopla_sales()
+        zoop = sites.Zoopla(session['postcode'], "for-sale")
+        zooplaresults = zoop.requests()
+        print("returned results of d")
+
+        res = otm_results+rmove_results+gumresults+zooplaresults
 
         #Removed otm from the list
-        return [b, c, d]
+        return jsonify(res)
 
-
-
+@app.route('/lettingsudate', methods=["GET", "POST"])
+def lettings():
+    if request.method == "POST":
+        session['type'] = "lettings"
+        return ('base.html')
+    pass
 @app.route('/back', methods=["GET"])
 def goBack():
     session.clear()
@@ -200,6 +234,10 @@ def goBack():
 
 @app.route('/', methods =["GET", "POST"])
 def search():
+
+    # proxies = sites.Proxies()
+    # prox_list = proxies.createProxyList()
+
     if request.method == "POST":
         search_query = request.form.get("pcode")
         session['postcode'] = search_query.upper()
@@ -218,14 +256,27 @@ def search():
             session['type'] = lettings
             session['minprice'] = 450
             session['maxprice'] = 2000
+        return render_template('b_2.html')
+
+    return render_template('tpage.html')
+
+@app.route('/f2submit', methods=["GET", "POST"])
+def search_p2():
+
+    if request.method == "POST":
+        minprice = request.form.get("minprice")
+        session['minprice'] = minprice
+        maxprice = request.form.get("maxprice")
+        session['maxprice'] = maxprice
+        radius = request.form.get("radius")
+        session['radius'] = radius
+        rooms = request.form.get("rooms")
+        session['rooms'] = rooms
         return render_template('base.html')
 
-    return render_template('form.html')
+
 
 if __name__ == '__main__':
-
-    # proxy = sites.Proxies()
-    # proxy.createProxyList()
 
 
     context = ('local.crt', 'local.key')
@@ -234,3 +285,10 @@ if __name__ == '__main__':
     app.config["TEMPLATES_AUTO_RELOAD"] = True
 
     app.run()
+
+
+
+
+
+
+

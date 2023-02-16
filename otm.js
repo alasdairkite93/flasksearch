@@ -9,10 +9,11 @@ puppeteer.use(StealthPlugin())
 
 // puppeteer usage as normal
 
-function scrapeUrl(url) {
+function scrapeUrl(url, proxy) {
+    console.log("puppeteer using: "+url);
 
     puppeteer.launch({
-        headless: true, executablePath: executablePath(),
+        headless: true, executablePath: executablePath(), args: [proxy]
     }).then(async browser => {
         console.log('Running tests..')
         const page = await browser.newPage()
@@ -33,8 +34,15 @@ function scrapeUrl(url) {
 }
 
 function readFile(){
+    console.log("read file method")
     var text = fs.readFileSync("./urls.txt");
-    scrapeUrl(text.toString());
+    console.log(text.toString())
+    const vals = text.toString().split(',');
+    const url = vals[0].toString();
+    console.log("url: "+url);
+    const proxy = vals[1].toString();
+    console.log("proxy: "+proxy);
+    scrapeUrl(url, proxy);
 }
 
 readFile();

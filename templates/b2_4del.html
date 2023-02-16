@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    .wrapper {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  grid-auto-rows: minmax(50px, auto);
+  grid-template-areas:
+    ".. .. hd hd   hd   hd   hd   ..   .."
+    "gd gd nv nv   nv   nv   nv   he   he"
+    "sd sd sd main main main main main main"
+    "ft ft ft ft   ft   ft   ft   ft   ft";
+}
+
+    .fill_back {
+          grid-area: fl;
+        background-color: red;
+    }
+
+    .side_div {
+        grid-area: gd;
+        background-color: aquamarine;
+    }
+
+    .right_side {
+        grid-area: he;
+        background-color: aquamarine;
+    }
+
+    .header {
+  grid-area: hd;
+        background-color: red;
+}
+    .nav {
+        grid-area: nv;
+        background-color: #131A91;
+    }
+
+.footer {
+  grid-area: ft;
+    background-color: green;
+}
+.content {
+  grid-area: main;
+    background-color: purple;
+}
+.sidebar {
+  grid-area: sd;
+    background-color: grey;
+}
+
+</style>
+<body>
+<div class="wrapper background">
+    <div class="header">Header</div>
+   <div class="side_div">side div</div> <div class="nav">Nav</div> <div class="right_side">right side</div>
+  <div class="sidebar">Sidebar</div>
+  <div class="content">Content</div>
+  <div class="footer">Footer</div>
+</div>
+</body>
+</html>

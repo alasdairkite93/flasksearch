@@ -5,9 +5,11 @@
     <meta http-equiv="refresh"/>
     <title>Property Search: Sales</title>
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='foundation.css') }}">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.4/dist/css/foundation.min.css" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.5/dist/js/foundation.min.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
@@ -96,7 +98,7 @@
         $('a#gumtree').click(function(){
 
             $.get("/gumtreesales", function(data){
-                gumtree(data);
+                forSale(data);
             })
         })
     });
@@ -204,10 +206,10 @@
     $(function() {
         $('a#allsales').click(function() {
             $.get("/returnall", function (data){
-                all(data);
+                forSale(data);
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                alert(errorThrown+" Try using correct format of postcode");
+                alert("DID NOT RETURN ALL RESUTLS");
             })
         })
     });
@@ -222,15 +224,9 @@
 
     /**Update page **/
 
-    $(function() {
-        $('a#lettingspage').click(function() {
-            $.post("/updatesession", function() {
-                updateToLettings();
-            })
-        })
-    })
 
     /**body on load function**/
+
 
     function updateToLettings(){
         //change session variable to lettings
@@ -244,90 +240,7 @@
         const section = document.getElementById('forsale');
         section.innerHTML = "";
 
-        for (var i =0; i<json_data.length; i++){
-            for (data of json_data[i]){
-                for (prop of json_data) {
-
-                    const newDiv = document.createElement("div");
-                    newDiv.setAttribute("class", "card mb-6");
-                    newDiv.setAttribute("style", "max-width: 840px;");
-                    section.appendChild(newDiv);
-
-                    const rowdiv2 = document.createElement("div");
-                    rowdiv2.setAttribute("class", "row no-gutters");
-                    newDiv.appendChild(rowdiv2);
-
-                    const rowdiv = document.createElement("div");
-                    rowdiv.setAttribute("class", "row no-gutters");
-                    newDiv.appendChild(rowdiv);
-
-                    const divcolmd8 = document.createElement("div");
-                    divcolmd8.setAttribute("class", "col-md-8");
-                    rowdiv.appendChild(divcolmd8);
-                    const cardbody = document.createElement("div");
-                    cardbody.setAttribute("class", "card=body");
-                    divcolmd8.appendChild(cardbody);
-
-                    const anchor = document.createElement("a");
-                    url = prop[4];
-                    anchor.setAttribute("href", url);
-
-                    const dispaddres = document.createElement("h5");
-                    const add_cont = document.createTextNode(prop[0]);
-                    dispaddres.appendChild(add_cont);
-                    anchor.appendChild(dispaddres);
-                    cardbody.appendChild(anchor);
-
-                    const branchname = document.createElement("p");
-                    const branch_cont = document.createTextNode("Branch: "+prop[1]);
-                    branchname.appendChild(branch_cont);
-                    cardbody.appendChild(branchname);
-
-                    const bedrooms = document.createElement("p");
-                    const bed_rooms = document.createTextNode("Rooms: "+prop[2]);
-                    bedrooms.appendChild(bed_rooms);
-                    cardbody.appendChild(bedrooms);
-
-                    const price = document.createElement("p");
-                    const price_fig = document.createTextNode("Price: "+prop[3]);
-                    price.appendChild(price_fig);
-                    cardbody.appendChild(price);
-
-                    const site = document.createElement("p");
-
-                          switch(i){
-                              case 0:
-                                    const site_content = document.createTextNode("On the Market Result");
-                                    site.appendChild(site_content)
-                                    break;
-                                case 1:
-                                    const site_rmovet = document.createTextNode("Right Move Results");
-                                    site.appendChild(site_rmovet)
-                                    break;
-                                case 2:
-                                    const site_gum = document.createTextNode("Gumtree Result");
-                                    site.appendChild(site_gum)
-                                    break;
-                                case 3:
-                                    const site_zoop = document.createTextNode("Zoopla Result");
-                                    site.appendChild(site_zoop)
-                                    break;
-                            }
-                    cardbody.appendChild(site);
-
-                    const coldiv = document.createElement("div");
-                    coldiv.setAttribute("class", "col-md-4");
-                    const img_anch = document.createElement("a");
-                    img_anch.setAttribute("href", prop[4]);
-                    const img = document.createElement("img");
-                    img.src = prop[5];
-                    img_anch.appendChild(img);
-                    coldiv.appendChild(img_anch);
-                    rowdiv.appendChild(coldiv);
-
-                }
-            }
-        }
+        console.log(json_data)
 
     }
 
@@ -550,11 +463,19 @@
                 title.appendChild(zoop_lets);
                 url = 'https://www.zoopla.co.uk/to-rent/details/'
                 break;
+            case 6:
+                const gumtreesales = document.createTextNode("Gumtree Sales");
+                title.appendChild(gumtreesales);
+                url = 'https://www.gumtree.com/'
+                break;
+            case 7:
+                const alltitle = document.createTextNode("All Sales");
+                title.appendChild(alltitle);
+                break;
             }
 
 
         section.appendChild(title);
-
         for (prop of json_data) {
 
             const newDiv = document.createElement("div");
@@ -602,6 +523,11 @@
             price.appendChild(price_fig);
             cardbody.appendChild(price);
 
+            const soure = document.createElement("p");
+            const sourc_cont = document.createTextNode("Source: "+prop[6])
+            soure.appendChild(sourc_cont);
+            cardbody.appendChild(soure);
+
             const coldiv = document.createElement("div");
             coldiv.setAttribute("class", "col-md-4");
             const img_anch = document.createElement("a");
@@ -611,7 +537,6 @@
             img_anch.appendChild(img);
             coldiv.appendChild(img_anch);
             rowdiv.appendChild(coldiv);
-
         }
         {#section.appendChild(paginate(4, id));#}
         return;
@@ -768,59 +693,22 @@
         document.getElementById("resultnum").click();
     }
 
+    function pUpDate(){
+        document.getElementById('searchbutton').submit()
+    }
+
     </script>
     <style>
-
-        {#search features#}
 
     ::placeholder {
         color: black;
     }
 
-    .searchbar{
-      height:45px;
-      border:none;
-      width:500px;
-      font-size:16px;
-      outline: none;
-        margin-left: 20px;
-        border: black solid 2px;
-    }
 
     input {
             display: inline;
         }
 
-    .button{
-      background-color: #f5f5f5;
-      border:none;
-      color:#707070;
-      font-size:15px;
-      padding: 10px 20px;
-      margin:5px;
-      border-radius:4px;
-      outline:none;
-    }
-    .button:hover{
-      border: 1px solid #c8c8c8;
-      padding: 9px 19px;
-      color:#808080;
-    }
-    .button:focus{
-      border:1px solid #4885ed;
-      padding: 9px 19px;
-    }
-
-    .overlay{
-    display: none;
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 999;
-    background: url("{{ url_for('static', filename='loading.gif') }}") center no-repeat;
-    }
     /* Turn off scrollbar when body element has the loading class */
     body.loading{
         overflow: hidden;
@@ -830,58 +718,199 @@
         display: block;
     }
 
+    h1, body, select, option, a, ul, li {
+        font-family: 'Montserrat', sans-serif;
+    }
+
+
+
+      .wrapper {
+          display: grid;
+          grid-template-columns: repeat(9, 1fr);
+          grid-auto-rows: minmax(75px, auto);
+            align-items: center;
+          grid-template-areas:
+            "lg hd hd hd   hd   hd   hd   hd   hd"
+            "nv nv nv nv   nv   nv   nv   nv   nv"
+            ".. .. main main main main main .. .."
+            "ft ft ft ft   ft   ft   ft   ft   ft";
+        }
+
+       .box1 {
+          grid-area:hd;
+           justify-self: center;
+        }
+
+       .box2 {
+           grid-area: nv;
+           background-color: #1A2090;
+       }
+
+       .logo {
+           grid-area: lg;
+           background-image: url("/static/images/mainlogo.png");
+       }
+
+       .box3 {
+           grid-area: main;
+            justify-self: center;
+       }
+
+       .box4 {
+           grid-area: gd;
+           background-color: #1A2090;
+       }
+
+       .box5 {
+           grid-area: ge;
+          background-color: #1A2090;
+       }
+
+       .navbar navbar-inverse {
+          background-color: #1A2090;
+             border-color: #131A91;
+        }
+
+  .custom-select {
+        position: relative;
+    }
+
+    .custom-select select {
+        display: none; /*hide original SELECT element: */
+    }
+
+
+    .select-selected {
+        background-color: #1A2090;
+        font-family: 'Montserrat', sans-serif;
+
+    }
+
+    /* Style the arrow inside the select element: */
+    .select-selected:after {
+        position: absolute;
+        content: "";
+        top: 14px;
+        right: 10px;
+        width: 0;
+        height: 0;
+        border: 6px solid transparent;
+        border-color: #fff transparent transparent transparent;
+    }
+
+    /* Point the arrow upwards when the select box is open (active): */
+    .select-selected.select-arrow-active:after {
+        border-color: transparent transparent #fff transparent;
+        top: 7px;
+    }
+
+    /* style the items (options), including the selected item: */
+    .select-items div,.select-selected {
+        color: white;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 20px;
+        padding: 8px 16px;
+        border: 1px solid transparent;
+        border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+        cursor: pointer;
+    }
+
+    /* Style items (options): */
+    .select-items {
+        position: absolute;
+           background-color: #1A2090;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: 99;
+    }
+
+    /* Hide the items when the select box is closed: */
+    .select-hide {
+        display: none;
+    }
+
+    .select-items div:hover, .same-as-selected {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    #fontstyle {
+        font-family: 'Montserrat', sans-serif;
+        color: black;
+    }
+
     </style>
 </head>
 <body>
-<div class="content">
-    <ul class="nav nav-pills navbar-left">
-      <li class="nav-item">
-        <a class="nav-link active" id=back href="/">Back</a>
-      </li>
+<div class="wrapper">
+<div class="logo">
+    <img src="/static/images/mainlogo.png" alt="mainlogo" width="200" height="200" style="float: left;">
+</div>
+<div class="box1" >
+<div class="container" >
     {% if session['type'] == 'sales' %}
-        <li class="nav-item">
-            <form action="{{ url_for("search")}}" method="post" name="search" >
-                <input type="hidden" name="page" value="lettings">
-                <input type="hidden" name="pcode" value="{{ session['postcode'] }}">
-            <div class="buttons">
-                <button class="button" type="submit" name="lettings" value="lettings">Lettings</button>
-            </div>
-            </form>
-        </li>
+     <ul class="nav navbar-nav">
+        <li style="padding-right: 20px; "><a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i><div class="dropdown show">
+        <a class="dropdown-toggle" data-toggle="dropdown" id="fontstyle">For Sale<span class="caret"></span></a>
+           <ul class="dropdown-menu" id="fontstyle">
+                <li><a href=# id=rmovesale value=0>RightMove</a></li>
+                <li><a href=# id=otmsale>OnTheMarket</a></li>
+                <li><a href=# id=gumtree>Gumtree</a></li>
+                <li><a href=# id=zooplasales>Zoopla Sales</a></li>
+                <li><a href=# id=allsales>All Results</a></li>
+            </ul>
+        </div></a></li>
+        <li style="padding-right: 20px;" ><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i><div class="dropdown" ><a id=planningdata>Land Planning</a></div></a></li>
+        <li style="padding-right: 20px;"><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i><div class="dropdown"><a id=crysdata>Local Area Statistics</a></div></a></li>
+        <li style="padding-right: 20px;"><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i><div class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown">Sold Properties<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                        <li><a href=# id=soldpricejson>Land Registry Sold</a></li>
+                        <li><a href=# id=rmovesold>RightMove Sold</a></li>
+            </ul></div></a></li>
+     </ul>
     {% endif %}
     {% if session['type'] == 'lettings' %}
-        <li class="nav-item">
-            <form action="{{ url_for("search")}}" method="post" name="search" >
-                <input type="hidden" name="page" value="lettings">
-                <input type="hidden" name="pcode" value="{{ session['postcode'] }}">
-            <div class="buttons">
-                <button class="button" type="submit" name="sales" value="sales">Sales</button>
+     <ul class="hero-search-filter-menu menu align-center" style="padding-right: 20px;">
+        <li><a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i><div class="dropdown show"><a class="dropdown-toggle" data-toggle="dropdown">To Rent
+    <span class="caret"></span></a><ul class="dropdown-menu">
+            <li><a href=# id=rmovelets>RightMove</a></li>
+            <li><a href=# id=otmrent>OnTheMarket</a></li>
+            <li><a href=# id=gumtree>Gumtree</a></li>
+            <li><a href=# id=zooprent>Zoopla</a></li>
+        </ul></div></a></li>
+        <li style="padding-right: 20px;"><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i><div class="dropdown"><a id=crysdata>Local Area Statistics</a></div></a></li>
+    </ul>
+    {% endif %}
+</div>
+</div>
+  <div class="box2" style>
+  <div class="container" style="justify-items: center">
+    <ul class="nav navbar-nav">
+        <li><form action="{{ url_for("update_pcode_radius") }}" method="post">
+            <div class="input-group" style="padding-top: 10px;">
+            <input style="width: 150px;" type="text" name="pcodeupdate" value="{{ session['postcode'] }}">
+            <div class="custom-select" style="width:100px;">
+                <select id="radius" class="form-select" aria-label="Default select example" style=" font-size: 12px;" onchange="this.form.submit()" name="radius">
+                    <option>Radius</option>
+                    <option value="0">+0 miles</option>
+                    <option value="1">+1 miles</option>
+                    <option value="3">+3 miles</option>
+                    <option value="5">+5 miles</option>
+                    <option value="10">+10 miles</option>
+                    <option value="15">+15 miles</option>
+                    <option value="30">+30 miles</option>
+                    <option value="50">+50 miles</option>
+                </select>
+            </div>
             </div>
             </form>
-        </li>
-    {% endif %}
-    </ul>
-</div>
-<div class="container" style="padding-top: 100px;">
-    <header class="hero-search-filter">
-        <div class="hero-search-filter-content">
-            <h4>{{ session['type'] }} results for: {{ session['postcode'] }}</h4>
-            <form class="hero-search-filter-form" action="{{ url_for("update_pcode") }}" method="post">
-    <div class="input-group input-group-rounded">
-        <input class="searchbar" style="border-radius: 10px;" type="text" name="pcodeupdate" value="{{ session['postcode'] }}">
-        <div class="input-group-button">
-            <input type="submit" class="button secondary">
-        </div>
-    </div>
-            </form></form>
-            {#  This area will be used to add the jinja templates for each session type#}
-            <ul class="hero-search-filter-menu menu align-center">
-                <li><li><a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i>
-        <form action="{{ url_for("update_rooms") }}" method="post" name="minrooms">
-            <div class="form-group">
-                <label for="minrooms" style="font-size: 10px;">Number of Beds</label>
-                <select id="minrooms" class="form-select form-select-sm" name="minrooms" style="width: 100px; font-size: 12px;" onchange="this.form.submit()">
-                    <option value="{{ session['brooms'] }}">{{ session['brooms'] }}</option>
+            </li>
+        <li> <form action="{{ url_for("update_rooms") }}" style="padding-left: 40px;"  method="post" name="minrooms">
+            <div class="input-group" style="padding-top: 10px; padding-left: 10px;">
+                <div class="custom-select" style="width: 125px;">
+                <select id="minrooms" class="form-select form-select-sm" name="minrooms" style=" font-size: 12px;" onchange="this.form.submit()">
+                    <option value="Number of Beds">Beds</option>
                     <option value="0">Studio</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -889,38 +918,15 @@
                     <option value="4">4</option>
                     <option value="5">5</option>
                 </select>
+                </div>
             </div>
-        </form>
-    </a>
-    </li>
-
-    <a href="#"><i class="fa fa-glass" aria-hidden="true"></i>
-    <form action="{{ url_for("update_radius") }}" method="post" name="radius">
-        <div class="form-group">
-         <label for="radius" style="font-size: 10px;">Enter search radius:</label>
-            <select id="radius" class="form-select form-select-sm" style="width: 100px; font-size: 12px;" onchange="this.form.submit()" name="radius">
-                <option>{{ session['radius'] }} miles</option>
-                <option value="0">+0 miles</option>
-                <option value="1">+1 miles</option>
-                <option value="3">+3 miles</option>
-                <option value="5">+5 miles</option>
-                <option value="10">+10 miles</option>
-                <option value="15">+15 miles</option>
-                <option value="30">+30 miles</option>
-                <option value="50">+50 miles</option>
-            </select>
-        </div>
-    </form>
-    </a>
-    </li>
-{% if session['type'] == 'sales' %}
-    <li>
-    <a href="#"><i class="fa fa-wrench" aria-hidden="true"></i>
-    <form action="{{ url_for("update_min_price") }}" style="width: 100px; " id="minprice" method="post" name="minprice">
-        <div class="form-group">
-          <label for="minprice" style="font-size: 10px;">Select minimum price</label>
-            <select id="minpriceoptions" name="minprice" style="font-size: 12px;" onchange="this.form.submit()">
-                <option>£{{ session['minprice'] }}</option>
+</form></li>
+        {% if session['type'] == 'sales' %}
+        <li><form action="{{ url_for("update_min_price") }}" id="minprice" method="post" name="minprice">
+        <div class="input-group" style="padding-top: 10px; padding-left: 10px;">
+            <div class="custom-select" style="width:125px;">
+            <select id="minpriceoptions" class="form-select form-select-sm" name="minprice" style="font-size: 12px;" onchange="this.form.submit()">
+                <option>Min Price</option>
                  <option value="50000"
                 >£50,000</option>
                     <option value="60000"
@@ -1032,17 +1038,14 @@
                     <option value="20000000"
                 >£20,000,000</option>
             </select>
-        </div>
-    </form>
-    </a>
-    </li>
-    <li>
-      <a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i>
-        <form action="{{ url_for("update_max_price") }}" id="maxprice" style="width: 100px; " method="post" name="maxprice">
-            <div class="form-group">
-                <label for="maxprice" style="font-size: 10px;">Select max price</label>
-                <select id="maxprice" name="maxprice" style="font-size: 12px;" onchange="this.form.submit()">
-            <option>£{{ session['maxprice'] }}</option>
+            </div>
+            </div>
+    </form></li>
+        <li><form action="{{ url_for("update_max_price") }}" id="maxprice" method="post" name="maxprice">
+        <div class="input-group" style="padding-top: 10px; padding-left: 10px;">
+            <div class="custom-select" style="width:125px;">
+            <select id="maxprice" name="maxprice" style="font-size: 12px;" onchange="this.form.submit()">
+            <option>Max Price</option>
              <option value="50000"
             >£50,000</option>
                 <option value="60000"
@@ -1155,59 +1158,24 @@
             >£20,000,000</option>
         </select>
             </div>
-        </form>
-        </a>
-      </li>
-        </ul>
-        <ul class="hero-search-filter-menu menu align-center">
-          <li>
-            <a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i>
-            <div class="dropdown show">
-                <a class="dropdown-toggle" data-toggle="dropdown">For Sale
-                <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href=# id=rmovesale value=0>RightMove</a></li>
-                    <li><a href=# id=otmsale>OnTheMarket</a></li>
-                    <li><a href=# id=gumtree>Gumtree</a></li>
-                    <li><a href=# id=zooplasales>Zoopla Sales</a></li>
-                    <li><a href=# id=allsales>All Results</a>/li>
-                </ul>
-            </div>
-            </a>
-          </li>
-            <li><a href="#"><i class="fa fa-glass" aria-hidden="true"></i>
-            <div class="dropdown">
-                <a class="dropdown-toggle" id=planningdata data-toggle="dropdown">Land Planning</a>
-            </div>
-          </a></li>
-          <li><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i>
-                <div class="dropdown">
-                    <a id=crysdata>Local Area Statistics</a>
-                </div>
-            </a>
-          </li>
-          <li>
-            <a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i>
-                <div class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown">Sold Properties
-                    <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href=# id=soldpricejson>Land Registry Sold</a></li>
-                        <li><a href=# id=rmovesold>RightMove Sold</a></li>
-                    </ul>
-                </div>
-                </a>
-              </li>
-            </ul>
         </div>
-{% else %}
-    <li>
-           <a href="#"><i class="fa fa-wrench" aria-hidden="true"></i>
-            <form action="{{ url_for("update_min_price") }}" style="width: 100px; " id="minprice" method="post" name="minprice">
-            <div class="form-group">
-              <label for="minprice" style="font-size: 10px;">Select minimum price</label>
+        </form></li>
+        <li><form class="navbar-form navbar-left" action="{{ url_for("search")}}" id="searchbutton" method="post" name="search" >
+            <div class="input-group">
+                <input type="hidden" name="page" value="lettings">
+                <input type="hidden" name="pcode" value="{{ session['postcode'] }}">
+                <div class="input-group-btn">
+                    <button  class="btn" type="submit" name="lettings" value="lettings" style="color: white;">Lettings</button>
+                </div>
+            </div>
+        </form></li>
+        {% endif %}
+        {% if session['type'] == 'lettings' %}
+        <li><form action="{{ url_for("update_min_price") }}" id="minprice" method="post" name="minprice">
+            <div class="input-group" style="padding-top: 10px; padding-left: 10px;">
+            <div class="custom-select" style="width:125px;">
                 <select id="minpriceoptions" name="minprice" style="font-size: 12px;" onchange="this.form.submit()">
-                    <option value="100">{{ session['minprice'] }} PCM</option>
+                    <option value="100">Min Price</option>
                     <option value="150">150 PCM</option>
                     <option value="200">200 PCM</option>
                     <option value="250">250 PCM</option>
@@ -1254,16 +1222,13 @@
                     <option value="40000">40,000 PCM</option>
                 </select>
             </div>
-        </form>
-      </a>
-      </li>
-  <li>
-         <a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i>
-            <form action="{{ url_for("update_max_price") }}" id="maxprice" style="width: 100px; " method="post" name="maxprice">
-            <div class="form-group">
-                <label for="maxprice" style="font-size: 10px;">Select max price</label>
+            </div>
+        </form></li>
+        <li><form action="{{ url_for("update_max_price") }}" id="maxprice" method="post" name="maxprice">
+            <div class="input-group" style="padding-top: 10px; padding-left: 10px;">
+                <div class="custom-select" style="width:125px;">
                 <select id="maxprice" name="maxprice" style="font-size: 12px;" onchange="this.form.submit()">
-                   <option value="100">{{ session['maxprice'] }} PCM</option>
+                   <option value="100">Max Price</option>
                     <option value="150">150 PCM</option>
                     <option value="200">200 PCM</option>
                     <option value="250">250 PCM</option>
@@ -1310,46 +1275,123 @@
                     <option value="40000">40,000 PCM</option>
             </select>
         </div>
-            </form>
-         </a>
-      </li>
-        </ul>
-            <ul class="hero-search-filter-menu menu align-center">
-          <li><a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i>
-           <div class="dropdown show">
-            <a class="dropdown-toggle" data-toggle="dropdown">To Rent
-            <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href=# id=rmovelets>RightMove</a></li>
-                    <li><a href=# id=otmrent>OnTheMarket</a></li>
-                    <li><a href=# id=gumtree>Gumtree</a></li>
-                    <li><a href=# id=zooprent>Zoopla</a></li>
-                </ul>
             </div>
-          </a></li>
-                     <li><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i>
-                <div class="dropdown">
-                    <a id=crysdata>Local Area Statistics</a>
-                </div>
-            </a>
-          </li>
+        </form></li>
+         <li><form class="navbar-form navbar-left" action="{{ url_for("search")}}" id="searchbutton" method="post" name="search">
+        <div class="input-group">
+            <input type="hidden" name="page" value="sales">
+            <input type="hidden" name="pcode" value="{{ session['postcode'] }}">
+            <div class="input-group-btn">
+                <button class="btn" type="submit" name="sales" value="sales" style="color: white;">Sales</button>
+            </div>
+        </div>
+         </form></li>
+        {% endif %}
     </ul>
-{% endif %}
+  </div>
+  </div>
+    <div class="box5"> </div>
+
+<div class="box3">
+<div id="forsale" class="container" style="padding-top: 75px;"></div>
+    </div>
+
+  </div>
 
 
-    </header>
-</div>
 <script>
     $(document).foundation();
 </script>
+<script type="text/javascript">
+    var x, i, j, l, ll, selElmnt, a, b, c;
+    /* Look for any elements with the class "custom-select": */
+    x = document.getElementsByClassName("custom-select");
+    l = x.length;
+    for (i = 0; i < l; i++) {
+        selElmnt = x[i].getElementsByTagName("select")[0];
+        ll = selElmnt.length;
+        /* For each element, create a new DIV that will act as the selected item: */
+        a = document.createElement("DIV");
+        a.setAttribute("class", "select-selected");
+        a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
+        x[i].appendChild(a);
+        /* For each element, create a new DIV that will contain the option list: */
+        b = document.createElement("DIV");
+        b.setAttribute("class", "select-items select-hide");
+        for (j = 1; j < ll; j++) {
+            /* For each option in the original select element,
+            create a new DIV that will act as an option item: */
+            c = document.createElement("DIV");
+            c.innerHTML = selElmnt.options[j].innerHTML;
+            c.addEventListener("click", function(e) {
+                /* When an item is clicked, update the original select box,
+                and the selected item: */
+                var y, i, k, s, h, sl, yl;
+                s = this.parentNode.parentNode.getElementsByTagName("select")[0];
+                sl = s.length;
+                h = this.parentNode.previousSibling;
+                for (i = 0; i < sl; i++) {
+                    if (s.options[i].innerHTML == this.innerHTML) {
+                        s.selectedIndex = i;
+                        h.innerHTML = this.innerHTML;
+                        y = this.parentNode.getElementsByClassName("same-as-selected");
+                        yl = y.length;
+                        for (k = 0; k < yl; k++) {
+                            y[k].removeAttribute("class");
+                        }
+                        this.setAttribute("class", "same-as-selected");
+                        break;
+                    }
+                }
+                h.click();
+            });
+            b.appendChild(c);
+        }
+        x[i].appendChild(b);
+        a.addEventListener("click", function(e) {
+            /* When the select box is clicked, close any other select boxes,
+            and open/close the current select box: */
+            e.stopPropagation();
+            closeAllSelect(this);
+            this.nextSibling.classList.toggle("select-hide");
+            this.classList.toggle("select-arrow-active");
+        });
+    }
+
+    function closeAllSelect(elmnt) {
+        /* A function that will close all select boxes in the document,
+        except the current select box: */
+        var x, y, i, xl, yl, arrNo = [];
+        x = document.getElementsByClassName("select-items");
+        y = document.getElementsByClassName("select-selected");
+        xl = x.length;
+        yl = y.length;
+        for (i = 0; i < yl; i++) {
+            if (elmnt == y[i]) {
+                arrNo.push(i)
+            } else {
+                y[i].classList.remove("select-arrow-active");
+            }
+        }
+        for (i = 0; i < xl; i++) {
+            if (arrNo.indexOf(i)) {
+                x[i].classList.add("select-hide");
+            }
+        }
+    }
+
+    /* If the user clicks anywhere outside the select box,
+    then close all select boxes: */
+    document.addEventListener("click", closeAllSelect);
+
+
+</script>
 
 <div id="pages" class="container"></div>
-<div id="forsale" class="container" style="padding-top: 75px;"></div>
 <div id="gumtreeres" class="container"></div>
 <div id="rightmoveres" class="container"></div>
 <div id="otm" class="container"></div>
-
+<div id="zoopla" class="container"></div>
 
 </body>
-
 </html>

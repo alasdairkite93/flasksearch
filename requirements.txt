@@ -9,3 +9,4 @@ SPARQLWrapper==2.0.0
 utils==1.0.1
 Werkzeug==2.2.2
 xmltojson==2.0.1
+
