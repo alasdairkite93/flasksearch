@@ -21,11 +21,9 @@ function scrapeUrl(url, proxy) {
 
         const script = await page.evaluate(() => window.__OTM__.jsonData);
         console.log(JSON.stringify(script));
-        fs.writeFile('file.json', JSON.stringify(script), (err) => {
+        fs.writeFile('./static/file.json', JSON.stringify(script), (err) => {
             if (err) throw err;
         })
-
-        //add scraping in here
 
 
         await page.waitForTimeout(5000)
@@ -35,7 +33,7 @@ function scrapeUrl(url, proxy) {
 
 function readFile(){
     console.log("read file method")
-    var text = fs.readFileSync("./urls.txt");
+    var text = fs.readFileSync("./static/urls.txt");
     console.log(text.toString())
     const vals = text.toString().split(',');
     const url = vals[0].toString();

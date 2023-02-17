@@ -116,7 +116,7 @@ class Zoopla:
 
         print('search url: ', searchurl)
 
-        file = open('urls.txt', 'w')
+        file = open('static/urls.txt', 'w')
         prox = proxy.getProxy()
         print("Writing proxy to file: ", prox)
         file.write(searchurl)
@@ -320,7 +320,7 @@ class OnTheMarket:
         for i in range(1):
             print('i in num: ', i)
 
-            file = open('urls.txt', 'w')
+            file = open('static/urls.txt', 'w')
             prox = proxy.getProxy()
             file.write(url+',')
             file.write("\n")
@@ -331,9 +331,8 @@ class OnTheMarket:
         if response.exitcode == 0:
             print(response.stdout)
         else:
-            execute_js('otm.js')
-
-        with open('file.json') as r:
+            js_response = execute_js('otm.js')
+        with open('static/file.json') as r:
             data = json.loads(r.read())
             try:
                 for prop in data['top-properties']:
@@ -543,7 +542,7 @@ class Gumtree:
             url = f"https://www.gumtree.com/search?search_category=property-to-rent&search_location={self.pcode}&property_number_beds={self.beds}-bedroom&max_price={self.minprice}&min_price={self.maxprice}"
 
         proxy = Proxies()
-        file = open('urls.txt', 'w')
+        file = open('static/urls.txt', 'w')
         prox = proxy.getProxy()
         print("Writing proxy to file: ", prox)
         file.write(url + ",")
