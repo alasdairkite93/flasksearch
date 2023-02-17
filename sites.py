@@ -62,14 +62,21 @@ class Proxies:
 
     def getProxy(self):
         print("get proxy method")
-        p_list = []
-        with open('proxies.txt', 'r+') as p:
-            for proxy in p:
-                p_list.append(proxy)
-        rand_ind = random.randrange(0, len(p_list))
-        prox = p_list[rand_ind]
-        if self.is_bad_proxy(p_list[rand_ind]) == 0:
-            self.getProxy()
+
+        li = [ '185.199.229.156:7492',
+                '185.199.228.220:7300',
+               '185.199.231.45:8382',
+                '188.74.210.207:6286',
+                '188.74.183.10:8279',
+                '188.74.210.21:6100',
+                '45.155.68.129:8133',
+                '154.95.36.199:6893',
+                '45.94.47.66:8110',
+                '144.168.217.88:8780',
+        ]
+
+        ind_rand = random.range(0, len((li)))
+        prox = li[ind_rand]
         return prox
 
 
