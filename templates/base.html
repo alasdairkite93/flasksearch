@@ -26,6 +26,13 @@
     });
 
 
+
+    $(document).ready(function(){
+        $.get("/pageload", 2, function (data){
+                    forSale(data, 8);
+            })
+        });
+
    function loading(){
 
        const div_sec = document.getElementById('forsale')
@@ -411,6 +418,10 @@
     }
 
     function forSale(json_data, ind){
+        console.log(ind)
+        console.log("Javascript for sale function");
+        var str = JSON.stringify(json_data);
+        console.log(str)
 
         var index = parseInt(ind);
 
@@ -472,11 +483,17 @@
                 const alltitle = document.createTextNode("All Sales");
                 title.appendChild(alltitle);
                 break;
+            case 9:
+                const results = document.createTextNode("Results");
+                title.appendChild(results);
+                break;
             }
 
 
         section.appendChild(title);
         for (prop of json_data) {
+
+            console.log(prop);
 
             const newDiv = document.createElement("div");
             newDiv.setAttribute("class", "card mb-6");
@@ -841,7 +858,8 @@
 
     </style>
 </head>
-<body>
+<body >
+
 <div class="wrapper">
 <div class="logo">
     <img src="/static/images/mainlogo.png" alt="mainlogo" width="200" height="200" style="float: left;">

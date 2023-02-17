@@ -251,10 +251,32 @@ def search():
 
     return render_template('tpage.html')
 
+@app.route('/pageload', methods=["GET", "POST"])
+def get_results():
+    if session['searchtype'] == 'rightmove':
+        rmove = sites.Rightmove(session['postcode'], "SALE", session['radius'], session['brooms'], session['minprice'],
+                                session['maxprice'], session['resnum'])
+        rmove_results = rmove.requestScrape()
+        return jsonify(rmove_results)
+    if session['searchtype'] == 'gumtree':
+        gum = sites.Gumtree('for-sale', session['postcode'], session['brooms'], session['minprice'],
+                            session['maxprice'], session['radius'], session['type'])
+        gumresults = gum.request()
+        # session['proxindex'] = proxies.increaseProxVar(session['proxindex'])
+        return jsonify(gumresults)
+    if session['searchtype'] == 'onthemarket':
+        otmsale = sites.OnTheMarket(session['postcode'], "for-sale", session['radius'], session['brooms'],
+                                    session['minprice'], session['maxprice'], session['resnum'])
+        otm_results = otmsale.request()
+        return jsonify(otm_results)
+
 @app.route('/f2submit', methods=["GET", "POST"])
 def search_p2():
     print("Search_p2: ")
     if request.method == "POST":
+
+        searchtype = request.form.get("option")
+        session['searchtype'] = searchtype
         minprice = request.form.get("minprice")
         n_min = minprice.replace('£', '')
         print("n_min: ", n_min)
@@ -267,6 +289,7 @@ def search_p2():
         session['radius'] = radius
         rooms = request.form.get("rooms")
         session['rooms'] = rooms
+
         return render_template('base.html')
 
 

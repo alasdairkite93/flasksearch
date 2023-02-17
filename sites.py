@@ -75,7 +75,7 @@ class Proxies:
                 '144.168.217.88:8780'
         ]
 
-        ind_rand = random.randint(0, len(li))
+        ind_rand = random.randint(0, 9)
         prox = li[ind_rand]
         return prox
 
@@ -313,8 +313,7 @@ class OnTheMarket:
             url = f'https://www.onthemarket.com/{self.channel}/{self.bedrooms}-bed-property/{self.pcode}/?max-bedrooms={self.bedrooms}&max-price={self.maxprice}&min-price={self.minprice}&radius={self.radius}&view=grid'
         elif self.channel == 'lettings':
             url = f'https://www.onthemarket.com/to-rent/{self.bedrooms}-bed-property/{self.pcode}/?max-bedrooms={self.bedrooms}&max-price={self.maxprice}&min-price={self.minprice}&radius={self.radius}&view=grid'
-        if int(self.radius) < 1:
-            self.radius = '0.5'
+
         for i in range(1):
             print('i in num: ', i)
 

@@ -428,7 +428,14 @@
                 {% endif %}
 
                 <div class="col-sm-10">
-                    <button class="button" type="submit" name="sales" value="sales"><b>Find Properties</b></button>
+                    <input type="hidden" name="sales" value="sales">
+                    <select class="form-select" aria-label="Default select example" style=" font-size: 12px;" onchange="this.form.submit()" name="option">
+                    <option>Find Properties</option>
+                    <option value="gumtree">Gumtree</option>
+                    <option value="rightmove">Rightmove</option>
+                    <option value="zoopla">Zoopla</option>
+                    <option value="onthemarket">OnTheMarket</option>
+                </select>
                 </div>
             </form>
           </div>
