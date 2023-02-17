@@ -320,7 +320,7 @@ class OnTheMarket:
         for i in range(1):
             print('i in num: ', i)
 
-            file = open('/static/urls.txt', 'w')
+            file = open('/home/alasdairkite/flasksearch/static/urls.txt', 'w')
             prox = proxy.getProxy()
             file.write(url+',')
             file.write("\n")
