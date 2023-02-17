@@ -75,7 +75,7 @@ class Proxies:
                 '144.168.217.88:8780',
         ]
 
-        ind_rand = random.range(0, len((li)))
+        ind_rand = random.randint(0, len((li)))
         prox = li[ind_rand]
         return prox
 
