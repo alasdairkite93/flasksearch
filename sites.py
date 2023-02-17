@@ -306,21 +306,20 @@ class OnTheMarket:
 
         print("Max price: ", self.maxprice)
 
-        new_max = self.maxprice.replace('£', '')
-        new_min = self.minprice.replace('£', '')
-
 
         # https://www.onthemarket.com/for-sale/1-bed-property/cr0/?max-bedrooms=3&max-price=275000&min-price=80000&view=grid
         if self.channel == 'for-sale':
-            url = f'https://www.onthemarket.com/{self.channel}/{self.bedrooms}-bed-property/{self.pcode}/?max-bedrooms={self.bedrooms}&max-price={new_max}&min-price={new_min}&radius={self.radius}&view=grid'
+            url = f'https://www.onthemarket.com/{self.channel}/{self.bedrooms}-bed-property/{self.pcode}/?max-bedrooms={self.bedrooms}&max-price={self.maxprice}&min-price={self.minprice}&radius={self.radius}&view=grid'
         elif self.channel == 'lettings':
-            url = f'https://www.onthemarket.com/to-rent/{self.bedrooms}-bed-property/{self.pcode}/?max-bedrooms={self.bedrooms}&max-price={new_max}&min-price={new_min}&radius={self.radius}&view=grid'
+            url = f'https://www.onthemarket.com/to-rent/{self.bedrooms}-bed-property/{self.pcode}/?max-bedrooms={self.bedrooms}&max-price={self.maxprice}&min-price={self.minprice}&radius={self.radius}&view=grid'
         if int(self.radius) < 1:
             self.radius = '0.5'
         for i in range(1):
             print('i in num: ', i)
 
-            file = open('/home/alasdairkite/flasksearch/static/urls.txt', 'w')
+            # file = open('/home/alasdairkite/flasksearch/static/urls.txt', 'w')
+            file = open('./static/urls.txt', 'w')
+
             prox = proxy.getProxy()
             file.write(url+',')
             file.write("\n")
@@ -523,7 +522,7 @@ class Planning:
 
 class Gumtree:
 
-    def __init__(self, channel, pcode, radius, beds, minprice, maxprice, type):
+    def __init__(self, channel, pcode, beds, minprice, maxprice, radius, type):
         self.pcode = pcode
         self.channel = channel
         self.beds = beds
@@ -535,11 +534,15 @@ class Gumtree:
     def request(self):
 
         print("GUMTREE self.type: ", self.type)
-
+        print("Min price: ", self.minprice)
+        print("maxprice: ", self.maxprice)
+        print("radius: ", self.radius)
         if self.channel == 'for-sale':
-            url = f"https://www.gumtree.com/search?search_category=property-for-sale&search_location={self.pcode}&property_number_beds={self.beds}-bedroom&max_price={self.minprice}&min_price={self.maxprice}"
+            # url = f"https://www.gumtree.com/search?search_category=property-for-sale&search_location={self.pcode}&property_number_beds={self.beds}-bedroom&max_price={self.minprice}&min_price={self.maxprice}"
+            url = f'https://www.gumtree.com/search?search_category=property-for-sale&search_location={self.pcode}&q=&distance={self.radius}&min_price={self.minprice}&max_price={self.maxprice}&min_property_number_beds={self.beds}&max_property_number_beds={self.beds}'
         elif self.channel == "to-rent":
             url = f"https://www.gumtree.com/search?search_category=property-to-rent&search_location={self.pcode}&property_number_beds={self.beds}-bedroom&max_price={self.minprice}&min_price={self.maxprice}"
+
 
         proxy = Proxies()
         file = open('static/urls.txt', 'w')

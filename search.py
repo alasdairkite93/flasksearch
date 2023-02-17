@@ -37,7 +37,6 @@ def rmove_sales():
     rmove_results = rmove.requestScrape()
     return jsonify(rmove_results)
 
-
 @app.route('/gumtreesales', methods=["GET"])
 def gumtree_scrape():
     gum = sites.Gumtree('for-sale', session['postcode'], session['brooms'], session['minprice'], session['maxprice'], session['radius'], session['type'])
@@ -254,12 +253,16 @@ def search():
 
 @app.route('/f2submit', methods=["GET", "POST"])
 def search_p2():
-
+    print("Search_p2: ")
     if request.method == "POST":
         minprice = request.form.get("minprice")
-        session['minprice'] = minprice
+        n_min = minprice.replace('£', '')
+        print("n_min: ", n_min)
+        session['minprice'] = n_min
         maxprice = request.form.get("maxprice")
-        session['maxprice'] = maxprice
+        n_max = maxprice.replace('£', '')
+        print("n_max: ", n_max)
+        session['maxprice'] = n_max
         radius = request.form.get("radius")
         session['radius'] = radius
         rooms = request.form.get("rooms")
