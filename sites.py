@@ -295,18 +295,27 @@ class OnTheMarket:
             p_tot = p1
 
         otm_li = []
+        self.pcode = p_tot
 
+        print("Max price: ", self.maxprice)
+
+        new_max = self.maxprice.replace('£', '')
+        new_min = self.minprice.replace('£', '')
+
+
+        # https://www.onthemarket.com/for-sale/1-bed-property/cr0/?max-bedrooms=3&max-price=275000&min-price=80000&view=grid
+        if self.channel == 'for-sale':
+            url = f'https://www.onthemarket.com/{self.channel}/{self.bedrooms}-bed-property/{self.pcode}/?max-bedrooms={self.bedrooms}&max-price={new_max}&min-price={new_min}&radius={self.radius}&view=grid'
+        elif self.channel == 'lettings':
+            url = f'https://www.onthemarket.com/to-rent/{self.bedrooms}-bed-property/{self.pcode}/?max-bedrooms={self.bedrooms}&max-price={new_max}&min-price={new_min}&radius={self.radius}&view=grid'
         if int(self.radius) < 1:
             self.radius = '0.5'
         for i in range(1):
             print('i in num: ', i)
-            url_end = f'/?min-bedrooms={self.bedrooms}&max-bedrooms={self.bedrooms}&max-price={self.maxprice}&min-price={self.minprice}&page={i}&radius={self.radius}&view=grid'
-            search_url = baseurl + self.channel + "/property/" + p_tot+url_end
 
             file = open('urls.txt', 'w')
             prox = proxy.getProxy()
-            print("Writing proxy to file: ", prox)
-            file.write(search_url+",")
+            file.write(url+',')
             file.write("\n")
             file.write(prox)
             file.close()
@@ -319,18 +328,30 @@ class OnTheMarket:
 
         with open('file.json') as r:
             data = json.loads(r.read())
-            print(json.dumps(data, indent=4))
-            for prop in data['top-properties']:
-                li = []
-                li.append(prop['display_address'])
-                li.append(prop['agent']['name'])
-                li.append(prop['bedrooms-text'])
-                li.append(prop['price'])
-                li.append(baseurl + prop['property-link'])
-                li.append(prop['images'][0]['default'])
-                li.append("otm")
+            try:
+                for prop in data['top-properties']:
+                    li = []
+                    li.append(prop['display_address'])
+                    li.append(prop['agent']['name'])
+                    li.append(prop['bedrooms-text'])
+                    li.append(prop['price'])
+                    li.append(baseurl + prop['property-link'])
+                    li.append(prop['images'][0]['default'])
+                    li.append("otm")
 
-                otm_li.append(li)
+                    otm_li.append(li)
+            except KeyError:
+                for prop in data['properties']:
+                    li = []
+                    li.append(prop['display_address'])
+                    li.append(prop['agent']['name'])
+                    li.append(prop['bedrooms-text'])
+                    li.append(prop['price'])
+                    li.append(baseurl + prop['property-link'])
+                    li.append(prop['images'][0]['default'])
+                    li.append("otm")
+
+                    otm_li.append(li)
 
         return otm_li
 

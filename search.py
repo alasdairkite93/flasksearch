@@ -173,14 +173,6 @@ def update_max_price():
         return render_template('base.html')
 
 
-@app.route('/returnsales', methods=["GET", "POST"])
-def salesform():
-    if request.method == "POST":
-        search_query = request.form.get("pcode")
-        session['postcode'] = search_query
-        return render_template('sales.html')
-    return render_template('form.html')
-
 
 @app.route('/lettings', methods=["POST"])
 def letsform():
@@ -285,10 +277,3 @@ if __name__ == '__main__':
     app.config["TEMPLATES_AUTO_RELOAD"] = True
 
     app.run()
-
-
-
-
-
-
-
