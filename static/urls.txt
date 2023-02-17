@@ -1,2 +1,2 @@
-https://www.onthemarket.com/for-sale/2-bed-property/se4/?max-bedrooms=2&max-price=250000&min-price=50000&radius=2&view=grid,
-185.199.229.156:7492
+https://www.zoopla.co.uk/for-sale/property/CR0/?q=CR0&results_sort=newest_listings&search_source=for-sale&beds_max=2&price_min=50000&price_max=250000
+188.74.183.10:8279

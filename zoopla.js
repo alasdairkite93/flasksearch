@@ -6,7 +6,7 @@ var fs = require('fs')
 const StealthPlugin = require('puppeteer-extra-plugin-stealth')
 puppeteer.use(StealthPlugin())
 
-var text = fs.readFileSync("./urls.txt").toString('utf-8');
+var text = fs.readFileSync("./static/urls.txt").toString('utf-8');
 let list = text.split('\n');
 let url = list[0];
 let prox = list[1]
@@ -26,7 +26,10 @@ await page.goto(url, {
 });
 await page.content();
 
+
+
 innerText = await page.evaluate(() => {
+    console.log(JSON.parse(document.querySelector('#__NEXT_DATA__').innerHTML));
     return JSON.parse(document.querySelector('#__NEXT_DATA__').innerHTML);
 });
 

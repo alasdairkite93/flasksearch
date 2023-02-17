@@ -54,7 +54,6 @@
         grid-column-end: 3;
         grid-row-start: 3;
         grid-row-end: 5;
-        background-color: #1A2090;
         border-radius: 4px;
         min-width: 500px;
     }
@@ -122,6 +121,22 @@
        background-color: #FF0C1E;
     }
 
+   .box {
+        width: 100%;
+        height: 100%;
+    }
+
+    .box1 img {
+        object-fit: fill;
+    }
+
+    .box2 img {
+        object-fit: contain;
+    }
+
+    .box3 img {
+        object-fit: fill;
+    }
 
     </style>
 </head>
@@ -148,15 +163,14 @@
             </form>
         </div>
     </div>
-    <a href=""><div class="box3" style="background-image: url('../static/images/epc.jpeg');   background-repeat: no-repeat;
-  background-size: contain; padding-top: 125px; margin-left: 20px; margin-right: 20px;   background-position: center;"></a>
-     </div>
-    <div class="box4" style="background-image: url('../static/images/gassaf.png');   background-repeat: no-repeat;
-    background-size: contain; justify-items: center; padding-top: 125px; margin-left: 20px; margin-right: 20px;   background-position: center;">
+    <div class="box3">
+        <div class="box box1"><a href="https://energyperformancecertificates.co.uk/"><img src="/static/images/epc.png" alt="a balloon"></a></div>
     </div>
-    <div class="box5"  style="padding-top: 125px; margin-left: 20px; margin-right: 20px;
-    background-image: url('../static/images/utility.png');   background-repeat: no-repeat;
-    background-size: contain; justify-items: center;   background-position: center;">
+    <div class="box4">
+        <div class="box box1"><a href="https://www.gassaferegister.co.uk/find-an-engineer-or-check-the-register/"><img src="/static/images/gassaf.png"  alt="a balloon"></a></div>
+    </div>
+    <div class="box5">
+        <div class="box box1"><a href="https://www.uswitch.com/"><img src="/static/images/utility.png"></a></div>
     </div>
     <div class="footer" style="padding-top: 125px;">
 

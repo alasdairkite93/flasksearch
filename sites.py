@@ -72,7 +72,7 @@ class Proxies:
                 '45.155.68.129:8133',
                 '154.95.36.199:6893',
                 '45.94.47.66:8110',
-                '144.168.217.88:8780',
+                '144.168.217.88:8780'
         ]
 
         ind_rand = random.randint(0, len(li))
@@ -116,7 +116,7 @@ class Zoopla:
 
         print('search url: ', searchurl)
 
-        file = open('static/urls.txt', 'w')
+        file = open('/home/alasdairkite/flasksearch/static/urls.txt', 'w')
         prox = proxy.getProxy()
         print("Writing proxy to file: ", prox)
         file.write(searchurl)
@@ -134,6 +134,7 @@ class Zoopla:
 
         with open('zoopla.json', 'r') as r:
             data = json.loads(r.read())
+            print(json.dumps(data, indent=4))
             listings = data['props']['pageProps']['regularListingsFormatted']
 
             for listing in listings:
