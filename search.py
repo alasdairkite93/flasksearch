@@ -247,6 +247,10 @@ def search():
             session['type'] = lettings
             session['minprice'] = 450
             session['maxprice'] = 2000
+
+        print("session{'type'}: ", session['type'])
+        print("minprice: ", session['minprice'])
+        print("maxprice: ", session['maxprice'])
         return render_template('b_2.html')
 
     return render_template('tpage.html')
@@ -254,26 +258,55 @@ def search():
 @app.route('/pageload', methods=["GET", "POST"])
 def get_results():
 
-    if session['searchtype'] == 'rightmove':
-        rmove = sites.Rightmove(session['postcode'], "SALE", session['radius'], session['brooms'], session['minprice'],
-                                session['maxprice'], session['resnum'])
-        rmove_results = rmove.requestScrape()
-        return jsonify(rmove_results)
-    if session['searchtype'] == 'gumtree':
-        gum = sites.Gumtree('for-sale', session['postcode'], session['brooms'], session['minprice'],
-                            session['maxprice'], session['radius'], session['type'])
-        gumresults = gum.request()
-        # session['proxindex'] = proxies.increaseProxVar(session['proxindex'])
-        return jsonify(gumresults)
-    if session['searchtype'] == 'onthemarket':
-        otmsale = sites.OnTheMarket(session['postcode'], "for-sale", session['radius'], session['brooms'],
-                                    session['minprice'], session['maxprice'], session['resnum'])
-        otm_results = otmsale.request()
-        return jsonify(otm_results)
+    print("get_results")
+    if request.method == "GET":
+        if session['searchtype'] == 'rightmove' and session['type'] == 'sales':
+            rmove = sites.Rightmove(session['postcode'], "SALE", session['radius'], session['brooms'],
+                                    session['minprice'],
+                                    session['maxprice'], session['resnum'])
+            rmove_results = rmove.requestScrape()
+            print("rmove results ", rmove_results)
+            return jsonify(rmove_results)
+
+        if session['searchtype'] == 'gumtree' and session['type'] == 'sales':
+            gum = sites.Gumtree('for-sale', session['postcode'], session['brooms'], session['minprice'],
+                                session['maxprice'], session['radius'], session['type'])
+            gumresults = gum.request()
+            # session['proxindex'] = proxies.increaseProxVar(session['proxindex'])
+            return jsonify(gumresults)
+
+        if session['searchtype'] == 'onthemarket' and session['type'] == 'sales':
+            otmsale = sites.OnTheMarket(session['postcode'], "for-sale", session['radius'], session['brooms'],
+                                        session['minprice'], session['maxprice'], session['resnum'])
+            otm_results = otmsale.request()
+            print("OTM: ", otm_results)
+            return jsonify(otm_results)
+
+        if session['searchtype'] == 'rightmove' and session['type'] == 'lettings':
+            rmove = sites.Rightmove(session['postcode'], "SALE", session['radius'], session['brooms'],
+                                    session['minprice'],
+                                    session['maxprice'], session['resnum'])
+            rmove_results = rmove.requestScrape()
+            return jsonify(rmove_results)
+
+        if session['searchtype'] == 'gumtree' and session['type'] == 'to-rent':
+            gum = sites.Gumtree('for-sale', session['postcode'], session['brooms'], session['minprice'],
+                                session['maxprice'], session['radius'], session['type'])
+            gumresults = gum.request()
+            # session['proxindex'] = proxies.increaseProxVar(session['proxindex'])
+            return jsonify(gumresults)
+
+        if session['searchtype'] == 'onthemarket' and session['type'] == 'lettings':
+            otmsale = sites.OnTheMarket(session['postcode'], "lettings", session['radius'], session['brooms'],
+                                        session['minprice'], session['maxprice'], session['resnum'])
+            otm_results = otmsale.request()
+
+            return jsonify(otm_results)
 
 @app.route('/f2submit', methods=["GET", "POST"])
 def search_p2():
     print("Search_p2: ")
+
     if request.method == "POST":
 
         searchtype = request.form.get("option")
@@ -291,28 +324,7 @@ def search_p2():
         rooms = request.form.get("rooms")
         session['rooms'] = rooms
 
-        print("Session[searchtype]: ", session['searchtype'])
-
-        if session['searchtype'] == 'rightmove':
-            rmove = sites.Rightmove(session['postcode'], "SALE", session['radius'], session['brooms'],
-                                    session['minprice'],
-                                    session['maxprice'], session['resnum'])
-            rmove_results = rmove.requestScrape()
-            return render_template('base.html', results=jsonify(rmove_results))
-
-        if session['searchtype'] == 'gumtree':
-            gum = sites.Gumtree('for-sale', session['postcode'], session['brooms'], session['minprice'],
-                                session['maxprice'], session['radius'], session['type'])
-            gumresults = gum.request()
-            # session['proxindex'] = proxies.increaseProxVar(session['proxindex'])
-            return render_template('base.html', results=jsonify(gumresults))
-
-        if session['searchtype'] == 'onthemarket':
-            otmsale = sites.OnTheMarket(session['postcode'], "for-sale", session['radius'], session['brooms'],
-                                        session['minprice'], session['maxprice'], session['resnum'])
-            otm_results = otmsale.request()
-
-            return render_template('base.html', results=jsonify(otm_results))
+        return render_template('base.html')
 
 
 

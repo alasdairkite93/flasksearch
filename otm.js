@@ -20,7 +20,6 @@ function scrapeUrl(url, proxy) {
         await page.goto(url);
 
         const script = await page.evaluate(() => window.__OTM__.jsonData);
-        console.log(JSON.stringify(script));
         fs.writeFile('./static/file.json', JSON.stringify(script), (err) => {
             if (err) throw err;
         })

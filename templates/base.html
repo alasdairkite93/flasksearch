@@ -28,7 +28,7 @@
 
 
     $(document).ready(function(){
-        $.post("/pageload", 2, function (data){
+        $.get("/pageload", function (data){
                     forSale(data, 8);
             })
         });
@@ -874,7 +874,6 @@
                 <li><a href=# id=rmovesale value=0>RightMove</a></li>
                 <li><a href=# id=otmsale>OnTheMarket</a></li>
                 <li><a href=# id=gumtree>Gumtree</a></li>
-                <li><a href=# id=zooplasales>Zoopla Sales</a></li>
                 <li><a href=# id=allsales>All Results</a></li>
             </ul>
         </div></a></li>
@@ -895,7 +894,6 @@
             <li><a href=# id=rmovelets>RightMove</a></li>
             <li><a href=# id=otmrent>OnTheMarket</a></li>
             <li><a href=# id=gumtree>Gumtree</a></li>
-            <li><a href=# id=zooprent>Zoopla</a></li>
         </ul></div></a></li>
         <li style="padding-right: 20px;"><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i><div class="dropdown"><a id=crysdata>Local Area Statistics</a></div></a></li>
     </ul>

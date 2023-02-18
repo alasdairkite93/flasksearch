@@ -11,6 +11,14 @@ import random
 import threading
 from time import sleep
 
+class Search:
+
+    def __init__(self, query, channel, beds, minprice, maxprice):
+        self.searchquery = query
+        self.channel = channel
+        self.beds = beds
+        self.price_min = minprice
+        self.price_max = maxprice
 
 class Proxies:
 
@@ -79,7 +87,6 @@ class Proxies:
         prox = li[ind_rand]
         return prox
 
-
 class Utility:
 
     def find_json_objects(self, text: str, decoder=json.JSONDecoder()):
@@ -116,8 +123,8 @@ class Zoopla:
 
         print('search url: ', searchurl)
 
-        file = open('/home/alasdairkite/flasksearch/static/urls.txt', 'w')
-        # file = open('/static/urls.txt', 'w')
+        # file = open('/home/alasdairkite/flasksearch/static/urls.txt', 'w')
+        file = open('/static/urls.txt', 'w')
         prox = proxy.getProxy()
         print("Writing proxy to file: ", prox)
         file.write(searchurl)
@@ -315,11 +322,14 @@ class OnTheMarket:
         elif self.channel == 'lettings':
             url = f'https://www.onthemarket.com/to-rent/{self.bedrooms}-bed-property/{self.pcode}/?max-bedrooms={self.bedrooms}&max-price={self.maxprice}&min-price={self.minprice}&radius={self.radius}&view=grid'
 
+        print("on the market channel: ", self.channel)
+        print("on the market URL: ", url)
+
         for i in range(1):
             print('i in num: ', i)
 
-            file = open('/home/alasdairkite/flasksearch/static/urls.txt', 'w')
-            # file = open('./static/urls.txt', 'w')
+            # file = open('/home/alasdairkite/flasksearch/static/urls.txt', 'w')
+            file = open('./static/urls.txt', 'w')
 
             prox = proxy.getProxy()
             file.write(url+',')
@@ -546,8 +556,8 @@ class Gumtree:
 
 
         proxy = Proxies()
-        # file = open('static/urls.txt', 'w')
-        file = open('/home/alasdairkite/flasksearch/static/urls.txt', 'w')
+        file = open('static/urls.txt', 'w')
+        # file = open('/home/alasdairkite/flasksearch/static/urls.txt', 'w')
 
         prox = proxy.getProxy()
         print("Writing proxy to file: ", prox)
