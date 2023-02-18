@@ -116,7 +116,8 @@ class Zoopla:
 
         print('search url: ', searchurl)
 
-        file = open('/home/alasdairkite/flasksearch/static/urls.txt', 'w')
+        # file = open('/home/alasdairkite/flasksearch/static/urls.txt', 'w')
+        file = open('/static/urls.txt', 'w')
         prox = proxy.getProxy()
         print("Writing proxy to file: ", prox)
         file.write(searchurl)
@@ -317,8 +318,8 @@ class OnTheMarket:
         for i in range(1):
             print('i in num: ', i)
 
-            file = open('/home/alasdairkite/flasksearch/static/urls.txt', 'w')
-            # file = open('./static/urls.txt', 'w')
+            # file = open('/home/alasdairkite/flasksearch/static/urls.txt', 'w')
+            file = open('./static/urls.txt', 'w')
 
             prox = proxy.getProxy()
             file.write(url+',')
@@ -545,8 +546,8 @@ class Gumtree:
 
 
         proxy = Proxies()
-        # file = open('static/urls.txt', 'w')
-        file = open('/home/alasdairkite/flasksearch/static/urls.txt', 'w')
+        file = open('static/urls.txt', 'w')
+        # file = open('/home/alasdairkite/flasksearch/static/urls.txt', 'w')
 
         prox = proxy.getProxy()
         print("Writing proxy to file: ", prox)

@@ -28,7 +28,7 @@
 
 
     $(document).ready(function(){
-        $.get("/pageload", 2, function (data){
+        $.post("/pageload", 2, function (data){
                     forSale(data, 8);
             })
         });
