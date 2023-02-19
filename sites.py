@@ -342,7 +342,7 @@ class OnTheMarket:
             print(response.stdout)
         else:
             js_response = execute_js('otm.js')
-        with open('/home/alasdairkite/flasksearch/static/file.json') as r:
+        with open('/home/alasdairkite/flasksearch/static/file.json', 'r') as r:
             data = json.loads(r.read())
             try:
                 for prop in data['top-properties']:
