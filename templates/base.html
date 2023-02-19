@@ -5,6 +5,7 @@
     <meta http-equiv="refresh"/>
     <title>Property Scanner: Results</title>
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='foundation.css') }}">
+<link rel="stylesheet" href="https://cdn.korzh.com/metroui/v4/css/metro-all.min.css">
 
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
@@ -56,7 +57,7 @@
                     soldLR(data, 0);
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                alert(errorThrown+" Try using correct format of postcode");
+                alert(errorThrown+"Only full postcodes can be used with this feature.");
             })
             });
         });
@@ -158,7 +159,7 @@
                     sold(data);
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                alert(errorThrown+" Try using correct format of postcode");
+                alert(errorThrown+"Only a full postcode can be used with this feature.");
             })
             })
         });
@@ -177,7 +178,7 @@
                 crysData(data);
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                alert(errorThrown+" Try using correct format of postcode");
+                alert(errorThrown+"Only a full postcode can be used with this feature.");
             })
         })
     });
@@ -301,7 +302,12 @@
             td_label.innerHTML = headers[i];
             trbody.appendChild(td_label);
             const td_data = document.createElement("td");
-            td_data.innerHTML = value;
+            if (value == null){
+                td_data.innerHTML = "Null"
+            }
+            else {
+                td_data.innerHTML = value;
+            }
             trbody.appendChild(td_data);
             i++;
         }
@@ -318,6 +324,7 @@
         //proposed to aad a function to add search filters here
 
         var table = document.createElement('table');
+        table.setAttribute("class", "table");
         table.border = "1";
 
 
@@ -379,6 +386,7 @@
             }
 
             const table = document.createElement("table");
+            table.setAttribute("class", "table");
 
             let tr = table.insertRow(-1);
 

@@ -1,6 +1,6 @@
 import json
 import multiprocessing
-
+from json import dumps
 import requests
 import re
 from bs4 import BeautifulSoup, SoupStrainer
@@ -342,7 +342,7 @@ class OnTheMarket:
             print(response.stdout)
         else:
             js_response = execute_js('otm.js')
-        with open('static/file.json') as r:
+        with open('/home/alasdairkite/flasksearch/static/file.json') as r:
             data = json.loads(r.read())
             try:
                 for prop in data['top-properties']:
@@ -405,9 +405,9 @@ class CrystalRoof:
         li.append(data['crime_lsoa']['rate'])
         li.append(data['crime_lsoa']['rank'])
         li.append(data['transport']['metro']['name'])
-        li.append(data['transport']['metro']['lines'])
+        li.append(json.dumps(data['transport']['metro']['lines']))
         li.append(data['transport']['rail']['name'])
-        li.append(data['transport']['rail']['lines'])
+        li.append(json.dumps(data['transport']['rail']['lines']))
         li.append(data['amenities']['supermarkets']['businessname'])
         li.append(data['amenities']['groceries']['businessname'])
         li.append(data['schools']['name'])
