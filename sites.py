@@ -185,7 +185,7 @@ class Rightmove:
         if self.channel == "SALE":
             search_url = f'https://www.rightmove.co.uk/{sales}/search.html?searchLocation='
 
-        else:
+        elif self.channel == "LETTINGS":
             search_url = f'https://www.rightmove.co.uk/{rent}/search.html?searchLocation='
 
 
@@ -211,9 +211,9 @@ class Rightmove:
                 t_url = f'https://www.rightmove.co.uk/property-for-sale/find.html?locationIdentifier=POSTCODE%5E{code}&index={ind}&maxBedrooms={self.bedrooms}&minBedrooms={self.bedrooms}&maxPrice={self.maxprice}&minPrice={self.minprice}&radius={self.radius}&propertyTypes=&mustHave=&dontShow=&furnishTypes=&keywords='
             if len(self.pcode) <= 4 and self.channel == 'SALE':
                 t_url = f'https://www.rightmove.co.uk/property-for-sale/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&areaSizeUnit=sqft&googleAnalyticsChannel=buying&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}'
-            if len(self.pcode) <= 4 and self.channel == 'RENT':
+            if len(self.pcode) <= 4 and self.channel == 'LETTINGS':
                 t_url = f'https://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}'
-            if len(self.pcode) > 4 and self.channel == 'RENT':
+            if len(self.pcode) > 4 and self.channel == 'LETTINGS':
                 t_url = f'https://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&areaSizeUnit=sqft&googleAnalyticsChannel=renting&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}'
 
             req_url = requests.get(t_url)

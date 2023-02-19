@@ -3,7 +3,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="refresh"/>
-    <title>Property Search: Sales</title>
+    <title>Property Scanner: Results</title>
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='foundation.css') }}">
 
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -25,7 +25,9 @@
         loading();
     });
 
-
+    if ( window.history.replaceState ) {
+  window.history.replaceState( null, null, window.location.href );
+}
 
     $(document).ready(function(){
         $.get("/pageload", function (data){
@@ -64,7 +66,6 @@
 
         $(function(){
             $('a#formupdate').click(function(){
-                console.log("formupdate function");
                 let x = document.getElementById("formupdate").value
                 $.ajax({
                 url: '/pagination',
@@ -186,7 +187,6 @@
     $(function() {
         $('a#planningdata').click(function() {
             $.get("/planningdata", function (data){
-                console.log(data);
                 planning(data);
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
@@ -247,7 +247,6 @@
         const section = document.getElementById('forsale');
         section.innerHTML = "";
 
-        console.log(json_data)
 
     }
 
@@ -493,7 +492,6 @@
         section.appendChild(title);
         for (prop of json_data) {
 
-            console.log(prop);
 
             const newDiv = document.createElement("div");
             newDiv.setAttribute("class", "card mb-6");

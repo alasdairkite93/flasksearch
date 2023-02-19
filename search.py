@@ -283,14 +283,14 @@ def get_results():
             return jsonify(otm_results)
 
         if session['searchtype'] == 'rightmove' and session['type'] == 'lettings':
-            rmove = sites.Rightmove(session['postcode'], "SALE", session['radius'], session['brooms'],
+            rmove = sites.Rightmove(session['postcode'], "LETTINGS", session['radius'], session['brooms'],
                                     session['minprice'],
                                     session['maxprice'], session['resnum'])
             rmove_results = rmove.requestScrape()
             return jsonify(rmove_results)
 
         if session['searchtype'] == 'gumtree' and session['type'] == 'to-rent':
-            gum = sites.Gumtree('for-sale', session['postcode'], session['brooms'], session['minprice'],
+            gum = sites.Gumtree('to-rent', session['postcode'], session['brooms'], session['minprice'],
                                 session['maxprice'], session['radius'], session['type'])
             gumresults = gum.request()
             # session['proxindex'] = proxies.increaseProxVar(session['proxindex'])
