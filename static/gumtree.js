@@ -7,7 +7,7 @@ const StealthPlugin = require('puppeteer-extra-plugin-stealth')
 puppeteer.use(StealthPlugin())
 
 
-var text = fs.readFileSync('/home/alasdairkite/flasksearch/urls.txt').toString('utf-8');
+var text = fs.readFileSync('/home/alasdairkite/flasksearch/static/urls.txt').toString('utf-8');
 let list = text.split('\n');
 let url = list[0];
 let prox = list[1]
@@ -39,7 +39,7 @@ puppeteer.launch({ headless: true, ignoreHTTPSErrors: true, executablePath: exec
     });
 
 
-    fs.writeFile('/home/alasdairkite/flasksearch/temp.txt', (innerText), (err) =>{
+    fs.writeFile('/home/alasdairkite/flasksearch/static/temp.txt', (innerText), (err) =>{
         if (err) throw err;
     })
 

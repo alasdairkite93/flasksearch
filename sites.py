@@ -558,11 +558,11 @@ class Gumtree:
         file.write(prox)
         file.close()
 
-        response = muterun_js('gumtree.js')
+        response = muterun_js('/home/alasdairkite/flasksearch/static/gumtree.js')
         if response.exitcode == 0:
             print(response.stdout)
         else:
-            execute_js('/home/alasdairkite/flasksearch/gumtree.js')
+            execute_js('/home/alasdairkite/flasksearch/static/gumtree.js')
 
         with open('/home/alasdairkite/flasksearch/static/temp.txt', 'r') as f:
             soup = BeautifulSoup(f.read(), 'html.parser')
