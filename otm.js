@@ -32,7 +32,7 @@ function scrapeUrl(url, proxy) {
 
 function readFile(){
     console.log("read file method")
-    var text = fs.readFileSync("/home/alasdairkite/flasksearch/urls.txt");
+    var text = fs.readFileSync("/home/alasdairkite/flasksearch/static/urls.txt");
     console.log(text.toString())
     const vals = text.toString().split(',');
     const url = vals[0].toString();

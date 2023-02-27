@@ -327,13 +327,13 @@ class OnTheMarket:
             file.write(prox)
             file.close()
 
-        response = muterun_js('/home/alasdairkite/flasksearch/static/otm.js')
+        response = muterun_js('/home/alasdairkite/flasksearch/otm.js')
         if response.exitcode == 0:
             print(response.stdout)
         else:
-            execute_js('/home/alasdairkite/flasksearch/static/otm.js')
+            execute_js('/home/alasdairkite/flasksearch/otm.js')
 
-        execute_js('/home/alasdairkite/flasksearch/static/otm.js')
+        execute_js('/home/alasdairkite/flasksearch/otm.js')
 
 
         with open('/home/alasdairkite/flasksearch/static/file.json') as r:
