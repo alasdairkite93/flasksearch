@@ -328,6 +328,9 @@ class OnTheMarket:
             file.close()
 
         response = muterun_js('/home/alasdairkite/flasksearch/otm.js')
+        print(response.stdout)
+        print(response.stderr)
+        print(response.exitcode)
         if response.exitcode == 0:
             print(response.stdout)
         else:
