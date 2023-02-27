@@ -194,7 +194,7 @@ class Rightmove:
         num = int(self.page)
         urls = []
 
-
+        t_url = ''
         print("code: ", code)
         for ind in range(3):
             ind = ind*24
@@ -328,7 +328,7 @@ class OnTheMarket:
             file.close()
 
 
-        execute_js('/home/alasdairkite/flasksearch/otm.js')
+        muterun_js('/home/alasdairkite/flasksearch/otm.js')
 
         with open('/home/alasdairkite/flasksearch/file.json') as r:
             data = json.loads(r.read())

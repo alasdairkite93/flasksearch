@@ -75,7 +75,7 @@ def rmov_sold():
 
 @app.route('/otmsale', methods=["GET"])
 def otm_sales():
-    otmsale = sites.OnTheMarket(session['postcode'], "for-sale", session['radius'], session['brooms'], session['minprice'], session['maxprice'], session['resnum'])
+    otmsale = sites.OnTheMarket(session['postcode'], "to-rent", session['radius'], session['brooms'], session['minprice'], session['maxprice'], session['resnum'], session['maxrooms'])
     otm_results = otmsale.request()
 
     return jsonify(otm_results)
@@ -83,7 +83,7 @@ def otm_sales():
 @app.route('/otmrent', methods=["GET"])
 def otm_rent():
     print("OTM Rent pages: ", " radius: ", session['radius'], " minprice ", session['minprice'])
-    otmrent = sites.OnTheMarket(session['postcode'], "to-rent", session['radius'], session['brooms'], session['minprice'], session['maxprice'], session['resnum'])
+    otmrent = sites.OnTheMarket(session['postcode'], "to-rent", session['radius'], session['brooms'], session['minprice'], session['maxprice'], session['resnum'], session['maxrooms'])
     otm_results = otmrent.request()
 
     return jsonify(otm_results)
