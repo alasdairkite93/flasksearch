@@ -7,7 +7,7 @@ const StealthPlugin = require('puppeteer-extra-plugin-stealth')
 puppeteer.use(StealthPlugin())
 
 
-var text = fs.readFileSync("./static/urls.txt").toString('utf-8');
+var text = fs.readFileSync("urls.txt").toString('utf-8');
 let list = text.split('\n');
 let url = list[0];
 let prox = list[1]

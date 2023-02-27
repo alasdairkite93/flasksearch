@@ -20,7 +20,7 @@ function scrapeUrl(url, proxy) {
         await page.goto(url);
 
         const script = await page.evaluate(() => window.__OTM__.jsonData);
-        fs.writeFile('/home/alasdairkite/flasksearch/static/file.json', JSON.stringify(script), (err) => {
+        fs.writeFileSync('./file.json', JSON.stringify(script), (err) => {
             if (err) throw err;
         })
 
@@ -32,7 +32,7 @@ function scrapeUrl(url, proxy) {
 
 function readFile(){
     console.log("read file method")
-    var text = fs.readFileSync("/home/alasdairkite/flasksearch/static/urls.txt");
+    var text = fs.readFileSync("./urls.txt");
     console.log(text.toString())
     const vals = text.toString().split(',');
     const url = vals[0].toString();

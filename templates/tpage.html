@@ -11,6 +11,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
 
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='foundation.css') }}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
@@ -39,8 +41,8 @@
             display: inline-grid;
             grid-template-columns: repeat(3, 1fr);
             grid-auto-rows: 100px;
+            padding-bottom: 100px;
         }
-
 
     .box1 {
           grid-column-start: 1;
@@ -56,6 +58,13 @@
         grid-row-end: 5;
         border-radius: 4px;
         min-width: 500px;
+    }
+
+    .box3b {
+        grid-column-start: 1;
+        grid-column-end: 4;
+        grid-row-start: 7;
+        grid-row-end: 10;
     }
 
     .box3 {
@@ -79,6 +88,12 @@
         grid-row-end: 10;
     }
 
+    .footer {
+        grid-column-start: 1;
+        grid-column-end: 4;
+
+    }
+
     .searchbox {
         width: 100%;
         background-color: #1A2090;
@@ -90,12 +105,11 @@
 
     }
 
-    .footer {
+    .landingpage {
         grid-column-start: 1;
         grid-column-end: 4;
-        grid-row-start: 11;
-        grid-row-end: 12;
-        background-color: indigo;
+        grid-row-start: 12;
+        grid-row-end: 16;
     }
 
     .h1style {
@@ -131,11 +145,32 @@
     }
 
     .box2 img {
-        object-fit: contain;
+        object-fit: fill;
     }
 
     .box3 img {
         object-fit: fill;
+    }
+
+
+    /**Grid test**/
+
+    #grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(33%, 1fr));
+        grid-gap: 5px;
+    }
+      #grid > div {
+        padding: .5em;
+        text-align: center;
+      }
+
+    .divider{
+        position:absolute;
+        left:50%;
+        top:10%;
+        bottom:10%;
+        border-left:1px solid white;
     }
 
     </style>
@@ -147,8 +182,9 @@
 </head>
 <body>
 <div style="height: 100px;">
-          <a class="navbar-brand"><img src="/static/images/mainlogo.png" alt="mainlogo" width="150" height="150" style="justify-items: left;"></a>
+    <a class="navbar-brand"><img src="/static/images/mainlogo.png" alt="mainlogo" width="150" height="150" style="justify-items: left;"></a>
 </div>
+<div class="flexcontainer">
 <div class="wrapper">
     <div class="box1">
         <img src="/static/images/background.jpeg">
@@ -159,29 +195,97 @@
             <h2 class="h2style">Search properties for sale and rent.</h2>
                 <form action="{{ url_for("search")}}" style="padding-left: 20px; padding-top: 20px; padding-right: 20px;" method="post" name="search" onsubmit="return validateForm()">
                 <div class="bar" >
-                  <input class="searchbar" type="text"  id="postcode" name="pcode" title="Search" placeholder="Postcode e.g. SE1 or SE3 2NP" required>
+                  <input class="searchbar" type="text"  id="postcode" name="pcode" title="Search" list="postcodeinputs" placeholder="Postcode e.g. SE1 or SE3 2NP" required>
+                <datalist id="postcodeinputs">
+
+                </datalist>
+                <script>
+
+                const idel = document.getElementById("postcode");
+                idel.addEventListener("input", auto);
+
+                  async function auto(e)
+                    {
+                        console.log("e: "+e.target.value);
+                        let pcode = e.target.value;
+                        const api_url = `https://api.postcodes.io/postcodes/${pcode}/autocomplete`
+                        const response = await fetch(api_url);
+                        var data = await response.json();
+                        console.log(data);
+
+                        show(data);
+                    }
+
+                  function show(data){
+                      console.log("data: ", typeof data);
+                      console.log(data.result[0]);
+                      var datalist = document.getElementById("postcodeinputs");
+                      for (var i=0; i<data.result.length; i++){
+                          var n_option = document.createElement('option');
+                          console.log("data[i]: "+data.result[i]);
+                          var option_txt = document.createTextNode(data.result[i]);
+                          n_option.appendChild(option_txt);
+                          datalist.append(n_option);
+                      }
+                      // document.getElementById('suggestions').innerText = data.result;
+                  }
+    </script>
                 </div>
                   <div class="buttons">
                     <button class="button" type="submit" name="sales" value="sales"><b>Sales</b></button>
                     <button class="button" type="submit" name="lettings" value="lettings"><b>Lettings</b></button>
                 </div>
-            </form>
+                </form>
         </div>
     </div>
-    <div class="box3">
-        <div class="box box1"><a href="https://energyperformancecertificates.co.uk/"><img src="/static/images/epc.png" alt="a balloon"></a></div>
+    <div class="box3b">
+    <div id="grid">
+        <div><a href="https://energyperformancecertificates.co.uk/"><img src="/static/images/epc.png"  id="gridimage" alt="a balloon"></a></div>
+        <div><a href="https://www.gassaferegister.co.uk/find-an-engineer-or-check-the-register/"><img src="/static/images/gassaf.png" id="gridimage" alt="a balloon"></a></div>
+        <div><a href="https://www.uswitch.com/"><img src="/static/images/utility.png" id="gridimage" ></a></div>
     </div>
-    <div class="box4">
-        <div class="box box1"><a href="https://www.gassaferegister.co.uk/find-an-engineer-or-check-the-register/"><img src="/static/images/gassaf.png"  alt="a balloon"></a></div>
     </div>
-    <div class="box5">
-        <div class="box box1"><a href="https://www.uswitch.com/"><img src="/static/images/utility.png"></a></div>
+    <div class="landingpage" style="background-color: #E9E9EB; border: #cacaca; border-style: solid; color: black; padding-top: 50px;">
+        <div style=" display: flex; justify-content: space-evenly;">
+            <div class="row" style="padding-left: 60px; font-size: 20px;">
+              <div class="column">Landing Page</div>
+              <div class="column">Search</div>
+              <div class="column">About</div>
+            </div>
+            <div class="row" style="padding-left: 30px; ">
+                <h5 style="padding-left: 30px;">Contact Information</h5>
+                <div class="column">
+                    <ul style="list-style-type: none;">
+                        <li>First Line of Address</li>
+                        <li>London</li>
+                        <li>PO2 4PP</li>
+                        <li></li>
+                        <li>01883 444444</li>
+                    </ul>
+                </div>
+            </div>
+        <div class="row" style="padding-left: 30px;">
+            <h5 style="padding-left: 30px;">Data Sources</h5>
+          <div class="column">
+            <img src="/static/images/gumtree.jpeg" width="150" src= alt="" />
+          </div>
+            <div class="column">
+                <img src="/static/images/crystalroof.png"  width="150" height="auto"/>
+            </div>
+            <div class="column">
+                <img src="/static/images/OTM.png" width="150" height="auto" style="background-color: white;" />
+            </div>
+            <div class="column">
+                <img src="/static/images/registry.png" width="150" height="auto" alt="" />
+            </div>
+            <div class="column">
+                <img src="/static/images/rmove.png" width="150" height="auto" style="background-color: white;" />
+            </div>
+          </div>
     </div>
-    <div class="footer" style="padding-top: 125px;">
-
     </div>
 </div>
-
-
+</div>
+<p style="margin-left: 100px; font-size: 30px; padding-bottom: 50px;">Site designed and created by @AlasdairKite</p>
 </body>
 </html>

@@ -23,52 +23,61 @@ def sold_prices():
 def zoopla_sales():
     zoop = sites.Zoopla(session['postcode'], "for-sale", session['brooms'], session['minprice'], session['maxprice'])
     zooplaresults = zoop.requests()
+
     return zooplaresults
 
 @app.route('/zooplalet', methods=["GET"])
 def zoopla_lets():
     zoop = sites.Zoopla(session['postcode'], "to-rent")
     zooplaresults = zoop.requests()
+
     return jsonify(zooplaresults)
 
 @app.route('/rightmovesale/', methods=["GET"])
 def rmove_sales():
-    rmove = sites.Rightmove(session['postcode'], "SALE", session['radius'], session['brooms'], session['minprice'], session['maxprice'], session['resnum'])
+    rmove = sites.Rightmove(session['postcode'], "SALE", session['radius'], session['brooms'], session['minprice'], session['maxprice'], session['resnum'], session['maxrooms'], session['propertytype'])
     rmove_results = rmove.requestScrape()
+
     return jsonify(rmove_results)
 
 @app.route('/gumtreesales', methods=["GET"])
 def gumtree_scrape():
+
     gum = sites.Gumtree('for-sale', session['postcode'], session['brooms'], session['minprice'], session['maxprice'], session['radius'], session['type'])
     gumresults = gum.request()
     # session['proxindex'] = proxies.increaseProxVar(session['proxindex'])
+
     return jsonify(gumresults)
 
 @app.route('/gumtreesales', methods=["GET"])
 def gumtree_lets():
-    gum = sites.Gumtree('to-rent', session['postcode'], session['brooms'], session['minprice'], session['maxprice'],
-                       session['radius'], session['type'])
+
+    print("gumtree lets")
+    gum = sites.Gumtree('to-rent', session['postcode'], session['brooms'], session['minprice'], session['maxprice'], session['radius'], session['type'])
     gumresults = gum.request()
-    print("Gumtree scrape results: ", gumresults)
+
     return jsonify(gumresults)
 
 @app.route('/rmoverent', methods=["GET"])
 def rmove_lets():
-    rmove = sites.Rightmove(session['postcode'], "RENT", session['radius'], session['brooms'], session['minprice'], session['maxprice'], session['resnum'])
+    rmove = sites.Rightmove(session['postcode'], "RENT", session['radius'], session['brooms'], session['minprice'], session['maxprice'], session['resnum'], session['maxrooms'], session['propertytype'])
     rmove_results = rmove.requestScrape()
     # session['proxindex'] = proxies.increaseProxVar(session['proxindex'])
+
     return jsonify(rmove_results)
 
 @app.route('/rmovesold', methods=["GET"])
 def rmov_sold():
-    rmove = sites.Rightmove(session['postcode'], None, None, None, None, None, None)
+    rmove = sites.Rightmove(session['postcode'], None, None, None, None, None, None, None, None)
     rmov_res = rmove.requestSold()
+
     return jsonify(rmov_res)
 
 @app.route('/otmsale', methods=["GET"])
 def otm_sales():
     otmsale = sites.OnTheMarket(session['postcode'], "for-sale", session['radius'], session['brooms'], session['minprice'], session['maxprice'], session['resnum'])
     otm_results = otmsale.request()
+
     return jsonify(otm_results)
 
 @app.route('/otmrent', methods=["GET"])
@@ -76,6 +85,7 @@ def otm_rent():
     print("OTM Rent pages: ", " radius: ", session['radius'], " minprice ", session['minprice'])
     otmrent = sites.OnTheMarket(session['postcode'], "to-rent", session['radius'], session['brooms'], session['minprice'], session['maxprice'], session['resnum'])
     otm_results = otmrent.request()
+
     return jsonify(otm_results)
 
 @app.route('/crystalroof', methods=["GET"])
@@ -86,6 +96,13 @@ def crystal_stats():
 
 
 # Updates
+@app.route('/typeupdate', methods=["GET", "POST"])
+def update_type():
+    if request.method == "POST":
+        type = request.form.get("propertytype")
+        session['propertytype'] = type
+        return render_template('base.html')
+    return render_template('base.html')
 @app.route('/pcodeupdate', methods=["GET", "POST"])
 def update_pcode():
 
@@ -95,14 +112,21 @@ def update_pcode():
         return render_template('base.html')
 
     return render_template('base.html')
+
+@app.route('/example', methods=["GET", "POST"])
+def example():
+    print("example method")
+    if request.method == "POST":
+        example_txt = request.form.get("example")
+        print("example_txt: ", example_txt)
+        return render_template('base.html')
+
 @app.route('/pandr_update', methods=["GET", "POST"])
 def update_pcode_radius():
     print("UPDATE RADIUS")
     if request.method == "POST":
         update = request.form.get("pcodeupdate")
         session['postcode'] = update.upper()
-        radius = request.form.get("radius")
-        session['radius'] = radius
         return render_template('base.html')
 
     return render_template('base.html')
@@ -125,13 +149,20 @@ def update_rooms():
 
         return render_template('base.html')
 
+@app.route('/maxroomupdate', methods=["POST"])
+def update_maxrooms():
+    if request.method == "POST":
+        maxroom = request.form.get("maxroom")
+        session['maxrooms'] = maxroom
+
+        return render_template('base.html')
+
 
 @app.route('/radiusupdate', methods=["POST"])
 def update_radius():
     if request.method == "POST":
         radius = request.form.get("radius")
         session['radius'] = radius
-
         return render_template('base.html')
 
 
@@ -188,12 +219,12 @@ def returnAll():
         print("Return all")
 
         otmsale = sites.OnTheMarket(session['postcode'], "for-sale", session['radius'], session['brooms'],
-                                    session['minprice'], session['maxprice'], session['resnum'])
+                                    session['minprice'], session['maxprice'], session['resnum'], session['maxrooms'])
         otm_results = otmsale.request()
         print("returned results of a")
 
         rmove = sites.Rightmove(session['postcode'], "SALE", session['radius'], session['brooms'], session['minprice'],
-                                session['maxprice'], session['resnum'])
+                                session['maxprice'], session['resnum'], session['maxrooms'], session['propertytype'])
         rmove_results = rmove.requestScrape()
         print("returned results of b")
 
@@ -202,13 +233,37 @@ def returnAll():
         gumresults = gum.request()
         print("returned results of c")
 
-        zoop = sites.Zoopla(session['postcode'], "for-sale")
-        zooplaresults = zoop.requests()
-        print("returned results of d")
+        # zoop = sites.Zoopla(session['postcode'], "for-sale")
+        # zooplaresults = zoop.requests()
+        # print("returned results of d")
 
-        res = otm_results+rmove_results+gumresults+zooplaresults
+        res = otm_results+rmove_results+gumresults
 
         #Removed otm from the list
+        return jsonify(res)
+
+    elif session['type'] == 'lettings':
+
+        otmsale = sites.OnTheMarket(session['postcode'], "to-rent", session['radius'], session['brooms'],
+                                    session['minprice'], session['maxprice'], session['resnum'], session['maxrooms'])
+        otm_results = otmsale.request()
+
+        rmove = sites.Rightmove(session['postcode'], "LETTINGS", session['radius'], session['brooms'],
+                                session['minprice'],
+                                session['maxprice'], session['resnum'], session['maxrooms'], session['propertytype'])
+        rmove_results = rmove.requestScrape()
+
+        gum = sites.Gumtree('to-rent', session['postcode'], session['brooms'], session['minprice'],
+                            session['maxprice'], session['radius'], session['type'])
+        gumresults = gum.request()
+
+        # zoop = sites.Zoopla(session['postcode'], "for-sale")
+        # zooplaresults = zoop.requests()
+        # print("returned results of d")
+
+        res = otm_results + rmove_results + gumresults
+        print(res)
+        # Removed otm from the list
         return jsonify(res)
 
 @app.route('/lettingsudate', methods=["GET", "POST"])
@@ -258,26 +313,26 @@ def search():
 @app.route('/pageload', methods=["GET", "POST"])
 def get_results():
 
-    print("get_results")
+    print("session['searchtype']: ", session['searchtype'], " session['type']: ", session['type'])
     if request.method == "GET":
         if session['searchtype'] == 'rightmove' and session['type'] == 'sales':
             rmove = sites.Rightmove(session['postcode'], "SALE", session['radius'], session['brooms'],
                                     session['minprice'],
-                                    session['maxprice'], session['resnum'])
+                                    session['maxprice'], session['resnum'], session['maxrooms'], session['propertytype'])
             rmove_results = rmove.requestScrape()
             print("rmove results ", rmove_results)
             return jsonify(rmove_results)
 
         if session['searchtype'] == 'gumtree' and session['type'] == 'sales':
+            print("get results gumtree sales")
             gum = sites.Gumtree('for-sale', session['postcode'], session['brooms'], session['minprice'],
                                 session['maxprice'], session['radius'], session['type'])
             gumresults = gum.request()
-            # session['proxindex'] = proxies.increaseProxVar(session['proxindex'])
             return jsonify(gumresults)
 
         if session['searchtype'] == 'onthemarket' and session['type'] == 'sales':
             otmsale = sites.OnTheMarket(session['postcode'], "for-sale", session['radius'], session['brooms'],
-                                        session['minprice'], session['maxprice'], session['resnum'])
+                                        session['minprice'], session['maxprice'], session['resnum'], session['maxrooms'])
             otm_results = otmsale.request()
             print("OTM: ", otm_results)
             return jsonify(otm_results)
@@ -285,23 +340,30 @@ def get_results():
         if session['searchtype'] == 'rightmove' and session['type'] == 'lettings':
             rmove = sites.Rightmove(session['postcode'], "LETTINGS", session['radius'], session['brooms'],
                                     session['minprice'],
-                                    session['maxprice'], session['resnum'])
+                                    session['maxprice'], session['resnum'], session['maxrooms'], session['propertytype'])
             rmove_results = rmove.requestScrape()
             return jsonify(rmove_results)
 
-        if session['searchtype'] == 'gumtree' and session['type'] == 'to-rent':
+        if session['searchtype'] == 'gumtree' and session['type'] == 'lettings':
+            print("get results gumtree sales")
+
             gum = sites.Gumtree('to-rent', session['postcode'], session['brooms'], session['minprice'],
                                 session['maxprice'], session['radius'], session['type'])
             gumresults = gum.request()
-            # session['proxindex'] = proxies.increaseProxVar(session['proxindex'])
+
             return jsonify(gumresults)
 
         if session['searchtype'] == 'onthemarket' and session['type'] == 'lettings':
-            otmsale = sites.OnTheMarket(session['postcode'], "lettings", session['radius'], session['brooms'],
-                                        session['minprice'], session['maxprice'], session['resnum'])
+            otmsale = sites.OnTheMarket(session['postcode'], "to-rent", session['radius'], session['brooms'],
+                                        session['minprice'], session['maxprice'], session['resnum'], session['maxrooms'])
             otm_results = otmsale.request()
 
             return jsonify(otm_results)
+
+        if session['searchtype'] == 'all':
+            result = returnAll()
+            return result
+
 
 @app.route('/f2submit', methods=["GET", "POST"])
 def search_p2():
@@ -320,9 +382,16 @@ def search_p2():
         print("n_max: ", n_max)
         session['maxprice'] = n_max
         radius = request.form.get("radius")
+        print("radius: ", radius)
         session['radius'] = radius
-        rooms = request.form.get("rooms")
-        session['rooms'] = rooms
+        maxrooms = request.form.get("maxrooms")
+        print("maxrooms: ", maxrooms)
+        session['maxrooms'] = maxrooms
+        minrooms = request.form.get("minrooms")
+        print("minrooms: ", minrooms)
+        session['minroom'] = minrooms
+        type = request.form.get("propertytype")
+        session['propertytype'] = type
 
         return render_template('base.html')
 

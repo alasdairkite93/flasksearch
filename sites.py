@@ -1,24 +1,17 @@
 import json
 import multiprocessing
-from json import dumps
+
 import requests
 import re
 from bs4 import BeautifulSoup, SoupStrainer
 import urllib.request
+import cloudscraper
 import os
 from Naked.toolshed.shell import execute_js, muterun_js
 import random
 import threading
 from time import sleep
 
-class Search:
-
-    def __init__(self, query, channel, beds, minprice, maxprice):
-        self.searchquery = query
-        self.channel = channel
-        self.beds = beds
-        self.price_min = minprice
-        self.price_max = maxprice
 
 class Proxies:
 
@@ -70,22 +63,16 @@ class Proxies:
 
     def getProxy(self):
         print("get proxy method")
-
-        li = [ '185.199.229.156:7492',
-                '185.199.228.220:7300',
-               '185.199.231.45:8382',
-                '188.74.210.207:6286',
-                '188.74.183.10:8279',
-                '188.74.210.21:6100',
-                '45.155.68.129:8133',
-                '154.95.36.199:6893',
-                '45.94.47.66:8110',
-                '144.168.217.88:8780'
-        ]
-
-        ind_rand = random.randint(0, 9)
-        prox = li[ind_rand]
+        p_list = []
+        with open('proxies.txt', 'r+') as p:
+            for proxy in p:
+                p_list.append(proxy)
+        rand_ind = random.randrange(0, len(p_list))
+        prox = p_list[rand_ind]
+        if self.is_bad_proxy(p_list[rand_ind]) == 0:
+            self.getProxy()
         return prox
+
 
 class Utility:
 
@@ -123,8 +110,7 @@ class Zoopla:
 
         print('search url: ', searchurl)
 
-        file = open('/home/alasdairkite/flasksearch/static/urls.txt', 'w')
-        # file = open('/static/urls.txt', 'w')
+        file = open('urls.txt', 'w')
         prox = proxy.getProxy()
         print("Writing proxy to file: ", prox)
         file.write(searchurl)
@@ -142,7 +128,6 @@ class Zoopla:
 
         with open('zoopla.json', 'r') as r:
             data = json.loads(r.read())
-            print(json.dumps(data, indent=4))
             listings = data['props']['pageProps']['regularListingsFormatted']
 
             for listing in listings:
@@ -163,7 +148,7 @@ class Zoopla:
 
 class Rightmove:
 
-    def __init__(self, query, channel, radius, bedrooms, minprice, maxprice, page):
+    def __init__(self, query, channel, radius, bedrooms, minprice, maxprice, page, maxrooms, type):
         self.pcode = query
         self.channel = channel
         self.radius = radius
@@ -171,10 +156,14 @@ class Rightmove:
         self.minprice = minprice
         self.maxprice = maxprice
         self.page = page
+        self.maxrooms = maxrooms
+        self.type = type
 
     def requestScrape(self):
 
         utils = Utility()
+        json_data =[]
+
 
 
         # Function to postcode
@@ -185,7 +174,7 @@ class Rightmove:
         if self.channel == "SALE":
             search_url = f'https://www.rightmove.co.uk/{sales}/search.html?searchLocation='
 
-        elif self.channel == "LETTINGS":
+        else:
             search_url = f'https://www.rightmove.co.uk/{rent}/search.html?searchLocation='
 
 
@@ -204,21 +193,29 @@ class Rightmove:
         properties = []
         print(type(self.page))
         num = int(self.page)
-        for ind in range(2):
-            print("Right move ")
+        urls = []
 
+
+        print("code: ", code)
+        for ind in range(3):
+            ind = ind*24
             if len(self.pcode) > 4 and self.channel == 'SALE':
-                t_url = f'https://www.rightmove.co.uk/property-for-sale/find.html?locationIdentifier=POSTCODE%5E{code}&index={ind}&maxBedrooms={self.bedrooms}&minBedrooms={self.bedrooms}&maxPrice={self.maxprice}&minPrice={self.minprice}&radius={self.radius}&propertyTypes=&mustHave=&dontShow=&furnishTypes=&keywords='
+                t_url = f'https://www.rightmove.co.uk/property-for-sale/find.html?locationIdentifier=POSTCODE%5E{code}&index={ind}&maxBedrooms={self.maxrooms}&minBedrooms={self.bedrooms}&maxPrice={self.maxprice}&minPrice={self.minprice}&displayPropertyType={self.type}&radius={self.radius}&propertyTypes=&mustHave=&dontShow=&furnishTypes=&keywords='
             if len(self.pcode) <= 4 and self.channel == 'SALE':
-                t_url = f'https://www.rightmove.co.uk/property-for-sale/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&areaSizeUnit=sqft&googleAnalyticsChannel=buying&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}'
+                t_url = f'https://www.rightmove.co.uk/property-for-sale/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&displayPropertyType={self.type}&minPrice={self.minprice}&maxPrice={self.maxprice}&areaSizeUnit=sqft&googleAnalyticsChannel=buying&minBedrooms={self.bedrooms}&maxBedrooms={self.maxrooms}'
             if len(self.pcode) <= 4 and self.channel == 'LETTINGS':
-                t_url = f'https://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}'
+                # t_url = f'https://www.rightmove.co.uk/property-to-rent/find.html?searchType=RENT&locationIdentifier=REGION%5E{code}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&minBedrooms={self.bedrooms}&maxBedrooms={self.maxrooms}&displayPropertyType={self.type}&maxDaysSinceAdded=&sortByPriceDescending=&_includeLetAgreed=on&primaryDisplayPropertyType=&secondaryDisplayPropertyType=&oldDisplayPropertyType=&oldPrimaryDisplayPropertyType=&letType=&letFurnishType=&houseFlatShare='
+                t_url = f'https://www.rightmove.co.uk/property-to-rent/find.html?searchType=RENT&locationIdentifier=POSTCODE%5E{code}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&minBedrooms={self.bedrooms}&maxBedrooms={self.maxrooms}&displayPropertyType={self.type}&maxDaysSinceAdded=&sortByPriceDescending=&_includeLetAgreed=on&primaryDisplayPropertyType=&secondaryDisplayPropertyType=&oldDisplayPropertyType=&oldPrimaryDisplayPropertyType=&letType=&letFurnishType=&houseFlatShare='
             if len(self.pcode) > 4 and self.channel == 'LETTINGS':
-                t_url = f'https://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&areaSizeUnit=sqft&googleAnalyticsChannel=renting&minBedrooms={self.bedrooms}&maxBedrooms={self.bedrooms}'
+                t_url = f'https://www.rightmove.co.uk/property-to-rent/find.html?searchType=RENT&locationIdentifier=POSTCODE%5E{code}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&minBedrooms={self.bedrooms}&maxBedrooms={self.maxrooms}&displayPropertyType={self.type}&maxDaysSinceAdded=&sortByPriceDescending=&_includeLetAgreed=on&primaryDisplayPropertyType=&secondaryDisplayPropertyType=&oldDisplayPropertyType=&oldPrimaryDisplayPropertyType=&letType=&letFurnishType=&houseFlatShare='
 
-            req_url = requests.get(t_url)
-            print("t_url: ", t_url)
-            print(req_url)
+            urls.append(t_url)
+
+        print(urls)
+
+        for i in range(len(urls)):
+            req_url = requests.get(urls[i])
+            print("getting: ", urls[i])
             soup = BeautifulSoup(req_url.text, 'html.parser')
             results = soup.findAll('script')
 
@@ -242,11 +239,11 @@ class Rightmove:
                     li.append(url + str(props['id']))
                     li.append(props['propertyImages']['images'][0]['srcUrl'])
                     li.append("rmove")
-                    properties.append(li)
 
+                    json_data.append(li)
             except IndexError:
                 pass
-        return properties
+        return json_data
 
     def requestSold(self):
 
@@ -285,7 +282,7 @@ class Rightmove:
 
 class OnTheMarket:
 
-    def __init__(self, query, channel, radius, bedrooms, minprice, maxprice, resnum):
+    def __init__(self, query, channel, radius, bedrooms, minprice, maxprice, resnum, maxrooms):
         self.pcode = query
         self.channel = channel
         self.radius = radius
@@ -293,6 +290,7 @@ class OnTheMarket:
         self.minprice = minprice
         self.maxprice = maxprice
         self.resnum = resnum
+        self.maxrooms = maxrooms
 
     def request(self):
 
@@ -302,6 +300,7 @@ class OnTheMarket:
 
 
         baseurl = 'https://www.onthemarket.com/'
+
         pcode = self.pcode.split(" ")
         p1 = pcode[0].lower()
         if len(pcode) > 1:
@@ -310,29 +309,22 @@ class OnTheMarket:
         else:
             p_tot = p1
 
-        otm_li = []
         self.pcode = p_tot
+        otm_li = []
 
-        print("Max price: ", self.maxprice)
 
-
-        # https://www.onthemarket.com/for-sale/1-bed-property/cr0/?max-bedrooms=3&max-price=275000&min-price=80000&view=grid
-        if self.channel == 'for-sale':
-            url = f'https://www.onthemarket.com/{self.channel}/{self.bedrooms}-bed-property/{self.pcode}/?max-bedrooms={self.bedrooms}&max-price={self.maxprice}&min-price={self.minprice}&radius={self.radius}&view=grid'
-        elif self.channel == 'lettings':
-            url = f'https://www.onthemarket.com/to-rent/{self.bedrooms}-bed-property/{self.pcode}/?max-bedrooms={self.bedrooms}&max-price={self.maxprice}&min-price={self.minprice}&radius={self.radius}&view=grid'
-
-        print("on the market channel: ", self.channel)
-        print("on the market URL: ", url)
-
+        if int(self.radius) < 1:
+            self.radius = '0.5'
         for i in range(1):
             print('i in num: ', i)
+            url2 = f'https://www.onthemarket.com/{self.channel}/{self.bedrooms}-bed-property/{self.pcode}/?max-bedrooms={self.maxrooms}&max-price={self.maxprice}&radius={self.radius}&view=grid'
 
-            file = open('/home/alasdairkite/flasksearch/static/urls.txt', 'w')
-            # file = open('./static/urls.txt', 'w')
-
+            url =  f'https://www.onthemarket.com/to-rent/2-bed-flats-apartments/cv2-1ae/?max-bedrooms=5&max-price=3000&min-price=300&radius=0.25&view=grid'
+            print("onthemarket url: ", url2)
+            file = open('urls.txt', 'w')
             prox = proxy.getProxy()
-            file.write(url+',')
+            print("Writing proxy to file: ", prox)
+            file.write(url2+",")
             file.write("\n")
             file.write(prox)
             file.close()
@@ -341,8 +333,9 @@ class OnTheMarket:
         if response.exitcode == 0:
             print(response.stdout)
         else:
-            js_response = execute_js('otm.js')
-        with open('/home/alasdairkite/flasksearch/static/file.json', 'r') as r:
+            execute_js('otm.js')
+
+        with open('file.json') as r:
             data = json.loads(r.read())
             try:
                 for prop in data['top-properties']:
@@ -351,6 +344,7 @@ class OnTheMarket:
                     li.append(prop['agent']['name'])
                     li.append(prop['bedrooms-text'])
                     li.append(prop['price'])
+                    print("price: ", prop['price'])
                     li.append(baseurl + prop['property-link'])
                     li.append(prop['images'][0]['default'])
                     li.append("otm")
@@ -363,6 +357,7 @@ class OnTheMarket:
                     li.append(prop['agent']['name'])
                     li.append(prop['bedrooms-text'])
                     li.append(prop['price'])
+                    print("price: ", prop['price'])
                     li.append(baseurl + prop['property-link'])
                     li.append(prop['images'][0]['default'])
                     li.append("otm")
@@ -405,9 +400,9 @@ class CrystalRoof:
         li.append(data['crime_lsoa']['rate'])
         li.append(data['crime_lsoa']['rank'])
         li.append(data['transport']['metro']['name'])
-        li.append(json.dumps(data['transport']['metro']['lines']))
+        li.append(data['transport']['metro']['lines'])
         li.append(data['transport']['rail']['name'])
-        li.append(json.dumps(data['transport']['rail']['lines']))
+        li.append(data['transport']['rail']['lines'])
         li.append(data['amenities']['supermarkets']['businessname'])
         li.append(data['amenities']['groceries']['businessname'])
         li.append(data['schools']['name'])
@@ -526,14 +521,13 @@ class Planning:
             li.append(('latitude: ', app['lat']))
             li.append(('longitude: ', app['lng']))
             li.append(('distance: ', app['distance']))
-            if app['distance'] == 0:
-                applications.append(li)
+            applications.append(li)
 
         return applications
 
 class Gumtree:
 
-    def __init__(self, channel, pcode, beds, minprice, maxprice, radius, type):
+    def __init__(self, channel, pcode, radius, beds, minprice, maxprice, type):
         self.pcode = pcode
         self.channel = channel
         self.beds = beds
@@ -545,20 +539,20 @@ class Gumtree:
     def request(self):
 
         print("GUMTREE self.type: ", self.type)
-        print("Min price: ", self.minprice)
-        print("maxprice: ", self.maxprice)
-        print("radius: ", self.radius)
+        try:
+            self.pcode = self.pcode.replace(" ", "")
+        except:
+            pass
+
+
         if self.channel == 'for-sale':
             # url = f"https://www.gumtree.com/search?search_category=property-for-sale&search_location={self.pcode}&property_number_beds={self.beds}-bedroom&max_price={self.minprice}&min_price={self.maxprice}"
             url = f'https://www.gumtree.com/search?search_category=property-for-sale&search_location={self.pcode}&q=&distance={self.radius}&min_price={self.minprice}&max_price={self.maxprice}&min_property_number_beds={self.beds}&max_property_number_beds={self.beds}'
         elif self.channel == "to-rent":
             url = f"https://www.gumtree.com/search?search_category=property-to-rent&search_location={self.pcode}&property_number_beds={self.beds}-bedroom&max_price={self.minprice}&min_price={self.maxprice}"
 
-
         proxy = Proxies()
-        # file = open('static/urls.txt', 'w')
-        file = open('/home/alasdairkite/flasksearch/static/urls.txt', 'w')
-
+        file = open('urls.txt', 'w')
         prox = proxy.getProxy()
         print("Writing proxy to file: ", prox)
         file.write(url + ",")
@@ -583,8 +577,11 @@ class Gumtree:
 
                 addr = article.find('span', {'class': 'truncate-line'})
                 string = addr.text
-                sp = string.split('|')[1]
-                li.append((string.split('|'))[1])
+                try:
+                    sp = string.split('|')[1]
+                    li.append(sp)
+                except IndexError:
+                    li.append(string)
 
                 # Branch value
                 li.append("Agency")
@@ -595,6 +592,27 @@ class Gumtree:
                 # Price
                 price_soup = article.find('strong', {'class', 'h3-responsive'})
                 price = price_soup.text
+                orig_price = price
+                price = price.replace('£', '')
+
+                try:
+                    price = price.replace(',', '')
+                except:
+                    pass
+
+                try:
+                    k_price = price.replace('pw', '')
+                except:
+                    pass
+
+                try:
+                    price = price.replace('pm', '')
+                except:
+                    pass
+
+
+
+                print("Gumtree price: ", price)
                 li.append(price)
 
                 # Link
@@ -606,6 +624,8 @@ class Gumtree:
                 img = article.findNext('img')
                 li.append(img.get('data-src'))
                 li.append("gumtree")
+                li.append(orig_price)
+
                 props.append(li)
 
         return props
