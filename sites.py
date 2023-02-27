@@ -333,6 +333,9 @@ class OnTheMarket:
         else:
             execute_js('/home/alasdairkite/flasksearch/static/otm.js')
 
+        execute_js('/home/alasdairkite/flasksearch/static/otm.js')
+
+
         with open('/home/alasdairkite/flasksearch/static/file.json') as r:
             data = json.loads(r.read())
             try:
