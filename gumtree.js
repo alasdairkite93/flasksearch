@@ -38,6 +38,9 @@ puppeteer.launch({ headless: true, ignoreHTTPSErrors: true, executablePath: exec
         return document.documentElement.outerHTML;
     });
 
+    console.log("javascript running: ");
+
+    console.log(innerText);
 
     fs.writeFile('/home/alasdairkite/flasksearch/temp.txt', (innerText), (err) =>{
         if (err) throw err;
