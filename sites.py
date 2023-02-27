@@ -550,7 +550,7 @@ class Gumtree:
             url = f"https://www.gumtree.com/search?search_category=property-to-rent&search_location={self.pcode}&property_number_beds={self.beds}-bedroom&max_price={self.minprice}&min_price={self.maxprice}"
 
         proxy = Proxies()
-        file = open('/home/alasdairkite/flasksearch/urls.txt', 'w')
+        file = open('/home/alasdairkite/flasksearch/static/urls.txt', 'w')
         prox = proxy.getProxy()
         print("Writing proxy to file: ", prox)
         file.write(url + ",")
