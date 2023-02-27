@@ -39,7 +39,7 @@ class Proxies:
                 ip = cells[0].text + ":" + cells[1].text
                 li_ip.append(ip)
 
-        with open('proxies.txt', 'w') as p:
+        with open('/home/alasdairkite/flasksearch/proxies.txt', 'w') as p:
             for proxy in li_ip:
                 p.write(proxy)
                 p.write("\n")
@@ -64,7 +64,7 @@ class Proxies:
     def getProxy(self):
         print("get proxy method")
         p_list = []
-        with open('proxies.txt', 'r+') as p:
+        with open('/home/alasdairkite/flasksearch/proxies.txt', 'r+') as p:
             for proxy in p:
                 p_list.append(proxy)
         rand_ind = random.randrange(0, len(p_list))
@@ -320,8 +320,7 @@ class OnTheMarket:
             url2 = f'https://www.onthemarket.com/{self.channel}/{self.bedrooms}-bed-property/{self.pcode}/?max-bedrooms={self.maxrooms}&max-price={self.maxprice}&radius={self.radius}&view=grid'
 
             url =  f'https://www.onthemarket.com/to-rent/2-bed-flats-apartments/cv2-1ae/?max-bedrooms=5&max-price=3000&min-price=300&radius=0.25&view=grid'
-            print("onthemarket url: ", url2)
-            file = open('urls.txt', 'w')
+            file = open('/home/alasdairkite/flasksearch/urls.txt', 'w')
             prox = proxy.getProxy()
             print("Writing proxy to file: ", prox)
             file.write(url2+",")
@@ -329,13 +328,13 @@ class OnTheMarket:
             file.write(prox)
             file.close()
 
-        response = muterun_js('otm.js')
+        response = muterun_js('/home/alasdairkite/flasksearch/otm.js')
         if response.exitcode == 0:
             print(response.stdout)
         else:
-            execute_js('otm.js')
+            execute_js('/home/alasdairkite/flasksearch/otm.js')
 
-        with open('file.json') as r:
+        with open('/home/alasdairkite/flasksearch/file.json') as r:
             data = json.loads(r.read())
             try:
                 for prop in data['top-properties']:
@@ -552,7 +551,7 @@ class Gumtree:
             url = f"https://www.gumtree.com/search?search_category=property-to-rent&search_location={self.pcode}&property_number_beds={self.beds}-bedroom&max_price={self.minprice}&min_price={self.maxprice}"
 
         proxy = Proxies()
-        file = open('urls.txt', 'w')
+        file = open('/home/alasdairkite/flasksearch/urls.txt', 'w')
         prox = proxy.getProxy()
         print("Writing proxy to file: ", prox)
         file.write(url + ",")
@@ -564,9 +563,9 @@ class Gumtree:
         if response.exitcode == 0:
             print(response.stdout)
         else:
-            execute_js('gumtree.js')
+            execute_js('/home/alasdairkite/flasksearch/gumtree.js')
 
-        with open('temp.txt', 'r') as f:
+        with open('/home/alasdairkite/flasksearch/temp.txt', 'r') as f:
             soup = BeautifulSoup(f.read(), 'html.parser')
             articles = soup.find_all('article', {"class", "listing-maxi"})
             props = []
