@@ -564,7 +564,7 @@ class Gumtree:
         else:
             execute_js('/home/alasdairkite/flasksearch/gumtree.js')
 
-        with open('/home/alasdairkite/flasksearch/temp.txt', 'r') as f:
+        with open('/home/alasdairkite/flasksearch/static/temp.txt', 'r') as f:
             soup = BeautifulSoup(f.read(), 'html.parser')
             articles = soup.find_all('article', {"class", "listing-maxi"})
             props = []
