@@ -331,6 +331,8 @@ class OnTheMarket:
             file.close()
 
         file_exists = exists('otm.js')
+        if file_exists:
+            print("otm.js exists")
         response = muterun_js('otm.js')
         print("stdout: ", response.stdout)
         print("stderr: ", response.stderr)
