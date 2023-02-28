@@ -327,7 +327,7 @@ class OnTheMarket:
             file.write(prox)
             file.close()
 
-        response = muterun_js('/home/alasdairkite/flasksearch/flasksearch/static/otm.js')
+        response = muterun_js('otm.js')
         print("stdout: ", response.stdout)
         print("stderr: ", response.stderr)
         print("exitcode: ", response.exitcode)
