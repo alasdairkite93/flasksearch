@@ -1,5 +1,6 @@
 import json
 import multiprocessing
+from os.path import exists
 
 import requests
 import re
@@ -10,6 +11,8 @@ from Naked.toolshed.shell import execute_js, muterun_js
 import random
 import threading
 from time import sleep
+
+from os import path
 
 
 class Proxies:
@@ -327,6 +330,7 @@ class OnTheMarket:
             file.write(prox)
             file.close()
 
+        file_exists = exists('otm.js')
         response = muterun_js('otm.js')
         print("stdout: ", response.stdout)
         print("stderr: ", response.stderr)
