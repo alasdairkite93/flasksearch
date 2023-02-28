@@ -38,7 +38,7 @@ class Proxies:
                 ip = cells[0].text + ":" + cells[1].text
                 li_ip.append(ip)
 
-        with open('/home/alasdairkite/flasksearch/proxies.txt', 'w') as p:
+        with open('/home/alasdairkite/flasksearch/static/proxies.txt', 'w') as p:
             for proxy in li_ip:
                 p.write(proxy)
                 p.write("\n")
