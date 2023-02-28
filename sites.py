@@ -63,7 +63,7 @@ class Proxies:
     def getProxy(self):
         print("get proxy method")
         p_list = []
-        with open('/home/alasdairkite/flasksearch/proxies.txt', 'r+') as p:
+        with open('/home/alasdairkite/flasksearch/static/proxies.txt', 'r+') as p:
             for proxy in p:
                 p_list.append(proxy)
         rand_ind = random.randrange(0, len(p_list))
