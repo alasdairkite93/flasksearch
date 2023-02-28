@@ -327,10 +327,10 @@ class OnTheMarket:
             file.write(prox)
             file.close()
 
-        response = muterun_js('/home/alasdairkite/flasksearch/flasksearch/otm.js')
-        print(response.stdout)
-        print(response.stderr)
-        print(response.exitcode)
+        response = muterun_js('/home/alasdairkite/flasksearch/flasksearch/static/otm.js')
+        print("stdout: ", response.stdout)
+        print("stderr: ", response.stderr)
+        print("exitcode: ", response.exitcode)
         if response.exitcode == 0:
             print(response.stdout)
         else:
