@@ -1,9 +1,9 @@
-const puppeteer = require('/home/alasdairkite/flasksearch/node_modules/puppeteer-extra')
-const {executablePath} = require('/home/alasdairkite/flasksearch/node_modules/puppeteer')
-var fs = require('/home/alasdairkite/flasksearch/node_modules/fs')
+const puppeteer = require('/home/alasdairkite/flasksearch/flasksearch/nvm/versions/node/v18.14.2/bin/puppeteer-extra')
+const {executablePath} = require('/home/alasdairkite/flasksearch/flasksearch/nvm/versions/node/v18.14.2/bin/puppeteer')
+var fs = require('fs')
 
 // add stealth plugin and use defaults (all evasion techniques)
-const StealthPlugin = require('/home/alasdairkite/flasksearch/node_modules/puppeteer-extra-plugin-stealth')
+const StealthPlugin = require('/home/alasdairkite/flasksearch/flasksearch/nvm/versions/node/v18.14.2/bin/puppeteer-extra-plugin-stealth')
 puppeteer.use(StealthPlugin())
 
 
