@@ -11,6 +11,9 @@ from Naked.toolshed.shell import execute_js, muterun_js
 import random
 import threading
 from time import sleep
+import sys
+
+sys.path.append('/home/alasdairkite/flasksearch/flasksearch/node_modules')
 
 from os import path
 
@@ -333,6 +336,7 @@ class OnTheMarket:
         file_exists = exists('otm.js')
         if file_exists:
             print("otm.js exists")
+
         response = muterun_js('otm.js')
         print("stdout: ", response.stdout)
         print("stderr: ", response.stderr)
