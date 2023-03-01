@@ -1,5 +1,5 @@
 import json
-
+import sys
 from flask import Flask, session, request, render_template, jsonify, redirect, url_for
 import sites
 import threading
@@ -398,7 +398,7 @@ def search_p2():
 
 
 if __name__ == '__main__':
-
+    sys.path.append('/home/alasdairkite/flasksearch/flasksearch/node_modules')
 
     context = ('local.crt', 'local.key')
     app.secret_key = "super secret key"

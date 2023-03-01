@@ -13,7 +13,6 @@ import threading
 from time import sleep
 import sys
 
-sys.path.append('/home/alasdairkite/flasksearch/flasksearch/node_modules')
 
 from os import path
 
