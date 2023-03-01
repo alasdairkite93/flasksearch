@@ -12,6 +12,10 @@ import random
 import threading
 from time import sleep
 import sys
+from seleniumwire import webdriver
+from selenium_stealth import stealth
+import time
+from selenium.webdriver.common.by import By
 
 
 from os import path
@@ -298,85 +302,78 @@ class OnTheMarket:
 
     def request(self):
 
-
         utils = Utility()
-        proxy = Proxies()
 
+        options = webdriver.ChromeOptions()
+        options.add_argument("start-maximized")
 
-        baseurl = 'https://www.onthemarket.com/'
+        options.add_argument("--headless")
 
-        pcode = self.pcode.split(" ")
-        p1 = pcode[0].lower()
-        if len(pcode) > 1:
-            p2 = pcode[1].lower()
-            p_tot = p1+"-"+p2
-        else:
-            p_tot = p1
+        proxy_options = {
+            'proxy': {
+                'https': 'https://woaokexr:6tq2q8b4e15q@185.199.229.156:7492',
+            }
+        }
 
-        self.pcode = p_tot
+        options.add_experimental_option("excludeSwitches", ["enable-automation"])
+        options.add_experimental_option('useAutomationExtension', False)
+        driver = webdriver.Chrome(options=options, executable_path=r"/chromedriver.exe",
+                                  seleniumwire_options=proxy_options)
+
+        stealth(driver,
+                languages=["en-US", "en"],
+                vendor="Google Inc.",
+                platform="Win32",
+                webgl_vendor="Intel Inc.",
+                renderer="Intel Iris OpenGL Engine",
+                fix_hairline=True,
+                )
+
+        url = "https://bot.sannysoft.com/"
+        url2 = f'https://www.onthemarket.com/{self.channel}/{self.bedrooms}-bed-property/{self.pcode}/?max-bedrooms={self.maxrooms}&max-price={self.maxprice}&radius={self.radius}&view=grid'
+
+        driver.get(url2)
+        time.sleep(2)
+
+        jsondata = driver.find_element(By.XPATH, '//*[@id="grid"]/script[1]')
+        time.sleep(2)
+        data = jsondata.get_attribute("outerHTML")
+
+        time.sleep(3)
+
+        li = list(utils.find_json_objects(data))
+        data = li[1]
+
+        dump = json.dumps(data, indent=4)
+        load = json.loads(dump)
+
         otm_li = []
+        try:
+            for prop in load['properties']:
+                li = []
+                li.append(prop['display_address'])
+                li.append(prop['agent']['name'])
+                li.append(prop['bedrooms-text'])
+                li.append(prop['price'])
+                print("price: ", prop['price'])
+                # li.append(baseurl + prop['property-link'])
+                li.append(prop['images'][0]['default'])
+                li.append("otm")
 
+                otm_li.append(li)
+        except KeyError:
+            for prop in data['properties']:
+                li = []
+                li.append(prop['display_address'])
+                li.append(prop['agent']['name'])
+                li.append(prop['bedrooms-text'])
+                li.append(prop['price'])
+                print("price: ", prop['price'])
+                # li.append(baseurl + prop['property-link'])
+                li.append(prop['images'][0]['default'])
+                li.append("otm")
 
-        if int(self.radius) < 1:
-            self.radius = '0.5'
-        for i in range(1):
-            print('i in num: ', i)
-            url2 = f'https://www.onthemarket.com/{self.channel}/{self.bedrooms}-bed-property/{self.pcode}/?max-bedrooms={self.maxrooms}&max-price={self.maxprice}&radius={self.radius}&view=grid'
-
-            url =  f'https://www.onthemarket.com/to-rent/2-bed-flats-apartments/cv2-1ae/?max-bedrooms=5&max-price=3000&min-price=300&radius=0.25&view=grid'
-            file = open('/home/alasdairkite/flasksearch/urls.txt', 'w')
-            prox = proxy.getProxy()
-            print("Writing proxy to file: ", prox)
-            file.write(url2+",")
-            file.write("\n")
-            file.write(prox)
-            file.close()
-
-        file_exists = exists('otm.js')
-        if file_exists:
-            print("otm.js exists")
-
-        response = muterun_js('otm.js')
-        print("stdout: ", response.stdout)
-        print("stderr: ", response.stderr)
-        print("exitcode: ", response.exitcode)
-        if response.exitcode == 0:
-            print(response.stdout)
-        else:
-            execute_js('/home/alasdairkite/flasksearch/flasksearch/otm.js')
-
-        # execute_js('/home/alasdairkite/flasksearch/otm.js')
-
-
-        with open('/home/alasdairkite/flasksearch/flasksearch/static/file.json') as r:
-            data = json.loads(r.read())
-            try:
-                for prop in data['top-properties']:
-                    li = []
-                    li.append(prop['display_address'])
-                    li.append(prop['agent']['name'])
-                    li.append(prop['bedrooms-text'])
-                    li.append(prop['price'])
-                    print("price: ", prop['price'])
-                    li.append(baseurl + prop['property-link'])
-                    li.append(prop['images'][0]['default'])
-                    li.append("otm")
-
-                    otm_li.append(li)
-            except KeyError:
-                for prop in data['properties']:
-                    li = []
-                    li.append(prop['display_address'])
-                    li.append(prop['agent']['name'])
-                    li.append(prop['bedrooms-text'])
-                    li.append(prop['price'])
-                    print("price: ", prop['price'])
-                    li.append(baseurl + prop['property-link'])
-                    li.append(prop['images'][0]['default'])
-                    li.append("otm")
-
-                    otm_li.append(li)
-
+                otm_li.append(li)
         return otm_li
 
 class CrystalRoof:
