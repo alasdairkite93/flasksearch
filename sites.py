@@ -305,10 +305,7 @@ class OnTheMarket:
         utils = Utility()
 
         options = webdriver.ChromeOptions()
-        options.add_argument("start-maximized")
-
         options.add_argument("--headless")
-
         proxy_options = {
             'proxy': {
                 'https': 'https://woaokexr:6tq2q8b4e15q@185.199.229.156:7492',
@@ -317,8 +314,7 @@ class OnTheMarket:
 
         options.add_experimental_option("excludeSwitches", ["enable-automation"])
         options.add_experimental_option('useAutomationExtension', False)
-        driver = webdriver.Chrome(options=options, executable_path=r"/chromedriver.exe",
-                                  seleniumwire_options=proxy_options)
+        driver = webdriver.Chrome(options=options, seleniumwire_options=proxy_options)
 
         stealth(driver,
                 languages=["en-US", "en"],
