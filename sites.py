@@ -306,6 +306,8 @@ class OnTheMarket:
 
         options = webdriver.ChromeOptions()
         options.add_argument("--headless")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-gpu")
         proxy_options = {
             'proxy': {
                 'https': 'https://woaokexr:6tq2q8b4e15q@185.199.229.156:7492',
