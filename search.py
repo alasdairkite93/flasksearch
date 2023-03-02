@@ -75,7 +75,7 @@ def rmov_sold():
 
 @app.route('/otmsale', methods=["GET"])
 def otm_sales():
-    otmsale = sites.OnTheMarket(session['postcode'], "to-rent", session['radius'], session['brooms'], session['minprice'], session['maxprice'], session['resnum'], session['maxrooms'])
+    otmsale = sites.OnTheMarket(session['postcode'], "to-rent", session['radius'], session['brooms'], session['minprice'], session['maxprice'], session['resnum'], session['maxrooms'], session['propertytype'])
     otm_results = otmsale.request()
 
     return jsonify(otm_results)
@@ -83,7 +83,7 @@ def otm_sales():
 @app.route('/otmrent', methods=["GET"])
 def otm_rent():
     print("OTM Rent pages: ", " radius: ", session['radius'], " minprice ", session['minprice'])
-    otmrent = sites.OnTheMarket(session['postcode'], "to-rent", session['radius'], session['brooms'], session['minprice'], session['maxprice'], session['resnum'], session['maxrooms'])
+    otmrent = sites.OnTheMarket(session['postcode'], "to-rent", session['radius'], session['brooms'], session['minprice'], session['maxprice'], session['resnum'], session['maxrooms'], session['propertytype'])
     otm_results = otmrent.request()
 
     return jsonify(otm_results)
@@ -219,7 +219,7 @@ def returnAll():
         print("Return all")
 
         otmsale = sites.OnTheMarket(session['postcode'], "for-sale", session['radius'], session['brooms'],
-                                    session['minprice'], session['maxprice'], session['resnum'], session['maxrooms'])
+                                    session['minprice'], session['maxprice'], session['resnum'], session['maxrooms'], session['propertytype'])
         otm_results = otmsale.request()
         print("returned results of a")
 
@@ -245,7 +245,7 @@ def returnAll():
     elif session['type'] == 'lettings':
 
         otmsale = sites.OnTheMarket(session['postcode'], "to-rent", session['radius'], session['brooms'],
-                                    session['minprice'], session['maxprice'], session['resnum'], session['maxrooms'])
+                                    session['minprice'], session['maxprice'], session['resnum'], session['maxrooms'], session['propertytype'])
         otm_results = otmsale.request()
 
         rmove = sites.Rightmove(session['postcode'], "LETTINGS", session['radius'], session['brooms'],
@@ -332,7 +332,7 @@ def get_results():
 
         if session['searchtype'] == 'onthemarket' and session['type'] == 'sales':
             otmsale = sites.OnTheMarket(session['postcode'], "for-sale", session['radius'], session['brooms'],
-                                        session['minprice'], session['maxprice'], session['resnum'], session['maxrooms'])
+                                        session['minprice'], session['maxprice'], session['resnum'], session['maxrooms'], session['propertytype'])
             otm_results = otmsale.request()
             print("OTM: ", otm_results)
             return jsonify(otm_results)
@@ -355,7 +355,7 @@ def get_results():
 
         if session['searchtype'] == 'onthemarket' and session['type'] == 'lettings':
             otmsale = sites.OnTheMarket(session['postcode'], "to-rent", session['radius'], session['brooms'],
-                                        session['minprice'], session['maxprice'], session['resnum'], session['maxrooms'])
+                                        session['minprice'], session['maxprice'], session['resnum'], session['maxrooms'], session['propertytype'])
             otm_results = otmsale.request()
 
             return jsonify(otm_results)

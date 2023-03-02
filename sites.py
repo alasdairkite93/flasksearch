@@ -290,7 +290,7 @@ class Rightmove:
 
 class OnTheMarket:
 
-    def __init__(self, query, channel, radius, bedrooms, minprice, maxprice, resnum, maxrooms):
+    def __init__(self, query, channel, radius, bedrooms, minprice, maxprice, resnum, maxrooms, type):
         self.pcode = query
         self.channel = channel
         self.radius = radius
@@ -299,6 +299,7 @@ class OnTheMarket:
         self.maxprice = maxprice
         self.resnum = resnum
         self.maxrooms = maxrooms
+        self.type = type
 
     def request(self):
 
@@ -327,14 +328,22 @@ class OnTheMarket:
                 fix_hairline=True,
                 )
 
-        url2 = f'https://www.onthemarket.com/{self.channel}/{self.bedrooms}-bed-property/{self.pcode}/?max-bedrooms={self.maxrooms}&max-price={self.maxprice}&radius={self.radius}&view=grid'
 
+        if self.type == 'flats':
+            self.type = 'flats-apartments'
+        if self.type == 'houses':
+            self.type = 'detached'
+
+        self.pcode = self.pcode.replace(' ', '-').lower()
+
+        print("type: ", self.type)
+        #https://www.onthemarket.com/to-rent/1-bed-detached/se25/?max-bedrooms=4&radius=0.25&view=grid
+        url2 = f'https://www.onthemarket.com/{self.channel}/{self.bedrooms}-bed-{self.type}/{self.pcode}/?max-bedrooms={self.maxrooms}&max-price={self.maxprice}&radius={self.radius}&view=grid'
+        print(url2)
         driver.get(url2)
         time.sleep(2)
 
-        time.sleep(5)
         pagesource = driver.page_source
-        time.sleep(3)
         otm_li = []
 
         li = list(utils.find_json_objects(pagesource))
@@ -344,18 +353,22 @@ class OnTheMarket:
                     data = l
                     dump = json.dumps(data, indent=4)
                     load = json.loads(dump)
-
+                    baseurl = 'https://www.onthemarket.com'
                     otm_li = []
+
                     try:
                         for prop in load['properties']:
+
                             li = []
                             li.append(prop['display_address'])
                             li.append(prop['agent']['name'])
                             li.append(prop['bedrooms-text'])
                             li.append(prop['price'])
-                            print("price: ", prop['price'])
-                            # li.append(baseurl + prop['property-link'])
-                            li.append(prop['images'][0]['default'])
+                            li.append(baseurl + prop['property-link'])
+                            try:
+                                li.append(prop['images'][0]['default'])
+                            except IndexError:
+                                li.append(' ')
                             li.append("otm")
 
                             otm_li.append(li)
