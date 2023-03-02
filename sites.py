@@ -332,15 +332,17 @@ class OnTheMarket:
         driver.get(url2)
         time.sleep(2)
 
-        jsondata = driver.find_element(By.XPATH, '//*[@id="grid"]/script[1]')
-        time.sleep(2)
+        time.sleep(5)
         pagesource = driver.page_source
-        # data = jsondata.get_attribute("outerHTML")
-
         time.sleep(3)
 
         li = list(utils.find_json_objects(pagesource))
-        data = li[1]
+        for l in li:
+            try:
+                if l['header-data']:
+                    data = l
+            except KeyError:
+                pass
 
         dump = json.dumps(data, indent=4)
         load = json.loads(dump)
