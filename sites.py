@@ -335,6 +335,7 @@ class OnTheMarket:
         time.sleep(5)
         pagesource = driver.page_source
         time.sleep(3)
+        otm_li = []
 
         li = list(utils.find_json_objects(pagesource))
         for l in li:
@@ -358,6 +359,7 @@ class OnTheMarket:
                             li.append("otm")
 
                             otm_li.append(li)
+                            print(otm_li)
                     except KeyError:
                         for prop in data['properties']:
                             li = []
@@ -371,6 +373,7 @@ class OnTheMarket:
                             li.append("otm")
 
                             otm_li.append(li)
+                            print(otm_li)
 
 
             except KeyError:
