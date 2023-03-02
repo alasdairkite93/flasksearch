@@ -371,11 +371,12 @@ class OnTheMarket:
                             li.append("otm")
 
                             otm_li.append(li)
-                    return otm_li
+
 
             except KeyError:
                 pass
 
+        return otm_li
 
 
 class CrystalRoof:
