@@ -552,6 +552,28 @@ class Gumtree:
         except:
             pass
 
+        options = webdriver.ChromeOptions()
+        options.add_argument("--headless")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-gpu")
+        proxy_options = {
+            'proxy': {
+                'https': 'https://woaokexr:6tq2q8b4e15q@185.199.229.156:7492',
+            }
+        }
+
+        options.add_experimental_option("excludeSwitches", ["enable-automation"])
+        options.add_experimental_option('useAutomationExtension', False)
+        driver = webdriver.Chrome(options=options, seleniumwire_options=proxy_options)
+
+        stealth(driver,
+                languages=["en-US", "en"],
+                vendor="Google Inc.",
+                platform="Win32",
+                webgl_vendor="Intel Inc.",
+                renderer="Intel Iris OpenGL Engine",
+                fix_hairline=True,
+                )
 
         if self.channel == 'for-sale':
             # url = f"https://www.gumtree.com/search?search_category=property-for-sale&search_location={self.pcode}&property_number_beds={self.beds}-bedroom&max_price={self.minprice}&min_price={self.maxprice}"
@@ -559,24 +581,15 @@ class Gumtree:
         elif self.channel == "to-rent":
             url = f"https://www.gumtree.com/search?search_category=property-to-rent&search_location={self.pcode}&property_number_beds={self.beds}-bedroom&max_price={self.minprice}&min_price={self.maxprice}"
 
-        proxy = Proxies()
-        file = open('/home/alasdairkite/flasksearch/flasksearch/static/urls.txt', 'w')
-        prox = proxy.getProxy()
-        print("Writing proxy to file: ", prox)
-        file.write(url + ",")
-        file.write("\n")
-        file.write(prox)
-        file.close()
+        driver.get(url)
+        time.sleep(2)
 
+        pagesource = driver.page_source
+        soup = BeautifulSoup(pagesource, 'html.parser')
+        articles = soup.findAll('article', {"class", "listing-maxi"})
+        props = []
 
-        execute_js('/home/alasdairkite/flasksearch/flasksearch/static/gumtree.js')
-
-        with open('/home/alasdairkite/flasksearch/flasksearch/static/temp.txt', 'r') as f:
-            soup = BeautifulSoup(f.read(), 'html.parser')
-            articles = soup.find_all('article', {"class", "listing-maxi"})
-            props = []
-
-            for article in articles:
+        for article in articles:
                 li = []
                 # print(article)
 
