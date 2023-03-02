@@ -327,7 +327,6 @@ class OnTheMarket:
                 fix_hairline=True,
                 )
 
-        url = "https://bot.sannysoft.com/"
         url2 = f'https://www.onthemarket.com/{self.channel}/{self.bedrooms}-bed-property/{self.pcode}/?max-bedrooms={self.maxrooms}&max-price={self.maxprice}&radius={self.radius}&view=grid'
 
         driver.get(url2)
@@ -335,11 +334,12 @@ class OnTheMarket:
 
         jsondata = driver.find_element(By.XPATH, '//*[@id="grid"]/script[1]')
         time.sleep(2)
-        data = jsondata.get_attribute("outerHTML")
+        pagesource = driver.page_source
+        # data = jsondata.get_attribute("outerHTML")
 
         time.sleep(3)
 
-        li = list(utils.find_json_objects(data))
+        li = list(utils.find_json_objects(pagesource))
         data = li[1]
 
         dump = json.dumps(data, indent=4)
