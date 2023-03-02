@@ -341,40 +341,42 @@ class OnTheMarket:
             try:
                 if l['header-data']:
                     data = l
+                    dump = json.dumps(data, indent=4)
+                    load = json.loads(dump)
+
+                    otm_li = []
+                    try:
+                        for prop in load['properties']:
+                            li = []
+                            li.append(prop['display_address'])
+                            li.append(prop['agent']['name'])
+                            li.append(prop['bedrooms-text'])
+                            li.append(prop['price'])
+                            print("price: ", prop['price'])
+                            # li.append(baseurl + prop['property-link'])
+                            li.append(prop['images'][0]['default'])
+                            li.append("otm")
+
+                            otm_li.append(li)
+                    except KeyError:
+                        for prop in data['properties']:
+                            li = []
+                            li.append(prop['display_address'])
+                            li.append(prop['agent']['name'])
+                            li.append(prop['bedrooms-text'])
+                            li.append(prop['price'])
+                            print("price: ", prop['price'])
+                            # li.append(baseurl + prop['property-link'])
+                            li.append(prop['images'][0]['default'])
+                            li.append("otm")
+
+                            otm_li.append(li)
+                    return otm_li
+
             except KeyError:
                 pass
 
-        dump = json.dumps(data, indent=4)
-        load = json.loads(dump)
 
-        otm_li = []
-        try:
-            for prop in load['properties']:
-                li = []
-                li.append(prop['display_address'])
-                li.append(prop['agent']['name'])
-                li.append(prop['bedrooms-text'])
-                li.append(prop['price'])
-                print("price: ", prop['price'])
-                # li.append(baseurl + prop['property-link'])
-                li.append(prop['images'][0]['default'])
-                li.append("otm")
-
-                otm_li.append(li)
-        except KeyError:
-            for prop in data['properties']:
-                li = []
-                li.append(prop['display_address'])
-                li.append(prop['agent']['name'])
-                li.append(prop['bedrooms-text'])
-                li.append(prop['price'])
-                print("price: ", prop['price'])
-                # li.append(baseurl + prop['property-link'])
-                li.append(prop['images'][0]['default'])
-                li.append("otm")
-
-                otm_li.append(li)
-        return otm_li
 
 class CrystalRoof:
 
