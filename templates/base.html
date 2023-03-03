@@ -564,11 +564,20 @@
                 coldiv.appendChild(price);
             }
              else {
+                 {% if session['type'] == 'lettings' %}
                 const price = document.createElement("h5");
                 price.setAttribute("style", "text-align: center; padding-top: 10px; color: white;")
-                const price_fig = document.createTextNode(prop[3]);
+                const price_fig = document.createTextNode(prop[3] +"pcm");
                 price.appendChild(price_fig);
                 coldiv.appendChild(price);
+                {% endif %}
+             {% if session['type'] == 'sales' %}
+                const saleprice = document.createElement("h5");
+                saleprice.setAttribute("style", "text-align: center; padding-top: 10px; color: white;")
+                const saleprice_fig = document.createTextNode(prop[3]);
+                price.appendChild(saleprice_fig);
+                coldiv.appendChild(saleprice);
+                {% endif %}
             }
 
             const divcolmd8 = document.createElement("div");

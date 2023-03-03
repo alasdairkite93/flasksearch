@@ -70,16 +70,21 @@ class Proxies:
         return 1
 
     def getProxy(self):
-        print("get proxy method")
-        p_list = []
-        with open('/home/alasdairkite/flasksearch/flasksearch/static/proxies.txt', 'r+') as p:
-            for proxy in p:
-                p_list.append(proxy)
-        rand_ind = random.randrange(0, len(p_list))
-        prox = p_list[rand_ind]
-        if self.is_bad_proxy(p_list[rand_ind]) == 0:
-            self.getProxy()
-        return prox
+
+        prox_list = ['185.199.229.156:7492',
+                    '185.199.228.220:7300',
+                    '185.199.231.45:8382',
+                    '188.74.210.207:6286',
+                    '188.74.183.10:8279',
+                    '188.74.210.21:6100',
+                    '45.155.68.129:8133',
+                    '154.95.36.199:6893',
+                    '45.94.47.66:8110',
+                    '144.168.217.88:8780']
+
+        proxlen = len(prox_list)
+        proxy = prox_list[random.randint(0, proxlen)]
+        return proxy
 
 
 class Utility:
@@ -304,6 +309,9 @@ class OnTheMarket:
     def request(self):
 
         utils = Utility()
+        proxclass = Proxies()
+
+        proxy = proxclass.getProxy()
 
         options = webdriver.ChromeOptions()
         options.add_argument("--headless")
@@ -311,7 +319,7 @@ class OnTheMarket:
         options.add_argument("--disable-gpu")
         proxy_options = {
             'proxy': {
-                'https': 'https://woaokexr:6tq2q8b4e15q@185.199.229.156:7492',
+                'https': f'https://woaokexr:6tq2q8b4e15q@{proxy}',
             }
         }
 
@@ -341,7 +349,6 @@ class OnTheMarket:
         url2 = f'https://www.onthemarket.com/{self.channel}/{self.bedrooms}-bed-{self.type}/{self.pcode}/?max-bedrooms={self.maxrooms}&max-price={self.maxprice}&radius={self.radius}&view=grid'
         print(url2)
         driver.get(url2)
-        time.sleep(2)
 
         pagesource = driver.page_source
         otm_li = []
@@ -355,7 +362,7 @@ class OnTheMarket:
                     load = json.loads(dump)
                     baseurl = 'https://www.onthemarket.com'
                     otm_li = []
-
+                    print(load['properties'])
                     try:
                         for prop in load['properties']:
 
@@ -363,7 +370,9 @@ class OnTheMarket:
                             li.append(prop['display_address'])
                             li.append(prop['agent']['name'])
                             li.append(prop['bedrooms-text'])
-                            li.append(prop['price'])
+                            price = prop['price'].split(" ")
+                            pricemonth = price[0]
+                            li.append(pricemonth)
                             li.append(baseurl + prop['property-link'])
                             try:
                                 li.append(prop['images'][0]['default'])
