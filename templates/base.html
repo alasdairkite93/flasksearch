@@ -56,6 +56,7 @@
        const p = document.createElement('p');
        const textcont = document.createTextNode("Loading content");
        p.appendChild(textcont);
+
        section.appendChild(p);
 
    }
@@ -556,6 +557,8 @@
             coldiv.appendChild(img_anch);
             rowdiv.appendChild(coldiv);
 
+            console.log(prop[7]);
+
             if (prop[7] != undefined) {
                 const price = document.createElement("h5");
                 price.setAttribute("style", "text-align: center; padding-top: 10px; color: white;")
@@ -564,21 +567,22 @@
                 coldiv.appendChild(price);
             }
              else {
-                 {% if session['type'] == 'lettings' %}
-                const price = document.createElement("h5");
-                price.setAttribute("style", "text-align: center; padding-top: 10px; color: white;")
-                const price_fig = document.createTextNode(prop[3] +"pcm");
-                price.appendChild(price_fig);
-                coldiv.appendChild(price);
+                {% if session['type'] == 'lettings' %}
+                    const price = document.createElement("h5");
+                    price.setAttribute("style", "text-align: center; padding-top: 10px; color: white;")
+                    const price_fig = document.createTextNode(prop[3] + "pcm");
+                    price.appendChild(price_fig);
+                    coldiv.appendChild(price);
                 {% endif %}
-             {% if session['type'] == 'sales' %}
-                const saleprice = document.createElement("h5");
-                saleprice.setAttribute("style", "text-align: center; padding-top: 10px; color: white;")
-                const saleprice_fig = document.createTextNode(prop[3]);
-                price.appendChild(saleprice_fig);
-                coldiv.appendChild(saleprice);
+                {% if session['type'] == 'sales' %}
+                    const saleprice = document.createElement("h5");
+                    saleprice.setAttribute("style", "text-align: center; padding-top: 10px; color: white;")
+                    const saleprice_fig = document.createTextNode(prop[3]);
+                    saleprice.appendChild(saleprice_fig);
+                    coldiv.appendChild(saleprice);
                 {% endif %}
             }
+
 
             const divcolmd8 = document.createElement("div");
             divcolmd8.setAttribute("class", "col-md-8");
@@ -889,6 +893,7 @@
        .box6 {
            grid-area: cont;
             min-height: 800px;
+           border-right: 2px solid black;
        }
 
        .navbar navbar-inverse {
@@ -1036,7 +1041,7 @@
     <a href="/"><img src="/static/images/mainlogo.png" alt="mainlogo" width="100%" height="auto" style="float: left;"></a>
 </div>
 <div class="box1">
-<div class="container" style="background-color: white;">
+<div class="container" style="background-color: white; ">
     {% if session['type'] == 'sales' %}
      <ul class="nav navbar-nav">
         <li style="padding-right: 20px; "><a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i><div class="dropdown show">
@@ -1595,7 +1600,7 @@
   </div>
   </div>
     <div class="box6" style="background-color: #E9E9EB;">
-        <h5 style="padding-top: 100px; text-align: center;">Property {{ session['type'] }} results for: {{ session['postcode'] }} in the range of £{{ session['minprice'] }} to £{{ session['maxprice'] }} for properties with {{ session['brooms'] }} to {{ session['maxrooms'] }} rooms.</h5>
+        <h5 style="padding-top: 100px; text-align: center; padding-left: 10%; padding-right: 10%;">Property {{ session['type'] }} results for: {{ session['postcode'] }} in the range of £{{ session['minprice'] }} to £{{ session['maxprice'] }} for properties with {{ session['brooms'] }} to {{ session['maxrooms'] }} rooms.</h5>
 
         <div class="container">
         <button style="margin-left: 200px;" class="btn" onClick="GFG_Fun()">
@@ -1633,6 +1638,7 @@
                           .appendTo($wrap);
               }
         </script>
+
   </div>
 </div>
 <script>

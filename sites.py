@@ -82,8 +82,10 @@ class Proxies:
                     '45.94.47.66:8110',
                     '144.168.217.88:8780']
 
-        proxlen = len(prox_list)
+        proxlen = len(prox_list)-1
+        print("proxlen: ", proxlen)
         proxy = prox_list[random.randint(0, proxlen)]
+        print(proxy)
         return proxy
 
 
@@ -118,24 +120,7 @@ class Zoopla:
 
         searchurl = f'https://www.zoopla.co.uk/{self.channel}/property/{self.searchquery}/?q={self.searchquery}&results_sort=newest_listings&search_source={self.channel}&beds_max={self.beds}&price_min={self.price_min}&price_max={self.price_max}'
 
-        print("Zoopla requests: ", searchurl)
         baseurl = 'https://www.zoopla.co.uk/'
-
-        print('search url: ', searchurl)
-
-        file = open('urls.txt', 'w')
-        prox = proxy.getProxy()
-        print("Writing proxy to file: ", prox)
-        file.write(searchurl)
-        file.write("\n")
-        file.write(prox)
-        file.close()
-
-        response = muterun_js('zoopla.js')
-        if response.exitcode == 0:
-            print(response.stdout)
-        else:
-            execute_js('zoopla.js')
 
         zoop_l = []
 
@@ -248,7 +233,9 @@ class Rightmove:
                     li.append(props['displayAddress'])
                     li.append(props['customer']['branchDisplayName'])
                     li.append(props['bedrooms'])
-                    li.append(props['price']['displayPrices'][0]['displayPrice'])
+                    price_l = props['price']['displayPrices'][0]['displayPrice']
+                    price_l.replace(',', '')
+                    li.append(price_l)
                     li.append(url + str(props['id']))
                     li.append(props['propertyImages']['images'][0]['srcUrl'])
                     li.append("rmove")
