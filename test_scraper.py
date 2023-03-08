@@ -276,7 +276,7 @@ def sendMessage():
     msg['To'] = 'alasdairkite93@gmail.com'
 
     port = 465
-    password='Oxted040193?'
+    password='?'
     context = ssl.create_default_context()
 
     with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
