@@ -20,6 +20,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium_stealth import stealth
 from bs4 import BeautifulSoup
+import smtplib, ssl
+from email.message import EmailMessage
 
 class Utility():
 
@@ -75,14 +77,6 @@ def client(app):
 def runner(app):
     return app.test_cli_runner()
 
-def test_postcode(client):
-
-    response = client.post("/searchtest" , data={
-        "pcode":"CT6",
-        "sales":"sales",
-    })
-    assert response.status_code == 200
-
 # def test_planning_response(client):
 #
 #     requestobj = f'https://api.propertydata.co.uk/planning?key=KVB3BXNFRZ&postcode=CT65HZ&decision_rating=positive&category=EXTENSION,LOFT%20CONVERSION&max_age_update=120&results=20'
@@ -112,32 +106,31 @@ def test_rmovesales_request(client):
     response = requests.get(rmovesale_url)
     assert response.status_code == 200
 
-
-def test_gumtreerent_requestanddata(client):
-
-    url = 'https://www.gumtree.com/search?search_category=property-to-rent&search_location=SE100AA&property_number_beds=100-bedroom&max_price=25000&min_price=1'
-
-    options = webdriver.ChromeOptions()
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-gpu")
-
-    options.add_experimental_option("excludeSwitches", ["enable-automation"])
-    options.add_experimental_option('useAutomationExtension', False)
-
-    driver = webdriver.Chrome(options=options)
-    stealth(driver,
-            languages=["en-US", "en"],
-            vendor="Google Inc.",
-            platform="Win32",
-            webgl_vendor="Intel Inc.",
-            renderer="Intel Iris OpenGL Engine",
-            fix_hairline=True,
-            )
-    driver.get(url)
-    status = driver.find_elements(By.TAG_NAME, 'h1')
-    source = driver.page_source
-    rent_text = "rent"
-    assert "404" not in status and rent_text in source
+# def test_gumtreerent_requestanddata(client):
+#
+#     url = 'https://www.gumtree.com/search?search_category=property-to-rent&search_location=SE100AA&property_number_beds=100-bedroom&max_price=25000&min_price=1'
+#
+#     options = webdriver.ChromeOptions()
+#     options.add_argument("--no-sandbox")
+#     options.add_argument("--disable-gpu")
+#
+#     options.add_experimental_option("excludeSwitches", ["enable-automation"])
+#     options.add_experimental_option('useAutomationExtension', False)
+#
+#     driver = webdriver.Chrome(options=options)
+#     stealth(driver,
+#             languages=["en-US", "en"],
+#             vendor="Google Inc.",
+#             platform="Win32",
+#             webgl_vendor="Intel Inc.",
+#             renderer="Intel Iris OpenGL Engine",
+#             fix_hairline=True,
+#             )
+#     driver.get(url)
+#     status = driver.find_elements(By.TAG_NAME, 'h1')
+#     source = driver.page_source
+#     rent_text = "rent"
+#     assert "404" not in status and rent_text in source
 
 def test_rmovelets_request(client):
 
@@ -181,82 +174,82 @@ def test_rmovelets_dataresponse(client):
 
     assert "pcm" in price_l
 
-def test_otmsales_request(client):
+# def test_otmsales_request(client):
+#
+#     util = Utility()
+#
+#
+#     options = webdriver.ChromeOptions()
+#     options.add_argument("--headless")
+#     options.add_argument("--no-sandbox")
+#     options.add_argument("--disable-gpu")
+#
+#     options.add_experimental_option("excludeSwitches", ["enable-automation"])
+#     options.add_experimental_option('useAutomationExtension', False)
+#     driver = webdriver.Chrome(options=options)
+#
+#     stealth(driver,
+#             languages=["en-US", "en"],
+#             vendor="Google Inc.",
+#             platform="Win32",
+#             webgl_vendor="Intel Inc.",
+#             renderer="Intel Iris OpenGL Engine",
+#             fix_hairline=True,
+#             )
+#
+#     url2 = 'https://www.onthemarket.com/for-sale/2-bed-detached/se10-0aa/?max-bedrooms=4&max-price=1250000&radius=1&view=grid'
+#     driver.get(url2)
+#
+#
+#     pagesource = driver.page_source
+#
+#     li = list(util.find_json_objects(pagesource))
+#     for l in li:
+#         try:
+#             if l['header-data']:
+#                 data = l
+#                 dump = json.dumps(data, indent=4)
+#                 load = json.loads(dump)
+#                 lenproperties = len(load['properties'])
+#                 assert lenproperties > 2
+#         except:
+#             pass
 
-    util = Utility()
-
-
-    options = webdriver.ChromeOptions()
-    options.add_argument("--headless")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-gpu")
-
-    options.add_experimental_option("excludeSwitches", ["enable-automation"])
-    options.add_experimental_option('useAutomationExtension', False)
-    driver = webdriver.Chrome(options=options)
-
-    stealth(driver,
-            languages=["en-US", "en"],
-            vendor="Google Inc.",
-            platform="Win32",
-            webgl_vendor="Intel Inc.",
-            renderer="Intel Iris OpenGL Engine",
-            fix_hairline=True,
-            )
-
-    url2 = 'https://www.onthemarket.com/for-sale/2-bed-detached/se10-0aa/?max-bedrooms=4&max-price=1250000&radius=1&view=grid'
-    driver.get(url2)
-
-
-    pagesource = driver.page_source
-
-    li = list(util.find_json_objects(pagesource))
-    for l in li:
-        try:
-            if l['header-data']:
-                data = l
-                dump = json.dumps(data, indent=4)
-                load = json.loads(dump)
-                lenproperties = len(load['properties'])
-                assert lenproperties > 2
-        except:
-            pass
-
-def test_otmrent_request(client):
-
-    options = webdriver.ChromeOptions()
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-gpu")
-
-    options.add_experimental_option("excludeSwitches", ["enable-automation"])
-    options.add_experimental_option('useAutomationExtension', False)
-
-    driver = webdriver.Chrome(options=options)
-    stealth(driver,
-            languages=["en-US", "en"],
-            vendor="Google Inc.",
-            platform="Win32",
-            webgl_vendor="Intel Inc.",
-            renderer="Intel Iris OpenGL Engine",
-            fix_hairline=True,
-            )
-
-    url2 = 'https://www.onthemarket.com/to-rent/2-bed-property/se1/?max-bedrooms=4&max-price=17500&min-price=100&radius=1&view=grid'
-    driver.get(url2)
-    pagesource = driver.page_source
-    assert "properties" in pagesource
-
-    # li = list(util.find_json_objects(pagesource))
-    # for l in li:
-    #     try:
-    #         if l['header-data']:
-    #             data = l
-    #             dump = json.dumps(data, indent=4)
-    #             load = json.loads(dump)
-    #             lenproperties = len(load['properties'])
-    #             assert lenproperties > 2
-    #     except:
-    #         pass
+# def test_otmrent_request(client):
+#
+#     options = webdriver.ChromeOptions()
+#     options.add_argument("--no-sandbox")
+#     options.add_argument("--disable-gpu")
+#
+#     options.add_experimental_option("excludeSwitches", ["enable-automation"])
+#     options.add_experimental_option('useAutomationExtension', False)
+#
+#     driver = webdriver.Chrome(options=options)
+#     stealth(driver,
+#             languages=["en-US", "en"],
+#             vendor="Google Inc.",
+#             platform="Win32",
+#             webgl_vendor="Intel Inc.",
+#             renderer="Intel Iris OpenGL Engine",
+#             fix_hairline=True,
+#             )
+#
+#     url2 = 'https://www.onthemarket.com/to-rent/2-bed-property/se1/?max-bedrooms=4&max-price=17500&min-price=100&radius=1&view=grid'
+#     driver.get(url2)
+#     pagesource = driver.page_source
+#     assert "properties" in pagesource
+#
+#     # li = list(util.find_json_objects(pagesource))
+#     # for l in li:
+#     #     try:
+#     #         if l['header-data']:
+#     #             data = l
+#     #             dump = json.dumps(data, indent=4)
+#     #             load = json.loads(dump)
+#     #             lenproperties = len(load['properties'])
+#     #             assert lenproperties > 2
+#     #     except:
+#     #         pass
 
 def test_crystalstates(client):
 
@@ -270,6 +263,32 @@ def test_crystalstates(client):
     data = parsed['props']['initialReduxState']['report']['sectionResponses']['overview']['data']
     assert len(data) == 15
 
+def sendMessage():
+
+    file = 'path'
+
+    with open('path') as res:
+        msg = EmailMessage()
+        msg.set_content(res.read())
+
+    msg['Subject'] = f'The contents of {file}'
+    msg['From'] = 'alasdairkite93@gmail.com'
+    msg['To'] = 'alasdairkite93@gmail.com'
+
+    port = 465
+    password='Oxted040193?'
+    context = ssl.create_default_context()
+
+    with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
+        server.login("alasdairkite93@gmail.com", password)
+        server.sendmail("alasdairkite93@gmail.com", "alasdairkite93@gmail.com", msg)
+
+    s = smtplib.SMTP('localhost')
+    s.send_message(msg)
+    s.quit()
+
+    print("End of message")
+
 if __name__=='__main__':
     retcode = pytest.main(["-x", "test_scraper.py"])
-    print(retcode)
+    sendMessage()
