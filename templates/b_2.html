@@ -494,6 +494,9 @@
                     <div class="col-sm-3">
                     <select id="radius" class="form-control" onmousedown="if(this.options.length>8){this.size=8;}" onchange='this.size=0;' onblur="this.size=0;" name="radius" style="font-size: 12px;">
                         <option>{{ session['radius'] }}</option>
+                        <option value="0">+0 miles</option>
+                        <option value="0.25">+0.25 miles</option>
+                        <option value="o.5">+0.5 miles</option>
                         <option value="1">+1 miles</option>
                         <option value="3">+3 miles</option>
                         <option value="5">+5 miles</option>
@@ -511,8 +514,6 @@
                             <option value="flats">Flats/ Apartments</option>
                             <option value="bungalows">Bungalows</option>
                             <option value="land">Land</option>
-                            <option value="commercial">Commercial Property</option>
-                            <option value="other">Other</option>
                         </select>
                     </div>
               </div>

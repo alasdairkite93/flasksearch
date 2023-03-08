@@ -1,7 +1,7 @@
 import json
 import multiprocessing
 from os.path import exists
-
+import math
 import requests
 import re
 from bs4 import BeautifulSoup, SoupStrainer
@@ -16,7 +16,6 @@ from seleniumwire import webdriver
 from selenium_stealth import stealth
 import time
 from selenium.webdriver.common.by import By
-
 
 from os import path
 
@@ -174,10 +173,6 @@ class Rightmove:
 
         else:
             search_url = f'https://www.rightmove.co.uk/{rent}/search.html?searchLocation='
-
-
-
-
         x = requests.get(search_url + self.pcode)
 
         soup = BeautifulSoup(x.text, 'html.parser')
@@ -185,16 +180,12 @@ class Rightmove:
         txt = results
         x = re.findall("[^^]*$", txt)
         code = x[0]
-        print("CODE: ", code)
-
 
         properties = []
         print(type(self.page))
         num = int(self.page)
         urls = []
 
-
-        print("code: ", code)
         for ind in range(3):
             ind = ind*24
             if len(self.pcode) > 4 and self.channel == 'SALE':
@@ -209,11 +200,8 @@ class Rightmove:
 
             urls.append(t_url)
 
-        print(urls)
-
         for i in range(len(urls)):
             req_url = requests.get(urls[i])
-            print("getting: ", urls[i])
             soup = BeautifulSoup(req_url.text, 'html.parser')
             results = soup.findAll('script')
 
@@ -254,6 +242,7 @@ class Rightmove:
         for i in range(1, 20, 1):
             pconv = str(i)
             apiurl = f"https://www.rightmove.co.uk/house-prices/{pcode}.html?page={pconv}"
+            print("soldurl: ", apiurl)
             req_url = requests.get(apiurl)
 
             soup = BeautifulSoup(req_url.text, 'html.parser')
@@ -306,7 +295,7 @@ class OnTheMarket:
         options.add_argument("--disable-gpu")
         proxy_options = {
             'proxy': {
-                'https': f'https://woaokexr:6tq2q8b4e15q@{proxy}',
+                'https': f'https://jhexogaj:3lf4cs4uk5v1@{proxy}',
             }
         }
 
@@ -332,8 +321,11 @@ class OnTheMarket:
         self.pcode = self.pcode.replace(' ', '-').lower()
 
         print("type: ", self.type)
-        #https://www.onthemarket.com/to-rent/1-bed-detached/se25/?max-bedrooms=4&radius=0.25&view=grid
-        url2 = f'https://www.onthemarket.com/{self.channel}/{self.bedrooms}-bed-{self.type}/{self.pcode}/?max-bedrooms={self.maxrooms}&max-price={self.maxprice}&radius={self.radius}&view=grid'
+        if self.radius != 0:
+            url2 = f'https://www.onthemarket.com/{self.channel}/{self.bedrooms}-bed-property/{self.pcode}/?max-bedrooms={self.maxrooms}&max-price={self.maxprice}&min-price={self.minprice}&radius={self.radius}&view=grid'
+        elif self.radius == 0:
+            url2 = f'https://www.onthemarket.com/{self.channel}/{self.bedrooms}-bed-property/{self.pcode}/?max-bedrooms={self.maxrooms}&max-price={self.maxprice}&min-price={self.minprice}&view=grid'
+
         print(url2)
         driver.get(url2)
 
@@ -349,7 +341,6 @@ class OnTheMarket:
                     load = json.loads(dump)
                     baseurl = 'https://www.onthemarket.com'
                     otm_li = []
-                    print(load['properties'])
                     try:
                         for prop in load['properties']:
 
@@ -382,7 +373,6 @@ class OnTheMarket:
                             li.append("otm")
 
                             otm_li.append(li)
-                            print(otm_li)
 
 
             except KeyError:
@@ -486,6 +476,7 @@ class LandRegistry:
         li = []
         for i in range(num):
             base_url = f'https://landregistry.data.gov.uk/data/ppi/transaction-record.json?propertyAddress.postcode={p_fin}&_page={i}'
+            print("BASE URL", base_url)
             x = requests.get(base_url).text
             loaded = json.loads(x)
             items = loaded['result']['items']
@@ -592,12 +583,15 @@ class Gumtree:
                 fix_hairline=True,
                 )
 
+        if self.radius < 1:
+            self.radius = math.ceil(self.radius)
+
         if self.channel == 'for-sale':
             # url = f"https://www.gumtree.com/search?search_category=property-for-sale&search_location={self.pcode}&property_number_beds={self.beds}-bedroom&max_price={self.minprice}&min_price={self.maxprice}"
             url = f'https://www.gumtree.com/search?search_category=property-for-sale&search_location={self.pcode}&q=&distance={self.radius}&min_price={self.minprice}&max_price={self.maxprice}&min_property_number_beds={self.beds}&max_property_number_beds={self.beds}'
         elif self.channel == "to-rent":
-            url = f"https://www.gumtree.com/search?search_category=property-to-rent&search_location={self.pcode}&property_number_beds={self.beds}-bedroom&max_price={self.minprice}&min_price={self.maxprice}"
-
+            url = f"https://www.gumtree.com/search?search_category=property-to-rent&search_location={self.pcode}q=&distance={self.radius}&property_number_beds={self.beds}-bedroom&max_price={self.minprice}&min_price={self.maxprice}"
+        print("gumtree URL: ", url)
         driver.get(url)
         time.sleep(2)
 
