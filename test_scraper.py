@@ -1,28 +1,15 @@
 import os
 import pytest
-import search
-import unittest
-from flask import session
-from unittest import TestCase
+
 from search import create_app
-from flask import Flask
-from flask_testing import TestCase
-from flask_testing import LiveServerTestCase
 from urllib.request import urlopen
 import requests
 import random
 import urllib
 import json
-import subprocess
-import re
-from seleniumwire import webdriver
-from selenium_stealth import stealth
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium_stealth import stealth
+
 from bs4 import BeautifulSoup
-import smtplib, ssl
-from email.message import EmailMessage
+
 
 
 class Utility():
