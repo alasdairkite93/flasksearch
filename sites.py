@@ -7,7 +7,6 @@ import re
 from bs4 import BeautifulSoup, SoupStrainer
 import urllib.request
 import os
-from Naked.toolshed.shell import execute_js, muterun_js
 import random
 import threading
 from time import sleep
