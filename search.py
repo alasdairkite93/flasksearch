@@ -5,6 +5,7 @@ import sites
 import threading
 import os
 import pytest
+import requests
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
@@ -796,6 +797,8 @@ def create_app(test_config=None):
                 return result
 
     return app
+
+
 
 if __name__ == '__main__':
     sys.path.append('/home/alasdairkite/flasksearch/flasksearch/node_modules')

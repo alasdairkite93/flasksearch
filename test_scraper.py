@@ -13,6 +13,7 @@ import requests
 import random
 import urllib
 import json
+import subprocess
 import re
 from seleniumwire import webdriver
 from selenium_stealth import stealth
@@ -22,6 +23,7 @@ from selenium_stealth import stealth
 from bs4 import BeautifulSoup
 import smtplib, ssl
 from email.message import EmailMessage
+
 
 class Utility():
 
@@ -56,9 +58,9 @@ class Utility():
 
         return proxy
 
+
 @pytest.fixture()
 def app():
-
     app = create_app()
 
     app.config.update({
@@ -69,42 +71,46 @@ def app():
 
     yield app
 
+
 @pytest.fixture()
 def client(app):
     return app.test_client()
+
 
 @pytest.fixture()
 def runner(app):
     return app.test_cli_runner()
 
-# def test_planning_response(client):
-#
-#     requestobj = f'https://api.propertydata.co.uk/planning?key=KVB3BXNFRZ&postcode=CT65HZ&decision_rating=positive&category=EXTENSION,LOFT%20CONVERSION&max_age_update=120&results=20'
-#     response = requests.get(requestobj)
-#     assert response.status_code == 200
+
+def test_planning_response(client):
+
+    requestobj = f'https://api.propertydata.co.uk/planning?key=KVB3BXNFRZ&postcode=CT65HZ&decision_rating=positive&category=EXTENSION,LOFT%20CONVERSION&max_age_update=120&results=20'
+    response = requests.get(requestobj)
+    assert response.status_code == 200
 #
 # def test_planning_data(client):
 #     requestobj = f'https://api.propertydata.co.uk/planning?key=KVB3BXNFRZ&postcode=CT65HZ&decision_rating=positive&category=EXTENSION,LOFT%20CONVERSION&max_age_update=120&results=20'
 #     response = requests.get(requestobj)
 #     assert response.status_code == 200
 
-def test_langreg_request(client):
 
+def test_langreg_request(client):
     base_url = f'https://landregistry.data.gov.uk/data/ppi/transaction-record.json?propertyAddress.postcode=SE10%200AA&_page=0'
     response = requests.get(base_url)
     assert response.status_code == 200
 
-def test_rmovesold_request(client):
 
+def test_rmovesold_request(client):
     rmovesold_url = 'https://www.rightmove.co.uk/house-prices/CR0 0AB.html?page=1'
     response = requests.get(rmovesold_url)
     assert response.status_code == 200
 
-def test_rmovesales_request(client):
 
+def test_rmovesales_request(client):
     rmovesale_url = 'https://www.rightmove.co.uk/property-for-sale/search.html?searchLocation=CR0 0AA'
     response = requests.get(rmovesale_url)
     assert response.status_code == 200
+
 
 # def test_gumtreerent_requestanddata(client):
 #
@@ -133,19 +139,18 @@ def test_rmovesales_request(client):
 #     assert "404" not in status and rent_text in source
 
 def test_rmovelets_request(client):
-
     search_url = 'https://www.rightmove.co.uk/property-to-rent/search.html?searchLocation='
     x = requests.get(search_url + 'SE1')
 
     assert x.status_code == 200
 
-def test_rmovelets_dataresponse(client):
 
+def test_rmovelets_dataresponse(client):
     utility = Utility()
 
     search_url = 'https://www.rightmove.co.uk/property-to-rent/search.html?searchLocation='
     x = requests.get(search_url + 'SE1')
-    #assert this API works
+    # assert this API works
 
     soup = BeautifulSoup(x.text, 'html.parser')
     results = soup.find('input', {'id': 'locationIdentifier'}).get('value')
@@ -162,7 +167,7 @@ def test_rmovelets_dataresponse(client):
             if len(res) > 0:
                 json_r = res['properties']
 
-    #assert price includes pcm
+    # assert price includes pcm
 
     try:
         p_l = []
@@ -173,6 +178,7 @@ def test_rmovelets_dataresponse(client):
         pass
 
     assert "pcm" in price_l
+
 
 # def test_otmsales_request(client):
 #
@@ -252,7 +258,6 @@ def test_rmovelets_dataresponse(client):
 #     #         pass
 
 def test_crystalstates(client):
-
     search_url = "https://crystalroof.co.uk/report/postcode/SE12EA/overview"
     response = urllib.request.urlopen(search_url)
     data = response.read()  # a `bytes` object
@@ -263,32 +268,22 @@ def test_crystalstates(client):
     data = parsed['props']['initialReduxState']['report']['sectionResponses']['overview']['data']
     assert len(data) == 15
 
-def sendMessage():
 
-    file = 'path'
 
-    with open('path') as res:
-        msg = EmailMessage()
-        msg.set_content(res.read())
+def send_simple_message():
+    return requests.post(
+        "https://api.mailgun.net/v3/sandbox85b0a26ea8a84fa69641ff672b7b4c76.mailgun.org/messages",
+        auth=("api", "cd398dae491d36a4ffb12d485bcc1cf5-7764770b-790de9f8"),
+        files=[("attachment", ("report.html", open("report.html", "rb").read()))],
+        data={"from": "Mailgun Sandbox <postmaster@sandbox85b0a26ea8a84fa69641ff672b7b4c76.mailgun.org>",
+              "to": "Alasdair <alasdairkite@onlinewebservices.uk>",
+              "subject": "Warning Test Failed",
+              "text": "One of the web scrapers have failed. Please review the test results and undertake maintenance."})
 
-    msg['Subject'] = f'The contents of {file}'
-    msg['From'] = 'alasdairkite93@gmail.com'
-    msg['To'] = 'alasdairkite93@gmail.com'
-
-    port = 465
-    password='?'
-    context = ssl.create_default_context()
-
-    with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
-        server.login("alasdairkite93@gmail.com", password)
-        server.sendmail("alasdairkite93@gmail.com", "alasdairkite93@gmail.com", msg)
-
-    s = smtplib.SMTP('localhost')
-    s.send_message(msg)
-    s.quit()
-
-    print("End of message")
-
-if __name__=='__main__':
-    retcode = pytest.main(["-x", "test_scraper.py"])
-    sendMessage()
+if __name__== "__main__":
+    os.system('pytest --html=report.html')
+    data = open('report.html').read()
+    soup = BeautifulSoup(data, 'html.parser')
+    results = soup.find('span', {'class', 'failed'})
+    if "0" not in results.text:
+        send_simple_message()
