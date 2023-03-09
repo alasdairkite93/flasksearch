@@ -32,7 +32,6 @@
      @media only screen and (max-width: 500px) {
         .wrapper {
              display: inline-grid;
-             grid-template-columns: repeat(0, 1fr);
              grid-auto-rows: 10%;
          }
 
@@ -58,7 +57,7 @@
          }
      }
 
-     @media only screen and (min-width: 500px) {
+     @media only screen and (min-width: 500px) and (max-width: 800px){
 
          #image {
              width: 300px;
@@ -98,10 +97,50 @@
           padding: 10px;
           height: auto; /* Should be removed. Only for demonstration */
         }
+     }
 
-      #large_marg {
-          margin-left: 250px;
-      }
+     @media only screen and (min-width: 800px) {
+
+         #image {
+             width: 300px;
+             height: 300px;
+         }
+
+         .wrapper {
+             display: inline-grid;
+             grid-template-columns: repeat(3, 1fr);
+             grid-auto-rows: 10%;
+         }
+
+         .boxstart {
+             grid-column-start: 1;
+             grid-column-end: 2;
+             grid-row-start: 0;
+             grid-row-end: 1;
+         }
+
+         .box1 {
+             grid-column-start: 2;
+             grid-column-end: 3;
+             grid-row-start: 2;
+             grid-row-end: 4;
+             min-width: 500px;
+         }
+
+         .box3 {
+             grid-column-start: 2;
+             grid-column-end: 3;
+             grid-row-start: 9;
+             grid-row-end: 14;
+         }
+
+          .column {
+              float: left;
+              width: 33.33%;
+              padding: 10px;
+              height: auto; /* Should be removed. Only for demonstration */
+            }
+
      }
 
       .h2style {
@@ -554,7 +593,7 @@
                 <div class="col-sm-10">
                     <input type="hidden" name="sales" value="sales">
                     <select class="form-select" aria-label="Default select example" style="font-size: 12px; width: 200px; height: 60px; border-radius: 10px; background-color: #FF1423;  color: white;" onchange="this.form.submit()" name="option">
-                        <option><h4 style="font-size: 20px;">Find Properties</h4></option>
+                        <option><h3 style="font-size: 20px;">Find Properties</h3></option>
                         <option value="all">All Results</option>
                         <option value="gumtree">Gumtree</option>
                         <option value="rightmove">Rightmove</option>
@@ -565,39 +604,35 @@
             </form>
           </div>
     <div class="box3" style="background-color: #E9E9EB; border: #cacaca; border-style: solid; color: black; padding-top: 50px;">
-        <div class="row" id="rowpadding" style="padding-left: 60px;">
+        <div class="row" id="rowpadding" style="text-align: center">
           <div class="column">Landing Page</div>
           <div class="column">Search</div>
           <div class="column">About</div>
         </div>
-            <div class="row" style="padding-left: 30px; padding-top: 50px;">
-                <h5 style="padding-left: 30px;">Contact Information</h5>
-                <div class="column">
-                    <ul style="list-style-type: none;">
-                        <li>First Line of Address</li>
-                        <li>London</li>
-                        <li>PO2 4PP</li>
-                        <li></li>
-                        <li>01883 444444</li>
-                    </ul>
-                </div>
+            <div class="row" style="text-align: center; padding-top: 50px;">
+                <ul style="list-style-type: none;">
+                    <li>First Line of Address</li>
+                    <li>London</li>
+                    <li>PO2 4PP</li>
+                    <li></li>
+                    <li>01883 444444</li>
+                </ul>
             </div>
-        <div class="row" style="padding-left: 30px;">
-            <h5 style="padding-left: 30px;">Data Sources</h5>
+        <div class="row" style="padding-left: 5%; padding-right: 5%;">
           <div class="column">
-            <img src="/static/images/gumtree.jpeg" src= alt="" width="150" height="auto" />
+            <img src="/static/images/gumtree.jpeg" src= alt="" width="auto" height="auto" />
           </div>
             <div class="column">
-                <img src="/static/images/crystalroof.png" style="padding-top: 10px;" width="150" height="auto"/>
+                <img src="/static/images/crystalroof.png" style="padding-top: 10px;" width="auto" height="auto"/>
             </div>
             <div class="column">
-                <img src="/static/images/OTM.png" style="padding-top: 10px;" width="150" height="auto" style="background-color: white;" />
+                <img src="/static/images/OTM.png" style="padding-top: 10px;" width="auto" height="auto" style="background-color: white;" />
             </div>
             <div class="column">
-                <img src="/static/images/registry.png" style="padding-top: 10px;" width="150" height="auto" alt="" />
+                <img src="/static/images/registry.png" style="padding-top: 10px;" width="auto" height="auto" alt="" />
             </div>
             <div class="column">
-                <img src="/static/images/rmove.png" style="padding-top: 10px;" width="150" height="auto" style="background-color: white;" />
+                <img src="/static/images/rmove.png" style="padding-top: 10px;" width="auto" height="auto" style="background-color: white;" />
             </div>
           </div>
     </div>

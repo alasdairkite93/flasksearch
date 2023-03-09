@@ -38,6 +38,10 @@
 
      @media only screen and (max-width: 600px) {
 
+         #optionbutton {
+             width: 300px;
+         }
+
          .wrapper {
              display: inline-grid;
              grid-template-columns: repeat(1, 1fr);
@@ -83,9 +87,83 @@
              grid-row-start: 5;
              grid-row-end: 6;
          }
+
+         #grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+            grid-gap: 5px;
+        }
+
+          #grid > div {
+            padding: .5em;
+          }
      }
 
-     @media only screen and (min-width: 800px) {
+     @media only screen and (min-width: 601px) and (max-width: 1000px) {
+
+         .wrapper {
+             display: inline-grid;
+             grid-template-columns: repeat(2, 1fr);
+             grid-auto-rows: 100px;
+             padding-bottom: 100px;
+         }
+
+         .box1 {
+             grid-column-start: 1;
+             grid-column-end: 4;
+             grid-row-start: 1;
+             grid-row-end: 3;
+         }
+
+         .box2 {
+             grid-column-start: 1;
+             grid-column-end: 3;
+             grid-row-start: 3;
+             grid-row-end: 5;
+             border-radius: 4px;
+             min-width: 500px;
+         }
+
+         .box3b {
+             grid-column-start: 1;
+             grid-column-end: 4;
+             grid-row-start: 7;
+             grid-row-end: 19;
+         }
+
+         .searchbox {
+             width: 100%;
+             background-color: #1A2090;
+             display: inline-block;
+             border-radius: 4px;
+             text-align: center;
+             padding: 24px 8px 24px 8px;
+             min-width: 500px;
+
+         }
+
+         .landingpage {
+             grid-column-start: 1;
+             grid-column-end: 4;
+             grid-row-start: 17;
+             grid-row-end: 19;
+         }
+
+         #grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(50%, 1fr));
+            grid-gap: 5px;
+        }
+          #grid > div {
+            padding: .5em;
+            text-align: center;
+          }
+
+     }
+
+
+     @media only screen and (min-width: 1000px) {
+
          .wrapper {
              display: inline-grid;
              grid-template-columns: repeat(3, 1fr);
@@ -131,8 +209,19 @@
              grid-column-start: 1;
              grid-column-end: 4;
              grid-row-start: 12;
-             grid-row-end: 16;
+             grid-row-end: 15;
          }
+
+         #grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(33%, 1fr));
+            grid-gap: 5px;
+        }
+
+         #grid > div {
+            padding: .5em;
+            text-align: center;
+          }
      }
 
     .h1style {
@@ -173,17 +262,24 @@
 
     /**Grid test**/
 
-    #grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(33%, 1fr));
-        grid-gap: 5px;
+
+
+    .column {
+      float: right;
+      width: 25%;
+      padding: 10px;
     }
-      #grid > div {
-        padding: .5em;
-        text-align: center;
-      }
 
+    .column img {
+      margin-top: 12px;
+    }
 
+    /* Clear floats after the columns */
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
     </style>
     <script>
    if ( window.history.replaceState ) {
@@ -246,8 +342,8 @@
     </script>
                 </div>
                   <div class="buttons">
-                    <button class="button" type="submit" name="sales" value="sales"><b>Sales</b></button>
-                    <button class="button" type="submit" name="lettings" value="lettings"><b>Lettings</b></button>
+                    <button class="button" type="submit" id="optionbutton" name="sales" value="sales"><b>Sales</b></button>
+                    <button class="button" type="submit" id="optionbutton" name="lettings" value="lettings"><b>Lettings</b></button>
                 </div>
                 </form>
         </div>
@@ -260,46 +356,37 @@
     </div>
     </div>
     <div class="landingpage" style="background-color: #E9E9EB; border: #cacaca; border-style: solid; color: black; padding-top: 50px;">
-        <div style=" display: flex; justify-content: space-evenly;">
-            <div class="row" style="padding-left: 60px; font-size: 20px;">
-              <div class="column">Landing Page</div>
-              <div class="column">Search</div>
-              <div class="column">About</div>
+        <div style=" display: flex; justify-content: left;">
+            <div class="row" style="margin-left: 5%;">
+                <ul style=" list-style-type: none;">
+                    <li>First Line of Address</li>
+                    <li>London</li>
+                    <li>PO2 4PP</li>
+                    <li></li>
+                    <li>01883 444444</li>
+                </ul>
             </div>
-            <div class="row" style="padding-left: 30px; ">
-                <h5 style="padding-left: 30px;">Contact Information</h5>
-                <div class="column">
-                    <ul style="list-style-type: none;">
-                        <li>First Line of Address</li>
-                        <li>London</li>
-                        <li>PO2 4PP</li>
-                        <li></li>
-                        <li>01883 444444</li>
-                    </ul>
-                </div>
-            </div>
-        <div class="row" style="padding-left: 30px;">
-            <h5 style="padding-left: 30px;">Data Sources</h5>
+        <div class="row" style="padding-left: 10%; justify-content: right">
           <div class="column">
-            <img src="/static/images/gumtree.jpeg" width="150" src= alt="" />
+            <img src="/static/images/gumtree.jpeg" width="150" height="auto" src= alt="" />
           </div>
             <div class="column">
                 <img src="/static/images/crystalroof.png"  width="150" height="auto"/>
             </div>
             <div class="column">
-                <img src="/static/images/OTM.png" width="150" height="auto" style="background-color: white;" />
+                <img src="/static/images/OTM.png" width="150" height="auto" />
             </div>
             <div class="column">
                 <img src="/static/images/registry.png" width="150" height="auto" alt="" />
             </div>
             <div class="column">
-                <img src="/static/images/rmove.png" width="150" height="auto" style="background-color: white;" />
+                <img src="/static/images/rmove.png" width="150" height="auto"  />
             </div>
           </div>
     </div>
     </div>
 </div>
 </div>
-<p style="margin-left: 100px; font-size: 30px; padding-bottom: 50px;">Site designed and created by @AlasdairKite</p>
+<p style="margin-left: 10%; font-size: 12px;">Site designed and created by @AlasdairKite alasdairkite@onlinewebservices.uk</p>
 </body>
 </html>
