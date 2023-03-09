@@ -36,81 +36,104 @@
             font-family: 'Montserrat', sans-serif;
         }
 
+     @media only screen and (max-width: 600px) {
 
-    .wrapper {
-            display: inline-grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-auto-rows: 100px;
-            padding-bottom: 100px;
-        }
+         .wrapper {
+             display: inline-grid;
+             grid-template-columns: repeat(1, 1fr);
+         }
 
-    .box1 {
-          grid-column-start: 1;
-          grid-column-end: 4;
-          grid-row-start: 1;
-          grid-row-end: 3;
-        }
+         .box1 {
+             grid-column-start: 1;
+             grid-column-end: 4;
+             grid-row-start: 1;
+             grid-row-end: 2;
+         }
 
-    .box2 {
-        grid-column-start: 2;
-        grid-column-end: 3;
-        grid-row-start: 3;
-        grid-row-end: 5;
-        border-radius: 4px;
-        min-width: 500px;
-    }
+         .box2 {
+             grid-column-start: 2;
+             grid-column-end: 3;
+             grid-row-start: 2;
+             grid-row-end: 3;
+             border-radius: 4px;
+             min-width: 50%;
+         }
 
-    .box3b {
-        grid-column-start: 1;
-        grid-column-end: 4;
-        grid-row-start: 7;
-        grid-row-end: 10;
-    }
+         .box3b {
+             grid-column-start: 1;
+             grid-column-end: 4;
+             grid-row-start: 3;
+             grid-row-end: 4;
+         }
 
-    .box3 {
-        grid-column-start: 1;
-        grid-column-end: 2;
-        grid-row-start: 7;
-        grid-row-end: 10;
-    }
+         .searchbox {
+             width: 100%;
+             background-color: #1A2090;
+             display: inline-block;
+             border-radius: 4px;
+             text-align: center;
+             padding: 24px 8px 24px 8px;
+             min-width: 500px;
 
-    .box4 {
-        grid-column-start: 2;
-        grid-column-end: 3;
-        grid-row-start: 7;
-        grid-row-end: 10;
-    }
+         }
 
-    .box5 {
-        grid-column-start: 3;
-        grid-column-end: 4;
-        grid-row-start: 7;
-        grid-row-end: 10;
-    }
+         .landingpage {
+             grid-column-start: 1;
+             grid-column-end: 4;
+             grid-row-start: 5;
+             grid-row-end: 6;
+         }
+     }
 
-    .footer {
-        grid-column-start: 1;
-        grid-column-end: 4;
+     @media only screen and (min-width: 800px) {
+         .wrapper {
+             display: inline-grid;
+             grid-template-columns: repeat(3, 1fr);
+             grid-auto-rows: 100px;
+             padding-bottom: 100px;
+         }
 
-    }
+         .box1 {
+             grid-column-start: 1;
+             grid-column-end: 4;
+             grid-row-start: 1;
+             grid-row-end: 3;
+         }
 
-    .searchbox {
-        width: 100%;
-        background-color: #1A2090;
-        display: inline-block;
-        border-radius: 4px;
-        text-align: center;
-        padding: 24px 8px 24px 8px;
-        min-width: 500px;
+         .box2 {
+             grid-column-start: 2;
+             grid-column-end: 3;
+             grid-row-start: 3;
+             grid-row-end: 5;
+             border-radius: 4px;
+             min-width: 500px;
+         }
 
-    }
+         .box3b {
+             grid-column-start: 1;
+             grid-column-end: 4;
+             grid-row-start: 7;
+             grid-row-end: 10;
+         }
 
-    .landingpage {
-        grid-column-start: 1;
-        grid-column-end: 4;
-        grid-row-start: 12;
-        grid-row-end: 16;
-    }
+         .searchbox {
+             width: 100%;
+             background-color: #1A2090;
+             display: inline-block;
+             border-radius: 4px;
+             text-align: center;
+             padding: 24px 8px 24px 8px;
+             min-width: 500px;
+
+         }
+
+         .landingpage {
+             grid-column-start: 1;
+             grid-column-end: 4;
+             grid-row-start: 12;
+             grid-row-end: 16;
+         }
+     }
 
     .h1style {
         color: white;
@@ -133,11 +156,6 @@
        min-width: 100px;
        font-family: 'Montserrat', sans-serif;
        background-color: #FF0C1E;
-    }
-
-   .box {
-        width: 100%;
-        height: 100%;
     }
 
     .box1 img {
@@ -165,13 +183,6 @@
         text-align: center;
       }
 
-    .divider{
-        position:absolute;
-        left:50%;
-        top:10%;
-        bottom:10%;
-        border-left:1px solid white;
-    }
 
     </style>
     <script>
