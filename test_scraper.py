@@ -266,7 +266,7 @@ def send_simple_message():
         auth=("api", "cd398dae491d36a4ffb12d485bcc1cf5-7764770b-790de9f8"),
         files=[("attachment", ("report.html", open("report.html", "rb").read()))],
         data={"from": "Mailgun Sandbox <postmaster@sandbox85b0a26ea8a84fa69641ff672b7b4c76.mailgun.org>",
-              "to": "Alasdair <alasdairkite@onlinewebservices.uk>",
+              "to": ["Alasdair <alasdairkite@onlinewebservices.uk>", "Mark@propertyscanner.co.uk"],
               "subject": "Warning Test Failed",
               "text": "One of the web scrapers have failed. Please review the test results and undertake maintenance."})
 
