@@ -220,7 +220,7 @@
                     <div class="form-group row">
                         <label for="minprice" class="col-sm-3 col-form-label" >Select minimum price</label>
                         <div class="col-sm-3">
-                            <select id="minpriceoptions"  onmousedown="if(this.options.length>8){this.size=8;}" onchange='this.size=0;' onblur="this.size=0;" class="form-control" name="minprice" style="font-size: 12px;">
+                            <select id="minprice" class="form-control" onmousedown="if(this.options.length>8){this.size=8;}" onchange='this.size=0;'  name="minprice" style="font-size: 12px;">
                                 <option>£{{ session['minprice'] }}</option>
                                  <option value="50000"
                                 >£50,000</option>
@@ -336,7 +336,7 @@
                         </div>
                         <label for="maxprice" class="col-sm-3 col-form-label">Select max price</label>
                         <div class="col-sm-3">
-                        <select id="maxprice" class="form-control" onmousedown="if(this.options.length>8){this.size=8;}" onchange='this.size=0;' onblur="this.size=0;" name="maxprice">
+                        <select id="maxprice" class="form-control" onmousedown="if(this.options.length>8){this.size=8;}" onchange='this.size=0;' name="maxprice">
                     <option>£{{ session['maxprice'] }}</option>
                      <option value="50000"
                     >£50,000</option>
@@ -585,7 +585,6 @@
                             <option value="houses">Houses</option>
                             <option value="flats">Flats/ Apartments</option>
                             <option value="bungalows">Bungalows</option>
-                            <option value="land">Land</option>
                         </select>
                     </div>
               </div>

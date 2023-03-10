@@ -182,7 +182,6 @@ class Rightmove:
 
         properties = []
         print(type(self.page))
-        num = int(self.page)
         urls = []
 
         for ind in range(3):
@@ -201,6 +200,7 @@ class Rightmove:
 
         for i in range(len(urls)):
             req_url = requests.get(urls[i])
+            print("USing: ", urls[i])
             soup = BeautifulSoup(req_url.text, 'html.parser')
             results = soup.findAll('script')
 
@@ -208,6 +208,7 @@ class Rightmove:
 
             for r in results:
                 l_r = list(utils.find_json_objects(r.text))
+                print(l_r)
                 for res in l_r:
                     if len(res) > 0:
                         json_r = res['properties']

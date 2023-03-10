@@ -4,1746 +4,1873 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="refresh"/>
     <title>Property Scanner: Results</title>
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='foundation.css') }}">
-<link rel="stylesheet" href="https://cdn.korzh.com/metroui/v4/css/metro-all.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='foundation.css') }}">
+    <link rel="stylesheet" href="https://cdn.korzh.com/metroui/v4/css/metro-all.min.css">
 
 
-     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
 
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.4/dist/css/foundation.min.css" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.5/dist/js/foundation.min.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.4/dist/css/foundation.min.css"
+          crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.5/dist/js/foundation.min.js"
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.0.1/js/vendor/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/js/foundation.min.js"
-       crossorigin="anonymous">
-     </script>
+            crossorigin="anonymous">
+    </script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-     <script src=
-"https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
+    <script src=
+                    "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
     </script>
     <script type=text/javascript>
 
-    $(document).ajaxSend(function(){
-        loading();
-    });
+        $(document).ajaxSend(function () {
+            loading();
+        });
 
-    if ( window.history.replaceState ) {
-        window.history.replaceState( null, null, window.location.href );
-    }
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
 
-    $(document).ready(function(){
-        $.get("/pageload", function (data){
-                    forSale(data, 8);
+        $(document).ready(function () {
+            $.get("/pageload", function (data) {
+                forSale(data, 8);
             })
         });
 
-   function loading(){
+        function loading() {
 
-       const div_sec = document.getElementById('forsale')
-       div_sec.innerHTML = ''
+            const div_sec = document.getElementById('forsale')
+            div_sec.innerHTML = ''
 
-       const section = document.getElementById("forsale");
-       const p = document.createElement('p');
-       const textcont = document.createTextNode("Loading content");
-       p.appendChild(textcont);
+            const section = document.getElementById("forsale");
+            const p = document.createElement('p');
+            const textcont = document.createTextNode("Loading content");
+            p.appendChild(textcont);
 
-       section.appendChild(p);
+            section.appendChild(p);
 
-   }
+        }
 
-    /**Land Registry**/
+        /**Land Registry**/
 
-    $(function(){
-            $('a#soldpricejson').click(function(){
-                $.get("/landregistry", function (data){
+        $(function () {
+            $('a#soldpricejson').click(function () {
+                $.get("/landregistry", function (data) {
                     soldLR(data, 0);
                 })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                alert(errorThrown+"Only full postcodes can be used with this feature.");
-            })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        alert(errorThrown + "Only full postcodes can be used with this feature.");
+                    })
             });
         });
 
 
-    /**Update number of results**/
+        /**Update number of results**/
 
-        $(function(){
-            $('a#formupdate').click(function(){
+        $(function () {
+            $('a#formupdate').click(function () {
                 let x = document.getElementById("formupdate").value
                 $.ajax({
-                url: '/pagination',
-                data: x,
-                type: "POST",
-                success: function (response)
-                    {
+                    url: '/pagination',
+                    data: x,
+                    type: "POST",
+                    success: function (response) {
                         console.log(response);
                     },
-                error: function(error)
-                    {
+                    error: function (error) {
                         console.log(error);
                     }
                 });
             })
         });
 
-        $(function(){
+        $(function () {
 
-            $('#numres').click(function() {
+            $('#numres').click(function () {
                 $.ajax({
                     url: '/numres',
                     data: $('form').serialize(),
                     type: 'POST',
-                    success: function (response){
+                    success: function (response) {
                         console.log(response);
                     },
-                    error: function(error){
+                    error: function (error) {
                         console.log(error);
                     }
                 });
             })
         });
 
-    /**Gumtree Request**/
+        /**Gumtree Request**/
 
-    $(function() {
-        $('a#gumtree').click(function(){
+        $(function () {
+            $('a#gumtree').click(function () {
 
-            $.get("/gumtreesales", function(data){
-                forSale(data);
+                $.get("/gumtreesales", function (data) {
+                    forSale(data);
+                })
             })
-        })
-    });
+        });
 
 
-    /**Right Move AJAX Requests**/
+        /**Right Move AJAX Requests**/
 
 
-    $(function(){
-            $('a#rmovesale').click(function() {
-                $.get("/rightmovesale", 2, function (data){
+        $(function () {
+            $('a#rmovesale').click(function () {
+                $.get("/rightmovesale", 2, function (data) {
                     forSale(data, 1);
                 })
             })
         });
 
 
-    $(function(){
-            $('a#rmovelets').click(function() {
-                $.get("/rmoverent", function (data){
+        $(function () {
+            $('a#rmovelets').click(function () {
+                $.get("/rmoverent", function (data) {
                     forSale(data, 3);
                 })
             })
         });
 
-    /**ONtheMarket AJAX Requests**/
+        /**ONtheMarket AJAX Requests**/
 
-    $(function(){
-        $('a#otmsale').click(function() {
-            $.get("/otmsale", function (data){
-                forSale(data, 2);
-            })
-        })
-    });
-
-    $(function(){
-        $('a#otmrent').click(function() {
-            $.get("/otmrent", function (data){
-                forSale(data, 4);
-            })
-        })
-    });
-
-    /**Sold Prices**/
-
-    $(function(){
-            $('a#rmovesold').click(function() {
-                $.get("/rmovesold", function (data){
-                    soldTable(data);
-                    {#sold(data);#}
+        $(function () {
+            $('a#otmsale').click(function () {
+                $.get("/otmsale", function (data) {
+                    forSale(data, 2);
                 })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                alert(errorThrown+"Only a full postcode can be used with this feature.");
-            })
             })
         });
 
-    /**Area Statistics**/
-
-    $(function() {
-        $('a#paginate').click(function(){
-            paginate(5, 't');
-        })
-    })
-
-    $(function() {
-        $('a#crysdata').click(function() {
-            $.get("/crystalroof", function (data){
-                crysData(data);
+        $(function () {
+            $('a#otmrent').click(function () {
+                $.get("/otmrent", function (data) {
+                    forSale(data, 4);
+                })
             })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                alert(errorThrown+"Only a full postcode can be used with this feature.");
-            })
-        })
-    });
+        });
 
-    /**Planning Data**/
+        /**Sold Prices**/
 
-    $(function() {
-        $('a#planningdata').click(function() {
-            $.get("/planningdata", function (data){
-                planning(data);
+        $(function () {
+            $('a#rmovesold').click(function () {
+                $.get("/rmovesold", function (data) {
+                    soldTable(data);
+                    {#sold(data);#}
+                })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        alert(errorThrown + "Only a full postcode can be used with this feature.");
+                    })
             })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                alert(errorThrown+" Try using correct format of postcode");
-            })
-        })
-    });
+        });
 
-    /**Sales and lettings pages**/
+        /**Area Statistics**/
 
-    $(function() {
-        $('a#lettingspage').click(function() {
-            $.get("/returnall", function (data){
-                all(data);
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                alert(errorThrown+" Try using correct format of postcode");
+        $(function () {
+            $('a#paginate').click(function () {
+                paginate(5, 't');
             })
         })
-    });
 
-    /**Return all sales**/
-
-    $(function() {
-        $('a#allsales').click(function() {
-            $.get("/returnall", function (data){
-                forSale(data);
+        $(function () {
+            $('a#crysdata').click(function () {
+                $.get("/crystalroof", function (data) {
+                    crysData(data);
+                })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        alert(errorThrown + "Only a full postcode can be used with this feature.");
+                    })
             })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                alert("DID NOT RETURN ALL RESUTLS");
+        });
+
+        /**Planning Data**/
+
+        $(function () {
+            $('a#planningdata').click(function () {
+                $.get("/planningdata", function (data) {
+                    planning(data);
+                })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        alert(errorThrown + " Try using correct format of postcode");
+                    })
+            })
+        });
+
+        /**Sales and lettings pages**/
+
+        $(function () {
+            $('a#lettingspage').click(function () {
+                $.get("/returnall", function (data) {
+                    all(data);
+                })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        alert(errorThrown + " Try using correct format of postcode");
+                    })
+            })
+        });
+
+        /**Return all sales**/
+
+        $(function () {
+            $('a#allsales').click(function () {
+                $.get("/returnall", function (data) {
+                    forSale(data);
+                })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        alert("DID NOT RETURN ALL RESUTLS");
+                    })
+            })
+        });
+
+        $(function () {
+            $('a#zooplasales').click(function () {
+                $.get("/zooplasale", function (data) {
+                    forSale(data);
+                })
             })
         })
-    });
 
-    $(function() {
-        $('a#zooplasales').click(function() {
-            $.get("/zooplasale", function (data){
-                forSale(data);
-            })
-        })
-    })
+        /**Dropdowns **/
 
-    /**Dropdowns **/
-
-    /**body on load function**/
+        /**body on load function**/
 
 
-    function updateToLettings(){
-        //change session variable to lettings
-        //refresh the page
+        function updateToLettings() {
+            //change session variable to lettings
+            //refresh the page
 
-        location.reload();
-    }
-
-    function all(json_data){
-
-        const section = document.getElementById('forsale');
-        section.innerHTML = "";
-
-
-    }
-
-    function crysData(json_data) {
-
-        const section = document.getElementById('forsale');
-        section.innerHTML = "";
-
-        const table = document.createElement("table");
-        table.setAttribute("class", "table");
-
-        /**Table header**/
-
-        const thead = document.createElement("thead");
-        table.appendChild(thead);
-        const trel = document.createElement("tr");
-        table.appendChild(trel);
-
-        const thlabel = document.createElement("th");
-        thlabel.setAttribute("scope", "col");
-        thlabel.innerHTML = 'Label';
-        table.appendChild(thlabel);
-
-        const thdata = document.createElement("th");
-        thdata.setAttribute("scope", "col");
-        thdata.innerHTML = 'Data';
-        table.appendChild(thdata);
-
-        /**table body**/
-
-        const tbody = document.createElement("tbody");
-        table.appendChild(tbody);
-
-        //Create array of headers and loop through for label as loop over entries
-        var headers = [];
-        headers.push("Supergroupname", "Supergroupdescription", "Groupname", "Groupdescription",
-        "Indicies of Deprvation", "Mean Income", "Median Income", "Crime Rate", "Crime Rank", "Metro Name", "Metro Lines",
-        "Rail Name", "Rail Lines", "Supermarkets", "Groceries", "Schools",
-        "Road Noise", "Rail Noise", "Aircraft Noise", "White British", "White Irish", "Gypsy",
-        "Other White", "Mixed", "Indian", "Pakistani", "Bangladeshi", "Chinese",
-        "Other Asian", "Black", "Arab", "Other", "Christian", "Buddhist",
-        "Hindu", "Jewish", "Muslim", "Sikh", "Other", "No Religion", "One Person Household",
-        "Couple with Children", "Couple without Children", "Same Sex Couple", "Lone Parent with Children",
-        "Lone Parent without Children", "Multi Person Student", "Other Multi Person", "Age Under 35",
-        "Age 35 to 54", "Age 55 to 64", "Above 65");
-
-        let i=0;
-        for (const[, value] of Object.entries(json_data)) {
-            const trbody = document.createElement("tr");
-            tbody.appendChild(trbody);
-            const td_label = document.createElement("td");
-            td_label.innerHTML = headers[i];
-            trbody.appendChild(td_label);
-            const td_data = document.createElement("td");
-            if (value == null){
-                td_data.innerHTML = "Null"
-            }
-            else {
-                td_data.innerHTML = value;
-            }
-            trbody.appendChild(td_data);
-            i++;
+            location.reload();
         }
 
-        section.appendChild(table);
+        function all(json_data) {
 
-    }
-
-    function soldLR(json_data, ind){
-
-        const section = document.getElementById('forsale');
-        section.innerHTML="";
-
-        //proposed to aad a function to add search filters here
-
-        var table = document.createElement('table');
-        table.setAttribute("class", "table");
-        table.border = "1";
+            const section = document.getElementById('forsale');
+            section.innerHTML = "";
 
 
-        var headers = new Array();
-        switch (ind){
-            case 0:
-                headers.push("LAND REGISTRY: Address", "Price", "Date");
-                var headerrow = table.insertRow(-1);
-                for (var i =0; i<headers.length; i++) {
-                    var headerc = document.createElement("TH");
-                    headerc.innerHTML=headers[i];
-                    headerrow.append(headerc);
-                }
-                for (entry of json_data) {
-                    row = table.insertRow(-1);
-                    for (var i =0; i<entry.length; i++){
-                        var cell = row.insertCell(-1);
-                        cell.innerHTML = entry[i];
-                    }
-                }
-                break;
-            case 1:
-                headers.push("RIGHT MOVE: Description", "Data");
-                var headerrow = table.insertRow(-1);
-                for (var i =0; i<headers.length; i++) {
-                    var headerc = document.createElement("TH");
-                    headerc.innerHTML=headers[i];
-                    headerrow.append(headerc);
-                }
-                for (entry of json_data){
-                    row = table.insertRow(-1);
-
-                    var cell1 = row.insertCell(-1);
-                    cell1.innerHTML = entry[0];
-
-
-                    var cell2 = row.insertCell(-1);
-                    cell2.innerHTML = entry[1];
-                }
-                break;
         }
-        section.appendChild(table);
-    }
 
-    function planning(json_data){
-        const section = document.getElementById('forsale');
-        section.innerHTML = "";
+        function crysData(json_data) {
 
-        for (entry of json_data){
-
-            let col = [];
-
-            for (let i = 0; i <entry.length; i++){
-                for (let key in entry[i]){
-                    if (col.indexOf(key) === -1){
-                        col.push(key);
-                    }
-                }
-            }
+            const section = document.getElementById('forsale');
+            section.innerHTML = "";
 
             const table = document.createElement("table");
             table.setAttribute("class", "table");
 
-            let tr = table.insertRow(-1);
+            /**Table header**/
 
-            for (let i =0; i< col.length; i++){
-                let th = document.createElement("th");
-                th.innerHTML = col[i];
-                tr.appendChild(th);
-            }
+            const thead = document.createElement("thead");
+            table.appendChild(thead);
+            const trel = document.createElement("tr");
+            table.appendChild(trel);
 
-            for (let i=0; i<entry.length; i++)
-            {
-                tr = table.insertRow(-1);
+            const thlabel = document.createElement("th");
+            thlabel.setAttribute("scope", "col");
+            thlabel.innerHTML = 'Label';
+            table.appendChild(thlabel);
 
-                for (let j=0; j<col.length; j++){
-                    let tabcel = tr.insertCell(-1);
-                    let text = entry[i][col[j]];
-                    let patt = 'https?:\/\/';
-                    try {
-                        let result = text.match(patt);
-                        if (result != null){
-                            const a = document.createElement("a");
-                            a.setAttribute("href", entry[i][col[j]]);
-                            a.innerHTML = entry[i][col[j]];
-                            tabcel.appendChild(a);
-                        }
-                        else {
-                            tabcel.innerHTML = entry[i][col[j]];
-                        }
-                    } catch (error){}
+            const thdata = document.createElement("th");
+            thdata.setAttribute("scope", "col");
+            thdata.innerHTML = 'Data';
+            table.appendChild(thdata);
+
+            /**table body**/
+
+            const tbody = document.createElement("tbody");
+            table.appendChild(tbody);
+
+            //Create array of headers and loop through for label as loop over entries
+            var headers = [];
+            headers.push("Supergroupname", "Supergroupdescription", "Groupname", "Groupdescription",
+                "Indicies of Deprvation", "Mean Income", "Median Income", "Crime Rate", "Crime Rank", "Metro Name", "Metro Lines",
+                "Rail Name", "Rail Lines", "Supermarkets", "Groceries", "Schools",
+                "Road Noise", "Rail Noise", "Aircraft Noise", "White British", "White Irish", "Gypsy",
+                "Other White", "Mixed", "Indian", "Pakistani", "Bangladeshi", "Chinese",
+                "Other Asian", "Black", "Arab", "Other", "Christian", "Buddhist",
+                "Hindu", "Jewish", "Muslim", "Sikh", "Other", "No Religion", "One Person Household",
+                "Couple with Children", "Couple without Children", "Same Sex Couple", "Lone Parent with Children",
+                "Lone Parent without Children", "Multi Person Student", "Other Multi Person", "Age Under 35",
+                "Age 35 to 54", "Age 55 to 64", "Above 65");
+
+            let i = 0;
+            for (const [, value] of Object.entries(json_data)) {
+                const trbody = document.createElement("tr");
+                tbody.appendChild(trbody);
+                const td_label = document.createElement("td");
+                td_label.innerHTML = headers[i];
+                trbody.appendChild(td_label);
+                const td_data = document.createElement("td");
+                if (value == null) {
+                    td_data.innerHTML = "Null"
+                } else {
+                    td_data.innerHTML = value;
                 }
+                trbody.appendChild(td_data);
+                i++;
             }
 
             section.appendChild(table);
 
         }
-    }
 
-    function forSale(json_data, ind){
+        function soldLR(json_data, ind) {
 
-        console.log(ind)
-        console.log("Javascript for sale function");
+            const section = document.getElementById('forsale');
+            section.innerHTML = "";
 
+            //proposed to aad a function to add search filters here
 
-        var index = parseInt(ind);
-
-        const section = document.getElementById('forsale');
-        section.innerHTML = "";
-
-        const title = document.createElement("h4");
-        var url = ''
-        var id = ''
-        var endurl = ''
-        var sec = '';
-
-        var number = json_data.length;
+            var table = document.createElement('table');
+            table.setAttribute("class", "table");
+            table.border = "1";
 
 
-        switch(index) {
-            case 0:
-                const ti_cont = document.createTextNode("Zoopla For Sale Results "+number);
-                title.appendChild(ti_cont);
-                url = 'https://www.zoopla.co.uk/for-sale/details/';
-                break;
-            case 1:
-                const rmov_txt = document.createTextNode("{{ session['postcode'] }} Sale Results from Rightmove: "+number);
-                sec ='forsale'
-                title.appendChild(rmov_txt);
-                id = 'rmovesale'
-                url = 'https://www.rightmove.co.uk/properties/';
-                break;
-            case 2:
-                const ontm_txt = document.createTextNode("{{ session['postcode'] }} Sales Results from on The Market "+number);
-                sec = 'OTM'
-                title.appendChild(ontm_txt);
-                url = 'https://www.onthemarket.com'
-                break;
-            case 3:
-                const rmov_lets = document.createTextNode("{{ session['postcode'] }} Lettings on Rightmove "+number);
-                sec ='forsale'
-                title.appendChild(rmov_lets);
-                url = 'https://www.rightmove.co.uk/properties/'
-                endurl = '#/?channel=RES_LET';
-                break;
-            case 4:
-                const ontm_lets = document.createTextNode("{{ session['postcode'] }} on The Market Lettings");
-                sec = 'OTM'
-                title.appendChild(ontm_lets);
-                url = 'https://www.onthemarket.com'
-                break;
-            case 5:
-                const zoop_lets = document.createTextNode("Zoopla Lettings");
-                title.appendChild(zoop_lets);
-                url = 'https://www.zoopla.co.uk/to-rent/details/'
-                break;
-            case 6:
-                const gumtreesales = document.createTextNode("Gumtree Sales");
-                title.appendChild(gumtreesales);
-                url = 'https://www.gumtree.com/'
-                break;
-            case 7:
-                const alltitle = document.createTextNode("All Sales");
-                title.appendChild(alltitle);
-                break;
-            case 9:
-                const results = document.createTextNode("Results");
-                title.appendChild(results);
-                break;
+            var headers = new Array();
+            switch (ind) {
+                case 0:
+                    headers.push("LAND REGISTRY: Address", "Price", "Date");
+                    var headerrow = table.insertRow(-1);
+                    for (var i = 0; i < headers.length; i++) {
+                        var headerc = document.createElement("TH");
+                        headerc.innerHTML = headers[i];
+                        headerrow.append(headerc);
+                    }
+                    for (entry of json_data) {
+                        row = table.insertRow(-1);
+                        for (var i = 0; i < entry.length; i++) {
+                            var cell = row.insertCell(-1);
+                            cell.innerHTML = entry[i];
+                        }
+                    }
+                    break;
+                case 1:
+                    headers.push("RIGHT MOVE: Description", "Data");
+                    var headerrow = table.insertRow(-1);
+                    for (var i = 0; i < headers.length; i++) {
+                        var headerc = document.createElement("TH");
+                        headerc.innerHTML = headers[i];
+                        headerrow.append(headerc);
+                    }
+                    for (entry of json_data) {
+                        row = table.insertRow(-1);
+
+                        var cell1 = row.insertCell(-1);
+                        cell1.innerHTML = entry[0];
+
+
+                        var cell2 = row.insertCell(-1);
+                        cell2.innerHTML = entry[1];
+                    }
+                    break;
             }
-
-        const c = document.getElementById('sessionvariable');
-        console.log("json_data.length: "+json_data.length);
-        if (json_data.length == 0){
-            c.innerText = 'No results to display'
+            section.appendChild(table);
         }
 
-        section.appendChild(title);
-        for (prop of json_data) {
+        function planning(json_data) {
+            const section = document.getElementById('forsale');
+            section.innerHTML = "";
 
-            console.log("prop[3]: "+prop[3]);
-            const p_notag = prop[3].replace('£', '');
-            console.log("p_notag: "+p_notag);
-            let p_nocomma = p_notag.replace(',', '');
+            for (entry of json_data) {
 
-            try {
-                p_nocomma = p_nocomma.replace(' pcm', '');
-            } catch (err){
-                pass
+                let col = [];
+
+                for (let i = 0; i < entry.length; i++) {
+                    for (let key in entry[i]) {
+                        if (col.indexOf(key) === -1) {
+                            col.push(key);
+                        }
+                    }
+                }
+
+                const table = document.createElement("table");
+                table.setAttribute("class", "table");
+
+                let tr = table.insertRow(-1);
+
+                for (let i = 0; i < col.length; i++) {
+                    let th = document.createElement("th");
+                    th.innerHTML = col[i];
+                    tr.appendChild(th);
+                }
+
+                for (let i = 0; i < entry.length; i++) {
+                    tr = table.insertRow(-1);
+
+                    for (let j = 0; j < col.length; j++) {
+                        let tabcel = tr.insertCell(-1);
+                        let text = entry[i][col[j]];
+                        let patt = 'https?:\/\/';
+                        try {
+                            let result = text.match(patt);
+                            if (result != null) {
+                                const a = document.createElement("a");
+                                a.setAttribute("href", entry[i][col[j]]);
+                                a.innerHTML = entry[i][col[j]];
+                                tabcel.appendChild(a);
+                            } else {
+                                tabcel.innerHTML = entry[i][col[j]];
+                            }
+                        } catch (error) {
+                        }
+                    }
+                }
+
+                section.appendChild(table);
+
+            }
+        }
+
+        function forSale(json_data, ind) {
+
+            console.log(ind)
+            console.log("Javascript for sale function");
+
+
+            var index = parseInt(ind);
+
+            const section = document.getElementById('forsale');
+            section.innerHTML = "";
+
+            const title = document.createElement("h4");
+            var url = ''
+            var id = ''
+            var endurl = ''
+            var sec = '';
+
+            var number = json_data.length;
+
+
+            switch (index) {
+                case 0:
+                    const ti_cont = document.createTextNode("Zoopla For Sale Results " + number);
+                    title.appendChild(ti_cont);
+                    url = 'https://www.zoopla.co.uk/for-sale/details/';
+                    break;
+                case 1:
+                    const rmov_txt = document.createTextNode("{{ session['postcode'] }} Sale Results from Rightmove: " + number);
+                    sec = 'forsale'
+                    title.appendChild(rmov_txt);
+                    id = 'rmovesale'
+                    url = 'https://www.rightmove.co.uk/properties/';
+                    break;
+                case 2:
+                    const ontm_txt = document.createTextNode("{{ session['postcode'] }} Sales Results from on The Market " + number);
+                    sec = 'OTM'
+                    title.appendChild(ontm_txt);
+                    url = 'https://www.onthemarket.com'
+                    break;
+                case 3:
+                    const rmov_lets = document.createTextNode("{{ session['postcode'] }} Lettings on Rightmove " + number);
+                    sec = 'forsale'
+                    title.appendChild(rmov_lets);
+                    url = 'https://www.rightmove.co.uk/properties/'
+                    endurl = '#/?channel=RES_LET';
+                    break;
+                case 4:
+                    const ontm_lets = document.createTextNode("{{ session['postcode'] }} on The Market Lettings");
+                    sec = 'OTM'
+                    title.appendChild(ontm_lets);
+                    url = 'https://www.onthemarket.com'
+                    break;
+                case 5:
+                    const zoop_lets = document.createTextNode("Zoopla Lettings");
+                    title.appendChild(zoop_lets);
+                    url = 'https://www.zoopla.co.uk/to-rent/details/'
+                    break;
+                case 6:
+                    const gumtreesales = document.createTextNode("Gumtree Sales");
+                    title.appendChild(gumtreesales);
+                    url = 'https://www.gumtree.com/'
+                    break;
+                case 7:
+                    const alltitle = document.createTextNode("All Sales");
+                    title.appendChild(alltitle);
+                    break;
+                case 9:
+                    const results = document.createTextNode("Results");
+                    title.appendChild(results);
+                    break;
             }
 
-
-            const newDiv = document.createElement("div");
-            newDiv.setAttribute("class", "card mb-6 child");
-            newDiv.setAttribute("data-percentage", p_nocomma)
-            newDiv.setAttribute("style", "max-width: 840px; border-radius: 5px;");
-            section.appendChild(newDiv);
-
-            const rowdiv2 = document.createElement("div");
-            rowdiv2.setAttribute("class", "row no-gutters")
-            newDiv.appendChild(rowdiv2);
-
-            const rowdiv = document.createElement("div");
-            rowdiv.setAttribute("class", "row no-gutters");
-            newDiv.appendChild(rowdiv);
-
-            const coldiv = document.createElement("div");
-            coldiv.setAttribute("class", "col-md-4");
-            coldiv.setAttribute("style", "background-color: #1A2090; border: 0.1px solid; place-items: center;");
-            const img_anch = document.createElement("a");
-            img_anch.setAttribute("href", prop[4]);
-            const img = document.createElement("img");
-            img.src = prop[5];
-            img.setAttribute("id", "imgdynamic");
-            img.setAttribute("id", "imagescreen")
-            img.setAttribute("style", "display: block; margin-left: auto; margin-right: auto; padding-top: 20px; padding-left: 10px;")
-            img_anch.appendChild(img);
-            coldiv.appendChild(img_anch);
-            rowdiv.appendChild(coldiv);
-
-            console.log(prop[7]);
-
-            if (prop[7] != undefined) {
-                const price = document.createElement("h5");
-                price.setAttribute("style", "text-align: center; padding-top: 10px; color: white;")
-                const price_fig = document.createTextNode(prop[7]);
-                price.appendChild(price_fig);
-                coldiv.appendChild(price);
+            const c = document.getElementById('sessionvariable');
+            console.log("json_data.length: " + json_data.length);
+            if (json_data.length == 0) {
+                c.innerText = 'No results to display'
             }
-             else {
-                {% if session['type'] == 'lettings' %}
+
+            section.appendChild(title);
+            for (prop of json_data) {
+
+                console.log("prop[3]: " + prop[3]);
+                const p_notag = prop[3].replace('£', '');
+                console.log("p_notag: " + p_notag);
+                let p_nocomma = p_notag.replace(',', '');
+
+                try {
+                    p_nocomma = p_nocomma.replace(' pcm', '');
+                } catch (err) {
+                    pass
+                }
+
+
+                const newDiv = document.createElement("div");
+                newDiv.setAttribute("class", "card mb-6 child");
+                newDiv.setAttribute("data-percentage", p_nocomma);
+                newDiv.setAttribute("id", "newdivattribute");
+                newDiv.setAttribute("style", "max-width: 880px; border-radius: 10px;");
+                section.appendChild(newDiv);
+
+                const rowdiv = document.createElement("div");
+                rowdiv.setAttribute("class", "row no-gutters");
+                newDiv.appendChild(rowdiv);
+
+                const coldiv = document.createElement("div");
+                coldiv.setAttribute("class", "col-md-4");
+                coldiv.setAttribute("style", "background-color: #1A2090; border: 0.1px solid; place-items: center;");
+                const img_anch = document.createElement("a");
+                img_anch.setAttribute("href", prop[4]);
+                const img = document.createElement("img");
+                img.src = prop[5];
+                img.setAttribute("id", "imgdynamic");
+                img.setAttribute("id", "imagescreen")
+                img.setAttribute("style", "display: block; margin-left: auto; margin-right: auto; padding-top: 20px; padding-left: 10px;")
+                img_anch.appendChild(img);
+                coldiv.appendChild(img_anch);
+                rowdiv.appendChild(coldiv);
+
+                console.log(prop[7]);
+
+                if (prop[7] != undefined) {
                     const price = document.createElement("h5");
                     price.setAttribute("style", "text-align: center; padding-top: 10px; color: white;")
-
-                    const price_fig = document.createTextNode(prop[3]+"pcm");
-
+                    const price_fig = document.createTextNode(prop[7]);
                     price.appendChild(price_fig);
                     coldiv.appendChild(price);
-                {% endif %}
-                {% if session['type'] == 'sales' %}
-                    const saleprice = document.createElement("h5");
-                    saleprice.setAttribute("style", "text-align: center; padding-top: 10px; color: white;")
-                    const saleprice_fig = document.createTextNode(prop[3]);
-                    saleprice.appendChild(saleprice_fig);
-                    coldiv.appendChild(saleprice);
-                {% endif %}
-            }
+                } else {
+                    {% if session['type'] == 'lettings' %}
+                        const price = document.createElement("h5");
+                        price.setAttribute("style", "text-align: center; padding-top: 10px; color: white;")
+
+                        const price_fig = document.createTextNode(prop[3]);
+
+                        price.appendChild(price_fig);
+                        coldiv.appendChild(price);
+                    {% endif %}
+                    {% if session['type'] == 'sales' %}
+                        const saleprice = document.createElement("h5");
+                        saleprice.setAttribute("style", "text-align: center; padding-top: 10px; color: white;")
+                        const saleprice_fig = document.createTextNode(prop[3]);
+                        saleprice.appendChild(saleprice_fig);
+                        coldiv.appendChild(saleprice);
+                    {% endif %}
+                }
 
 
-            const divcolmd8 = document.createElement("div");
-            divcolmd8.setAttribute("class", "col-md-8");
-            rowdiv.appendChild(divcolmd8);
-            const cardbody = document.createElement("div");
-            cardbody.setAttribute("class", "card-body");
-            cardbody.setAttribute("style", "padding-top: 10px;");
-            cardbody.setAttribute("id", "cardcontent");
-            divcolmd8.appendChild(cardbody);
+                const divcolmd8 = document.createElement("div");
+                divcolmd8.setAttribute("class", "col-md-8");
+                divcolmd8.setAttribute("style", "padding-top: 10px;");
+                rowdiv.appendChild(divcolmd8);
+                const cardbody = document.createElement("div");
+                cardbody.setAttribute("class", "card-body");
+                cardbody.setAttribute("id", "cardcontent");
+                divcolmd8.appendChild(cardbody);
 
-            const anchor = document.createElement("a");
-            url = prop[4];
-            anchor.setAttribute("href", url);
+                const anchor = document.createElement("a");
+                url = prop[4];
+                anchor.setAttribute("href", url);
 
-            const dispaddres = document.createElement("h5");
-            const add_cont = document.createTextNode(prop[0]);
-            dispaddres.appendChild(add_cont);
-            anchor.appendChild(dispaddres);
-            cardbody.appendChild(anchor);
+                const dispaddres = document.createElement("h5");
+                const add_cont = document.createTextNode(prop[0]);
+                dispaddres.appendChild(add_cont);
+                anchor.appendChild(dispaddres);
+                cardbody.appendChild(anchor);
 
-            const branchname = document.createElement("p");
-            const branch_cont = document.createTextNode("Branch: "+prop[1]);
-            branchname.appendChild(branch_cont);
-            cardbody.appendChild(branchname);
+                const branchname = document.createElement("p");
+                const branch_cont = document.createTextNode("Branch: " + prop[1]);
+                branchname.appendChild(branch_cont);
+                cardbody.appendChild(branchname);
 
                 {#const propertytype = document.createElement("p");#}
                 {#const type_cont = document.createTextNode({{session['type']}});#}
                 {#branchname.appendChild(branch_cont);#}
                 {#cardbody.appendChild(branchname);#}
 
-            const bedrooms = document.createElement("p");
-            const bed_rooms = document.createTextNode("Rooms: "+prop[2]);
-            bedrooms.appendChild(bed_rooms);
-            cardbody.appendChild(bedrooms);
+                const bedrooms = document.createElement("p");
+                const bed_rooms = document.createTextNode("Rooms: " + prop[2]);
+                bedrooms.appendChild(bed_rooms);
+                cardbody.appendChild(bedrooms);
 
-            if (prop[7] != undefined) {
-                const price_cont = document.createElement("p");
-                const price_con = document.createTextNode("Price: " + prop[7]);
-                price_cont.appendChild(price_con);
-                cardbody.appendChild(price_cont);
+                if (prop[7] != undefined) {
+                    const price_cont = document.createElement("p");
+                    const price_con = document.createTextNode("Price: " + prop[7]);
+                    price_cont.appendChild(price_con);
+                    cardbody.appendChild(price_cont);
+                } else {
+                    const price_cont = document.createElement("p");
+                    const price_con = document.createTextNode("Price: " + prop[3]);
+                    price_cont.appendChild(price_con);
+                    cardbody.appendChild(price_cont);
+                }
+
+
+                const soure = document.createElement("p");
+                const sourc_cont = document.createTextNode("Source: " + prop[6])
+                soure.appendChild(sourc_cont);
+                cardbody.appendChild(soure);
+
+
             }
-            else {
-                const price_cont = document.createElement("p");
-                const price_con = document.createTextNode("Price: " + prop[3]);
-                price_cont.appendChild(price_con);
-                cardbody.appendChild(price_cont);
+
+
+            var $wrap = $('#forsale');
+            $wrap.find('.child').sort(function (a, b) {
+                return +b.dataset.percentage -
+                    +a.dataset.percentage;
+            })
+                .appendTo($wrap);
+            {#section.appendChild(paginate(4, id));#}
+
+
+            return;
+        }
+
+        function gumtree(data) {
+
+            console.log("GUMTREE")
+
+            const section = document.getElementById('forsale');
+            section.innerHTML = "";
+
+            baseurl = 'https://www.gumtree.com'
+
+            for (prop of data) {
+
+                const newDiv = document.createElement("div");
+                newDiv.setAttribute("class", "card mb-6");
+                newDiv.setAttribute("style", "max-width: 840px;");
+                section.appendChild(newDiv);
+
+                const rowdiv2 = document.createElement("div");
+                rowdiv2.setAttribute("class", "row no-gutters");
+                newDiv.appendChild(rowdiv2);
+
+                const rowdiv = document.createElement("div");
+                rowdiv.setAttribute("class", "row no-gutters");
+                newDiv.appendChild(rowdiv);
+
+                const divcolmd8 = document.createElement("div");
+                divcolmd8.setAttribute("class", "col-md-8");
+                rowdiv.appendChild(divcolmd8);
+                const cardbody = document.createElement("div");
+                cardbody.setAttribute("class", "card=body");
+                divcolmd8.appendChild(cardbody);
+
+                const anchor = document.createElement("a");
+                url = baseurl + prop[0];
+                anchor.setAttribute("href", url);
+
+                const dispaddres = document.createElement("h5");
+                const add_cont = document.createTextNode(prop[1]);
+                dispaddres.appendChild(add_cont);
+                anchor.appendChild(dispaddres);
+                cardbody.appendChild(anchor);
+
+                const price = document.createElement("p");
+                const price_cont = document.createTextNode(prop[2]);
+                price.appendChild(price_cont);
+                cardbody.appendChild(price);
+
+                const description = document.createElement("p");
+                const desc_cont = document.createTextNode(prop[3]);
+                description.appendChild(desc_cont);
+                cardbody.appendChild(description);
+
+                const coldiv = document.createElement("div");
+                coldiv.setAttribute("class", "col-md-4");
+                const img_anch = document.createElement("a");
+                img_anch.setAttribute("href", baseurl + prop[0]);
+                const img = document.createElement("img");
+                img.src = prop[4];
+                img_anch.appendChild(img);
+                coldiv.appendChild(img_anch);
+                rowdiv.appendChild(coldiv);
+            }
+            return;
+        }
+
+        function soldTable(json_data) {
+
+            const section = document.getElementById('forsale');
+            section.innerHTML = "";
+            const table = document.createElement('table');
+            table.style.width = '700px;';
+            table.style.border = '1px solid black';
+
+
+            for (const prop of json_data) {
+
+                const tr = table.insertRow();
+
+                const image = prop[2];
+                console.log("image: " + image);
+                const td_img = tr.insertCell();
+                const img = document.createElement('img');
+                img.src = image;
+                const url = prop[3];
+                const a_tag = document.createElement('a');
+                a_tag.setAttribute('href', url);
+                a_tag.appendChild(img);
+
+                td_img.appendChild(a_tag);
+                const address = prop[0];
+                const td_add = tr.insertCell();
+                td_add.appendChild(document.createTextNode(address));
+
+                const price = prop[1];
+                const td_price = tr.insertCell();
+                const sublist = document.createElement('ul');
+                price.forEach((item) => {
+                    let li = document.createElement("li");
+                    li.innerText = item;
+                    sublist.appendChild(li);
+                })
+                console.log(sublist);
+                td_price.appendChild(sublist);
+
             }
 
-
-            const soure = document.createElement("p");
-            const sourc_cont = document.createTextNode("Source: "+prop[6])
-            soure.appendChild(sourc_cont);
-            cardbody.appendChild(soure);
-
+            section.appendChild(table);
 
         }
 
+        function sold(json_data) {
 
-        var $wrap = $('#forsale');
-                  $wrap.find('.child').sort(function(a, b)
-                  {
-                    return +b.dataset.percentage -
-                            +a.dataset.percentage;
-                  })
-                          .appendTo($wrap);
-        {#section.appendChild(paginate(4, id));#}
+            const section = document.getElementById('forsale');
+            section.innerHTML = "";
+            const title = document.createElement("h1");
+            const rmov_sold = document.createTextNode("RightMove Sold");
+            title.appendChild(rmov_sold);
+            section.appendChild(title);
 
+            var number = json_data.length;
+            const count = document.createTextNode("Total Number of Properties: " + number);
+            title.appendChild(count);
 
+            for (const prop of json_data) {
 
-        return;
-    }
+                const myArticle = document.createElement('article');
 
-    function gumtree(data) {
+                const address = prop[0];
+                const price = prop[1];
+                const image = prop[2];
+                const url = prop[3];
 
-        console.log("GUMTREE")
+                const h2 = document.createElement("h3");
+                const addr_cont = document.createTextNode(address);
+                h2.appendChild(addr_cont);
 
-        const section = document.getElementById('forsale');
-        section.innerHTML = "";
+                const list = document.createElement('ul');
 
-        baseurl = 'https://www.gumtree.com'
+                const img = document.createElement('li');
+                img.textContent = image;
+                list.appendChild(img);
 
-        for (prop of data) {
+                //Creating sublist of prices property has been sold for
+                const sublist = document.createElement('ul');
+                price.forEach((item) => {
+                    let li = document.createElement("li");
+                    li.innerText = item;
+                    sublist.appendChild(li);
+                })
+                list.appendChild(sublist);
 
-            const newDiv = document.createElement("div");
-            newDiv.setAttribute("class", "card mb-6");
-            newDiv.setAttribute("style", "max-width: 840px;");
-            section.appendChild(newDiv);
+                const url_listing = document.createElement('li');
+                url_listing.textContent = url;
+                list.appendChild(url_listing);
 
-            const rowdiv2 = document.createElement("div");
-            rowdiv2.setAttribute("class", "row no-gutters");
-            newDiv.appendChild(rowdiv2);
+                myArticle.appendChild(h2);
+                myArticle.appendChild(list);
 
-            const rowdiv = document.createElement("div");
-            rowdiv.setAttribute("class", "row no-gutters");
-            newDiv.appendChild(rowdiv);
-
-            const divcolmd8 = document.createElement("div");
-            divcolmd8.setAttribute("class", "col-md-8");
-            rowdiv.appendChild(divcolmd8);
-            const cardbody = document.createElement("div");
-            cardbody.setAttribute("class", "card=body");
-            divcolmd8.appendChild(cardbody);
-
-            const anchor = document.createElement("a");
-            url = baseurl+prop[0];
-            anchor.setAttribute("href", url);
-
-            const dispaddres = document.createElement("h5");
-            const add_cont = document.createTextNode(prop[1]);
-            dispaddres.appendChild(add_cont);
-            anchor.appendChild(dispaddres);
-            cardbody.appendChild(anchor);
-
-            const price = document.createElement("p");
-            const price_cont = document.createTextNode(prop[2]);
-            price.appendChild(price_cont);
-            cardbody.appendChild(price);
-
-            const description = document.createElement("p");
-            const desc_cont = document.createTextNode(prop[3]);
-            description.appendChild(desc_cont);
-            cardbody.appendChild(description);
-
-            const coldiv = document.createElement("div");
-            coldiv.setAttribute("class", "col-md-4");
-            const img_anch = document.createElement("a");
-            img_anch.setAttribute("href", baseurl+prop[0]);
-            const img = document.createElement("img");
-            img.src = prop[4];
-            img_anch.appendChild(img);
-            coldiv.appendChild(img_anch);
-            rowdiv.appendChild(coldiv);
-        }
-        return;
-    }
-
-    function soldTable(json_data){
-
-        const section = document.getElementById('forsale');
-        section.innerHTML = "";
-        const table = document.createElement('table');
-        table.style.width = '700px;';
-        table.style.border = '1px solid black';
-
-
-        for (const prop of json_data){
-
-            const tr = table.insertRow();
-
-            const image = prop[2];
-            console.log("image: "+image);
-            const td_img = tr.insertCell();
-            const img = document.createElement('img');
-            img.src = image;
-            const url = prop[3];
-            const a_tag = document.createElement('a');
-            a_tag.setAttribute('href', url);
-            a_tag.appendChild(img);
-
-            td_img.appendChild(a_tag);
-            const address = prop[0];
-            const td_add = tr.insertCell();
-            td_add.appendChild(document.createTextNode(address));
-
-            const price = prop[1];
-            const td_price = tr.insertCell();
-            const sublist = document.createElement('ul');
-            price.forEach((item)=>{
-                let li = document.createElement("li");
-                li.innerText = item;
-                sublist.appendChild(li);
-            })
-            console.log(sublist);
-            td_price.appendChild(sublist);
+                section.appendChild(myArticle);
+            }
 
         }
-
-        section.appendChild(table);
-
-    }
-
-    function sold(json_data){
-
-        const section = document.getElementById('forsale');
-        section.innerHTML = "";
-        const title = document.createElement("h1");
-        const rmov_sold = document.createTextNode("RightMove Sold");
-        title.appendChild(rmov_sold);
-        section.appendChild(title);
-
-        var number = json_data.length;
-        const count = document.createTextNode("Total Number of Properties: "+number);
-        title.appendChild(count);
-
-        for (const prop of json_data) {
-
-            const myArticle = document.createElement('article');
-
-            const address = prop[0];
-            const price = prop[1];
-            const image = prop[2];
-            const url = prop[3];
-
-            const h2 = document.createElement("h3");
-            const addr_cont = document.createTextNode(address);
-            h2.appendChild(addr_cont);
-
-            const list = document.createElement('ul');
-
-            const img = document.createElement('li');
-            img.textContent = image;
-            list.appendChild(img);
-
-            //Creating sublist of prices property has been sold for
-            const sublist = document.createElement('ul');
-            price.forEach((item)=>{
-                let li = document.createElement("li");
-                li.innerText = item;
-                sublist.appendChild(li);
-            })
-            list.appendChild(sublist);
-
-            const url_listing = document.createElement('li');
-            url_listing.textContent = url;
-            list.appendChild(url_listing);
-
-            myArticle.appendChild(h2);
-            myArticle.appendChild(list);
-
-            section.appendChild(myArticle);
-      }
-
-    }
-
-    /**paginate**/
-
-    function paginate(num, id){
-
-        console.log("paginate");
-
-        const section = document.getElementById('pages');
-        section.innerHTML = "";
-
-        const nav = document.createElement('nav');
-        const ul = document.createElement('ul');
-        ul.setAttribute('class', 'pagination');
-        nav.appendChild(ul);
-        for (var i=0; i<num; i++){
-            const li = document.createElement('li');
-            li.setAttribute('class', 'page-item');
-            const a = document.createElement('a');
-            a.setAttribute('id', 'formupdate');
-            a.setAttribute('value', i);
-            const textcont = document.createTextNode(i);
-            a.appendChild(textcont);
-            a.setAttribute('href', '#');
-            li.appendChild(a);
-            ul.appendChild(li);
-        }
-
-        return nav;
-    }
-
-    /**Event listeners**/
-
 
 
     </script>
     <style>
 
-    ::placeholder {
-        color: black;
-    }
+        ::placeholder {
+            color: black;
+        }
 
-
-    input {
+        input {
             display: inline;
         }
 
-    /* Turn off scrollbar when body element has the loading class */
-    body.loading{
-        overflow: hidden;
-        min-height: 800px;
-    }
-    /* Make spinner image visible when body element has the loading class */
-    body.loading .overlay{
-        display: block;
-    }
-
-    h1, body, select, option, a, ul, li, h1, h2, h3, h4, h5 {
-        font-family: 'Montserrat', sans-serif;
-    }
-
-
-
-
-
-
-
-       .box2 {
-           grid-area: nv;
-           background-color: #1A2090;
-           display: flex;
-       }
-
-
-
-       .box6 {
-           grid-area: cont;
+        /* Turn off scrollbar when body element has the loading class */
+        body.loading {
+            overflow: hidden;
             min-height: 800px;
-           border-right: 2px solid black;
-       }
-
-       .navbar navbar-inverse {
-          background-color: #1A2090;
-             border-color: #131A91;
         }
 
-  .custom-select {
-        position: relative;
-    }
-
-    .custom-select select {
-        display: none; /*hide original SELECT element: */
-    }
-
-
-    .select-selected {
-        background-color: #1A2090;
-        font-family: 'Montserrat', sans-serif;
-
-    }
-
-    /* Style the arrow inside the select element: */
-    .select-selected:after {
-        position: absolute;
-        content: "";
-        top: 14px;
-        right: 10px;
-        width: 0;
-        height: 0;
-        border: 6px solid transparent;
-        border-color: #fff transparent transparent transparent;
-    }
-
-    /* Point the arrow upwards when the select box is open (active): */
-    .select-selected.select-arrow-active:after {
-        border-color: transparent transparent #fff transparent;
-        top: 7px;
-    }
-
-    /* style the items (options), including the selected item: */
-    .select-items div,.select-selected {
-        color: white;
-        font-family: 'Montserrat', sans-serif;
-        font-size: 20px;
-        padding: 8px 16px;
-        border: 1px solid transparent;
-        border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
-        cursor: pointer;
-    }
-
-    /* Style items (options): */
-    .select-items {
-        position: absolute;
-           background-color: #1A2090;
-        top: 100%;
-        left: 0;
-        right: 0;
-        z-index: 99;
-    }
-
-    /* Hide the items when the select box is closed: */
-    .select-hide {
-        display: none;
-    }
-
-    #fontstyle {
-        font-family: 'Montserrat', sans-serif;
-        color: black;
-    }
-
-    /* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
-    .sticky + .content {
-      padding-top: 60px;
-    }
-
-    .page-footer {
-        flex-grow: 0;
-        flex-shrink: 0;
-    }
-
-     {#style="display: flex; flex-direction: row; gap: 10px;"#}
-
-    @media only screen and (max-width: 800px) {
-      #ulbar {
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-          justify-content: center;
-      }
-        #imagescreen {
-            width: 75%;
-        }
-        #cardcontent {
-            margin-left: 50px;
+        /* Make spinner image visible when body element has the loading class */
+        body.loading .overlay {
+            display: block;
         }
 
-        .wrapper {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          grid-auto-rows: minmax(75px, auto);
-          grid-template-areas:
-            "lg lg"
-            "hd hd"
-            "nv nv"
-            "cont cont"
-            "ft ft";
+        h1, body, select, option, a, ul, li, h1, h2, h3, h4, h5 {
+            font-family: 'Montserrat', sans-serif;
         }
 
-         .box1 {
-          grid-area:hd;
+        .box2 {
+            grid-area: nv;
+            background-color: #1A2090;
+            display: flex;
         }
-    }
 
-    @media only screen and (min-width: 800px) {
-      #ulbar {
-          display: flex;
-          flex-direction: row;
-          gap: 10px;
-        justify-content: center;
-      }
-        .wrapper {
-          display: grid;
-          grid-template-columns: repeat(9, 1fr);
-          grid-auto-rows: minmax(75px, auto);
-          grid-template-areas:
+        .box6 {
+            grid-area: cont;
+            min-height: 800px;
+            justify-content: center;
+            border-right: 2px solid black;
+            border-left: 2px solid black;
+            border-bottom: 2px solid black;
+        }
+
+        .navbar navbar-inverse {
+            background-color: #1A2090;
+            border-color: #131A91;
+        }
+
+
+        #fontstyle {
+            font-family: 'Montserrat', sans-serif;
+            color: black;
+        }
+
+        /* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
+        .sticky + .content {
+            padding-top: 60px;
+        }
+
+        .page-footer {
+            flex-grow: 0;
+            flex-shrink: 0;
+        }
+
+        {#style="display: flex; flex-direction: row; gap: 10px;"#}
+
+        @media only screen and (max-width: 740px) {
+
+            img {
+                width: 70%;
+            }
+
+            #newdivattribute {
+                width: 50%;
+            }
+
+            #cardcontent {
+                padding-left: 5%;
+            }
+
+            #ulbar {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                justify-content: center;
+            }
+
+            ul {
+                text-align: center;
+            }
+
+            #searchinput {
+                min-width: 70%;
+                min-height: 45px;
+                margin: 10px 10px 10px 70px;
+            }
+
+            #sortbutton {
+                margin-left: 5%;
+            }
+
+            .wrapper {
+                display: grid;
+                grid-template-columns: repeat(1, 1fr);
+                grid-auto-rows: minmax(75px, auto);
+                grid-template-areas:
+            "lg"
+            "hd "
+            "nv "
+            "cont "
+            "ft ";
+            }
+
+            #logosize {
+                width: 25%;
+                height: auto;
+            }
+
+           #forsale {
+                padding-top: 25px;
+            }
+
+            select {
+                min-width: 70%;
+                min-height: 45px;
+                margin: 10px 10px 10px 0px;
+            }
+
+            .box1 {
+                grid-area: hd;
+            }
+        }
+
+        @media only screen and (min-width: 741px) and (max-width: 1800px) {
+
+            .selectclass {
+                padding-top: 10px;
+            }
+
+
+            #newdivattribute {
+                width: 65%;
+            }
+
+            #sortbutton {
+                margin-left: 150px;
+            }
+
+            #containerpadding {
+                padding-left: 10px;
+            }
+
+            #ulbar {
+                flex-wrap: wrap;
+                display: flex;
+                flex-direction: row;
+                gap: 10px;
+                padding-top: 25px;
+                justify-content: left;
+            }
+
+            #listyle {
+                padding-right: 20px;
+            }
+
+            #logosize {
+                width: 100%;
+                height: auto;
+            }
+
+            .wrapper {
+                display: grid;
+                grid-template-columns: 15% 70% 15%;
+                grid-auto-rows: minmax(75px, auto);
+                grid-template-areas:
+                "lg .. .. "
+                " .. hd ..   "
+                ".. nv ..  "
+                ".. cont .."
+                "ft ft ft ";
+            }
+
+            #forsale {
+                padding-top: 25px;
+            }
+
+            .box1 {
+                grid-area: hd;
+                justify-self: center;
+            }
+        }
+
+        @media only screen and (min-width: 1800px) {
+
+            #sortbutton {
+                margin-left: 200px;
+            }
+
+            #newdivattribute {
+                width: 90%;
+            }
+
+            #forsale {
+                padding-top: 75px;
+            }
+
+            #containerpadding {
+                padding-top: 20px;
+                padding-left: 10px;
+            }
+
+            #logosize {
+                width: 100%;
+                height: auto;
+            }
+
+            #listyle {
+                padding-right: 20px;
+            }
+
+            #ulbar {
+                display: flex;
+                flex-direction: row;
+                gap: 10px;
+                justify-content: center;
+            }
+
+
+            select {
+                min-width: 10%;
+                min-height: 45px;
+                margin: 10px 10px 10px 0px;
+            }
+
+            .wrapper {
+                display: grid;
+                grid-template-columns: repeat(9, 1fr);
+                grid-auto-rows: minmax(75px, auto);
+                grid-template-areas:
             "lg hd hd hd   hd   hd   hd   hd   hd"
-            "nv nv nv nv   nv   nv   nv   nv   nv"
-            "cont cont cont cont cont cont cont sd sd"
-            "ft ft ft ft   ft   ft   ft   ft   ft";
+            ".. nv nv nv   nv   nv   nv   ..   .."
+            ".. cont cont cont cont cont cont .. .."
+            ".. ft ft ft   ft   ft   ft   ft   ..";
+            }
+
+            .box1 {
+                grid-area: hd;
+                justify-self: center;
+            }
         }
-         .box1 {
-          grid-area:hd;
-           justify-self: center;
-        }
-    }
 
 
     </style>
 </head>
 <body>
 
-<div class="wrapper" >
-<div class="logo">
-    <a href="/"><img src="/static/images/mainlogo.png" alt="mainlogo" width="100%" height="auto" style="float: left;"></a>
-</div>
-<div class="box1">
-<div class="container" style="background-color: white; ">
-    {% if session['type'] == 'sales' %}
-     <ul class="nav navbar-nav">
-        <li style="padding-right: 20px; "><a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i><div class="dropdown show">
-        <a class="dropdown-toggle" data-toggle="dropdown" id="fontstyle">For Sale<span class="caret"></span></a>
-           <ul class="dropdown-menu" id="fontstyle">
-                <li><a href=# id=rmovesale value=0>RightMove</a></li>
-                <li><a href=# id=otmsale>OnTheMarket</a></li>
-                <li><a href=# id=gumtree>Gumtree</a></li>
-                <li><a href=# id=allsales>All Results</a></li>
+<div class="wrapper">
+    <div class="logo">
+        <a href="/"><img src="/static/images/mainlogo.png" alt="mainlogo" id="logosize" style="float: left;"></a>
+    </div>
+    <div class="box1">
+        <div class="container" style="background-color: white; ">
+            {% if session['type'] == 'sales' %}
+                <ul class="nav navbar-nav">
+                    <li id="listyle"><a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i>
+                        <div class="dropdown show">
+                            <a class="dropdown-toggle" data-toggle="dropdown" id="fontstyle">For Sale</a>
+                            <ul class="dropdown-menu" id="fontstyle">
+                                <li><a href=# id=rmovesale value=0>RightMove</a></li>
+                                <li><a href=# id=otmsale>OnTheMarket</a></li>
+                                <li><a href=# id=gumtree>Gumtree</a></li>
+                                <li><a href=# id=allsales>All Results</a></li>
+                            </ul>
+                        </div>
+                    </a></li>
+                    <li id="listyle"><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i>
+                        <div class="dropdown"><a id=planningdata>Local Planning</a></div>
+                    </a></li>
+                    <li id="listyle"><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i>
+                        <div class="dropdown"><a id=crysdata>Local Area Statistics</a></div>
+                    </a></li>
+                    <li><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i>
+                        <div class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" style="color: black;">Sold Properties</a>
+                            <ul class="dropdown-menu">
+                                <li><a href=# id=soldpricejson>Land Registry Sold</a></li>
+                                <li><a href=# id=rmovesold>RightMove Sold</a></li>
+                            </ul>
+                        </div>
+                    </a></li>
+                    <li><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i>
+                        <div class="dropdown">
+                            <form class="navbar-form navbar-left" action="{{ url_for("search") }}" id="searchbutton"
+                                  method="post" name="search">
+                                <input type="hidden" name="page" value="lettings">
+                                <input type="hidden" name="pcode" value="{{ session['postcode'] }}">
+                                <button class="btn" id="lettings" type="submit" name="lettings" value="lettings"
+                                        style="color: black;">Lettings
+                                </button>
+                            </form>
+                        </div>
+                    </a>
+                        <script>
+                            function pupdate() {
+                                console.log("new selection made")
+                                document.getElementById("search").submit();
+                            }
+
+                            document.getElementById("lettings").addEventListener("click", pupdate);
+                        </script>
+                    </li>
+                </ul>
+
+            {% endif %}
+            {% if session['type'] == 'lettings' %}
+                <ul class="hero-search-filter-menu menu align-center" style="padding-right: 20px;">
+                    <li><a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i>
+                        <div class="dropdown show"><a class="dropdown-toggle" data-toggle="dropdown">To Rent
+                        </a>
+                            <ul class="dropdown-menu">
+                                <li><a href=# id=rmovelets>RightMove</a></li>
+                                <li><a href=# id=otmrent>OnTheMarket</a></li>
+                                <li><a href=# id=gumtree>Gumtree</a></li>
+                            </ul>
+                        </div>
+                    </a></li>
+                    <li id="listyle"><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i>
+                        <div class="dropdown"><a id=crysdata>Local Area Statistics</a></div>
+                    </a></li>
+                    <li><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i>
+                        <div class="dropdown">
+                            <form class="navbar-form navbar-left" action="{{ url_for("search") }}" id="searchbutton"
+                                  method="post" name="search">
+                                <input type="hidden" name="page" value="sales">
+                                <input type="hidden" name="pcode" value="{{ session['postcode'] }}">
+                                <button class="btn" id="lettings" type="submit" name="sales" value="sales"
+                                        style="color: black;">Sales
+                                </button>
+                            </form>
+                        </div>
+                    </a>
+                        <script>
+                            function pupdate() {
+                                console.log("new selection made")
+                                document.getElementById("search").submit();
+                            }
+
+                            document.getElementById("lettings").addEventListener("click", pupdate);
+                        </script>
+                    </li>
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+    <div class="box2" style>
+        <div class="container" id="containerpadding">
+            <ul class="nav navbar-nav" id="ulbar">
+                <li>
+                    <form action="{{ url_for("update_pcode") }}" method="post" name="exampleform"
+                          style="padding-top: 10px;">
+                        <input style="width: 150px;" type="text" id="searchinput" list="postcodeinputs"
+                               name="pcodeupdate" value="{{ session['postcode'] }}">
+                        <datalist id="postcodeinputs">
+
+                        </datalist>
+                    </form>
+                    <script>
+
+                        const idel = document.getElementById("searchinput");
+                        idel.addEventListener("input", auto);
+
+                        async function auto(e) {
+                            console.log("e: " + e.target.value);
+                            let pcode = e.target.value;
+                            const api_url = `https://api.postcodes.io/postcodes/${pcode}/autocomplete`
+                            const response = await fetch(api_url);
+                            var data = await response.json();
+                            console.log(data);
+
+                            show(data);
+                        }
+
+                        function show(data) {
+                            console.log("data: ", typeof data);
+                            console.log(data.result[0]);
+                            var datalist = document.getElementById("postcodeinputs");
+                            for (var i = 0; i < data.result.length; i++) {
+                                var n_option = document.createElement('option');
+                                console.log("data[i]: " + data.result[i]);
+                                var option_txt = document.createTextNode(data.result[i]);
+                                n_option.appendChild(option_txt);
+                                datalist.append(n_option);
+                            }
+                            // document.getElementById('suggestions').innerText = data.result;
+                        }
+
+                        function pupdate() {
+                            console.log("new selection made")
+                            document.getElementById("update_pcode").submit();
+                        }
+
+                        document.getElementById("pcode&radius").addEventListener("click", pupdate);
+                    </script>
+                </li>
+                <li>
+                    <form action="{{ url_for("update_radius") }}" method="post" name="radiusform">
+                        <select onmousedown="if(this.options.length>1){this.size=7;}"
+                                onmouseleave="if(this.options.length>1){this.size=1;}" class="selectclass" id="pcode&radius"
+                                onchange="this.form.submit()"
+                                style="background-color: #1A2090; color: white; width: 110px; font-size: 15px;"
+                                name="radius">
+                            <option>Radius: {{ session['radius'] }}</option>
+                            <option value="0">+0 miles</option>
+                            <option value="0.25">+0.25 miles</option>
+                            <option value="o.5">+0.5 miles</option>
+                            <option value="1">+1 miles</option>
+                            <option value="3">+3 miles</option>
+                            <option value="5">+5 miles</option>
+                            <option value="10">+10 miles</option>
+                            <option value="15">+15 miles</option>
+                            <option value="30">+30 miles</option>
+                            <option value="50">+50 miles</option>
+                        </select>
+                    </form>
+                    </form>
+                </li>
+                <li>
+                    <form action="{{ url_for("update_rooms") }}" method="post" name="minrooms">
+                        <select id="minrooms" class="form-select form-select-sm" class="selectclass"
+                                onmousedown="if(this.options.length>1){this.size=6;}"
+                                onmouseleave="if(this.options.length>1){this.size=0;}" name="minrooms"
+                                style="background-color: #1A2090; color: white; width: 120px; font-size: 12px;"
+                                onchange="this.form.submit()">
+                            <option value="Number of Beds">Min Rooms: {{ session['brooms'] }}</option>
+                            <option value="0">Studio</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </form>
+                    <script>
+                        function pupdate() {
+                            console.log("new selection made")
+                            document.getElementById("update_rooms").submit();
+                        }
+
+                        document.getElementById("minrooms").addEventListener("click", pupdate);
+
+                    </script>
+                </li>
+                <li>
+                    <form action="{{ url_for("update_maxrooms") }}" method="post" name="minrooms">
+                        <select id="maxrooms" class="form-select form-select-sm" class="selectclass"
+                                onmousedown="if(this.options.length>1){this.size=6;}"
+                                onmouseleave="if(this.options.length>1){this.size=0;}" name="maxroom"
+                                style="background-color: #1A2090; color: white; width: 120px; font-size: 12px;"
+                                onchange="this.form.submit()">
+                            <option value="Number of Beds">Max Rooms: {{ session['maxrooms'] }}</option>
+                            <option value="0">Studio</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </form>
+                    <script>
+                        function pupdate() {
+                            console.log("new selection made")
+                            document.getElementById("update_rooms").submit();
+                        }
+
+                        document.getElementById("minrooms").addEventListener("click", pupdate);
+
+                    </script>
+                </li>
+                <li>
+                    <form action="{{ url_for("update_type") }}" method="post" name="type">
+                        <select id="propertytype" class="form-select form-select-sm" name="propertytype" class="selectclass"
+                                onmousedown="if(this.options.length>1){this.size=6;}"
+                                onmouseleave="if(this.options.length>1){this.size=0;}"
+                                style="background-color: #1A2090; color: white; width: 150px; font-size: 12px;"
+                                onchange="this.form.submit()">
+                            <option>Property Type: {{ session['propertytype'] }}</option>
+                            <option value="houses">Houses</option>
+                            <option value="flats">Flats/ Apartments</option>
+                            <option value="bungalows">Bungalows</option>
+                        </select>
+                    </form>
+                </li>
+                {% if session['type'] == 'sales' %}
+                    <li>
+                        <form action="{{ url_for("update_min_price") }}" id="minprice" method="post" name="minprice">
+                            <select id="minpriceoptions" class="form-select form-select-sm "
+                                    onmousedown="if(this.options.length>15){this.size=15;}"
+                                    onmouseleave="if(this.options.length>15){this.size=0;}" name="minprice"
+                                    style="background-color: #1A2090; color: white; width: 160px; font-size: 12px;"
+                                    onchange="this.form.submit()">
+                                <option>Min Price: {{ session['minprice'] }}</option>
+                                <option value="50000"
+                                >£50,000
+                                </option>
+                                <option value="60000"
+                                >£60,000
+                                </option>
+                                <option value="70000"
+                                >£70,000
+                                </option>
+                                <option value="80000"
+                                >£80,000
+                                </option>
+                                <option value="90000"
+                                >£90,000
+                                </option>
+                                <option value="100000"
+                                >£100,000
+                                </option>
+                                <option value="110000"
+                                >£110,000
+                                </option>
+                                <option value="120000"
+                                >£120,000
+                                </option>
+                                <option value="125000"
+                                >£125,000
+                                </option>
+                                <option value="130000"
+                                >£130,000
+                                </option>
+                                <option value="140000"
+                                >£140,000
+                                </option>
+                                <option value="150000"
+                                >£150,000
+                                </option>
+                                <option value="160000"
+                                >£160,000
+                                </option>
+                                <option value="170000"
+                                >£170,000
+                                </option>
+                                <option value="175000"
+                                >£175,000
+                                </option>
+                                <option value="180000"
+                                >£180,000
+                                </option>
+                                <option value="190000"
+                                >£190,000
+                                </option>
+                                <option value="200000"
+                                >£200,000
+                                </option>
+                                <option value="210000"
+                                >£210,000
+                                </option>
+                                <option value="220000"
+                                >£220,000
+                                </option>
+                                <option value="230000"
+                                >£230,000
+                                </option>
+                                <option value="240000"
+                                >£240,000
+                                </option>
+                                <option value="250000"
+                                >£250,000
+                                </option>
+                                <option value="260000"
+                                >£260,000
+                                </option>
+                                <option value="270000"
+                                >£270,000
+                                </option>
+                                <option value="280000"
+                                >£280,000
+                                </option>
+                                <option value="290000"
+                                >£290,000
+                                </option>
+                                <option value="300000"
+                                >£300,000
+                                </option>
+                                <option value="325000"
+                                >£325,000
+                                </option>
+                                <option value="350000"
+                                >£350,000
+                                </option>
+                                <option value="375000"
+                                >£375,000
+                                </option>
+                                <option value="400000"
+                                >£400,000
+                                </option>
+                                <option value="425000"
+                                >£425,000
+                                </option>
+                                <option value="450000"
+                                >£450,000
+                                </option>
+                                <option value="475000"
+                                >£475,000
+                                </option>
+                                <option value="500000"
+                                >£500,000
+                                </option>
+                                <option value="550000"
+                                >£550,000
+                                </option>
+                                <option value="600000"
+                                >£600,000
+                                </option>
+                                <option value="650000"
+                                >£650,000
+                                </option>
+                                <option value="700000"
+                                >£700,000
+                                </option>
+                                <option value="800000"
+                                >£800,000
+                                </option>
+                                <option value="900000"
+                                >£900,000
+                                </option>
+                                <option value="1000000"
+                                >£1,000,000
+                                </option>
+                                <option value="1250000"
+                                >£1,250,000
+                                </option>
+                                <option value="1500000"
+                                >£1,500,000
+                                </option>
+                                <option value="1750000"
+                                >£1,750,000
+                                </option>
+                                <option value="2000000"
+                                >£2,000,000
+                                </option>
+                                <option value="2500000"
+                                >£2,500,000
+                                </option>
+                                <option value="3000000"
+                                >£3,000,000
+                                </option>
+                                <option value="4000000"
+                                >£4,000,000
+                                </option>
+                                <option value="5000000"
+                                >£5,000,000
+                                </option>
+                                <option value="7500000"
+                                >£7,500,000
+                                </option>
+                                <option value="10000000"
+                                >£10,000,000
+                                </option>
+                                <option value="15000000"
+                                >£15,000,000
+                                </option>
+                                <option value="20000000"
+                                >£20,000,000
+                                </option>
+                            </select>
+                        </form>
+                        <script>
+                            function pupdate() {
+                                console.log("new selection made")
+                                document.getElementById("update_min_price").submit();
+                            }
+
+                            document.getElementById("minprice").addEventListener("click", pupdate);
+                        </script>
+                    </li>
+                    <li>
+                        <form action="{{ url_for("update_max_price") }}" id="maxprice" method="post" name="maxprice">
+                            <select id="maxprice" name="maxprice"
+                                    onmousedown="if(this.options.length>15){this.size=15;}"
+                                    onmouseleave="if(this.options.length>15){this.size=0;}"
+                                    style="background-color: #1A2090; color: white; width: 160px; font-size: 12px;"
+                                    onchange="this.form.submit()">
+                                <option>Max Price {{ session['maxprice'] }}</option>
+                                <option value="50000"
+                                >£50,000
+                                </option>
+                                <option value="60000"
+                                >£60,000
+                                </option>
+                                <option value="70000"
+                                >£70,000
+                                </option>
+                                <option value="80000"
+                                >£80,000
+                                </option>
+                                <option value="90000"
+                                >£90,000
+                                </option>
+                                <option value="100000"
+                                >£100,000
+                                </option>
+                                <option value="110000"
+                                >£110,000
+                                </option>
+                                <option value="120000"
+                                >£120,000
+                                </option>
+                                <option value="125000"
+                                >£125,000
+                                </option>
+                                <option value="130000"
+                                >£130,000
+                                </option>
+                                <option value="140000"
+                                >£140,000
+                                </option>
+                                <option value="150000"
+                                >£150,000
+                                </option>
+                                <option value="160000"
+                                >£160,000
+                                </option>
+                                <option value="170000"
+                                >£170,000
+                                </option>
+                                <option value="175000"
+                                >£175,000
+                                </option>
+                                <option value="180000"
+                                >£180,000
+                                </option>
+                                <option value="190000"
+                                >£190,000
+                                </option>
+                                <option value="200000"
+                                >£200,000
+                                </option>
+                                <option value="210000"
+                                >£210,000
+                                </option>
+                                <option value="220000"
+                                >£220,000
+                                </option>
+                                <option value="230000"
+                                >£230,000
+                                </option>
+                                <option value="240000"
+                                >£240,000
+                                </option>
+                                <option value="250000"
+                                >£250,000
+                                </option>
+                                <option value="260000"
+                                >£260,000
+                                </option>
+                                <option value="270000"
+                                >£270,000
+                                </option>
+                                <option value="280000"
+                                >£280,000
+                                </option>
+                                <option value="290000"
+                                >£290,000
+                                </option>
+                                <option value="300000"
+                                >£300,000
+                                </option>
+                                <option value="325000"
+                                >£325,000
+                                </option>
+                                <option value="350000"
+                                >£350,000
+                                </option>
+                                <option value="375000"
+                                >£375,000
+                                </option>
+                                <option value="400000"
+                                >£400,000
+                                </option>
+                                <option value="425000"
+                                >£425,000
+                                </option>
+                                <option value="450000"
+                                >£450,000
+                                </option>
+                                <option value="475000"
+                                >£475,000
+                                </option>
+                                <option value="500000"
+                                >£500,000
+                                </option>
+                                <option value="550000"
+                                >£550,000
+                                </option>
+                                <option value="600000"
+                                >£600,000
+                                </option>
+                                <option value="650000"
+                                >£650,000
+                                </option>
+                                <option value="700000"
+                                >£700,000
+                                </option>
+                                <option value="800000"
+                                >£800,000
+                                </option>
+                                <option value="900000"
+                                >£900,000
+                                </option>
+                                <option value="1000000"
+                                >£1,000,000
+                                </option>
+                                <option value="1250000"
+                                >£1,250,000
+                                </option>
+                                <option value="1500000"
+                                >£1,500,000
+                                </option>
+                                <option value="1750000"
+                                >£1,750,000
+                                </option>
+                                <option value="2000000"
+                                >£2,000,000
+                                </option>
+                                <option value="2500000"
+                                >£2,500,000
+                                </option>
+                                <option value="3000000"
+                                >£3,000,000
+                                </option>
+                                <option value="4000000"
+                                >£4,000,000
+                                </option>
+                                <option value="5000000"
+                                >£5,000,000
+                                </option>
+                                <option value="7500000"
+                                >£7,500,000
+                                </option>
+                                <option value="10000000"
+                                >£10,000,000
+                                </option>
+                                <option value="15000000"
+                                >£15,000,000
+                                </option>
+                                <option value="20000000"
+                                >£20,000,000
+                                </option>
+                            </select>
+                        </form>
+                        <script>
+                            function pupdate() {
+                                console.log("new selection made")
+                                document.getElementById("update_max_price").submit();
+                            }
+
+                            document.getElementById("maxprice").addEventListener("click", pupdate);
+                        </script>
+                    </li>
+
+                {% endif %}
+                {% if session['type'] == 'lettings' %}
+                    <li>
+                        <form action="{{ url_for("update_min_price") }}" id="minprice" method="post" name="minprice">
+                            <select id="minpriceoptions" class="selectclass" name="minprice"
+                                    onmousedown="if(this.options.length>15){this.size=15;}"
+                                    onmouseleave="if(this.options.length>15){this.size=0;}"
+                                    style="background-color: #1A2090; color: white; width: 160px; font-size: 12px;"
+                                    onchange="this.form.submit()">
+                                <option value="100">Min Price: {{ session['minprice'] }}</option>
+                                <option value="100">100 PCM</option>
+                                <option value="150">150 PCM</option>
+                                <option value="200">200 PCM</option>
+                                <option value="250">250 PCM</option>
+                                <option value="300">300 PCM</option>
+                                <option value="350">350 PCM</option>
+                                <option value="400">400 PCM</option>
+                                <option value="450">450 PCM</option>
+                                <option value="500">500 PCM</option>
+                                <option value="600">600 PCM</option>
+                                <option value="700">700 PCM</option>
+                                <option value="800">800 PCM</option>
+                                <option value="900">900 PCM</option>
+                                <option value="1000">1,000 PCM</option>
+                                <option value="1100">1,100 PCM</option>
+                                <option value="1200">1,200 PCM</option>
+                                <option value="1250">1,250 PCM</option>
+                                <option value="1300">1,300 PCM</option>
+                                <option value="1400">1,400 PCM</option>
+                                <option value="1500">1,500 PCM</option>
+                                <option value="1750">1,750 PCM</option>
+                                <option value="2000">2,000 PCM</option>
+                                <option value="2250">2,250 PCM</option>
+                                <option value="2500">2,500 PCM</option>
+                                <option value="2750">2,750 PCM</option>
+                                <option value="3000">3,000 PCM</option>
+                                <option value="3500">3,500 PCM</option>
+                                <option value="4000">4,000 PCM</option>
+                                <option value="4500">4,500 PCM</option>
+                                <option value="5000">5,000 PCM</option>
+                                <option value="5500">5,500 PCM</option>
+                                <option value="6000">6,000 PCM</option>
+                                <option value="6500">6,500 PCM</option>
+                                <option value="7000">7,000 PCM</option>
+                                <option value="8000">8,000 PCM</option>
+                                <option value="9000">9,000 PCM</option>
+                                <option value="10000">10,000 PCM</option>
+                                <option value="12500">12,500 PCM</option>
+                                <option value="15000">15,000 PCM</option>
+                                <option value="17500">17,500 PCM</option>
+                                <option value="20000">20,000 PCM</option>
+                                <option value="25000">25,000 PCM</option>
+                                <option value="30000">30,000 PCM</option>
+                                <option value="35000">35,000 PCM</option>
+                                <option value="40000">40,000 PCM</option>
+                            </select>
+                            <script>
+                                function pupdate() {
+                                    console.log("new selection made")
+                                    document.getElementById("update_min_price").submit();
+                                }
+
+                                document.getElementById("minpriceoptions").addEventListener("click", pupdate);
+                            </script>
+                        </form>
+                    </li>
+                    <li>
+                        <form action="{{ url_for("update_max_price") }}" id="maxprice" method="post" name="maxprice">
+                            <select class="selectclass" id="maxprice" name="maxprice"
+                                    onmousedown="if(this.options.length>15){this.size=15;}"
+                                    onmouseleave="if(this.options.length>15){this.size=0;}"
+                                    style="background-color: #1A2090; color: white; width: 160px; font-size: 12px;"
+                                    onchange="this.form.submit()">
+                                <option value="100">Max Price: {{ session['maxprice'] }}</option>
+                                <option value="150">150 PCM</option>
+                                <option value="200">200 PCM</option>
+                                <option value="250">250 PCM</option>
+                                <option value="300">300 PCM</option>
+                                <option value="350">350 PCM</option>
+                                <option value="400">400 PCM</option>
+                                <option value="450">450 PCM</option>
+                                <option value="500">500 PCM</option>
+                                <option value="600">600 PCM</option>
+                                <option value="700">700 PCM</option>
+                                <option value="800">800 PCM</option>
+                                <option value="900">900 PCM</option>
+                                <option value="1000">1,000 PCM</option>
+                                <option value="1100">1,100 PCM</option>
+                                <option value="1200">1,200 PCM</option>
+                                <option value="1250">1,250 PCM</option>
+                                <option value="1300">1,300 PCM</option>
+                                <option value="1400">1,400 PCM</option>
+                                <option value="1500">1,500 PCM</option>
+                                <option value="1750">1,750 PCM</option>
+                                <option value="2000">2,000 PCM</option>
+                                <option value="2250">2,250 PCM</option>
+                                <option value="2500">2,500 PCM</option>
+                                <option value="2750">2,750 PCM</option>
+                                <option value="3000">3,000 PCM</option>
+                                <option value="3500">3,500 PCM</option>
+                                <option value="4000">4,000 PCM</option>
+                                <option value="4500">4,500 PCM</option>
+                                <option value="5000">5,000 PCM</option>
+                                <option value="5500">5,500 PCM</option>
+                                <option value="6000">6,000 PCM</option>
+                                <option value="6500">6,500 PCM</option>
+                                <option value="7000">7,000 PCM</option>
+                                <option value="8000">8,000 PCM</option>
+                                <option value="9000">9,000 PCM</option>
+                                <option value="10000">10,000 PCM</option>
+                                <option value="12500">12,500 PCM</option>
+                                <option value="15000">15,000 PCM</option>
+                                <option value="17500">17,500 PCM</option>
+                                <option value="20000">20,000 PCM</option>
+                                <option value="25000">25,000 PCM</option>
+                                <option value="30000">30,000 PCM</option>
+                                <option value="35000">35,000 PCM</option>
+                                <option value="40000">40,000 PCM</option>
+                            </select>
+                        </form>
+                        <script>
+                            function pupdate() {
+                                console.log("new selection made")
+                                document.getElementById("update_max_price").submit();
+                            }
+
+                            document.getElementById("maxprice").addEventListener("click", pupdate);
+                        </script>
+                    </li>
+                {% endif %}
             </ul>
-        </div></a></li>
-        <li style="padding-right: 20px;" ><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i><div class="dropdown" ><a id=planningdata>Local Planning</a></div></a></li>
-        <li style="padding-right: 20px;"><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i><div class="dropdown"><a id=crysdata>Local Area Statistics</a></div></a></li>
-        <li><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i><div class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" style="color: black;">Sold Properties</a>
-            <ul class="dropdown-menu">
-                        <li><a href=# id=soldpricejson>Land Registry Sold</a></li>
-                        <li><a href=# id=rmovesold>RightMove Sold</a></li>
-            </ul></div></a></li>
-          <li><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i><div class="dropdown" >
-            <form class="navbar-form navbar-left" action="{{ url_for("search")}}" id="searchbutton" method="post" name="search" >
-                <input type="hidden" name="page" value="lettings">
-                <input type="hidden" name="pcode" value="{{ session['postcode'] }}">
-                <button  class="btn" id="lettings" type="submit" name="lettings" value="lettings" style="color: black;">Lettings</button>
-            </form></div></a>
-            <script>
-              function pupdate(){
-                console.log("new selection made")
-                document.getElementById("search").submit();
-            }
-
-            document.getElementById("lettings").addEventListener("click", pupdate);
-            </script>
-        </li>
-     </ul>
-
-    {% endif %}
-    {% if session['type'] == 'lettings' %}
-     <ul class="hero-search-filter-menu menu align-center" style="padding-right: 20px;">
-        <li><a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i><div class="dropdown show"><a class="dropdown-toggle" data-toggle="dropdown">To Rent
-        </a><ul class="dropdown-menu">
-            <li><a href=# id=rmovelets>RightMove</a></li>
-            <li><a href=# id=otmrent>OnTheMarket</a></li>
-            <li><a href=# id=gumtree>Gumtree</a></li>
-        </ul></div></a></li>
-        <li style="padding-right: 20px;"><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i><div class="dropdown"><a id=crysdata>Local Area Statistics</a></div></a></li>
-        <li><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i><div class="dropdown" >
-            <form class="navbar-form navbar-left" action="{{ url_for("search")}}" id="searchbutton" method="post" name="search">
-            <input type="hidden" name="page" value="sales">
-            <input type="hidden" name="pcode" value="{{ session['postcode'] }}">
-                <button class="btn" id="lettings" type="submit" name="sales" value="sales" style="color: black;">Sales</button>
-            </form></div></a>
-         <script>
-              function pupdate(){
-                console.log("new selection made")
-                document.getElementById("search").submit();
-            }
-
-            document.getElementById("lettings").addEventListener("click", pupdate);
-        </script>
-         </li>
-    </ul>
-    {% endif %}
-</div>
-</div>
-  <div class="box2" style>
-  <div class="container" style="padding-top: 20px; padding-left: 20px;">
-    <ul class="nav navbar-nav" id="ulbar">
-        <li>
-            <form action="{{ url_for("update_pcode") }}" method="post" name="exampleform">
-            <input style="width: 150px;" type="text" id="searchinput" list="postcodeinputs" name="pcodeupdate" value="{{ session['postcode'] }}">
-                <datalist id="postcodeinputs">
-
-                </datalist>
-            </form>
-            <script>
-
-                const idel = document.getElementById("searchinput");
-                idel.addEventListener("input", auto);
-
-                  async function auto(e)
-                    {
-                        console.log("e: "+e.target.value);
-                        let pcode = e.target.value;
-                        const api_url = `https://api.postcodes.io/postcodes/${pcode}/autocomplete`
-                        const response = await fetch(api_url);
-                        var data = await response.json();
-                        console.log(data);
-
-                        show(data);
-                    }
-
-                  function show(data){
-                      console.log("data: ", typeof data);
-                      console.log(data.result[0]);
-                      var datalist = document.getElementById("postcodeinputs");
-                      for (var i=0; i<data.result.length; i++){
-                          var n_option = document.createElement('option');
-                          console.log("data[i]: "+data.result[i]);
-                          var option_txt = document.createTextNode(data.result[i]);
-                          n_option.appendChild(option_txt);
-                          datalist.append(n_option);
-                      }
-                      // document.getElementById('suggestions').innerText = data.result;
-                  }
-
-                  function pupdate(){
-                    console.log("new selection made")
-                    document.getElementById("update_pcode").submit();
-                }
-
-                document.getElementById("pcode&radius").addEventListener("click", pupdate);
-</script>
-        </li>
-    <li >
-        <form action="{{ url_for("update_radius") }}" method="post" name="radiusform">
-             <select  aria-label="Default select example" onmousedown="if(this.options.length>1){this.size=7;}" onmouseleave="if(this.options.length>1){this.size=0;}" id="pcode&radius" onchange="this.form.submit()" style="background-color: #1A2090; color: white; width: 110px; font-size: 12px;" name="radius">
-                    <option>Radius: {{ session['radius'] }}</option>
-                    <option value="0">+0 miles</option>
-                    <option value="0.25">+0.25 miles</option>
-                    <option value="o.5">+0.5 miles</option>
-                    <option value="1">+1 miles</option>
-                    <option value="3">+3 miles</option>
-                    <option value="5">+5 miles</option>
-                    <option value="10">+10 miles</option>
-                    <option value="15">+15 miles</option>
-                    <option value="30">+30 miles</option>
-                    <option value="50">+50 miles</option>
-                </select>
-            </form>
-        </form>
-    </li>
-        <li> <form action="{{ url_for("update_rooms") }}" method="post" name="minrooms">
-                <select id="minrooms" class="form-select form-select-sm" onmousedown="if(this.options.length>1){this.size=6;}" onmouseleave="if(this.options.length>1){this.size=0;}" name="minrooms" style="background-color: #1A2090; color: white; width: 120px; font-size: 12px;" onchange="this.form.submit()">
-                    <option value="Number of Beds">Min Rooms: {{ session['brooms'] }}</option>
-                    <option value="0">Studio</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-            </form>
-            <script>
-                  function pupdate(){
-                    console.log("new selection made")
-                    document.getElementById("update_rooms").submit();
-                    }
-
-                    document.getElementById("minrooms").addEventListener("click", pupdate);
-
-            </script>
-        </li>
-        <li> <form action="{{ url_for("update_maxrooms") }}" method="post" name="minrooms">
-            <select id="maxrooms" class="form-select form-select-sm" onmousedown="if(this.options.length>1){this.size=6;}" onmouseleave="if(this.options.length>1){this.size=0;}" name="maxroom" style="background-color: #1A2090; color: white; width: 120px; font-size: 12px;" onchange="this.form.submit()">
-                <option value="Number of Beds">Max Rooms: {{ session['maxrooms'] }}</option>
-                <option value="0">Studio</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-        </form>
-            <script>
-                  function pupdate(){
-                    console.log("new selection made")
-                    document.getElementById("update_rooms").submit();
-                    }
-
-                    document.getElementById("minrooms").addEventListener("click", pupdate);
-
-            </script>
-        </li>
-        <li > <form action="{{ url_for("update_type") }}"   method="post" name="type">
-            <select id="propertytype" class="form-select form-select-sm" name="propertytype" onmousedown="if(this.options.length>1){this.size=6;}" onmouseleave="if(this.options.length>1){this.size=0;}" style="background-color: #1A2090; color: white; width: 150px; font-size: 12px;" onchange="this.form.submit()">
-                <option>Property Type: {{ session['propertytype'] }}</option>
-                <option value="houses">Houses</option>
-                <option value="flats">Flats/ Apartments</option>
-                <option value="bungalows">Bungalows</option>
-                <option value="land">Land</option>
-                <option value="commercial">Commercial Property</option>
-                <option value="other">Other</option>
-            </select>
-        </form></li>
-        {% if session['type'] == 'sales' %}
-        <li ><form action="{{ url_for("update_min_price") }}" id="minprice" method="post" name="minprice">
-            <select id="minpriceoptions" class="form-select form-select-sm " onmousedown="if(this.options.length>15){this.size=15;}" onmouseleave="if(this.options.length>15){this.size=0;}" name="minprice" style="background-color: #1A2090; color: white; width: 160px; font-size: 12px;"  onchange="this.form.submit()">
-                <option>Min Price: {{ session['minprice'] }}</option>
-                 <option value="50000"
-                >£50,000</option>
-                    <option value="60000"
-                >£60,000</option>
-                    <option value="70000"
-                >£70,000</option>
-                    <option value="80000"
-                >£80,000</option>
-                    <option value="90000"
-                >£90,000</option>
-                    <option value="100000"
-                >£100,000</option>
-                    <option value="110000"
-                >£110,000</option>
-                    <option value="120000"
-                >£120,000</option>
-                    <option value="125000"
-                >£125,000</option>
-                    <option value="130000"
-                >£130,000</option>
-                    <option value="140000"
-                >£140,000</option>
-                    <option value="150000"
-                >£150,000</option>
-                    <option value="160000"
-                >£160,000</option>
-                    <option value="170000"
-                >£170,000</option>
-                    <option value="175000"
-                >£175,000</option>
-                    <option value="180000"
-                >£180,000</option>
-                    <option value="190000"
-                >£190,000</option>
-                    <option value="200000"
-                >£200,000</option>
-                    <option value="210000"
-                >£210,000</option>
-                    <option value="220000"
-                >£220,000</option>
-                    <option value="230000"
-                >£230,000</option>
-                    <option value="240000"
-                >£240,000</option>
-                    <option value="250000"
-                >£250,000</option>
-                    <option value="260000"
-                >£260,000</option>
-                    <option value="270000"
-                >£270,000</option>
-                    <option value="280000"
-                >£280,000</option>
-                    <option value="290000"
-                >£290,000</option>
-                    <option value="300000"
-                >£300,000</option>
-                    <option value="325000"
-                >£325,000</option>
-                    <option value="350000"
-                >£350,000</option>
-                    <option value="375000"
-                >£375,000</option>
-                    <option value="400000"
-                >£400,000</option>
-                    <option value="425000"
-                >£425,000</option>
-                    <option value="450000"
-                >£450,000</option>
-                    <option value="475000"
-                >£475,000</option>
-                    <option value="500000"
-                >£500,000</option>
-                    <option value="550000"
-                >£550,000</option>
-                    <option value="600000"
-                >£600,000</option>
-                    <option value="650000"
-                >£650,000</option>
-                    <option value="700000"
-                >£700,000</option>
-                    <option value="800000"
-                >£800,000</option>
-                    <option value="900000"
-                >£900,000</option>
-                    <option value="1000000"
-                >£1,000,000</option>
-                    <option value="1250000"
-                >£1,250,000</option>
-                    <option value="1500000"
-                >£1,500,000</option>
-                    <option value="1750000"
-                >£1,750,000</option>
-                    <option value="2000000"
-                >£2,000,000</option>
-                    <option value="2500000"
-                >£2,500,000</option>
-                    <option value="3000000"
-                >£3,000,000</option>
-                    <option value="4000000"
-                >£4,000,000</option>
-                    <option value="5000000"
-                >£5,000,000</option>
-                    <option value="7500000"
-                >£7,500,000</option>
-                    <option value="10000000"
-                >£10,000,000</option>
-                    <option value="15000000"
-                >£15,000,000</option>
-                    <option value="20000000"
-                >£20,000,000</option>
-            </select>
-        </form>
-            <script>
-                  function pupdate(){
-                    console.log("new selection made")
-                    document.getElementById("update_min_price").submit();
-                }
-
-                document.getElementById("minprice").addEventListener("click", pupdate);
-            </script>
-        </li>
-        <li >
-            <form action="{{ url_for("update_max_price") }}" id="maxprice" method="post" name="maxprice">
-            <select id="maxprice" name="maxprice" onmousedown="if(this.options.length>15){this.size=15;}"  onmouseleave="if(this.options.length>15){this.size=0;}" style="background-color: #1A2090; color: white; width: 160px; font-size: 12px;" onchange="this.form.submit()">
-            <option>Max Price {{ session['maxprice'] }}</option>
-             <option value="50000"
-            >£50,000</option>
-                <option value="60000"
-            >£60,000</option>
-                <option value="70000"
-            >£70,000</option>
-                <option value="80000"
-            >£80,000</option>
-                <option value="90000"
-            >£90,000</option>
-                <option value="100000"
-            >£100,000</option>
-                <option value="110000"
-            >£110,000</option>
-                <option value="120000"
-            >£120,000</option>
-                <option value="125000"
-            >£125,000</option>
-                <option value="130000"
-            >£130,000</option>
-                <option value="140000"
-            >£140,000</option>
-                <option value="150000"
-            >£150,000</option>
-                <option value="160000"
-            >£160,000</option>
-                <option value="170000"
-            >£170,000</option>
-                <option value="175000"
-            >£175,000</option>
-                <option value="180000"
-            >£180,000</option>
-                <option value="190000"
-            >£190,000</option>
-                <option value="200000"
-            >£200,000</option>
-                <option value="210000"
-            >£210,000</option>
-                <option value="220000"
-            >£220,000</option>
-                <option value="230000"
-            >£230,000</option>
-                <option value="240000"
-            >£240,000</option>
-                <option value="250000"
-            >£250,000</option>
-                <option value="260000"
-            >£260,000</option>
-                <option value="270000"
-            >£270,000</option>
-                <option value="280000"
-            >£280,000</option>
-                <option value="290000"
-            >£290,000</option>
-                <option value="300000"
-            >£300,000</option>
-                <option value="325000"
-            >£325,000</option>
-                <option value="350000"
-            >£350,000</option>
-                <option value="375000"
-            >£375,000</option>
-                <option value="400000"
-            >£400,000</option>
-                <option value="425000"
-            >£425,000</option>
-                <option value="450000"
-            >£450,000</option>
-                <option value="475000"
-            >£475,000</option>
-                <option value="500000"
-            >£500,000</option>
-                <option value="550000"
-            >£550,000</option>
-                <option value="600000"
-            >£600,000</option>
-                <option value="650000"
-            >£650,000</option>
-                <option value="700000"
-            >£700,000</option>
-                <option value="800000"
-            >£800,000</option>
-                <option value="900000"
-            >£900,000</option>
-                <option value="1000000"
-            >£1,000,000</option>
-                <option value="1250000"
-            >£1,250,000</option>
-                <option value="1500000"
-            >£1,500,000</option>
-                <option value="1750000"
-            >£1,750,000</option>
-                <option value="2000000"
-            >£2,000,000</option>
-                <option value="2500000"
-            >£2,500,000</option>
-                <option value="3000000"
-            >£3,000,000</option>
-                <option value="4000000"
-            >£4,000,000</option>
-                <option value="5000000"
-            >£5,000,000</option>
-                <option value="7500000"
-            >£7,500,000</option>
-                <option value="10000000"
-            >£10,000,000</option>
-                <option value="15000000"
-            >£15,000,000</option>
-                <option value="20000000"
-            >£20,000,000</option>
-        </select>
-        </form>
-        <script>
-              function pupdate(){
-                console.log("new selection made")
-                document.getElementById("update_max_price").submit();
-            }
-
-            document.getElementById("maxprice").addEventListener("click", pupdate);
-        </script>
-        </li>
-
-        {% endif %}
-        {% if session['type'] == 'lettings' %}
-        <li>
-            <form action="{{ url_for("update_min_price") }}" id="minprice" id="minupdate" method="post" name="minprice">
-                <select id="minpriceoptions" name="minprice" onmousedown="if(this.options.length>15){this.size=15;}" onmouseleave="if(this.options.length>15){this.size=0;}" style="background-color: #1A2090; color: white; width: 160px; font-size: 12px;" onchange="this.form.submit()">
-                    <option value="100">Min Price: {{ session['minprice'] }}</option>
-                    <option value="100">100 PCM</option>
-                    <option value="150">150 PCM</option>
-                    <option value="200">200 PCM</option>
-                    <option value="250">250 PCM</option>
-                    <option value="300">300 PCM</option>
-                    <option value="350">350 PCM</option>
-                    <option value="400">400 PCM</option>
-                    <option value="450">450 PCM</option>
-                    <option value="500">500 PCM</option>
-                    <option value="600">600 PCM</option>
-                    <option value="700">700 PCM</option>
-                    <option value="800">800 PCM</option>
-                    <option value="900">900 PCM</option>
-                    <option value="1000">1,000 PCM</option>
-                    <option value="1100">1,100 PCM</option>
-                    <option value="1200">1,200 PCM</option>
-                    <option value="1250">1,250 PCM</option>
-                    <option value="1300">1,300 PCM</option>
-                    <option value="1400">1,400 PCM</option>
-                    <option value="1500">1,500 PCM</option>
-                    <option value="1750">1,750 PCM</option>
-                    <option value="2000">2,000 PCM</option>
-                    <option value="2250">2,250 PCM</option>
-                    <option value="2500">2,500 PCM</option>
-                    <option value="2750">2,750 PCM</option>
-                    <option value="3000">3,000 PCM</option>
-                    <option value="3500">3,500 PCM</option>
-                    <option value="4000">4,000 PCM</option>
-                    <option value="4500">4,500 PCM</option>
-                    <option value="5000">5,000 PCM</option>
-                    <option value="5500">5,500 PCM</option>
-                    <option value="6000">6,000 PCM</option>
-                    <option value="6500">6,500 PCM</option>
-                    <option value="7000">7,000 PCM</option>
-                    <option value="8000">8,000 PCM</option>
-                    <option value="9000">9,000 PCM</option>
-                    <option value="10000">10,000 PCM</option>
-                    <option value="12500">12,500 PCM</option>
-                    <option value="15000">15,000 PCM</option>
-                    <option value="17500">17,500 PCM</option>
-                    <option value="20000">20,000 PCM</option>
-                    <option value="25000">25,000 PCM</option>
-                    <option value="30000">30,000 PCM</option>
-                    <option value="35000">35,000 PCM</option>
-                    <option value="40000">40,000 PCM</option>
-                </select>
-            <script>
-              function pupdate(){
-                console.log("new selection made")
-                document.getElementById("update_min_price").submit();
-            }
-
-            document.getElementById("minpriceoptions").addEventListener("click", pupdate);
-            </script>
-            </form>
-        </li>
-        <li><form action="{{ url_for("update_max_price") }}" id="maxprice" method="post" name="maxprice">
-            <select id="maxprice" name="maxprice" onmousedown="if(this.options.length>15){this.size=15;}" onmouseleave="if(this.options.length>15){this.size=0;}" style="background-color: #1A2090; color: white; width: 160px; font-size: 12px;" onchange="this.form.submit()">
-                   <option value="100">Max Price: {{ session['maxprice'] }}</option>
-                    <option value="150">150 PCM</option>
-                    <option value="200">200 PCM</option>
-                    <option value="250">250 PCM</option>
-                    <option value="300">300 PCM</option>
-                    <option value="350">350 PCM</option>
-                    <option value="400">400 PCM</option>
-                    <option value="450">450 PCM</option>
-                    <option value="500">500 PCM</option>
-                    <option value="600">600 PCM</option>
-                    <option value="700">700 PCM</option>
-                    <option value="800">800 PCM</option>
-                    <option value="900">900 PCM</option>
-                    <option value="1000">1,000 PCM</option>
-                    <option value="1100">1,100 PCM</option>
-                    <option value="1200">1,200 PCM</option>
-                    <option value="1250">1,250 PCM</option>
-                    <option value="1300">1,300 PCM</option>
-                    <option value="1400">1,400 PCM</option>
-                    <option value="1500">1,500 PCM</option>
-                    <option value="1750">1,750 PCM</option>
-                    <option value="2000">2,000 PCM</option>
-                    <option value="2250">2,250 PCM</option>
-                    <option value="2500">2,500 PCM</option>
-                    <option value="2750">2,750 PCM</option>
-                    <option value="3000">3,000 PCM</option>
-                    <option value="3500">3,500 PCM</option>
-                    <option value="4000">4,000 PCM</option>
-                    <option value="4500">4,500 PCM</option>
-                    <option value="5000">5,000 PCM</option>
-                    <option value="5500">5,500 PCM</option>
-                    <option value="6000">6,000 PCM</option>
-                    <option value="6500">6,500 PCM</option>
-                    <option value="7000">7,000 PCM</option>
-                    <option value="8000">8,000 PCM</option>
-                    <option value="9000">9,000 PCM</option>
-                    <option value="10000">10,000 PCM</option>
-                    <option value="12500">12,500 PCM</option>
-                    <option value="15000">15,000 PCM</option>
-                    <option value="17500">17,500 PCM</option>
-                    <option value="20000">20,000 PCM</option>
-                    <option value="25000">25,000 PCM</option>
-                    <option value="30000">30,000 PCM</option>
-                    <option value="35000">35,000 PCM</option>
-                    <option value="40000">40,000 PCM</option>
-            </select>
-        </form>
-            <script>
-              function pupdate(){
-                console.log("new selection made")
-                document.getElementById("update_max_price").submit();
-            }
-
-            document.getElementById("maxprice").addEventListener("click", pupdate);
-</script>
-        </li>
-        {% endif %}
-    </ul>
-  </div>
-  </div>
+        </div>
+    </div>
     <div class="box6" style="background-color: #E9E9EB;">
-        <h5 style="padding-top: 100px; text-align: center; padding-left: 10%; padding-right: 10%;">Property {{ session['type'] }} results for: {{ session['postcode'] }} in the range of £{{ session['minprice'] }} to £{{ session['maxprice'] }} for properties with {{ session['brooms'] }} to {{ session['maxrooms'] }} rooms.</h5>
+        <h5 style="padding-top: 100px; text-align: center; padding-left: 10%; padding-right: 10%;">
+            Property {{ session['type'] }} results for: {{ session['postcode'] }} in the range of
+            £{{ session['minprice'] }} to £{{ session['maxprice'] }} for properties with {{ session['brooms'] }}
+            to {{ session['maxrooms'] }} rooms.</h5>
 
         <div class="container">
-        <button style="margin-left: 200px;" class="btn" onClick="GFG_Fun()">
-            Sort price Low to High
-        </button>
-        <button style="margin-left: 200px;" class="btn" onClick="High_Low()">
-            Sort price High to Low
-        </button>
-        <h4 id="sessionvariable" style="padding-top: 100px;"></h4>
-    </div>
+            <button id="sortbutton" class="btn" onClick="GFG_Fun()">
+                Sort price Low to High
+            </button>
+            <button id="sortbutton" class="btn" onClick="High_Low()">
+                Sort price High to Low
+            </button>
+            <h4 id="sessionvariable" style="padding-top: 100px;"></h4>
+        </div>
         <div id="forsale" class="container" style="justify-items: center; padding-top: 75px;">
         </div>
-         <script>
+        <script>
 
-            function GFG_Fun()
-              {
-                  var $wrap = $('#forsale');
-                  $wrap.find('.child').sort(function(a, b)
-                  {
-                      console.log("a sort: "+a);
-                      console.log("b sort: "+b);
-                    return +a.dataset.percentage -
-                            +b.dataset.percentage;
-                  })
-                          .appendTo($wrap);
-              }
-
-              function High_Low(){
+            function GFG_Fun() {
                 var $wrap = $('#forsale');
-                  $wrap.find('.child').sort(function(a, b)
-                  {
+                $wrap.find('.child').sort(function (a, b) {
+                    console.log("a sort: " + a);
+                    console.log("b sort: " + b);
+                    return +a.dataset.percentage -
+                        +b.dataset.percentage;
+                })
+                    .appendTo($wrap);
+            }
+
+            function High_Low() {
+                var $wrap = $('#forsale');
+                $wrap.find('.child').sort(function (a, b) {
                     return +b.dataset.percentage -
-                            +a.dataset.percentage;
-                  })
-                          .appendTo($wrap);
-              }
+                        +a.dataset.percentage;
+                })
+                    .appendTo($wrap);
+            }
         </script>
 
-  </div>
+    </div>
 </div>
 <script>
     $(document).foundation();
 </script>
 <script type="text/javascript">
-    var x, i, j, l, ll, selElmnt, a, b, c;
-    /* Look for any elements with the class "custom-select": */
-    x = document.getElementsByClassName("custom-select");
-    l = x.length;
-    for (i = 0; i < l; i++) {
-        selElmnt = x[i].getElementsByTagName("select")[0];
-        ll = selElmnt.length;
-        /* For each element, create a new DIV that will act as the selected item: */
-        a = document.createElement("DIV");
-        a.setAttribute("class", "select-selected");
-        a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
-        x[i].appendChild(a);
-        /* For each element, create a new DIV that will contain the option list: */
-        b = document.createElement("DIV");
-        b.setAttribute("class", "select-items select-hide");
-        for (j = 1; j < ll; j++) {
-            /* For each option in the original select element,
-            create a new DIV that will act as an option item: */
-            c = document.createElement("DIV");
-            c.innerHTML = selElmnt.options[j].innerHTML;
-            c.addEventListener("click", function(e) {
-                /* When an item is clicked, update the original select box,
-                and the selected item: */
-                var y, i, k, s, h, sl, yl;
-                s = this.parentNode.parentNode.getElementsByTagName("select")[0];
-                sl = s.length;
-                h = this.parentNode.previousSibling;
-                for (i = 0; i < sl; i++) {
-                    if (s.options[i].innerHTML == this.innerHTML) {
-                        s.selectedIndex = i;
-                        h.innerHTML = this.innerHTML;
-                        y = this.parentNode.getElementsByClassName("same-as-selected");
-                        yl = y.length;
-                        for (k = 0; k < yl; k++) {
-                            y[k].removeAttribute("class");
-                        }
-                        this.setAttribute("class", "same-as-selected");
-                        break;
-                    }
-                }
-                h.click();
-            });
-            b.appendChild(c);
-        }
-        x[i].appendChild(b);
-        a.addEventListener("click", function(e) {
-            /* When the select box is clicked, close any other select boxes,
-            and open/close the current select box: */
-            e.stopPropagation();
-            closeAllSelect(this);
-            this.nextSibling.classList.toggle("select-hide");
-            this.classList.toggle("select-arrow-active");
-        });
-    }
 
-    function closeAllSelect(elmnt) {
-        /* A function that will close all select boxes in the document,
-        except the current select box: */
-        var x, y, i, xl, yl, arrNo = [];
-        x = document.getElementsByClassName("select-items");
-        y = document.getElementsByClassName("select-selected");
-        xl = x.length;
-        yl = y.length;
-        for (i = 0; i < yl; i++) {
-            if (elmnt == y[i]) {
-                arrNo.push(i)
-            } else {
-                y[i].classList.remove("select-arrow-active");
-            }
-        }
-        for (i = 0; i < xl; i++) {
-            if (arrNo.indexOf(i)) {
-                x[i].classList.add("select-hide");
-            }
-        }
-    }
 
     /* If the user clicks anywhere outside the select box,
     then close all select boxes: */
-    document.addEventListener("click", closeAllSelect);
 
-    window.onscroll = function() {myFunction()};
+
+    window.onscroll = function () {
+        myFunction()
+    };
 
     var navbar = document.getElementById("scrollable");
     var sticky = navbar.offsetTop;
 
     function myFunction() {
-      if (window.pageYOffset >= sticky) {
-        navbar.classList.add("sticky")
-      } else {
-        navbar.classList.remove("sticky");
-      }
+        if (window.pageYOffset >= sticky) {
+            navbar.classList.add("sticky")
+        } else {
+            navbar.classList.remove("sticky");
+        }
     }
-
 
 
 </script>
