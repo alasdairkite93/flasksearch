@@ -11,12 +11,18 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
-
+<link rel="stylesheet" href="https://kit.fontawesome.com/f3f39947b8.css" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.4/dist/css/foundation.min.css"
           crossorigin="anonymous">
@@ -52,16 +58,12 @@
 
         function loading() {
 
-            const div_sec = document.getElementById('forsale')
-            div_sec.innerHTML = ''
-
             const section = document.getElementById("forsale");
-            const p = document.createElement('p');
-            const textcont = document.createTextNode("Loading content");
-            p.appendChild(textcont);
 
-            section.appendChild(p);
-
+            const i = document.createElement('i');
+            i.setAttribute('class', 'fa fa-circle-o-notch fa-spin');
+            i.setAttribute('style', 'font-size: 100px')
+            section.appendChild(i);
         }
 
         /**Land Registry**/
@@ -815,6 +817,28 @@
     </script>
     <style>
 
+
+        #spinner   {
+            animation: spin 1s linear infinite;
+            color:red;
+            background-color: #e9e9eb;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .inline{
+            display: flex;
+        }
+
+        .spinner i{
+            margin-top: 10px;
+            margin-left: 50px;
+        }
+
         ::placeholder {
             color: black;
         }
@@ -928,7 +952,7 @@
                 height: auto;
             }
 
-           #forsale {
+            #forsale {
                 padding-top: 25px;
             }
 
@@ -1071,12 +1095,13 @@
         <a href="/"><img src="/static/images/mainlogo.png" alt="mainlogo" id="logosize" style="float: left;"></a>
     </div>
     <div class="box1">
-        <div class="container" style="background-color: white; ">
+        <div class="container" style="background-color: white; padding-top: 20px;" >
             {% if session['type'] == 'sales' %}
                 <ul class="nav navbar-nav">
-                    <li id="listyle"><a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i>
+                    <li id="listyle">
                         <div class="dropdown show">
-                            <a class="dropdown-toggle" data-toggle="dropdown" id="fontstyle">For Sale</a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" id="fontstyle">
+                                <i class="fa fa-external-link-square" aria-hidden="true"></i>For Sale</a>
                             <ul class="dropdown-menu" id="fontstyle">
                                 <li><a href=# id=rmovesale value=0>RightMove</a></li>
                                 <li><a href=# id=otmsale>OnTheMarket</a></li>
@@ -1084,34 +1109,39 @@
                                 <li><a href=# id=allsales>All Results</a></li>
                             </ul>
                         </div>
-                    </a></li>
-                    <li id="listyle"><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i>
-                        <div class="dropdown"><a id=planningdata>Local Planning</a></div>
-                    </a></li>
-                    <li id="listyle"><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i>
-                        <div class="dropdown"><a id=crysdata>Local Area Statistics</a></div>
-                    </a></li>
-                    <li><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i>
+                    </li>
+                    <li id="listyle">
+                        <div class="dropdown"><a id=planningdata><i class="fa fa-area-chart" aria-hidden="true" style="justify-content: center;"></i>
+                            Local Planning</a></div>
+                    </li>
+                    <li id="listyle">
+                        <div class="dropdown"><a id=crysdata>
+                            <i class="fa fa-signal" aria-hidden="true" style="justify-content: center;"></i>
+                            Local Area Statistics</a></div>
+                    </li>
+                    <li>
                         <div class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" style="color: black;">Sold Properties</a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" style="color: black;">
+                                <i class="fa fa-line-chart" style="justify-content: center;" aria-hidden="true"></i>
+                                Sold Properties</a>
                             <ul class="dropdown-menu">
                                 <li><a href=# id=soldpricejson>Land Registry Sold</a></li>
                                 <li><a href=# id=rmovesold>RightMove Sold</a></li>
                             </ul>
                         </div>
-                    </a></li>
-                    <li><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i>
+                    </li>
+                    <li>
                         <div class="dropdown">
                             <form class="navbar-form navbar-left" action="{{ url_for("search") }}" id="searchbutton"
                                   method="post" name="search">
                                 <input type="hidden" name="page" value="lettings">
                                 <input type="hidden" name="pcode" value="{{ session['postcode'] }}">
                                 <button class="btn" id="lettings" type="submit" name="lettings" value="lettings"
-                                        style="color: black;">Lettings
+                                        style="color: black;"><i class="fa fa-external-link-square" aria-hidden="true"></i>
+                                    Lettings
                                 </button>
                             </form>
                         </div>
-                    </a>
                         <script>
                             function pupdate() {
                                 console.log("new selection made")
@@ -1126,8 +1156,9 @@
             {% endif %}
             {% if session['type'] == 'lettings' %}
                 <ul class="hero-search-filter-menu menu align-center" style="padding-right: 20px;">
-                    <li><a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i>
-                        <div class="dropdown show"><a class="dropdown-toggle" data-toggle="dropdown">To Rent
+                    <li>
+                        <div class="dropdown show"><a class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-search" aria-hidden="true"></i>To Rent
                         </a>
                             <ul class="dropdown-menu">
                                 <li><a href=# id=rmovelets>RightMove</a></li>
@@ -1135,18 +1166,22 @@
                                 <li><a href=# id=gumtree>Gumtree</a></li>
                             </ul>
                         </div>
+                    </li>
+                    <li id="listyle"><a href="#">
+                        <div class="dropdown"><a id=crysdata>
+                            <i class="fa fa-wrench" aria-hidden="true"></i>
+                            Local Area Statistics</a></div>
                     </a></li>
-                    <li id="listyle"><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i>
-                        <div class="dropdown"><a id=crysdata>Local Area Statistics</a></div>
-                    </a></li>
-                    <li><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i>
+                    <li><a href="#">
                         <div class="dropdown">
                             <form class="navbar-form navbar-left" action="{{ url_for("search") }}" id="searchbutton"
                                   method="post" name="search">
                                 <input type="hidden" name="page" value="sales">
                                 <input type="hidden" name="pcode" value="{{ session['postcode'] }}">
                                 <button class="btn" id="lettings" type="submit" name="sales" value="sales"
-                                        style="color: black;">Sales
+                                        style="color: black;">
+                                    <i class="fa fa-wrench" aria-hidden="true"></i>
+                                    Sales
                                 </button>
                             </form>
                         </div>
@@ -1217,7 +1252,8 @@
                 <li>
                     <form action="{{ url_for("update_radius") }}" method="post" name="radiusform">
                         <select onmousedown="if(this.options.length>1){this.size=7;}"
-                                onmouseleave="if(this.options.length>1){this.size=1;}" class="selectclass" id="pcode&radius"
+                                onmouseleave="if(this.options.length>1){this.size=1;}" class="selectclass"
+                                id="pcode&radius"
                                 onchange="this.form.submit()"
                                 style="background-color: #1A2090; color: white; width: 110px; font-size: 15px;"
                                 name="radius">
@@ -1290,7 +1326,8 @@
                 </li>
                 <li>
                     <form action="{{ url_for("update_type") }}" method="post" name="type">
-                        <select id="propertytype" class="form-select form-select-sm" name="propertytype" class="selectclass"
+                        <select id="propertytype" class="form-select form-select-sm" name="propertytype"
+                                class="selectclass"
                                 onmousedown="if(this.options.length>1){this.size=6;}"
                                 onmouseleave="if(this.options.length>1){this.size=0;}"
                                 style="background-color: #1A2090; color: white; width: 150px; font-size: 12px;"
