@@ -30,22 +30,40 @@
             font-family: 'Montserrat', sans-serif;
         }
      @media only screen and (max-width: 500px) {
+
+
+         #h-heading {
+             padding-top:40%;
+         }
+        #rowtag {
+            display: inline-grid;
+            justify-items: center;
+
+        }
+
+         #logosizing {
+             width: auto;
+             height: 50px;
+         }
+
         .wrapper {
+            grid-template-columns: 0.6fr;
              display: inline-grid;
-             grid-auto-rows: 10%;
          }
 
          .boxstart {
              grid-column-start: 0;
-             grid-column-end: 2;
+             grid-column-end: 1;
              grid-row-start: 0;
              grid-row-end: 1;
          }
 
          .box1 {
+             padding-left: 5%;
+             padding-right: 5%;
              grid-column-start: 0;
              grid-column-end: 3;
-             grid-row-start: 2;
+             grid-row-start: 0;
              grid-row-end: 4;
          }
 
@@ -55,9 +73,21 @@
              grid-row-start: 8;
              grid-row-end: 13;
          }
+         .column {
+
+          padding: 10px;
+          height: auto; /* Should be removed. Only for demonstration */
+        }
+
      }
 
      @media only screen and (min-width: 500px) and (max-width: 800px){
+
+
+         #logosizing {
+             width: auto;
+             height: auto;
+         }
 
          #image {
              width: 300px;
@@ -100,6 +130,12 @@
      }
 
      @media only screen and (min-width: 800px) {
+
+
+         #logosizing {
+             width: auto;
+             height: auto;
+         }
 
          #image {
              width: 300px;
@@ -181,12 +217,15 @@
 <div class="flexcontainer">
 <div class="wrapper">
 <div class="boxstart">
-  <nav class="navbar navbar-light bg-light justify-content-between">
-      <a class="navbar-brand"><img src="/static/images/mainlogo.png" id="large_marg" alt="mainlogo" id="image" ></a>
-    </nav>
+
+
 </div>
     <div class="box1">
-        <h5 class="h2style">{{ session['type'] }} results for: {{ session['postcode'] }}</h5>
+      <nav class="navbar navbar-light bg-light justify-content-between">
+          <a class="navbar-brand"><img src="/static/images/mainlogo.png" id="large_marg" alt="mainlogo" id="image" ></a>
+    </nav>
+
+        <h5 class="h2style" id="h-heading">{{ session['type'] }} results for: {{ session['postcode'] }}</h5>
         <p>Enter the parameters of your search query.</p>
           <form action="{{ url_for("search_p2")}}" style="padding-right: 20px;" method="post" name="search" onsubmit="return validateForm()">
               <div class="form-row" style="padding-top: 20px;">
@@ -216,7 +255,7 @@
                 </div>
               </div>
                 {% if session['type'] == 'sales' %}
-               <div class="form-row" style="padding-top: 20px;">
+               <div class="form-row" id="formrow" style="padding-top: 20px;">
                     <div class="form-group row">
                         <label for="minprice" class="col-sm-3 col-form-label" >Select minimum price</label>
                         <div class="col-sm-3">
@@ -608,30 +647,21 @@
           <div class="column">Search</div>
           <div class="column">About</div>
         </div>
-            <div class="row" style="text-align: center; padding-top: 50px;">
-                <ul style="list-style-type: none;">
-                    <li>First Line of Address</li>
-                    <li>London</li>
-                    <li>PO2 4PP</li>
-                    <li></li>
-                    <li>01883 444444</li>
-                </ul>
-            </div>
-        <div class="row" style="padding-left: 5%; padding-right: 5%;">
-          <div class="column">
-            <img src="/static/images/gumtree.jpeg" src= alt="" width="auto" height="auto" />
+        <div class="row" style="padding-left: 5%; padding-right: 5%;" id="rowtag">
+          <div class="column" >
+            <img src="/static/images/gumtree.jpeg" alt="" id="logosizing" />
           </div>
             <div class="column">
-                <img src="/static/images/crystalroof.png" style="padding-top: 10px;" width="auto" height="auto"/>
+                <img src="/static/images/crystalroof.png" style="padding-top: 10px;"  id="logosizing" />
             </div>
             <div class="column">
-                <img src="/static/images/OTM.png" style="padding-top: 10px;" width="auto" height="auto" style="background-color: white;" />
+                <img src="/static/images/OTM.png" style="padding-top: 10px;"  id="logosizing"  />
             </div>
             <div class="column">
-                <img src="/static/images/registry.png" style="padding-top: 10px;" width="auto" height="auto" alt="" />
+                <img src="/static/images/registry.png" style="padding-top: 10px;"  id="logosizing"   />
             </div>
             <div class="column">
-                <img src="/static/images/rmove.png" style="padding-top: 10px;" width="auto" height="auto" style="background-color: white;" />
+                <img src="/static/images/rmove.png" style="padding-top: 10px;"  id="logosizing"  />
             </div>
           </div>
     </div>
