@@ -924,6 +924,7 @@
                 flex-direction: column;
                 gap: 10px;
                 justify-content: center;
+                flex-shrink: 1;
             }
 
             ul {
@@ -978,7 +979,12 @@
                 padding-top: 10px;
             }
 
+            select {
+                flex-shrink: 1;
+                width: 25%;
+                display: inline-block;
 
+            }
             #newdivattribute {
                 width: 65%;
             }
@@ -1099,8 +1105,25 @@
 <div class="wrapper">
     <div class="logo">
         <a href="/"><img src="/static/images/mainlogo.png" alt="mainlogo" id="logosize" style="float: left;"></a>
-    </div>
-    <div class="box1">
+          <div>
+            <form style="padding-top: 0px; margin-top: 0px; height: 0%;" action="{{ url_for("search") }}" id="searchbutton"
+                  method="post" name="search">
+                <input type="hidden" name="page" value="lettings">
+                <input type="hidden" name="pcode" value="{{ session['postcode'] }}">
+                <button class="btn" id="lettings" type="submit" name="lettings" value="lettings"
+                        style="color: white;"><i class="fa fa-external-link-square" aria-hidden="true"></i>
+                    <a class="toggle" style="color: black; font-size: 20px;">Go to Lettings</a>
+                </button>
+            </form>
+        </div>
+        <script>
+            function pupdate() {
+                console.log("new selection made")
+                document.getElementById("search").submit();
+            }
+
+            document.getElementById("lettings").addEventListener("click", pupdate);
+        </script>
     </div>
     <div class="box2" style>
         <div class="container" id="containerpadding">
@@ -1120,11 +1143,11 @@
                         </div>
                     </li>
                     <li id="listyle">
-                        <div class="dropdown" ><a id=planningdata style="color: white;"><i class="fa fa-area-chart" aria-hidden="true" style="justify-content: center; color: white;"></i>
+                        <div class="dropdown" ><a class="toggle" id=planningdata style="color: white;"><i class="fa fa-area-chart" aria-hidden="true" style="justify-content: center; color: white;"></i>
                             Local Planning</a></div>
                     </li>
                     <li id="listyle">
-                        <div class="dropdown"><a id=crysdata style="color: white;">
+                        <div class="dropdown"><a id=crysdata class="toggle" style="color: white;">
                             <i class="fa fa-signal" aria-hidden="true" style="justify-content: center;"></i>
                             Local Area Statistics</a></div>
                     </li>
@@ -1140,25 +1163,7 @@
                         </div>
                     </li>
                     <li>
-                        <div class="dropdown">
-                            <form class="navbar-form navbar-left" action="{{ url_for("search") }}" id="searchbutton"
-                                  method="post" name="search">
-                                <input type="hidden" name="page" value="lettings">
-                                <input type="hidden" name="pcode" value="{{ session['postcode'] }}">
-                                <button class="btn" id="lettings" type="submit" name="lettings" value="lettings"
-                                        style="color: white;"><i class="fa fa-external-link-square" aria-hidden="true"></i>
-                                    Lettings
-                                </button>
-                            </form>
-                        </div>
-                        <script>
-                            function pupdate() {
-                                console.log("new selection made")
-                                document.getElementById("search").submit();
-                            }
 
-                            document.getElementById("lettings").addEventListener("click", pupdate);
-                        </script>
                     </li>
                 </ul>
 
