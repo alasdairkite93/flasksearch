@@ -885,7 +885,12 @@
 
         #fontstyle {
             font-family: 'Montserrat', sans-serif;
-            color: black;
+            color: white;
+            width: 60%;
+        }
+
+        #white {
+            color: white;
         }
 
         /* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
@@ -928,7 +933,7 @@
             #searchinput {
                 min-width: 70%;
                 min-height: 45px;
-                margin: 10px 10px 10px 70px;
+                margin: 10px 10px 10px 14%;
             }
 
             #sortbutton {
@@ -997,6 +1002,7 @@
 
             #listyle {
                 padding-right: 20px;
+                color: white;
             }
 
             #logosize {
@@ -1095,7 +1101,10 @@
         <a href="/"><img src="/static/images/mainlogo.png" alt="mainlogo" id="logosize" style="float: left;"></a>
     </div>
     <div class="box1">
-        <div class="container" style="background-color: white; padding-top: 20px;" >
+    </div>
+    <div class="box2" style>
+        <div class="container" id="containerpadding">
+                <div class="container" style="padding-top: 20px;" >
             {% if session['type'] == 'sales' %}
                 <ul class="nav navbar-nav">
                     <li id="listyle">
@@ -1111,17 +1120,17 @@
                         </div>
                     </li>
                     <li id="listyle">
-                        <div class="dropdown"><a id=planningdata><i class="fa fa-area-chart" aria-hidden="true" style="justify-content: center;"></i>
+                        <div class="dropdown" ><a id=planningdata style="color: white;"><i class="fa fa-area-chart" aria-hidden="true" style="justify-content: center; color: white;"></i>
                             Local Planning</a></div>
                     </li>
                     <li id="listyle">
-                        <div class="dropdown"><a id=crysdata>
+                        <div class="dropdown"><a id=crysdata style="color: white;">
                             <i class="fa fa-signal" aria-hidden="true" style="justify-content: center;"></i>
                             Local Area Statistics</a></div>
                     </li>
                     <li>
-                        <div class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" style="color: black;">
+                        <div class="dropdown" >
+                            <a class="dropdown-toggle" data-toggle="dropdown" style="color: white;">
                                 <i class="fa fa-line-chart" style="justify-content: center;" aria-hidden="true"></i>
                                 Sold Properties</a>
                             <ul class="dropdown-menu">
@@ -1137,7 +1146,7 @@
                                 <input type="hidden" name="page" value="lettings">
                                 <input type="hidden" name="pcode" value="{{ session['postcode'] }}">
                                 <button class="btn" id="lettings" type="submit" name="lettings" value="lettings"
-                                        style="color: black;"><i class="fa fa-external-link-square" aria-hidden="true"></i>
+                                        style="color: white;"><i class="fa fa-external-link-square" aria-hidden="true"></i>
                                     Lettings
                                 </button>
                             </form>
@@ -1157,7 +1166,7 @@
             {% if session['type'] == 'lettings' %}
                 <ul class="hero-search-filter-menu menu align-center" style="padding-right: 20px;">
                     <li>
-                        <div class="dropdown show"><a class="dropdown-toggle" data-toggle="dropdown">
+                        <div class="dropdown show"><a class="dropdown-toggle" data-toggle="dropdown" style="color: white;">
                             <i class="fa fa-search" aria-hidden="true"></i>To Rent
                         </a>
                             <ul class="dropdown-menu">
@@ -1167,7 +1176,7 @@
                             </ul>
                         </div>
                     </li>
-                    <li id="listyle"><a href="#">
+                    <li id="listyle"><a href="#" style="color: white;">
                         <div class="dropdown"><a id=crysdata>
                             <i class="fa fa-wrench" aria-hidden="true"></i>
                             Local Area Statistics</a></div>
@@ -1179,7 +1188,7 @@
                                 <input type="hidden" name="page" value="sales">
                                 <input type="hidden" name="pcode" value="{{ session['postcode'] }}">
                                 <button class="btn" id="lettings" type="submit" name="sales" value="sales"
-                                        style="color: black;">
+                                        style="color: white;">
                                     <i class="fa fa-wrench" aria-hidden="true"></i>
                                     Sales
                                 </button>
@@ -1198,9 +1207,7 @@
                 </ul>
             {% endif %}
         </div>
-    </div>
-    <div class="box2" style>
-        <div class="container" id="containerpadding">
+
             <ul class="nav navbar-nav" id="ulbar">
                 <li>
                     <form action="{{ url_for("update_pcode") }}" method="post" name="exampleform"
