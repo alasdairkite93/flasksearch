@@ -862,11 +862,6 @@
             font-family: 'Montserrat', sans-serif;
         }
 
-        .box2 {
-            grid-area: nv;
-            background-color: #1A2090;
-            display: flex;
-        }
 
         .box6 {
             grid-area: cont;
@@ -906,6 +901,13 @@
         {#style="display: flex; flex-direction: row; gap: 10px;"#}
 
         @media only screen and (max-width: 740px) {
+
+
+            .box2 {
+                grid-area: nv;
+                background-color: #1A2090;
+                display: flex;
+            }
 
             img {
                 width: 70%;
@@ -975,14 +977,21 @@
 
         @media only screen and (min-width: 741px) and (max-width: 1800px) {
 
+
+            .box2 {
+                grid-area: nv;
+                background-color: #1A2090;
+                width: auto;
+                display: flex;
+            }
+
             .selectclass {
                 padding-top: 10px;
             }
 
             select {
                 flex-shrink: 1;
-                width: 25%;
-                display: inline-block;
+                width: auto;
 
             }
             #newdivattribute {
@@ -1039,6 +1048,12 @@
         }
 
         @media only screen and (min-width: 1800px) {
+
+            .box2 {
+                grid-area: nv;
+                background-color: #1A2090;
+                display: flex;
+            }
 
             #sortbutton {
                 margin-left: 200px;
@@ -1125,8 +1140,8 @@
             document.getElementById("lettings").addEventListener("click", pupdate);
         </script>
     </div>
-    <div class="box2" style>
-        <div class="container" id="containerpadding">
+    <div class="box2" >
+        <div class="container" id="containerpadding" style="width: 90%;">
                 <div class="container" style="padding-top: 20px;" >
             {% if session['type'] == 'sales' %}
                 <ul class="nav navbar-nav">
@@ -1213,7 +1228,7 @@
             {% endif %}
         </div>
 
-            <ul class="nav navbar-nav" id="ulbar">
+            <ul class="nav navbar-nav " id="ulbar">
                 <li>
                     <form action="{{ url_for("update_pcode") }}" method="post" name="exampleform"
                           style="padding-top: 10px;">
@@ -1336,13 +1351,13 @@
 
                     </script>
                 </li>
-                <li>
-                    <form action="{{ url_for("update_type") }}" method="post" name="type">
+                <li style="width: auto; flex-shrink: 2;">
+                    <form action="{{ url_for("update_type") }}" method="post" name="type" >
                         <select id="propertytype" class="form-select form-select-sm" name="propertytype"
                                 class="selectclass"
                                 onmousedown="if(this.options.length>1){this.size=6;}"
                                 onmouseleave="if(this.options.length>1){this.size=0;}"
-                                style="background-color: #1A2090; color: white; width: 150px; font-size: 12px;"
+                                style="background-color: #1A2090; color: white; width: auto; font-size: 12px;"
                                 onchange="this.form.submit()">
                             <option>Property Type: {{ session['propertytype'] }}</option>
                             <option value="houses">Houses</option>
@@ -1357,7 +1372,7 @@
                             <select id="minpriceoptions" class="form-select form-select-sm "
                                     onmousedown="if(this.options.length>15){this.size=15;}"
                                     onmouseleave="if(this.options.length>15){this.size=0;}" name="minprice"
-                                    style="background-color: #1A2090; color: white; width: 160px; font-size: 12px;"
+                                    style="background-color: #1A2090; flex-shrink: 2; color: white; width: auto; font-size: 12px;"
                                     onchange="this.form.submit()">
                                 <option>Min Price: {{ session['minprice'] }}</option>
                                 <option value="50000"
