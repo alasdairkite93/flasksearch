@@ -59,7 +59,7 @@
         function loading() {
 
             const section = document.getElementById("forsale");
-
+            section.innerHTML = "";
             const i = document.createElement('i');
             i.setAttribute('class', 'fa fa-circle-o-notch fa-spin');
             i.setAttribute('style', 'font-size: 100px')
@@ -915,7 +915,7 @@
             }
 
             img {
-                width: 100%;
+                width: 80%;
             }
 
             #newdivattribute {
@@ -1335,7 +1335,7 @@
                         <select id="minrooms" class="form-select form-select-sm" class="selectclass"
                                 onmousedown="if(this.options.length>1){this.size=6;}"
                                 onmouseleave="if(this.options.length>1){this.size=0;}" name="minrooms"
-                                style="border: none; background-color: #1A2090; color: white; width: 120px; font-size: 15px;"
+                                style="border: none; background-color: #1A2090; color: white; width: auto; font-size: 15px;"
                                 onchange="this.form.submit()">
                             <option value="Number of Beds">Min Rooms: {{ session['brooms'] }}</option>
                             <option value="0">Studio</option>
@@ -1361,7 +1361,7 @@
                         <select id="maxrooms" class="form-select form-select-sm" class="selectclass"
                                 onmousedown="if(this.options.length>1){this.size=6;}"
                                 onmouseleave="if(this.options.length>1){this.size=0;}" name="maxroom"
-                                style="border: none; background-color: #1A2090; color: white; width: 120px; font-size: 15px;"
+                                style="border: none; background-color: #1A2090; color: white; width: auto; font-size: 15px;"
                                 onchange="this.form.submit()">
                             <option value="Number of Beds">Max Rooms: {{ session['maxrooms'] }}</option>
                             <option value="0">Studio</option>
@@ -1587,7 +1587,7 @@
                             <select id="maxprice" name="maxprice"
                                     onmousedown="if(this.options.length>15){this.size=15;}"
                                     onmouseleave="if(this.options.length>15){this.size=0;}"
-                                    style="border: none; background-color: #1A2090; color: white; width: 160px; font-size: 15px;"
+                                    style="border: none; background-color: #1A2090; color: white; width: auto; font-size: 15px;"
                                     onchange="this.form.submit()">
                                 <option>Max Price {{ session['maxprice'] }}</option>
                                 <option value="50000"
@@ -1774,7 +1774,7 @@
                             <select id="minpriceoptions" class="selectclass" name="minprice"
                                     onmousedown="if(this.options.length>15){this.size=15;}"
                                     onmouseleave="if(this.options.length>15){this.size=0;}"
-                                    style="border: none; background-color: #1A2090; color: white; width: 160px; font-size: 15px;"
+                                    style="border: none; background-color: #1A2090; color: white; width: auto; font-size: 15px;"
                                     onchange="this.form.submit()">
                                 <option value="100">Min Price: {{ session['minprice'] }}</option>
                                 <option value="100">100 PCM</option>
@@ -1838,7 +1838,7 @@
                             <select class="selectclass" id="maxprice" name="maxprice"
                                     onmousedown="if(this.options.length>15){this.size=15;}"
                                     onmouseleave="if(this.options.length>15){this.size=0;}"
-                                    style="border: none; background-color: #1A2090; color: white; width: 160px; font-size: 15px;"
+                                    style="border: none; background-color: #1A2090; color: white; width: auto; font-size: 15px;"
                                     onchange="this.form.submit()">
                                 <option value="100">Max Price: {{ session['maxprice'] }}</option>
                                 <option value="150">150 PCM</option>
