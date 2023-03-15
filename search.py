@@ -1,5 +1,7 @@
 import json
 import sys
+
+import werkzeug.exceptions
 from flask import Flask, session, request, render_template, jsonify, redirect, url_for
 import sites
 import threading
@@ -10,6 +12,9 @@ import requests
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
+@app.errorhandler(werkzeug.exceptions.InternalServerError)
+def handle_bad_request(e):
+    return render_template('tpage.html')
 
 @app.route('/planningdata', methods=["GET"])
 def planning_data():
