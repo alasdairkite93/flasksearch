@@ -160,10 +160,8 @@ class Rightmove:
         utils = Utility()
         json_data =[]
 
-
-
         # Function to postcode
-
+        print("Pcode: ", self.pcode)
         rent = 'property-to-rent'
         sales = 'property-for-sale'
 
@@ -172,16 +170,18 @@ class Rightmove:
 
         else:
             search_url = f'https://www.rightmove.co.uk/{rent}/search.html?searchLocation='
+        print("Search url: ", search_url+self.pcode)
+
         x = requests.get(search_url + self.pcode)
 
         soup = BeautifulSoup(x.text, 'html.parser')
         results = soup.find('input', {'id': 'locationIdentifier'}).get('value')
+
         txt = results
         x = re.findall("[^^]*$", txt)
         code = x[0]
-
+        print("OUTCODE: ", code)
         properties = []
-        print(type(self.page))
         urls = []
 
         for ind in range(3):
@@ -208,7 +208,6 @@ class Rightmove:
 
             for r in results:
                 l_r = list(utils.find_json_objects(r.text))
-                print(l_r)
                 for res in l_r:
                     if len(res) > 0:
                         json_r = res['properties']
