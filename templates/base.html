@@ -64,6 +64,7 @@
             i.setAttribute('class', 'fa fa-circle-o-notch fa-spin');
             i.setAttribute('style', 'font-size: 100px')
             section.appendChild(i);
+
         }
 
         /**Land Registry**/
@@ -464,27 +465,27 @@
                     url = 'https://www.zoopla.co.uk/for-sale/details/';
                     break;
                 case 1:
-                    const rmov_txt = document.createTextNode("{{ session['postcode'] }} Sale Results from Rightmove: " + number);
+                    const rmov_txt = document.createTextNode("{{ session['display'] }} Sale Results from Rightmove: " + number);
                     sec = 'forsale'
                     title.appendChild(rmov_txt);
                     id = 'rmovesale'
                     url = 'https://www.rightmove.co.uk/properties/';
                     break;
                 case 2:
-                    const ontm_txt = document.createTextNode("{{ session['postcode'] }} Sales Results from on The Market " + number);
+                    const ontm_txt = document.createTextNode("{{ session['display'] }} Sales Results from on The Market " + number);
                     sec = 'OTM'
                     title.appendChild(ontm_txt);
                     url = 'https://www.onthemarket.com'
                     break;
                 case 3:
-                    const rmov_lets = document.createTextNode("{{ session['postcode'] }} Lettings on Rightmove " + number);
+                    const rmov_lets = document.createTextNode("{{ session['display'] }} Lettings on Rightmove " + number);
                     sec = 'forsale'
                     title.appendChild(rmov_lets);
                     url = 'https://www.rightmove.co.uk/properties/'
                     endurl = '#/?channel=RES_LET';
                     break;
                 case 4:
-                    const ontm_lets = document.createTextNode("{{ session['postcode'] }} on The Market Lettings");
+                    const ontm_lets = document.createTextNode("{{ session['display'] }} on The Market Lettings");
                     sec = 'OTM'
                     title.appendChild(ontm_lets);
                     url = 'https://www.onthemarket.com'
@@ -1264,7 +1265,7 @@
                     <form action="{{ url_for("update_pcode") }}" method="post" name="exampleform"
                           style="padding-top: 13px;">
                         <input style="width: 150px;" type="text" id="searchinput" list="postcodeinputs"
-                               name="pcodeupdate" value="{{ session['postcode'] }}">
+                               name="pcodeupdate" value="{{ session['display'] }}">
                         <datalist id="postcodeinputs">
 
                         </datalist>
@@ -1902,7 +1903,7 @@
     </div>
     <div class="box6" style="background-color: #E9E9EB;">
         <h5 style="padding-top: 100px; text-align: center; padding-left: 10%; padding-right: 10%;">
-            Property {{ session['type'] }} results for: {{ session['postcode'] }} in the range of
+            Property {{ session['type'] }} results for: {{ session['display'] }} in the range of
             £{{ session['minprice'] }} to £{{ session['maxprice'] }} for properties with {{ session['brooms'] }}
             to {{ session['maxrooms'] }} rooms.</h5>
 

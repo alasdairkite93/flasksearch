@@ -225,7 +225,7 @@
     <div class="box1">
 
 
-        <h5 class="h2style" id="h-heading">{{ session['type'] }} results for: {{ session['postcode'] }}</h5>
+        <h5 class="h2style" id="h-heading">{{ session['type'] }} results for: {{ session['display'] }}</h5>
         <p>Enter the parameters of your search query.</p>
           <form action="{{ url_for("search_p2")}}" style="padding-right: 20px;" method="post" name="search" onsubmit="return validateForm()">
               <div class="form-row" style="padding-top: 20px;">

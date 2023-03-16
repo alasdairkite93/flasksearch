@@ -170,6 +170,9 @@ class Rightmove:
 
         else:
             search_url = f'https://www.rightmove.co.uk/{rent}/search.html?searchLocation='
+
+        if len(self.pcode) <= 4:
+            self.pcode = self.pcode+" 1AA"
         print("Search url: ", search_url+self.pcode)
 
         x = requests.get(search_url + self.pcode)

@@ -117,6 +117,7 @@ def update_pcode():
 
     if request.method == "POST":
         update = request.form.get("pcodeupdate")
+        session['display'] = update
         session['postcode'] = update.upper()
         return render_template('base.html')
 
@@ -296,6 +297,11 @@ def search():
     if request.method == "POST":
         search_query = request.form.get("pcode")
         session['postcode'] = search_query.upper()
+
+        session['length'] = len(search_query)
+        session['display'] = search_query
+
+
         session['radius'] = 1
         session['brooms'] = 2
         session['resnum'] = 1
@@ -547,6 +553,7 @@ def create_app(test_config=None):
 
     @app.route('/rmoverent', methods=["GET"])
     def rmove_lets():
+        print("Rmove lets postcode ", session['postcode'])
         rmove = sites.Rightmove(session['postcode'], "RENT", session['radius'], session['brooms'], session['minprice'],
                                 session['maxprice'], session['resnum'], session['maxrooms'], session['propertytype'])
         rmove_results = rmove.requestScrape()
@@ -601,6 +608,13 @@ def create_app(test_config=None):
         if request.method == "POST":
             update = request.form.get("pcodeupdate")
             session['postcode'] = update.upper()
+
+            if len(update) <= 4:
+                session['display'] = update.upper()+' 1AA'
+
+            else:
+                session['display'] = update.upper()
+
             return render_template('base.html')
 
         return render_template('base.html')
@@ -611,6 +625,7 @@ def create_app(test_config=None):
         if request.method == "POST":
             update = request.form.get("pcodeupdate")
             session['postcode'] = update.upper()
+            session['display'] = update.upper()
             return render_template('base.html')
 
         return render_template('base.html')
