@@ -15,7 +15,7 @@ from seleniumwire import webdriver
 from selenium_stealth import stealth
 import time
 from selenium.webdriver.common.by import By
-
+from lxml import etree
 from os import path
 
 
@@ -172,14 +172,14 @@ class Rightmove:
             search_url = f'https://www.rightmove.co.uk/{rent}/search.html?searchLocation='
 
         if len(self.pcode) <= 4:
-            self.pcode = self.pcode+" 1AA"
+            self.pcode = self.pcode
         print("Search url: ", search_url+self.pcode)
 
         x = requests.get(search_url + self.pcode)
+        soup = BeautifulSoup(x.content, 'html.parser')
+        results = soup.findAll('input', {'id':'locationIdentifier'})[0].get('value')
 
-        soup = BeautifulSoup(x.text, 'html.parser')
-        results = soup.find('input', {'id': 'locationIdentifier'}).get('value')
-
+        print(results)
         txt = results
         x = re.findall("[^^]*$", txt)
         code = x[0]
@@ -195,7 +195,7 @@ class Rightmove:
                 t_url = f'https://www.rightmove.co.uk/property-for-sale/find.html?locationIdentifier=OUTCODE%5E{code}&index={ind}&insId=1&radius={self.radius}&displayPropertyType={self.type}&minPrice={self.minprice}&maxPrice={self.maxprice}&areaSizeUnit=sqft&googleAnalyticsChannel=buying&minBedrooms={self.bedrooms}&maxBedrooms={self.maxrooms}'
             if len(self.pcode) <= 4 and self.channel == 'LETTINGS':
                 # t_url = f'https://www.rightmove.co.uk/property-to-rent/find.html?searchType=RENT&locationIdentifier=REGION%5E{code}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&minBedrooms={self.bedrooms}&maxBedrooms={self.maxrooms}&displayPropertyType={self.type}&maxDaysSinceAdded=&sortByPriceDescending=&_includeLetAgreed=on&primaryDisplayPropertyType=&secondaryDisplayPropertyType=&oldDisplayPropertyType=&oldPrimaryDisplayPropertyType=&letType=&letFurnishType=&houseFlatShare='
-                t_url = f'https://www.rightmove.co.uk/property-to-rent/find.html?searchType=RENT&locationIdentifier=POSTCODE%5E{code}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&minBedrooms={self.bedrooms}&maxBedrooms={self.maxrooms}&displayPropertyType={self.type}&maxDaysSinceAdded=&sortByPriceDescending=&_includeLetAgreed=on&primaryDisplayPropertyType=&secondaryDisplayPropertyType=&oldDisplayPropertyType=&oldPrimaryDisplayPropertyType=&letType=&letFurnishType=&houseFlatShare='
+                t_url = f'https://www.rightmove.co.uk/property-to-rent/find.html?searchType=RENT&locationIdentifier=OUTCODE%5E{code}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&minBedrooms={self.bedrooms}&maxBedrooms={self.maxrooms}&displayPropertyType={self.type}&maxDaysSinceAdded=&sortByPriceDescending=&_includeLetAgreed=on&primaryDisplayPropertyType=&secondaryDisplayPropertyType=&oldDisplayPropertyType=&oldPrimaryDisplayPropertyType=&letType=&letFurnishType=&houseFlatShare='
             if len(self.pcode) > 4 and self.channel == 'LETTINGS':
                 t_url = f'https://www.rightmove.co.uk/property-to-rent/find.html?searchType=RENT&locationIdentifier=POSTCODE%5E{code}&insId=1&radius={self.radius}&minPrice={self.minprice}&maxPrice={self.maxprice}&minBedrooms={self.bedrooms}&maxBedrooms={self.maxrooms}&displayPropertyType={self.type}&maxDaysSinceAdded=&sortByPriceDescending=&_includeLetAgreed=on&primaryDisplayPropertyType=&secondaryDisplayPropertyType=&oldDisplayPropertyType=&oldPrimaryDisplayPropertyType=&letType=&letFurnishType=&houseFlatShare='
 
