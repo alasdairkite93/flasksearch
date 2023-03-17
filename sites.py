@@ -204,7 +204,7 @@ class Rightmove:
         for i in range(len(urls)):
             req_url = requests.get(urls[i])
             print("USing: ", urls[i])
-            soup = BeautifulSoup(req_url.text, 'html.parser')
+            soup = BeautifulSoup(req_url.text, 'lxml')
             results = soup.findAll('script')
 
             json_r = ''
@@ -247,7 +247,7 @@ class Rightmove:
             print("soldurl: ", apiurl)
             req_url = requests.get(apiurl)
 
-            soup = BeautifulSoup(req_url.text, 'html.parser')
+            soup = BeautifulSoup(req_url.text, 'lxml')
             results = soup.findAll('script')
 
             li = []
@@ -470,38 +470,43 @@ class LandRegistry:
 
         print("makeing a request to land registry")
 
-        pcode = self.pcode.split(" ")
-        pcode1 = pcode[0]
-        pcode2 = '%20' + pcode[1]
-        p_fin = pcode1 + pcode2
-        num = 10
-        li = []
-        for i in range(num):
-            base_url = f'https://landregistry.data.gov.uk/data/ppi/transaction-record.json?propertyAddress.postcode={p_fin}&_page={i}'
-            print("BASE URL", base_url)
-            x = requests.get(base_url).text
-            loaded = json.loads(x)
-            items = loaded['result']['items']
-            if len(items) > 0:
-                li.append(items)
+        try:
+            pcode = self.pcode.split(" ")
+            print("PCODE: ", pcode)
+            pcode1 = pcode[0]
+            pcode2 = pcode[1]
+            p_fin =pcode1+"+"+pcode2
+            num = 10
+            li = []
+            for i in range(num):
+                base_url = f'https://landregistry.data.gov.uk/data/ppi/transaction-record.json?propertyAddress.postcode={p_fin}&_page={i}'
+                print("BASE URL", base_url)
+                x = requests.get(base_url).text
+                loaded = json.loads(x)
+                items = loaded['result']['items']
+                if len(items) > 0:
+                    li.append(items)
 
-        regs = []
-        for itm in li:
-            for list in itm:
-                trans = []
-                try:
-                    trans.append((list['propertyAddress']['paon'], " " + list['propertyAddress']['street'],
-                                  " " + list['propertyAddress']['town'], " " + list['propertyAddress']['county'],
-                                  " " + list['propertyAddress']['district'], " " + list['propertyAddress']['locality'], " "+list['propertyAddress']['postcode']))
-                    trans.append("£" + str(list['pricePaid']))
-                    trans.append(list['transactionDate'])
-                    regs.append(trans)
-                except TypeError:
-                    pass
-                except KeyError:
-                    pass
+            regs = []
+            for itm in li:
+                for list in itm:
+                    trans = []
+                    try:
+                        trans.append((list['propertyAddress']['paon'], " " + list['propertyAddress']['street'],
+                                      " " + list['propertyAddress']['town'], " " + list['propertyAddress']['county'],
+                                      " " + list['propertyAddress']['district'], " " + list['propertyAddress']['locality'], " "+list['propertyAddress']['postcode']))
+                        trans.append("£" + str(list['pricePaid']))
+                        trans.append(list['transactionDate'])
+                        regs.append(trans)
+                    except TypeError:
+                        pass
+                    except KeyError:
+                        pass
 
-        return regs
+            return regs
+
+        except Exception:
+            pass
 
 class Planning:
 
