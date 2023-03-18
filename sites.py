@@ -17,6 +17,8 @@ import time
 from selenium.webdriver.common.by import By
 from lxml import etree
 from os import path
+from postcode_validator.uk.uk_postcode_validator import UKPostcode
+
 
 
 class Proxies:
@@ -89,6 +91,8 @@ class Proxies:
 
 class Utility:
 
+
+
     def find_json_objects(self, text: str, decoder=json.JSONDecoder()):
         pos = 0
         while True:
@@ -157,6 +161,8 @@ class Rightmove:
 
     def requestScrape(self):
 
+        print("RIGHT MOVE REQUEST")
+
         utils = Utility()
         json_data =[]
 
@@ -173,7 +179,7 @@ class Rightmove:
 
         if len(self.pcode) <= 4:
             self.pcode = self.pcode
-        print("Search url: ", search_url+self.pcode)
+
 
         x = requests.get(search_url + self.pcode)
         soup = BeautifulSoup(x.content, 'html.parser')
@@ -469,44 +475,45 @@ class LandRegistry:
     def req(self):
 
         print("makeing a request to land registry")
-
         try:
-            pcode = self.pcode.split(" ")
-            print("PCODE: ", pcode)
-            pcode1 = pcode[0]
-            pcode2 = pcode[1]
-            p_fin =pcode1+"+"+pcode2
-            num = 10
-            li = []
-            for i in range(num):
-                base_url = f'https://landregistry.data.gov.uk/data/ppi/transaction-record.json?propertyAddress.postcode={p_fin}&_page={i}'
-                print("BASE URL", base_url)
-                x = requests.get(base_url).text
-                loaded = json.loads(x)
-                items = loaded['result']['items']
-                if len(items) > 0:
-                    li.append(items)
-
-            regs = []
-            for itm in li:
-                for list in itm:
-                    trans = []
-                    try:
-                        trans.append((list['propertyAddress']['paon'], " " + list['propertyAddress']['street'],
-                                      " " + list['propertyAddress']['town'], " " + list['propertyAddress']['county'],
-                                      " " + list['propertyAddress']['district'], " " + list['propertyAddress']['locality'], " "+list['propertyAddress']['postcode']))
-                        trans.append("£" + str(list['pricePaid']))
-                        trans.append(list['transactionDate'])
-                        regs.append(trans)
-                    except TypeError:
-                        pass
-                    except KeyError:
-                        pass
-
-            return regs
-
+            postcode = UKPostcode(self.pcode)
+            p_fin = postcode.outward_code+"+"+postcode.inward_code
         except Exception:
-            pass
+            return Exception
+
+
+
+        num = 10
+        li = []
+        for i in range(num):
+            base_url = f'https://landregistry.data.gov.uk/data/ppi/transaction-record.json?propertyAddress.postcode={p_fin}&_page={i}'
+            print("BASE URL", base_url)
+            x = requests.get(base_url).text
+            loaded = json.loads(x)
+            items = loaded['result']['items']
+            if len(items) > 0:
+                li.append(items)
+
+        regs = []
+        for itm in li:
+            for list in itm:
+                trans = []
+                try:
+                    trans.append((list['propertyAddress']['paon'], " " + list['propertyAddress']['street'],
+                                  " " + list['propertyAddress']['town'], " " + list['propertyAddress']['county'],
+                                  " " + list['propertyAddress']['district'], " " + list['propertyAddress']['locality'], " "+list['propertyAddress']['postcode']))
+                    trans.append("£" + str(list['pricePaid']))
+                    trans.append(list['transactionDate'])
+                    regs.append(trans)
+                except TypeError:
+                    return TypeError
+
+                except KeyError:
+                    return KeyError
+
+
+
+        return regs
 
 class Planning:
 

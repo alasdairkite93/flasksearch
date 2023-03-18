@@ -56,6 +56,14 @@
             })
         });
 
+        function onclicks(){
+            const clickevents = document.getElementById("soldpricejson");
+            let x = {{ session['postcode'] }};
+            if (x.length <= 5){
+                clickevents.setAttribute("style", "pointer-events: none;");
+            }
+        }
+
         function loading() {
 
             const section = document.getElementById("forsale");
@@ -64,7 +72,6 @@
             i.setAttribute('class', 'fa fa-circle-o-notch fa-spin');
             i.setAttribute('style', 'font-size: 100px')
             section.appendChild(i);
-
         }
 
         /**Land Registry**/
@@ -74,7 +81,7 @@
                 $.get("/landregistry", function (data) {
                     soldLR(data, 0);
                 })
-                    .fail(function (jqXHR, textStatus, errorThrown) {
+                    .fail(function (jqXHR, error, textStatus, errorThrown) {
                         alert(errorThrown + "Only full postcodes can be used with this feature.");
                     })
             });
@@ -465,27 +472,27 @@
                     url = 'https://www.zoopla.co.uk/for-sale/details/';
                     break;
                 case 1:
-                    const rmov_txt = document.createTextNode("{{ session['display'] }} Sale Results from Rightmove: " + number);
+                    const rmov_txt = document.createTextNode("{{ session['postcode'] }} Sale Results from Rightmove: " + number);
                     sec = 'forsale'
                     title.appendChild(rmov_txt);
                     id = 'rmovesale'
                     url = 'https://www.rightmove.co.uk/properties/';
                     break;
                 case 2:
-                    const ontm_txt = document.createTextNode("{{ session['display'] }} Sales Results from on The Market " + number);
+                    const ontm_txt = document.createTextNode("{{ session['postcode'] }} Sales Results from on The Market " + number);
                     sec = 'OTM'
                     title.appendChild(ontm_txt);
                     url = 'https://www.onthemarket.com'
                     break;
                 case 3:
-                    const rmov_lets = document.createTextNode("{{ session['display'] }} Lettings on Rightmove " + number);
+                    const rmov_lets = document.createTextNode("{{ session['postcode'] }} Lettings on Rightmove " + number);
                     sec = 'forsale'
                     title.appendChild(rmov_lets);
                     url = 'https://www.rightmove.co.uk/properties/'
                     endurl = '#/?channel=RES_LET';
                     break;
                 case 4:
-                    const ontm_lets = document.createTextNode("{{ session['display'] }} on The Market Lettings");
+                    const ontm_lets = document.createTextNode("{{ session['postcode'] }} on The Market Lettings");
                     sec = 'OTM'
                     title.appendChild(ontm_lets);
                     url = 'https://www.onthemarket.com'
@@ -1211,7 +1218,8 @@
                             </div>
                         </li>
                         <li id="listyle">
-                            <div class="dropdown"><a class="toggle" id=planningdata style="color: white;"><i
+                            <!--add id=planningdata for use of the API to the a tag ckass="toggle" -->
+                            <div class="dropdown"><a class="toggle" style="color: white;"><i
                                     class="fa fa-area-chart" aria-hidden="true"
                                     style="justify-content: center; color: white;"></i>
                                 Local Planning</a></div>
@@ -1264,7 +1272,7 @@
                 <li>
                     <form action="{{ url_for("update_pcode") }}" method="post" name="exampleform"
                           style="padding-top: 13px;">
-                        <input style="width: 150px;" type="text" id="searchinput" list="postcodeinputs"
+                        <input style="width: 250px;" type="text" id="searchinput" list="postcodeinputs"
                                name="pcodeupdate" value="{{ session['display'] }}">
                         <datalist id="postcodeinputs">
 
@@ -1272,33 +1280,40 @@
                     </form>
                     <script>
 
-                        const idel = document.getElementById("searchinput");
-                        idel.addEventListener("input", auto);
+                            const idel = document.getElementById("searchinput");
+                            idel.addEventListener("input", autocompleteAName);
 
-                        async function auto(e) {
-                            console.log("e: " + e.target.value);
-                            let pcode = e.target.value;
-                            const api_url = `https://api.postcodes.io/postcodes/${pcode}/autocomplete`
-                            const response = await fetch(api_url);
-                            var data = await response.json();
-                            console.log(data);
 
-                            show(data);
-                        }
+                            async function autocompleteAName(e) {
 
-                        function show(data) {
-                            console.log("data: ", typeof data);
-                            console.log(data.result[0]);
-                            var datalist = document.getElementById("postcodeinputs");
-                            for (var i = 0; i < data.result.length; i++) {
-                                var n_option = document.createElement('option');
-                                console.log("data[i]: " + data.result[i]);
-                                var option_txt = document.createTextNode(data.result[i]);
-                                n_option.appendChild(option_txt);
-                                datalist.append(n_option);
+                                let pcode = e.target.value;
+                                const url = 'https://api.geoapify.com/v1/geocode/autocomplete?text=';
+                                const url_end = '&format=json&apiKey=f6158bd8aa4846fb9a97b27077d9a132';
+                                const api_url = url + pcode + url_end;
+
+                                const myjson = await fetch(api_url);
+                                var data = await myjson.json();
+
+                                console.log(data);
+                                show(data);
                             }
-                            // document.getElementById('suggestions').innerText = data.result;
-                        }
+
+
+                            function show(data) {
+                                console.log("data.results[0]: " + data.results);
+                                var datalist = document.getElementById("postcodeinputs");
+
+                                for (var i = 0; i < data.results.length; i++) {
+                                    var n_option = document.createElement('option');
+
+                                    console.log("data[i]: " + data.results[i].address_line2);
+                                    var option_txt = document.createTextNode(data.results[i].address_line2);
+                                    n_option.setAttribute("value", data.results[i].postcode);
+                                    n_option.appendChild(option_txt);
+                                    datalist.append(n_option);
+
+                                }
+                            }
 
                         function pupdate() {
                             console.log("new selection made")

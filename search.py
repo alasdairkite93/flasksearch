@@ -1,8 +1,9 @@
 import json
+import re
 import sys
 
 import werkzeug.exceptions
-from flask import Flask, session, request, render_template, jsonify, redirect, url_for
+from flask import Flask, abort, session, request, render_template, jsonify, redirect, url_for
 import sites
 import threading
 import os
@@ -114,11 +115,16 @@ def update_type():
     return render_template('base.html')
 @app.route('/pcodeupdate', methods=["GET", "POST"])
 def update_pcode():
-
+    print("Update PCODE ")
     if request.method == "POST":
         update = request.form.get("pcodeupdate")
+        print("UPDATE CONTENTS: ", update)
+
+        POSTCODE = '([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})'
+        match = re.search(POSTCODE, update)
+        session['postcode'] = match.group(0).replace(' ', '')
+        print("session['postcode': ", session['postcode'])
         session['display'] = update
-        session['postcode'] = update.upper()
         return render_template('base.html')
 
     return render_template('base.html')
@@ -286,8 +292,6 @@ def lettings():
 def goBack():
     session.clear()
     return render_template('form.html')
-
-
 @app.route('/', methods =["GET", "POST"])
 def search():
 
@@ -296,7 +300,10 @@ def search():
 
     if request.method == "POST":
         search_query = request.form.get("pcode")
-        session['postcode'] = search_query.upper()
+
+        POSTCODE = '([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})'
+        match = re.search(POSTCODE, search_query)
+        session['postcode'] = match.group(0).replace(' ', '')
 
         session['length'] = len(search_query)
         session['display'] = search_query
@@ -508,6 +515,8 @@ def create_app(test_config=None):
         registry = landregister.req()
         return jsonify(registry)
 
+
+
     @app.route('/zooplasale', methods=["GET"])
     def zoopla_sales():
         zoop = sites.Zoopla(session['postcode'], "for-sale", session['brooms'], session['minprice'],
@@ -602,22 +611,25 @@ def create_app(test_config=None):
             return render_template('base.html')
         return render_template('base.html')
 
-    @app.route('/pcodeupdate', methods=["GET", "POST"])
-    def update_pcode():
-
-        if request.method == "POST":
-            update = request.form.get("pcodeupdate")
-            session['postcode'] = update.upper()
-
-            if len(update) <= 4:
-                session['display'] = update.upper()+' 1AA'
-
-            else:
-                session['display'] = update.upper()
-
-            return render_template('base.html')
-
-        return render_template('base.html')
+    # @app.route('/pcodeupdate', methods=["GET", "POST"])
+    # def update_pcode():
+    #
+    #     print("update pcode method")
+    #
+    #     if request.method == "POST":
+    #         update = request.form.get("pcodeupdate")
+    #         print("PCODE UPDATE: ", update)
+    #         session['postcode'] = update.upper()
+    #
+    #         if len(update) <= 4:
+    #             session['display'] = update.upper()+' 1AA'
+    #
+    #         else:
+    #             session['display'] = update.upper()
+    #
+    #         return render_template('base.html')
+    #
+    #     return render_template('base.html')
 
     @app.route('/pandr_update', methods=["GET", "POST"])
     def update_pcode_radius():
