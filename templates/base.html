@@ -550,7 +550,7 @@
                 newDiv.setAttribute("class", "card child");
                 newDiv.setAttribute("data-percentage", p_nocomma);
                 newDiv.setAttribute("id", "newdivattribute");
-                newDiv.setAttribute("style", "margin-left: 3%; min-width: 70%; max-width: 880px; border-radius: 10px;");
+                newDiv.setAttribute("style", "margin-left: 3%; min-width: 70%; border-radius: 10px;");
                 section.appendChild(newDiv);
 
                 const rowdiv = document.createElement("div");
@@ -622,11 +622,6 @@
                 const branch_cont = document.createTextNode("Branch: " + prop[1]);
                 branchname.appendChild(branch_cont);
                 cardbody.appendChild(branchname);
-
-                {#const propertytype = document.createElement("p");#}
-                {#const type_cont = document.createTextNode({{session['type']}});#}
-                {#branchname.appendChild(branch_cont);#}
-                {#cardbody.appendChild(branchname);#}
 
                 const bedrooms = document.createElement("p");
                 const bed_rooms = document.createTextNode("Rooms: " + prop[2]);
@@ -1077,10 +1072,6 @@
             .box1 {
                 grid-area: hd;
                 justify-self: center;
-            }
-
-            #cardwidth {
-                width: 70%;
             }
 
         }
@@ -1937,7 +1928,6 @@
             £{{ session['minprice'] }} to £{{ session['maxprice'] }} for properties with {{ session['brooms'] }}
             to {{ session['maxrooms'] }} rooms.</h5>
 
-        <div style="text-align: center;">
             <button id="sortbutton" class="btn" onClick="GFG_Fun()">
                 Sort price Low to High
             </button>
@@ -1945,7 +1935,6 @@
                 Sort price High to Low
             </button>
             <h4 id="sessionvariable" style="padding-top: 100px;"></h4>
-        </div>
         <div id="forsale" class="container" style="max-width: 80%; justify-items: center; padding-top: 30px;">
         </div>
         <script>
