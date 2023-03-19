@@ -344,51 +344,59 @@
             section.innerHTML = "";
 
             //proposed to aad a function to add search filters here
+            if (json_data.length > 0) {
 
-            var table = document.createElement('table');
-            table.setAttribute("class", "table");
-            table.border = "1";
+                var table = document.createElement('table');
+                table.setAttribute("class", "table");
+                table.border = "1";
 
+                console.log("LENGTH OF JSON: "+json_data.length);
 
-            var headers = new Array();
-            switch (ind) {
-                case 0:
-                    headers.push("LAND REGISTRY: Address", "Price", "Date");
-                    var headerrow = table.insertRow(-1);
-                    for (var i = 0; i < headers.length; i++) {
-                        var headerc = document.createElement("TH");
-                        headerc.innerHTML = headers[i];
-                        headerrow.append(headerc);
-                    }
-                    for (entry of json_data) {
-                        row = table.insertRow(-1);
-                        for (var i = 0; i < entry.length; i++) {
-                            var cell = row.insertCell(-1);
-                            cell.innerHTML = entry[i];
+                var headers = new Array();
+                switch (ind) {
+                    case 0:
+                        headers.push("LAND REGISTRY: Address", "Price", "Date");
+                        var headerrow = table.insertRow(-1);
+                        for (var i = 0; i < headers.length; i++) {
+                            var headerc = document.createElement("TH");
+                            headerc.innerHTML = headers[i];
+                            headerrow.append(headerc);
                         }
-                    }
-                    break;
-                case 1:
-                    headers.push("RIGHT MOVE: Description", "Data");
-                    var headerrow = table.insertRow(-1);
-                    for (var i = 0; i < headers.length; i++) {
-                        var headerc = document.createElement("TH");
-                        headerc.innerHTML = headers[i];
-                        headerrow.append(headerc);
-                    }
-                    for (entry of json_data) {
-                        row = table.insertRow(-1);
+                        for (entry of json_data) {
+                            row = table.insertRow(-1);
+                            for (var i = 0; i < entry.length; i++) {
+                                var cell = row.insertCell(-1);
+                                cell.innerHTML = entry[i];
+                            }
+                        }
+                        break;
+                    case 1:
+                        headers.push("RIGHT MOVE: Description", "Data");
+                        var headerrow = table.insertRow(-1);
+                        for (var i = 0; i < headers.length; i++) {
+                            var headerc = document.createElement("TH");
+                            headerc.innerHTML = headers[i];
+                            headerrow.append(headerc);
+                        }
+                        for (entry of json_data) {
+                            row = table.insertRow(-1);
 
-                        var cell1 = row.insertCell(-1);
-                        cell1.innerHTML = entry[0];
+                            var cell1 = row.insertCell(-1);
+                            cell1.innerHTML = entry[0];
 
 
-                        var cell2 = row.insertCell(-1);
-                        cell2.innerHTML = entry[1];
-                    }
-                    break;
+                            var cell2 = row.insertCell(-1);
+                            cell2.innerHTML = entry[1];
+                        }
+                        break;
+                }
+                section.appendChild(table);
             }
-            section.appendChild(table);
+            else {
+                const message = document.createElement('p');
+                message.textContent = "No Results to Display";
+                section.appendChild(message);
+            }
         }
 
         function planning(json_data) {
@@ -728,43 +736,48 @@
             const section = document.getElementById('forsale');
             section.innerHTML = "";
             const table = document.createElement('table');
-            table.style.width = '700px;';
             table.style.border = '1px solid black';
 
+            if (json_data.length > 0) {
+                for (const prop of json_data) {
 
-            for (const prop of json_data) {
+                    const tr = table.insertRow();
 
-                const tr = table.insertRow();
+                    const image = prop[2];
+                    console.log("image: " + image);
+                    const td_img = tr.insertCell();
+                    const img = document.createElement('img');
+                    img.src = image;
+                    const url = prop[3];
+                    const a_tag = document.createElement('a');
+                    a_tag.setAttribute('href', url);
+                    a_tag.appendChild(img);
 
-                const image = prop[2];
-                console.log("image: " + image);
-                const td_img = tr.insertCell();
-                const img = document.createElement('img');
-                img.src = image;
-                const url = prop[3];
-                const a_tag = document.createElement('a');
-                a_tag.setAttribute('href', url);
-                a_tag.appendChild(img);
+                    td_img.appendChild(a_tag);
+                    const address = prop[0];
+                    const td_add = tr.insertCell();
+                    td_add.appendChild(document.createTextNode(address));
 
-                td_img.appendChild(a_tag);
-                const address = prop[0];
-                const td_add = tr.insertCell();
-                td_add.appendChild(document.createTextNode(address));
+                    const price = prop[1];
+                    const td_price = tr.insertCell();
+                    const sublist = document.createElement('ul');
+                    price.forEach((item) => {
+                        let li = document.createElement("li");
+                        li.innerText = item;
+                        sublist.appendChild(li);
+                    })
+                    console.log(sublist);
+                    td_price.appendChild(sublist);
 
-                const price = prop[1];
-                const td_price = tr.insertCell();
-                const sublist = document.createElement('ul');
-                price.forEach((item) => {
-                    let li = document.createElement("li");
-                    li.innerText = item;
-                    sublist.appendChild(li);
-                })
-                console.log(sublist);
-                td_price.appendChild(sublist);
+                }
 
+                section.appendChild(table);
             }
-
-            section.appendChild(table);
+            else {
+                const message = document.createElement("p");
+                message.textContent = "No Results to Display";
+                section.appendChild(message);
+            }
 
         }
 
@@ -776,6 +789,8 @@
             const rmov_sold = document.createTextNode("RightMove Sold");
             title.appendChild(rmov_sold);
             section.appendChild(title);
+
+            console.log("LENGTH OF JSON: "+json_data.length)
 
             var number = json_data.length;
             const count = document.createTextNode("Total Number of Properties: " + number);
@@ -1931,7 +1946,7 @@
             </button>
             <h4 id="sessionvariable" style="padding-top: 100px;"></h4>
         </div>
-        <div id="forsale" class="container" style="justify-items: center; padding-top: 30px;">
+        <div id="forsale" class="container" style="max-width: 80%; justify-items: center; padding-top: 30px;">
         </div>
         <script>
 

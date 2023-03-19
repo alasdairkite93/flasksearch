@@ -247,7 +247,7 @@ class Rightmove:
         pcode = self.pcode
         res = []
 
-        for i in range(1, 20, 1):
+        for i in range(1, 10, 1):
             pconv = str(i)
             apiurl = f"https://www.rightmove.co.uk/house-prices/{pcode}.html?page={pconv}"
             print("soldurl: ", apiurl)
@@ -326,7 +326,8 @@ class OnTheMarket:
         if self.type == 'houses':
             self.type = 'detached'
 
-        self.pcode = self.pcode.replace(' ', '-').lower()
+        postcode = UKPostcode(self.pcode)
+        self.pcode = postcode.outward_code.lower() + "-" + postcode.inward_code.lower()
 
         print("type: ", self.type)
         if self.radius != 0:
@@ -396,10 +397,10 @@ class CrystalRoof:
 
     def stats(self):
 
-        split = self.pcode.split(" ")
-        p1 = split[0]
-        p2 = split[1]
-        pc = p1+p2
+
+
+        postcode = UKPostcode(self.pcode)
+        pc = postcode.outward_code.upper()+postcode.inward_code.upper()
 
         search_url = f"https://crystalroof.co.uk/report/postcode/{pc}/overview"
         response = urllib.request.urlopen(search_url)
@@ -413,6 +414,7 @@ class CrystalRoof:
         data = parsed['props']['initialReduxState']['report']['sectionResponses']['overview']['data']
 
         li = []
+
         li.append(data['loac']['supergroupname'])
         li.append(data['loac']['supergroupdescription'])
         li.append(data['loac']['groupname'])
@@ -482,7 +484,7 @@ class LandRegistry:
             return Exception
 
 
-
+        print("USing POSTCODE : ", p_fin)
         num = 10
         li = []
         for i in range(num):
@@ -506,13 +508,13 @@ class LandRegistry:
                     trans.append(list['transactionDate'])
                     regs.append(trans)
                 except TypeError:
-                    return TypeError
+                    pass
 
                 except KeyError:
-                    return KeyError
+                    pass
 
 
-
+        print("RETURN FROM REGS: ", regs)
         return regs
 
 class Planning:
@@ -602,9 +604,9 @@ class Gumtree:
 
         if self.channel == 'for-sale':
             # url = f"https://www.gumtree.com/search?search_category=property-for-sale&search_location={self.pcode}&property_number_beds={self.beds}-bedroom&max_price={self.minprice}&min_price={self.maxprice}"
-            url = f'https://www.gumtree.com/search?search_category=property-for-sale&search_location={self.pcode}&q=&distance={self.radius}&min_price={self.minprice}&max_price={self.maxprice}&min_property_number_beds={self.beds}&max_property_number_beds={self.beds}'
+            url = f'https://www.gumtree.com/search?search_category=property-for-sale&search_location={self.pcode}&distance={self.radius}&min_price={self.minprice}&max_price={self.maxprice}&min_property_number_beds={self.beds}&max_property_number_beds={self.beds}'
         elif self.channel == "to-rent":
-            url = f"https://www.gumtree.com/search?search_category=property-to-rent&search_location={self.pcode}q=&distance={self.radius}&property_number_beds={self.beds}-bedroom&max_price={self.minprice}&min_price={self.maxprice}"
+            url = f"https://www.gumtree.com/search?search_category=property-to-rent&search_location={self.pcode}&distance={self.radius}&property_number_beds={self.beds}-bedroom&max_price={self.minprice}&min_price={self.maxprice}"
         print("gumtree URL: ", url)
         driver.get(url)
         time.sleep(2)
