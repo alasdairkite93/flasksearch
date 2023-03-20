@@ -234,7 +234,7 @@ class Rightmove:
                     li.append(price_l)
                     li.append(url + str(props['id']))
                     li.append(props['propertyImages']['images'][0]['srcUrl'])
-                    li.append("rmove")
+                    li.append("Rightmove")
 
                     json_data.append(li)
             except IndexError:
@@ -379,7 +379,7 @@ class OnTheMarket:
                             print("price: ", prop['price'])
                             # li.append(baseurl + prop['property-link'])
                             li.append(prop['images'][0]['default'])
-                            li.append("otm")
+                            li.append("On The Market")
 
                             otm_li.append(li)
 
@@ -666,7 +666,7 @@ class Gumtree:
                 # Image
                 img = article.findNext('img')
                 li.append(img.get('data-src'))
-                li.append("gumtree")
+                li.append("Gumtree")
                 li.append(orig_price)
 
                 props.append(li)
