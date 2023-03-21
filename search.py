@@ -1,7 +1,6 @@
 import json
 import re
 import sys
-
 import werkzeug.exceptions
 from flask import Flask, abort, session, request, render_template, jsonify, redirect, url_for
 import sites
@@ -9,6 +8,7 @@ import threading
 import os
 import pytest
 import requests
+from geopy.geocoders import Nominatim
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
@@ -118,14 +118,28 @@ def update_pcode():
     print("Update PCODE ")
     if request.method == "POST":
         update = request.form.get("pcodeupdate")
+
         print("UPDATE CONTENTS: ", update)
 
         POSTCODE = '([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})'
+        print("full postcode regex")
         match = re.search(POSTCODE, update)
-        session['postcode'] = match.group(0).replace(' ', '')
-        print("session['postcode': ", session['postcode'])
-        session['display'] = update
-        return render_template('base.html')
+
+        if match != None:
+            print("MATCH: ", match)
+            session['postcode'] = match.group()
+            session['display'] = update
+            return render_template('base.html')
+
+        else:
+            POSTCODE = '([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?)'
+            print("partial postcode regex")
+            match = re.search(POSTCODE, update)
+            print("MATCH: ", match)
+            session['postcode'] = match.group()
+            session['display'] = match.group()
+            return render_template('base.html')
+
 
     return render_template('base.html')
 
@@ -278,7 +292,6 @@ def returnAll():
         # print("returned results of d")
 
         res = otm_results + rmove_results + gumresults
-        print(res)
         # Removed otm from the list
         return jsonify(res)
 
@@ -292,17 +305,39 @@ def lettings():
 def goBack():
     session.clear()
     return render_template('form.html')
+
+
+
 @app.route('/', methods =["GET", "POST"])
+
 def search():
 
     # proxies = sites.Proxies()
     # prox_list = proxies.createProxyList()
-
+    print("SEARCH ")
     if request.method == "POST":
         search_query = request.form.get("pcode")
 
+        geolocator = Nominatim(user_agent="GeoPy")
+        location = geolocator.geocode(search_query)
+        print(location.address)
+        data = location.raw
+        print("DATA: ", data['display_name'])
+        address_display = data['display_name']
+
+
+        # url = f"https://maps.googleapis.com/maps/api/place/textsearch/json?query={search_query}&key=AIzaSyBBDK8Krhrf3X_qTmLIeLOSBX89Qk2Zp2o"
+        # payload = {}
+        # headers = {}
+        # response = requests.request("GET", url, headers=headers, data=payload)
+        # print(response.text)
+
+        print("SEARCH QUERY: ", address_display)
         POSTCODE = '([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})'
-        match = re.search(POSTCODE, search_query)
+        match = re.search(POSTCODE, address_display)
+        print("MATCH: ", match.group())
+
+
         session['postcode'] = match.group(0).replace(' ', '')
 
         session['length'] = len(search_query)
@@ -342,7 +377,6 @@ def get_results():
                                     session['minprice'],
                                     session['maxprice'], session['resnum'], session['maxrooms'], session['propertytype'])
             rmove_results = rmove.requestScrape()
-            print("rmove results ", rmove_results)
             return jsonify(rmove_results)
 
         if session['searchtype'] == 'gumtree' and session['type'] == 'sales':

@@ -185,7 +185,6 @@ class Rightmove:
         soup = BeautifulSoup(x.content, 'html.parser')
         results = soup.findAll('input', {'id':'locationIdentifier'})[0].get('value')
 
-        print(results)
         txt = results
         x = re.findall("[^^]*$", txt)
         code = x[0]
@@ -368,7 +367,6 @@ class OnTheMarket:
                             li.append("otm")
 
                             otm_li.append(li)
-                            print(otm_li)
                     except KeyError:
                         for prop in data['properties']:
                             li = []
@@ -512,7 +510,6 @@ class LandRegistry:
                     pass
 
 
-        print("RETURN FROM REGS: ", regs)
         return regs
 
 class Planning:
@@ -655,7 +652,6 @@ class Gumtree:
 
 
 
-                print("Gumtree price: ", price)
                 li.append(price)
 
                 # Link

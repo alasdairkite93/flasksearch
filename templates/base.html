@@ -1047,6 +1047,7 @@
 
             #listyle {
                 padding-right: 20px;
+                text-align: center;
             }
 
             #logosize {
@@ -1212,15 +1213,16 @@
             <div class="container" >
                 {% if session['type'] == 'sales' %}
                     <ul class="nav navbar-nav" >
+
                         <li id="listyle">
-                            <div class="dropdown show">
-                                <a class="dropdown-toggle" data-toggle="dropdown" id="fontstyle" style="color: white;">
-                                    <i class="fa fa-external-link-square" aria-hidden="true"></i>For Sale</a>
-                                <ul class="dropdown-menu" id="fontstyle" style="color: white; text-align: center;">
+                            <div >
+                                <a class="dropdown-toggle" data-toggle="dropdown" id="fontstyle" style="background-color: transparent;">
+                                <i class="fa fa-external-link-square" aria-hidden="true"></i>For Sale</a>
+                                <ul class="dropdown-menu" id="fontstyle" style="text-align: center; display: flex; background-color:#1a2090; display: none;">
                                     <li ><a href=# id=rmovesale value=0 style="color: white; text-align: center;">RightMove</a></li>
-                                    <li style="color: white; text-align: center;"><a href=# id=otmsale>OnTheMarket</a></li>
-                                    <li style="color: white; text-align: center;"><a href=# id=gumtree>Gumtree</a></li>
-                                    <li style="color: white; text-align: center;"><a href=# id=allsales>All Results</a></li>
+                                    <li style="text-align: center;"><a style="color: white;" href=# id=otmsale>OnTheMarket</a></li>
+                                    <li style="color: white; text-align: center;"><a href=# style="color: white;" id=gumtree>Gumtree</a></li>
+                                    <li style="color: white; text-align: center;"><a href=# style="color: white;" id=allsales>All Results</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -1241,9 +1243,9 @@
                                 <a class="dropdown-toggle" data-toggle="dropdown" style="color: white;">
                                     <i class="fa fa-line-chart" style="justify-content: center;" aria-hidden="true"></i>
                                     Sold Properties</a>
-                                <ul class="dropdown-menu">
-                                    <li><a href=# id=soldpricejson>Land Registry Sold</a></li>
-                                    <li><a href=# id=rmovesold>RightMove Sold</a></li>
+                                <ul class="dropdown-menu" style="background-color:#1a2090; display: none;">
+                                    <li><a href=# style="color: white;" id=soldpricejson>Land Registry Sold</a></li>
+                                    <li><a href=# style="color: white;" id=rmovesold>RightMove Sold</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -1259,7 +1261,7 @@
                             <div class="dropdown show">
                                 <a class="dropdown-toggle" data-toggle="dropdown" id="fontstyle">
                                     <i class="fa fa-external-link-square"  aria-hidden="true"></i>To Rent</a>
-                                <ul class="dropdown-menu" id="fontstyle">
+                                <ul class="dropdown-menu" id="fontstyle" style="background-color:#1a2090; display: none;">
                                     <li><a href=# id=rmovelets>RightMove</a></li>
                                     <li><a href=# id=otmrent>OnTheMarket</a></li>
                                     <li><a href=# id=gumtree>Gumtree</a></li>
@@ -1279,11 +1281,22 @@
                 <li>
                     <form action="{{ url_for("update_pcode") }}" method="post" name="exampleform"
                           style="padding-top: 13px;">
-                        <input style="width: 150px;" type="text" id="searchinput" list="postcodeinputs"
-                               name="pcodeupdate" value="{{ session['display'] }}">
-                        <datalist id="postcodeinputs">
+                               <input style="width: 150px;" id="autocomplete" name="pcodeupdate" placeholder="Search by postcode..." type="text"/>
+                        <script>
+                            let autocomplete;
 
-                        </datalist>
+                            function initAutocomplete() {
+                                autocomplete = new google.maps.places.Autocomplete(
+                                    document.getElementById('autocomplete'),
+                                    {
+                                        {#'locality', 'neighborhood', 'plus_code', 'street_address' 'postal_code', 'post_code_prefix', 'postal_code_suffix', #}
+                                        types: ['postal_code'],
+                                        componentRestrictions: { country : ['UK'] },
+                                        fields: ['address_components', 'postal_code']
+                                    });
+                            }
+                        </script>
+                        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBDK8Krhrf3X_qTmLIeLOSBX89Qk2Zp2o&libraries=places&callback=initAutocomplete" async defer></script>
                     </form>
                     <script>
 
