@@ -326,7 +326,10 @@ class OnTheMarket:
             self.type = 'detached'
 
         postcode = UKPostcode(self.pcode)
-        self.pcode = postcode.outward_code.lower() + "-" + postcode.inward_code.lower()
+        if postcode.inward_code:
+            self.pcode = postcode.outward_code.lower() + "-" + postcode.inward_code.lower()
+        else:
+            self.pcode = postcode.outward_code.lower()
 
         print("type: ", self.type)
         if self.radius != 0:
