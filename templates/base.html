@@ -1286,8 +1286,15 @@
                 <li>
                     <form action="{{ url_for("update_pcode") }}" method="post" name="exampleform"
                           style="padding-top: 13px;">
-                               <input style="width: 150px; " id="autocomplete" name="pcodeupdate" placeholder="Search by postcode..." type="text"/>
+                               <input style="width: 150px; font-size: 10px;" id="autocomplete" name="pcodeupdate" placeholder="Search by postcode..." type="text"/>
                         <script>
+
+                            var form = document.getElementsByName("exampleform");
+
+                            document.getElementById("autocomplete").addEventListener("click", function () {
+                              form.submit();
+                            });
+
                             let autocomplete;
 
                             function initAutocomplete() {

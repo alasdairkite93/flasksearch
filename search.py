@@ -126,7 +126,7 @@ def update_pcode():
         match = re.search(POSTCODE, update)
 
         if match != None:
-            print("MATCH: ", match)
+            print("MATCH: ", match.group())
             session['postcode'] = match.group()
             session['display'] = update
             return render_template('base.html')
@@ -135,7 +135,7 @@ def update_pcode():
             POSTCODE = '([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?)'
             print("partial postcode regex")
             match = re.search(POSTCODE, update)
-            print("MATCH: ", match)
+            print("MATCH: ", match.group())
             session['postcode'] = match.group()
             session['display'] = match.group()
             return render_template('base.html')

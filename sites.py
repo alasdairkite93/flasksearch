@@ -2,6 +2,8 @@ import json
 import multiprocessing
 from os.path import exists
 import math
+
+import postcode_validator.Exceptions.exceptions
 import requests
 import re
 from bs4 import BeautifulSoup, SoupStrainer
@@ -324,18 +326,22 @@ class OnTheMarket:
             self.type = 'flats-apartments'
         if self.type == 'houses':
             self.type = 'detached'
+        print("OTM PCODE: ", self.pcode)
 
-        postcode = UKPostcode(self.pcode)
-        if postcode.inward_code:
+        if len(self.pcode) > 5:
+            postcode = UKPostcode(self.pcode)
             self.pcode = postcode.outward_code.lower() + "-" + postcode.inward_code.lower()
-        else:
-            self.pcode = postcode.outward_code.lower()
+            print(self.pcode)
+        elif len(self.pcode) <= 5:
+            print("Postcode has outward code")
+
+            print(self.pcode)
 
         print("type: ", self.type)
         if self.radius != 0:
-            url2 = f'https://www.onthemarket.com/{self.channel}/{self.bedrooms}-bed-property/{self.pcode}/?max-bedrooms={self.maxrooms}&max-price={self.maxprice}&min-price={self.minprice}&radius={self.radius}&view=grid'
+            url2 = f'https://www.onthemarket.com/{self.channel}/{self.bedrooms}-bed-property/{self.pcode.lower()}/?max-bedrooms={self.maxrooms}&max-price={self.maxprice}&min-price={self.minprice}&radius={self.radius}&view=grid'
         elif self.radius == 0:
-            url2 = f'https://www.onthemarket.com/{self.channel}/{self.bedrooms}-bed-property/{self.pcode}/?max-bedrooms={self.maxrooms}&max-price={self.maxprice}&min-price={self.minprice}&view=grid'
+            url2 = f'https://www.onthemarket.com/{self.channel}/{self.bedrooms}-bed-property/{self.pcode.lower()}/?max-bedrooms={self.maxrooms}&max-price={self.maxprice}&min-price={self.minprice}&view=grid'
 
         print(url2)
         driver.get(url2)
