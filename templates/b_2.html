@@ -234,16 +234,16 @@
                     <div class="col-sm-3">
                         <select id="minrooms"  onmousedown="if(this.options.length>8){this.size=8;}" onchange='this.size=0;' onblur="this.size=0;" class="form-control" name="minrooms" style="font-size: 12px;">
                             <option>{{ session['minrooms'] }}</option>
-                            <option>Studio</option>
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
+                            <option value="studio">Studio</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
                         </select>
                     </div>
                     <label for="rooms" class="col-sm-3 col-form-label" >Max Rooms:</label>
                     <div class="col-sm-3">
-                        <select id="maxrooms"  onmousedown="if(this.options.length>8){this.size=8;}" onchange='this.size=0;' onblur="this.size=0;" class="form-control" name="maxrooms" style="font-size: 12px;">
+                        <select id="maxrooms" class="form-control"  onmousedown="if(this.options.length>8){this.size=8;}" onchange='this.size=0;' onblur="this.size=0;" name="maxrooms" style="font-size: 12px;">
                             <option>{{ session['maxrooms'] }}</option>
                             <option>Studio</option>
                             <option>1</option>
@@ -375,7 +375,7 @@
                         </div>
                         <label for="maxprice" class="col-sm-3 col-form-label">Select max price</label>
                         <div class="col-sm-3">
-                        <select id="maxprice" class="form-control" onmousedown="if(this.options.length>8){this.size=8;}" onchange='this.size=0;' name="maxprice">
+                        <select id="maxprice" class="form-control" onmousedown="if(this.options.length>8){this.size=8;}"  onblur="this.size=0;" onchange='this.size=0;' name="maxprice">
                     <option>£{{ session['maxprice'] }}</option>
                      <option value="50000"
                     >£50,000</option>

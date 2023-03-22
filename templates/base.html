@@ -973,6 +973,7 @@
                 grid-auto-rows: minmax(75px, auto);
                 grid-template-areas:
             "lg"
+            "head"
             "hd "
             "nv "
             "cont "
@@ -992,6 +993,10 @@
                 min-width: 70%;
                 min-height: 45px;
                 margin: 10px 10px 10px 0px;
+            }
+
+            .low {
+                grid-area: head;
             }
 
             .box1 {
@@ -1158,8 +1163,9 @@
 
 <div class="wrapper">
 <div class="logo">
-            <a href="/"><img src="/static/images/mainlogo.png" alt="mainlogo" id="logosize" style="float: left;"></a>
-
+    <a href="/"><img src="/static/images/mainlogo.png" alt="mainlogo" id="logosize" style="float: left;"></a>
+            </div>
+<div class="low">
     {% if session['type'] == 'sales' %}
                 <form style="padding-top: 0px; margin-top: 0px; height: 0%;" action="{{ url_for("search") }}"
                       id="searchbutton"
@@ -1171,7 +1177,6 @@
                         <a class="toggle" style="color: black; font-size: 20px;">Go to Lettings</a>
                     </button>
                 </form>
-            </div>
             <script>
                 function pupdate() {
                     console.log("new selection made")
@@ -1180,7 +1185,7 @@
 
                 document.getElementById("lettings").addEventListener("click", pupdate);
             </script>
-
+    </div>
     {% endif %}
     {% if session['type'] == 'lettings' %}
                 <a href="#">
@@ -1281,7 +1286,7 @@
                 <li>
                     <form action="{{ url_for("update_pcode") }}" method="post" name="exampleform"
                           style="padding-top: 13px;">
-                               <input style="width: 150px;" id="autocomplete" name="pcodeupdate" placeholder="Search by postcode..." type="text"/>
+                               <input style="width: 150px; " id="autocomplete" name="pcodeupdate" placeholder="Search by postcode..." type="text"/>
                         <script>
                             let autocomplete;
 
