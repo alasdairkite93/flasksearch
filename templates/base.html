@@ -42,24 +42,43 @@
     </script>
     <script type=text/javascript>
 
+        window.addEventListener("popstate", (event) => {
+            window.location.href = "http://127.0.0.1:5000/";
+        });
+
+        window.onhashchange = function () {
+            window.location.href = "http://127.0.0.1:5000/";
+        }
+
         $(document).ajaxSend(function () {
             loading();
         });
 
-        if (window.history.replaceState) {
-            window.history.replaceState(null, null, window.location.href);
-        }
-
         $(document).ready(function () {
             $.get("/pageload", function (data) {
+                history.pushState([data], ['rmovesale']); // replace with appropriate values as parameters
                 forSale(data, 8);
             })
         });
 
-        function onclicks(){
+
+        var renderData = function (data) {
+            console.log('render data:', data);
+        }
+
+        window.onpopstate = function (e) {
+            e.preventDefault();
+
+            if (e.state) {
+                var data = e.state;
+                renderData(data);
+            }
+        }
+
+        function onclicks() {
             const clickevents = document.getElementById("soldpricejson");
             let x = {{ session['postcode'] }};
-            if (x.length <= 5){
+            if (x.length <= 5) {
                 clickevents.setAttribute("style", "pointer-events: none;");
             }
         }
@@ -78,8 +97,11 @@
 
         $(function () {
             $('a#soldpricejson').click(function () {
+
                 $.get("/landregistry", function (data) {
+                    console.log(data);
                     soldLR(data, 0);
+                    history.pushState([data], ['landregistry']); // replace with appropriate values as parameters
                 })
                     .fail(function (jqXHR, error, textStatus, errorThrown) {
                         alert(errorThrown + "Only full postcodes can be used with this feature.");
@@ -98,6 +120,8 @@
                     data: x,
                     type: "POST",
                     success: function (response) {
+                        history.pushState([response], ['formupdate']); // replace with appropriate values as parameters
+
                         console.log(response);
                     },
                     error: function (error) {
@@ -115,6 +139,8 @@
                     data: $('form').serialize(),
                     type: 'POST',
                     success: function (response) {
+                        history.pushState([response], ['numres']); // replace with appropriate values as parameters
+
                         console.log(response);
                     },
                     error: function (error) {
@@ -141,7 +167,10 @@
 
         $(function () {
             $('a#rmovesale').click(function () {
+                console.log("rmove sale ajax");
                 $.get("/rightmovesale", 2, function (data) {
+                    console.log("get path rmove sale");
+                    history.pushState([forSale(data)], ['rmovesale']); // replace with appropriate values as parameters
                     forSale(data, 1);
                 })
             })
@@ -151,7 +180,9 @@
         $(function () {
             $('a#rmovelets').click(function () {
                 $.get("/rmoverent", function (data) {
+                    history.pushState([data], ['rmovelets']); // replace with appropriate values as parameters
                     forSale(data, 3);
+
                 })
             })
         });
@@ -161,6 +192,7 @@
         $(function () {
             $('a#otmsale').click(function () {
                 $.get("/otmsale", function (data) {
+                    history.pushState([data], ['otmsale']); // replace with appropriate values as parameters
                     forSale(data, 2);
                 })
             })
@@ -169,6 +201,7 @@
         $(function () {
             $('a#otmrent').click(function () {
                 $.get("/otmrent", function (data) {
+                    history.pushState([data], ['otmrent']); // replace with appropriate values as parameters
                     forSale(data, 4);
                 })
             })
@@ -179,6 +212,7 @@
         $(function () {
             $('a#rmovesold').click(function () {
                 $.get("/rmovesold", function (data) {
+                    history.pushState([data], ['rmovesold']); // replace with appropriate values as parameters
                     soldTable(data);
                     {#sold(data);#}
                 })
@@ -188,19 +222,16 @@
             })
         });
 
-        /**Area Statistics**/
-
-        $(function () {
-            $('a#paginate').click(function () {
-                paginate(5, 't');
-            })
-        })
-
         $(function () {
             $('a#crysdata').click(function () {
+
+
                 $.get("/crystalroof", function (data) {
+
+                    history.pushState([data], ['crysdata']); // replace with appropriate values as parameters
                     crysData(data);
                 })
+
                     .fail(function (jqXHR, textStatus, errorThrown) {
                         alert(errorThrown + "Only a full postcode can be used with this feature.");
                     })
@@ -212,6 +243,7 @@
         $(function () {
             $('a#planningdata').click(function () {
                 $.get("/planningdata", function (data) {
+                    history.pushState([data], ['planningdata']); // replace with appropriate values as parameters
                     planning(data);
                 })
                     .fail(function (jqXHR, textStatus, errorThrown) {
@@ -225,6 +257,7 @@
         $(function () {
             $('a#lettingspage').click(function () {
                 $.get("/returnall", function (data) {
+                    history.pushState([data], ['returnalllettings']); // replace with appropriate values as parameters
                     all(data);
                 })
                     .fail(function (jqXHR, textStatus, errorThrown) {
@@ -238,6 +271,7 @@
         $(function () {
             $('a#allsales').click(function () {
                 $.get("/returnall", function (data) {
+                    history.pushState([data], ['returnallsales']); // replace with appropriate values as parameters
                     forSale(data);
                 })
                     .fail(function (jqXHR, textStatus, errorThrown) {
@@ -350,7 +384,7 @@
                 table.setAttribute("class", "table");
                 table.border = "1";
 
-                console.log("LENGTH OF JSON: "+json_data.length);
+                console.log("LENGTH OF JSON: " + json_data.length);
 
                 var headers = new Array();
                 switch (ind) {
@@ -391,10 +425,10 @@
                         break;
                 }
                 section.appendChild(table);
-            }
-            else {
+            } else {
                 const message = document.createElement('p');
                 message.textContent = "No Results to Display";
+                message.setAttribute("style", "text-aling: center;")
                 section.appendChild(message);
             }
         }
@@ -767,8 +801,7 @@
                 }
 
                 section.appendChild(table);
-            }
-            else {
+            } else {
                 const message = document.createElement("p");
                 message.textContent = "No Results to Display";
                 section.appendChild(message);
@@ -785,7 +818,7 @@
             title.appendChild(rmov_sold);
             section.appendChild(title);
 
-            console.log("LENGTH OF JSON: "+json_data.length)
+            console.log("LENGTH OF JSON: " + json_data.length)
 
             var number = json_data.length;
             const count = document.createTextNode("Total Number of Properties: " + number);
@@ -1093,7 +1126,6 @@
         @media only screen and (min-width: 1800px) {
 
 
-
             .box2 {
                 grid-area: nv;
                 background-color: #1A2090;
@@ -1163,831 +1195,862 @@
 <body>
 
 <div class="wrapper">
-<div class="logo">
-    <a href="/"><img src="/static/images/mainlogo.png" alt="mainlogo" id="logosize" style="float: left;"></a>
+    <div class="logo">
+        <a href="/"><img src="/static/images/mainlogo.png" alt="mainlogo" id="logosize" style="float: left;"></a>
+    </div>
+    <div class="low">
+        {% if session['type'] == 'sales' %}
+            <form style="padding-top: 0px; margin-top: 0px; height: 0%;" action="{{ url_for("search") }}"
+                  id="searchbutton"
+                  method="post" name="search">
+                <input type="hidden" name="page" value="lettings">
+                <input type="hidden" name="pcode" value="{{ session['postcode'] }}">
+                <button class="btn" id="lettings" type="submit" name="lettings" value="lettings"
+                        style="color: white;"><i class="fa fa-external-link-square" aria-hidden="true"></i>
+                    <a class="toggle" style="color: black; font-size: 20px;">Go to Lettings</a>
+                </button>
+            </form>
+            <script>
+                function pupdate() {
+                    console.log("new selection made")
+                    document.getElementById("search").submit();
+                }
+
+                document.getElementById("lettings").addEventListener("click", pupdate);
+            </script>
             </div>
-<div class="low">
-    {% if session['type'] == 'sales' %}
-                <form style="padding-top: 0px; margin-top: 0px; height: 0%;" action="{{ url_for("search") }}"
-                      id="searchbutton"
+        {% endif %}
+    {% if session['type'] == 'lettings' %}
+        <a href="#">
+            <div class="dropdown">
+                <form class="navbar-form navbar-left" action="{{ url_for("search") }}" id="searchbutton"
                       method="post" name="search">
-                    <input type="hidden" name="page" value="lettings">
+                    <input type="hidden" name="page" value="sales">
                     <input type="hidden" name="pcode" value="{{ session['postcode'] }}">
-                    <button class="btn" id="lettings" type="submit" name="lettings" value="lettings"
-                            style="color: white;"><i class="fa fa-external-link-square" aria-hidden="true"></i>
-                        <a class="toggle" style="color: black; font-size: 20px;">Go to Lettings</a>
+                    <button class="btn" id="lettings" type="submit" name="sales" value="sales"
+                            style="color: black;">
+                        <a class="toggle" style="color: black; font-size: 20px;">Go to Sales</a>
                     </button>
                 </form>
-            <script>
-                function pupdate() {
-                    console.log("new selection made")
-                    document.getElementById("search").submit();
-                }
+            </div>
+        </a>
+        <script>
+            function pupdate() {
+                console.log("new selection made")
+                document.getElementById("search").submit();
+            }
 
-                document.getElementById("lettings").addEventListener("click", pupdate);
-            </script>
-    </div>
-    {% endif %}
-    {% if session['type'] == 'lettings' %}
-                <a href="#">
-                <div class="dropdown">
-                    <form class="navbar-form navbar-left" action="{{ url_for("search") }}" id="searchbutton"
-                          method="post" name="search">
-                        <input type="hidden" name="page" value="sales">
-                        <input type="hidden" name="pcode" value="{{ session['postcode'] }}">
-                        <button class="btn" id="lettings" type="submit" name="sales" value="sales"
-                                style="color: black;">
-                    <a class="toggle" style="color: black; font-size: 20px;">Go to Sales</a>
-                        </button>
-                    </form>
-                </div>
-            </a>
-            <script>
-                function pupdate() {
-                    console.log("new selection made")
-                    document.getElementById("search").submit();
-                }
-
-                document.getElementById("lettings").addEventListener("click", pupdate);
-            </script>
+            document.getElementById("lettings").addEventListener("click", pupdate);
+        </script>
         </div>
     {% endif %}
 
 
-    <div class="box2">
-        <div class="container" id="containerpadding" style="width: 90%; padding-top: 5%;">
-            <div class="container" >
-                {% if session['type'] == 'sales' %}
-                    <ul class="nav navbar-nav" >
+<div class="box2">
+    <div class="container" id="containerpadding" style="width: 90%; padding-top: 5%;">
+        <div class="container topics">
+            {% if session['type'] == 'sales' %}
+                <ul class="nav navbar-nav">
 
-                        <li id="listyle">
-                            <div >
-                                <a class="dropdown-toggle" data-toggle="dropdown" id="fontstyle" style="background-color: transparent;">
+                    <li id="listyle">
+                        <div>
+                            <a class="dropdown-toggle" data-toggle="dropdown" id="fontstyle"
+                               style="background-color: transparent;">
                                 <i class="fa fa-external-link-square" aria-hidden="true"></i>For Sale</a>
-                                <ul class="dropdown-menu" id="fontstyle" style="text-align: center; display: flex; background-color:#1a2090; display: none;">
-                                    <li ><a href=# id=rmovesale value=0 style="color: white; text-align: center;">RightMove</a></li>
-                                    <li style="text-align: center;"><a style="color: white;" href=# id=otmsale>OnTheMarket</a></li>
-                                    <li style="color: white; text-align: center;"><a href=# style="color: white;" id=gumtree>Gumtree</a></li>
-                                    <li style="color: white; text-align: center;"><a href=# style="color: white;" id=allsales>All Results</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li id="listyle">
-                            <!--add id=planningdata for use of the API to the a tag ckass="toggle" -->
-                            <div class="dropdown"><a class="toggle" style="color: white;"><i
-                                    class="fa fa-area-chart" aria-hidden="true"
-                                    style="justify-content: center; color: white;"></i>
-                                Local Planning</a></div>
-                        </li>
-                        <li id="listyle">
-                            <div class="dropdown"><a id=crysdata class="toggle" style="color: white;">
-                                <i class="fa fa-signal" aria-hidden="true" style="justify-content: center;"></i>
-                                Local Area Statistics</a></div>
-                        </li>
-                        <li>
-                            <div class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" style="color: white;">
-                                    <i class="fa fa-line-chart" style="justify-content: center;" aria-hidden="true"></i>
-                                    Sold Properties</a>
-                                <ul class="dropdown-menu" style="background-color:#1a2090; display: none;">
-                                    <li><a href=# style="color: white;" id=soldpricejson>Land Registry Sold</a></li>
-                                    <li><a href=# style="color: white;" id=rmovesold>RightMove Sold</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-
-                        </li>
-                    </ul>
-
-                {% endif %}
-                {% if session['type'] == 'lettings' %}
-                    <ul class="nav navbar-nav">
-                        <li id="listyle">
-                            <div class="dropdown show">
-                                <a class="dropdown-toggle" data-toggle="dropdown" id="fontstyle">
-                                    <i class="fa fa-external-link-square"  aria-hidden="true"></i>To Rent</a>
-                                <ul class="dropdown-menu" id="fontstyle" style="background-color:#1a2090; display: none;">
-                                    <li><a href=# id=rmovelets>RightMove</a></li>
-                                    <li><a href=# id=otmrent>OnTheMarket</a></li>
-                                    <li><a href=# id=gumtree>Gumtree</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                           <li id="listyle">
-                            <div class="dropdown"><a id=crysdata class="toggle" style="color: white;">
-                                <i class="fa fa-signal" aria-hidden="true" style="justify-content: center;"></i>
-                                Local Area Statistics</a></div>
-                        </li>
-                    </ul>
-                {% endif %}
-            </div>
-
-            <ul class="nav navbar-nav " id="ulbar">
-                <li>
-                    <form action="{{ url_for("update_pcode") }}" method="post" name="exampleform"
-                          style="padding-top: 13px;">
-                               <input style="width: 150px; font-size: 10px;" id="autocomplete" name="pcodeupdate" placeholder="Search by postcode..." type="text"/>
-                        <script>
-
-                            var form = document.getElementsByName("exampleform");
-
-                            document.getElementById("autocomplete").addEventListener("click", function () {
-                              form.submit();
-                            });
-
-                            let autocomplete;
-
-                            function initAutocomplete() {
-                                autocomplete = new google.maps.places.Autocomplete(
-                                    document.getElementById('autocomplete'),
-                                    {
-                                        {#'locality', 'neighborhood', 'plus_code', 'street_address' 'postal_code', 'post_code_prefix', 'postal_code_suffix', #}
-                                        types: ['postal_code'],
-                                        componentRestrictions: { country : ['UK'] },
-                                        fields: ['address_components', 'postal_code']
-                                    });
-                            }
-                        </script>
-                        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBDK8Krhrf3X_qTmLIeLOSBX89Qk2Zp2o&libraries=places&callback=initAutocomplete" async defer></script>
-                    </form>
-                    <script>
-
-                            const idel = document.getElementById("searchinput");
-                            idel.addEventListener("input", autocompleteAName);
-
-
-                            async function autocompleteAName(e) {
-
-                                let pcode = e.target.value;
-                                const url = 'https://api.geoapify.com/v1/geocode/autocomplete?text=';
-                                const url_end = '&format=json&apiKey=f6158bd8aa4846fb9a97b27077d9a132';
-                                const api_url = url + pcode + url_end;
-
-                                const myjson = await fetch(api_url);
-                                var data = await myjson.json();
-
-                                console.log(data);
-                                show(data);
-                            }
-
-
-                            function show(data) {
-                                console.log("data.results[0]: " + data.results);
-                                var datalist = document.getElementById("postcodeinputs");
-
-                                for (var i = 0; i < data.results.length; i++) {
-                                    var n_option = document.createElement('option');
-
-                                    console.log("data[i]: " + data.results[i].address_line2);
-                                    var option_txt = document.createTextNode(data.results[i].address_line2);
-                                    n_option.setAttribute("value", data.results[i].postcode);
-                                    n_option.appendChild(option_txt);
-                                    datalist.append(n_option);
-
-                                }
-                            }
-
-                        function pupdate() {
-                            console.log("new selection made")
-                            document.getElementById("update_pcode").submit();
-                        }
-
-                        document.getElementById("pcode&radius").addEventListener("click", pupdate);
-                    </script>
-                </li>
-                <li>
-                    <form action="{{ url_for("update_radius") }}" method="post" name="radiusform" id="selection">
-                        <select onmousedown="if(this.options.length>1){this.size=7;}"
-                                onmouseleave="if(this.options.length>1){this.size=1;}" class="selectclass"
-                                id="pcode&radius"
-                                onchange="this.form.submit()"
-                                style="border: none; background-color: #1A2090; color: white; width: 110px; font-size: 15px;"
-                                name="radius">
-                            <option>Radius: {{ session['radius'] }}</option>
-                            <option value="0">+0 miles</option>
-                            <option value="0.25">+0.25 miles</option>
-                            <option value="o.5">+0.5 miles</option>
-                            <option value="1">+1 miles</option>
-                            <option value="3">+3 miles</option>
-                            <option value="5">+5 miles</option>
-                            <option value="10">+10 miles</option>
-                            <option value="15">+15 miles</option>
-                            <option value="30">+30 miles</option>
-                            <option value="50">+50 miles</option>
-                        </select>
-                    </form>
-                    </form>
-                </li>
-                <li>
-                    <form action="{{ url_for("update_rooms") }}" method="post" name="minrooms" id="selection">
-                        <select id="minrooms" class="form-select form-select-sm" class="selectclass"
-                                onmousedown="if(this.options.length>1){this.size=6;}"
-                                onmouseleave="if(this.options.length>1){this.size=0;}" name="minrooms"
-                                style="border: none; background-color: #1A2090; color: white; width: auto; font-size: 15px;"
-                                onchange="this.form.submit()">
-                            <option value="Number of Beds">Min Rooms: {{ session['brooms'] }}</option>
-                            <option value="0">Studio</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                    </form>
-                    <script>
-                        function pupdate() {
-                            console.log("new selection made")
-                            document.getElementById("update_rooms").submit();
-                        }
-
-                        document.getElementById("minrooms").addEventListener("click", pupdate);
-
-                    </script>
-                </li>
-                <li>
-                    <form action="{{ url_for("update_maxrooms") }}" method="post" name="minrooms" id="selection">
-                        <select id="maxrooms" class="form-select form-select-sm" class="selectclass"
-                                onmousedown="if(this.options.length>1){this.size=6;}"
-                                onmouseleave="if(this.options.length>1){this.size=0;}" name="maxroom"
-                                style="border: none; background-color: #1A2090; color: white; width: auto; font-size: 15px;"
-                                onchange="this.form.submit()">
-                            <option value="Number of Beds">Max Rooms: {{ session['maxrooms'] }}</option>
-                            <option value="0">Studio</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                    </form>
-                    <script>
-                        function pupdate() {
-                            console.log("new selection made")
-                            document.getElementById("update_rooms").submit();
-                        }
-
-                        document.getElementById("minrooms").addEventListener("click", pupdate);
-
-                    </script>
-                </li>
-                <li style="width: auto; flex-shrink: 2;">
-                    <form action="{{ url_for("update_type") }}" method="post" name="type" id="selection">
-                        <select id="propertytype" class="form-select form-select-sm" name="propertytype"
-                                class="selectclass"
-                                onmousedown="if(this.options.length>1){this.size=6;}"
-                                onmouseleave="if(this.options.length>1){this.size=0;}"
-                                style="border: none; background-color: #1A2090; color: white; width: auto; font-size: 15px;"
-                                onchange="this.form.submit()">
-                            <option>Property Type: {{ session['propertytype'] }}</option>
-                            <option value="houses">Houses</option>
-                            <option value="flats">Flats/ Apartments</option>
-                            <option value="bungalows">Bungalows</option>
-                        </select>
-                    </form>
-                </li>
-                {% if session['type'] == 'sales' %}
+                            <ul class="dropdown-menu" id="fontstyle"
+                                style="text-align: center; display: flex; background-color:#1a2090; display: none;">
+                                <li><a id=rmovesale value=0 style="color: white; text-align: center;">RightMove</a></li>
+                                <li style="text-align: center;"><a style="color: white;" href=#
+                                                                   id=otmsale>OnTheMarket</a></li>
+                                <li style="color: white; text-align: center;"><a style="color: white;" id=gumtree>Gumtree</a>
+                                </li>
+                                <li style="color: white; text-align: center;"><a style="color: white;" id=allsales>All
+                                    Results</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li id="listyle">
+                        <!--add id=planningdata for use of the API to the a tag ckass="toggle" -->
+                        <div class="dropdown"><a class="toggle" style="color: white;"><i
+                                class="fa fa-area-chart" aria-hidden="true"
+                                style="justify-content: center; color: white;"></i>
+                            Local Planning</a></div>
+                    </li>
+                    {% if session['postcode']|length > 5 %}
+                    <li id="listyle">
+                        <div class="dropdown"><a id=crysdata class="toggle" style="color: white;">
+                            <i class="fa fa-signal" aria-hidden="true" style="justify-content: center;"></i>
+                            Local Area Statistics
+                        </a></div>
+                    </li>
+                        {% endif %}
                     <li>
-                        <form action="{{ url_for("update_min_price") }}" id="minprice" method="post" name="minprice" id="selection">
-                            <select id="minpriceoptions" class="form-select form-select-sm "
-                                    onmousedown="if(this.options.length>15){this.size=15;}"
-                                    onmouseleave="if(this.options.length>15){this.size=0;}" name="minprice"
-                                    style="border: none; background-color: #1A2090; flex-shrink: 2; color: white; width: auto; font-size: 15px;"
-                                    onchange="this.form.submit()">
-                                <option>Min Price: {{ session['minprice'] }}</option>
-                                <option value="50000"
-                                >£50,000
-                                </option>
-                                <option value="60000"
-                                >£60,000
-                                </option>
-                                <option value="70000"
-                                >£70,000
-                                </option>
-                                <option value="80000"
-                                >£80,000
-                                </option>
-                                <option value="90000"
-                                >£90,000
-                                </option>
-                                <option value="100000"
-                                >£100,000
-                                </option>
-                                <option value="110000"
-                                >£110,000
-                                </option>
-                                <option value="120000"
-                                >£120,000
-                                </option>
-                                <option value="125000"
-                                >£125,000
-                                </option>
-                                <option value="130000"
-                                >£130,000
-                                </option>
-                                <option value="140000"
-                                >£140,000
-                                </option>
-                                <option value="150000"
-                                >£150,000
-                                </option>
-                                <option value="160000"
-                                >£160,000
-                                </option>
-                                <option value="170000"
-                                >£170,000
-                                </option>
-                                <option value="175000"
-                                >£175,000
-                                </option>
-                                <option value="180000"
-                                >£180,000
-                                </option>
-                                <option value="190000"
-                                >£190,000
-                                </option>
-                                <option value="200000"
-                                >£200,000
-                                </option>
-                                <option value="210000"
-                                >£210,000
-                                </option>
-                                <option value="220000"
-                                >£220,000
-                                </option>
-                                <option value="230000"
-                                >£230,000
-                                </option>
-                                <option value="240000"
-                                >£240,000
-                                </option>
-                                <option value="250000"
-                                >£250,000
-                                </option>
-                                <option value="260000"
-                                >£260,000
-                                </option>
-                                <option value="270000"
-                                >£270,000
-                                </option>
-                                <option value="280000"
-                                >£280,000
-                                </option>
-                                <option value="290000"
-                                >£290,000
-                                </option>
-                                <option value="300000"
-                                >£300,000
-                                </option>
-                                <option value="325000"
-                                >£325,000
-                                </option>
-                                <option value="350000"
-                                >£350,000
-                                </option>
-                                <option value="375000"
-                                >£375,000
-                                </option>
-                                <option value="400000"
-                                >£400,000
-                                </option>
-                                <option value="425000"
-                                >£425,000
-                                </option>
-                                <option value="450000"
-                                >£450,000
-                                </option>
-                                <option value="475000"
-                                >£475,000
-                                </option>
-                                <option value="500000"
-                                >£500,000
-                                </option>
-                                <option value="550000"
-                                >£550,000
-                                </option>
-                                <option value="600000"
-                                >£600,000
-                                </option>
-                                <option value="650000"
-                                >£650,000
-                                </option>
-                                <option value="700000"
-                                >£700,000
-                                </option>
-                                <option value="800000"
-                                >£800,000
-                                </option>
-                                <option value="900000"
-                                >£900,000
-                                </option>
-                                <option value="1000000"
-                                >£1,000,000
-                                </option>
-                                <option value="1250000"
-                                >£1,250,000
-                                </option>
-                                <option value="1500000"
-                                >£1,500,000
-                                </option>
-                                <option value="1750000"
-                                >£1,750,000
-                                </option>
-                                <option value="2000000"
-                                >£2,000,000
-                                </option>
-                                <option value="2500000"
-                                >£2,500,000
-                                </option>
-                                <option value="3000000"
-                                >£3,000,000
-                                </option>
-                                <option value="4000000"
-                                >£4,000,000
-                                </option>
-                                <option value="5000000"
-                                >£5,000,000
-                                </option>
-                                <option value="7500000"
-                                >£7,500,000
-                                </option>
-                                <option value="10000000"
-                                >£10,000,000
-                                </option>
-                                <option value="15000000"
-                                >£15,000,000
-                                </option>
-                                <option value="20000000"
-                                >£20,000,000
-                                </option>
-                            </select>
-                        </form>
+                        <div class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" style="color: white;">
+                                <i class="fa fa-line-chart" style="justify-content: center;" aria-hidden="true"></i>
+                                Sold Properties</a>
+                            <ul class="dropdown-menu" style="background-color:#1a2090; display: none;">
+                                <li><a style="color: white;" id=soldpricejson>Land Registry Sold</a></li>
+                                <li><a style="color: white;" id=rmovesold>RightMove Sold</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+
+                    </li>
+                </ul>
+
+            {% endif %}
+            {% if session['type'] == 'lettings' %}
+                <ul class="nav navbar-nav">
+                    <li id="listyle">
+                        <div class="dropdown show">
+                            <a class="dropdown-toggle" data-toggle="dropdown" id="fontstyle">
+                                <i class="fa fa-external-link-square" aria-hidden="true"></i>To Rent</a>
+                            <ul class="dropdown-menu" id="fontstyle" style="background-color:#1a2090; display: none;">
+                                <li><a id=rmovelets>RightMove</a></li>
+                                <li><a id=otmrent>OnTheMarket</a></li>
+                                <li><a id=gumtree>Gumtree</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    {% if session['postcode']|length > 5 %}
+                    <li id="listyle">
+                        <div class="dropdown"><a id=crysdata class="toggle" style="color: white;">
+                            <i class="fa fa-signal" aria-hidden="true" style="justify-content: center;"></i>
+                            Local Area Statistics
+                        </a></div>
+                    </li>
+                    {% endif %}
+                </ul>
+            {% endif %}
+
+        </div>
+
+        <ul class="nav navbar-nav " id="ulbar">
+            <li>
+                <form action="{{ url_for("update_pcode") }}" method="post" name="exampleform"
+                      style="padding-top: 13px;">
+                    <input style="min-width: 200px; font-size: 10px;" id="autocomplete" name="pcodeupdate"
+                           placeholder="Enter a postcode..." type="text" />
+                    <script>
+
+
+                        var form = document.getElementsByName("exampleform");
+
+                        document.getElementById("autocomplete").addEventListener("click", function () {
+                            form.submit();
+                        });
+
+                        let autocomplete;
+
+                        function initAutocomplete() {
+                            autocomplete = new google.maps.places.Autocomplete(
+                                document.getElementById('autocomplete'),
+                                {
+                                    {#'locality', 'neighborhood', 'plus_code', 'street_address' 'postal_code', 'post_code_prefix', 'postal_code_suffix', #}
+                                    types: ['postal_code'],
+                                    componentRestrictions: {country: ['UK']},
+                                    fields: ['address_components', 'postal_code']
+                                });
+                            autocomplete.classList.add("focused");
+                        }
+
+                        var input = document.getElementById('autocomplete');
+
+                         input.addEventListener("click", message, { once: true });
+
+                        function message() {
+                            alert("Use a full postcode to access local statistics.")
+                        }
+
+                    </script>
+                    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQugco0qDg4hEiieAj99EhInwk_T8eFsU&libraries=places&callback=initAutocomplete"
+                            async defer></script>
+                </form>
+                <script>
+
+                    const idel = document.getElementById("searchinput");
+                    idel.addEventListener("input", autocompleteAName);
+
+
+                    async function autocompleteAName(e) {
+
+                        let pcode = e.target.value;
+                        const url = 'https://api.geoapify.com/v1/geocode/autocomplete?text=';
+                        const url_end = '&format=json&apiKey=f6158bd8aa4846fb9a97b27077d9a132';
+                        const api_url = url + pcode + url_end;
+
+                        const myjson = await fetch(api_url);
+                        var data = await myjson.json();
+
+                        console.log(data);
+                        show(data);
+                    }
+
+
+                    function show(data) {
+                        console.log("data.results[0]: " + data.results);
+                        var datalist = document.getElementById("postcodeinputs");
+
+                        for (var i = 0; i < data.results.length; i++) {
+                            var n_option = document.createElement('option');
+
+                            console.log("data[i]: " + data.results[i].address_line2);
+                            var option_txt = document.createTextNode(data.results[i].address_line2);
+                            n_option.setAttribute("value", data.results[i].postcode);
+                            n_option.appendChild(option_txt);
+                            datalist.append(n_option);
+
+                        }
+                    }
+
+                    function pupdate() {
+                        console.log("new selection made")
+                        document.getElementById("update_pcode").submit();
+                    }
+
+                    document.getElementById("pcode&radius").addEventListener("click", pupdate);
+                </script>
+            </li>
+            <li>
+                <form action="{{ url_for("update_radius") }}" method="post" name="radiusform" id="selection">
+                    <select onmousedown="if(this.options.length>1){this.size=7;}"
+                            onmouseleave="if(this.options.length>1){this.size=1;}" class="selectclass"
+                            id="pcode&radius"
+                            onchange="this.form.submit()"
+                            style="border: none; background-color: #1A2090; color: white; width: 110px; font-size: 15px;"
+                            name="radius">
+                        <option>Radius: {{ session['radius'] }}</option>
+                        <option value="0">+0 miles</option>
+                        <option value="0.25">+0.25 miles</option>
+                        <option value="o.5">+0.5 miles</option>
+                        <option value="1">+1 miles</option>
+                        <option value="3">+3 miles</option>
+                        <option value="5">+5 miles</option>
+                        <option value="10">+10 miles</option>
+                        <option value="15">+15 miles</option>
+                        <option value="30">+30 miles</option>
+                        <option value="50">+50 miles</option>
+                    </select>
+                </form>
+                </form>
+            </li>
+            <li>
+                <form action="{{ url_for("update_rooms") }}" method="post" name="minrooms" id="selection">
+                    <select id="minrooms" class="form-select form-select-sm" class="selectclass"
+                            onmousedown="if(this.options.length>1){this.size=6;}"
+                            onmouseleave="if(this.options.length>1){this.size=0;}" name="minrooms"
+                            style="border: none; background-color: #1A2090; color: white; width: auto; font-size: 15px;"
+                            onchange="this.form.submit()">
+                        <option value="Number of Beds">Min Rooms: {{ session['brooms'] }}</option>
+                        <option value="0">Studio</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </form>
+                <script>
+                    function pupdate() {
+                        console.log("new selection made")
+                        document.getElementById("update_rooms").submit();
+                    }
+
+                    document.getElementById("minrooms").addEventListener("click", pupdate);
+
+                </script>
+            </li>
+            <li>
+                <form action="{{ url_for("update_maxrooms") }}" method="post" name="minrooms" id="selection">
+                    <select id="maxrooms" class="form-select form-select-sm" class="selectclass"
+                            onmousedown="if(this.options.length>1){this.size=6;}"
+                            onmouseleave="if(this.options.length>1){this.size=0;}" name="maxroom"
+                            style="border: none; background-color: #1A2090; color: white; width: auto; font-size: 15px;"
+                            onchange="this.form.submit()">
+                        <option value="Number of Beds">Max Rooms: {{ session['maxrooms'] }}</option>
+                        <option value="0">Studio</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </form>
+                <script>
+                    function pupdate() {
+                        console.log("new selection made")
+                        document.getElementById("update_rooms").submit();
+                    }
+
+                    document.getElementById("minrooms").addEventListener("click", pupdate);
+
+                </script>
+            </li>
+            <li style="width: auto; flex-shrink: 2;">
+                <form action="{{ url_for("update_type") }}" method="post" name="type" id="selection">
+                    <select id="propertytype" class="form-select form-select-sm" name="propertytype"
+                            class="selectclass"
+                            onmousedown="if(this.options.length>1){this.size=6;}"
+                            onmouseleave="if(this.options.length>1){this.size=0;}"
+                            style="border: none; background-color: #1A2090; color: white; width: auto; font-size: 15px;"
+                            onchange="this.form.submit()">
+                        <option>Property Type: {{ session['propertytype'] }}</option>
+                        <option value="houses">Houses</option>
+                        <option value="flats">Flats/ Apartments</option>
+                        <option value="bungalows">Bungalows</option>
+                    </select>
+                </form>
+            </li>
+            {% if session['type'] == 'sales' %}
+                <li>
+                    <form action="{{ url_for("update_min_price") }}" id="minprice" method="post" name="minprice"
+                          id="selection">
+                        <select id="minpriceoptions" class="form-select form-select-sm "
+                                onmousedown="if(this.options.length>15){this.size=15;}"
+                                onmouseleave="if(this.options.length>15){this.size=0;}" name="minprice"
+                                style="border: none; background-color: #1A2090; flex-shrink: 2; color: white; width: auto; font-size: 15px;"
+                                onchange="this.form.submit()">
+                            <option>Min Price: {{ session['minprice'] }}</option>
+                            <option value="50000"
+                            >£50,000
+                            </option>
+                            <option value="60000"
+                            >£60,000
+                            </option>
+                            <option value="70000"
+                            >£70,000
+                            </option>
+                            <option value="80000"
+                            >£80,000
+                            </option>
+                            <option value="90000"
+                            >£90,000
+                            </option>
+                            <option value="100000"
+                            >£100,000
+                            </option>
+                            <option value="110000"
+                            >£110,000
+                            </option>
+                            <option value="120000"
+                            >£120,000
+                            </option>
+                            <option value="125000"
+                            >£125,000
+                            </option>
+                            <option value="130000"
+                            >£130,000
+                            </option>
+                            <option value="140000"
+                            >£140,000
+                            </option>
+                            <option value="150000"
+                            >£150,000
+                            </option>
+                            <option value="160000"
+                            >£160,000
+                            </option>
+                            <option value="170000"
+                            >£170,000
+                            </option>
+                            <option value="175000"
+                            >£175,000
+                            </option>
+                            <option value="180000"
+                            >£180,000
+                            </option>
+                            <option value="190000"
+                            >£190,000
+                            </option>
+                            <option value="200000"
+                            >£200,000
+                            </option>
+                            <option value="210000"
+                            >£210,000
+                            </option>
+                            <option value="220000"
+                            >£220,000
+                            </option>
+                            <option value="230000"
+                            >£230,000
+                            </option>
+                            <option value="240000"
+                            >£240,000
+                            </option>
+                            <option value="250000"
+                            >£250,000
+                            </option>
+                            <option value="260000"
+                            >£260,000
+                            </option>
+                            <option value="270000"
+                            >£270,000
+                            </option>
+                            <option value="280000"
+                            >£280,000
+                            </option>
+                            <option value="290000"
+                            >£290,000
+                            </option>
+                            <option value="300000"
+                            >£300,000
+                            </option>
+                            <option value="325000"
+                            >£325,000
+                            </option>
+                            <option value="350000"
+                            >£350,000
+                            </option>
+                            <option value="375000"
+                            >£375,000
+                            </option>
+                            <option value="400000"
+                            >£400,000
+                            </option>
+                            <option value="425000"
+                            >£425,000
+                            </option>
+                            <option value="450000"
+                            >£450,000
+                            </option>
+                            <option value="475000"
+                            >£475,000
+                            </option>
+                            <option value="500000"
+                            >£500,000
+                            </option>
+                            <option value="550000"
+                            >£550,000
+                            </option>
+                            <option value="600000"
+                            >£600,000
+                            </option>
+                            <option value="650000"
+                            >£650,000
+                            </option>
+                            <option value="700000"
+                            >£700,000
+                            </option>
+                            <option value="800000"
+                            >£800,000
+                            </option>
+                            <option value="900000"
+                            >£900,000
+                            </option>
+                            <option value="1000000"
+                            >£1,000,000
+                            </option>
+                            <option value="1250000"
+                            >£1,250,000
+                            </option>
+                            <option value="1500000"
+                            >£1,500,000
+                            </option>
+                            <option value="1750000"
+                            >£1,750,000
+                            </option>
+                            <option value="2000000"
+                            >£2,000,000
+                            </option>
+                            <option value="2500000"
+                            >£2,500,000
+                            </option>
+                            <option value="3000000"
+                            >£3,000,000
+                            </option>
+                            <option value="4000000"
+                            >£4,000,000
+                            </option>
+                            <option value="5000000"
+                            >£5,000,000
+                            </option>
+                            <option value="7500000"
+                            >£7,500,000
+                            </option>
+                            <option value="10000000"
+                            >£10,000,000
+                            </option>
+                            <option value="15000000"
+                            >£15,000,000
+                            </option>
+                            <option value="20000000"
+                            >£20,000,000
+                            </option>
+                        </select>
+                    </form>
+                    <script>
+                        function pupdate() {
+                            console.log("new selection made")
+                            document.getElementById("update_min_price").submit();
+                        }
+
+                        document.getElementById("minprice").addEventListener("click", pupdate);
+                    </script>
+                </li>
+                <li>
+                    <form action="{{ url_for("update_max_price") }}" id="maxprice selection" method="post"
+                          name="maxprice">
+                        <select id="maxprice" name="maxprice"
+                                onmousedown="if(this.options.length>15){this.size=15;}"
+                                onmouseleave="if(this.options.length>15){this.size=0;}"
+                                style="border: none; background-color: #1A2090; color: white; width: auto; font-size: 15px;"
+                                onchange="this.form.submit()">
+                            <option>Max Price {{ session['maxprice'] }}</option>
+                            <option value="50000"
+                            >£50,000
+                            </option>
+                            <option value="60000"
+                            >£60,000
+                            </option>
+                            <option value="70000"
+                            >£70,000
+                            </option>
+                            <option value="80000"
+                            >£80,000
+                            </option>
+                            <option value="90000"
+                            >£90,000
+                            </option>
+                            <option value="100000"
+                            >£100,000
+                            </option>
+                            <option value="110000"
+                            >£110,000
+                            </option>
+                            <option value="120000"
+                            >£120,000
+                            </option>
+                            <option value="125000"
+                            >£125,000
+                            </option>
+                            <option value="130000"
+                            >£130,000
+                            </option>
+                            <option value="140000"
+                            >£140,000
+                            </option>
+                            <option value="150000"
+                            >£150,000
+                            </option>
+                            <option value="160000"
+                            >£160,000
+                            </option>
+                            <option value="170000"
+                            >£170,000
+                            </option>
+                            <option value="175000"
+                            >£175,000
+                            </option>
+                            <option value="180000"
+                            >£180,000
+                            </option>
+                            <option value="190000"
+                            >£190,000
+                            </option>
+                            <option value="200000"
+                            >£200,000
+                            </option>
+                            <option value="210000"
+                            >£210,000
+                            </option>
+                            <option value="220000"
+                            >£220,000
+                            </option>
+                            <option value="230000"
+                            >£230,000
+                            </option>
+                            <option value="240000"
+                            >£240,000
+                            </option>
+                            <option value="250000"
+                            >£250,000
+                            </option>
+                            <option value="260000"
+                            >£260,000
+                            </option>
+                            <option value="270000"
+                            >£270,000
+                            </option>
+                            <option value="280000"
+                            >£280,000
+                            </option>
+                            <option value="290000"
+                            >£290,000
+                            </option>
+                            <option value="300000"
+                            >£300,000
+                            </option>
+                            <option value="325000"
+                            >£325,000
+                            </option>
+                            <option value="350000"
+                            >£350,000
+                            </option>
+                            <option value="375000"
+                            >£375,000
+                            </option>
+                            <option value="400000"
+                            >£400,000
+                            </option>
+                            <option value="425000"
+                            >£425,000
+                            </option>
+                            <option value="450000"
+                            >£450,000
+                            </option>
+                            <option value="475000"
+                            >£475,000
+                            </option>
+                            <option value="500000"
+                            >£500,000
+                            </option>
+                            <option value="550000"
+                            >£550,000
+                            </option>
+                            <option value="600000"
+                            >£600,000
+                            </option>
+                            <option value="650000"
+                            >£650,000
+                            </option>
+                            <option value="700000"
+                            >£700,000
+                            </option>
+                            <option value="800000"
+                            >£800,000
+                            </option>
+                            <option value="900000"
+                            >£900,000
+                            </option>
+                            <option value="1000000"
+                            >£1,000,000
+                            </option>
+                            <option value="1250000"
+                            >£1,250,000
+                            </option>
+                            <option value="1500000"
+                            >£1,500,000
+                            </option>
+                            <option value="1750000"
+                            >£1,750,000
+                            </option>
+                            <option value="2000000"
+                            >£2,000,000
+                            </option>
+                            <option value="2500000"
+                            >£2,500,000
+                            </option>
+                            <option value="3000000"
+                            >£3,000,000
+                            </option>
+                            <option value="4000000"
+                            >£4,000,000
+                            </option>
+                            <option value="5000000"
+                            >£5,000,000
+                            </option>
+                            <option value="7500000"
+                            >£7,500,000
+                            </option>
+                            <option value="10000000"
+                            >£10,000,000
+                            </option>
+                            <option value="15000000"
+                            >£15,000,000
+                            </option>
+                            <option value="20000000"
+                            >£20,000,000
+                            </option>
+                        </select>
+                    </form>
+                    <script>
+                        function pupdate() {
+                            console.log("new selection made")
+                            document.getElementById("update_max_price").submit();
+                        }
+
+                        document.getElementById("maxprice").addEventListener("click", pupdate);
+                    </script>
+                </li>
+
+            {% endif %}
+            {% if session['type'] == 'lettings' %}
+                <li>
+                    <form action="{{ url_for("update_min_price") }}" id="minprice" id="selection" method="post"
+                          name="minprice">
+                        <select id="minpriceoptions" class="selectclass" name="minprice"
+                                onmousedown="if(this.options.length>15){this.size=15;}"
+                                onmouseleave="if(this.options.length>15){this.size=0;}"
+                                style="border: none; background-color: #1A2090; color: white; width: auto; font-size: 15px;"
+                                onchange="this.form.submit()">
+                            <option value="100">Min Price: {{ session['minprice'] }}</option>
+                            <option value="100">100 PCM</option>
+                            <option value="150">150 PCM</option>
+                            <option value="200">200 PCM</option>
+                            <option value="250">250 PCM</option>
+                            <option value="300">300 PCM</option>
+                            <option value="350">350 PCM</option>
+                            <option value="400">400 PCM</option>
+                            <option value="450">450 PCM</option>
+                            <option value="500">500 PCM</option>
+                            <option value="600">600 PCM</option>
+                            <option value="700">700 PCM</option>
+                            <option value="800">800 PCM</option>
+                            <option value="900">900 PCM</option>
+                            <option value="1000">1,000 PCM</option>
+                            <option value="1100">1,100 PCM</option>
+                            <option value="1200">1,200 PCM</option>
+                            <option value="1250">1,250 PCM</option>
+                            <option value="1300">1,300 PCM</option>
+                            <option value="1400">1,400 PCM</option>
+                            <option value="1500">1,500 PCM</option>
+                            <option value="1750">1,750 PCM</option>
+                            <option value="2000">2,000 PCM</option>
+                            <option value="2250">2,250 PCM</option>
+                            <option value="2500">2,500 PCM</option>
+                            <option value="2750">2,750 PCM</option>
+                            <option value="3000">3,000 PCM</option>
+                            <option value="3500">3,500 PCM</option>
+                            <option value="4000">4,000 PCM</option>
+                            <option value="4500">4,500 PCM</option>
+                            <option value="5000">5,000 PCM</option>
+                            <option value="5500">5,500 PCM</option>
+                            <option value="6000">6,000 PCM</option>
+                            <option value="6500">6,500 PCM</option>
+                            <option value="7000">7,000 PCM</option>
+                            <option value="8000">8,000 PCM</option>
+                            <option value="9000">9,000 PCM</option>
+                            <option value="10000">10,000 PCM</option>
+                            <option value="12500">12,500 PCM</option>
+                            <option value="15000">15,000 PCM</option>
+                            <option value="17500">17,500 PCM</option>
+                            <option value="20000">20,000 PCM</option>
+                            <option value="25000">25,000 PCM</option>
+                            <option value="30000">30,000 PCM</option>
+                            <option value="35000">35,000 PCM</option>
+                            <option value="40000">40,000 PCM</option>
+                        </select>
                         <script>
                             function pupdate() {
                                 console.log("new selection made")
                                 document.getElementById("update_min_price").submit();
                             }
 
-                            document.getElementById("minprice").addEventListener("click", pupdate);
+                            document.getElementById("minpriceoptions").addEventListener("click", pupdate);
                         </script>
-                    </li>
-                    <li>
-                        <form action="{{ url_for("update_max_price") }}" id="maxprice selection" method="post" name="maxprice">
-                            <select id="maxprice" name="maxprice"
-                                    onmousedown="if(this.options.length>15){this.size=15;}"
-                                    onmouseleave="if(this.options.length>15){this.size=0;}"
-                                    style="border: none; background-color: #1A2090; color: white; width: auto; font-size: 15px;"
-                                    onchange="this.form.submit()">
-                                <option>Max Price {{ session['maxprice'] }}</option>
-                                <option value="50000"
-                                >£50,000
-                                </option>
-                                <option value="60000"
-                                >£60,000
-                                </option>
-                                <option value="70000"
-                                >£70,000
-                                </option>
-                                <option value="80000"
-                                >£80,000
-                                </option>
-                                <option value="90000"
-                                >£90,000
-                                </option>
-                                <option value="100000"
-                                >£100,000
-                                </option>
-                                <option value="110000"
-                                >£110,000
-                                </option>
-                                <option value="120000"
-                                >£120,000
-                                </option>
-                                <option value="125000"
-                                >£125,000
-                                </option>
-                                <option value="130000"
-                                >£130,000
-                                </option>
-                                <option value="140000"
-                                >£140,000
-                                </option>
-                                <option value="150000"
-                                >£150,000
-                                </option>
-                                <option value="160000"
-                                >£160,000
-                                </option>
-                                <option value="170000"
-                                >£170,000
-                                </option>
-                                <option value="175000"
-                                >£175,000
-                                </option>
-                                <option value="180000"
-                                >£180,000
-                                </option>
-                                <option value="190000"
-                                >£190,000
-                                </option>
-                                <option value="200000"
-                                >£200,000
-                                </option>
-                                <option value="210000"
-                                >£210,000
-                                </option>
-                                <option value="220000"
-                                >£220,000
-                                </option>
-                                <option value="230000"
-                                >£230,000
-                                </option>
-                                <option value="240000"
-                                >£240,000
-                                </option>
-                                <option value="250000"
-                                >£250,000
-                                </option>
-                                <option value="260000"
-                                >£260,000
-                                </option>
-                                <option value="270000"
-                                >£270,000
-                                </option>
-                                <option value="280000"
-                                >£280,000
-                                </option>
-                                <option value="290000"
-                                >£290,000
-                                </option>
-                                <option value="300000"
-                                >£300,000
-                                </option>
-                                <option value="325000"
-                                >£325,000
-                                </option>
-                                <option value="350000"
-                                >£350,000
-                                </option>
-                                <option value="375000"
-                                >£375,000
-                                </option>
-                                <option value="400000"
-                                >£400,000
-                                </option>
-                                <option value="425000"
-                                >£425,000
-                                </option>
-                                <option value="450000"
-                                >£450,000
-                                </option>
-                                <option value="475000"
-                                >£475,000
-                                </option>
-                                <option value="500000"
-                                >£500,000
-                                </option>
-                                <option value="550000"
-                                >£550,000
-                                </option>
-                                <option value="600000"
-                                >£600,000
-                                </option>
-                                <option value="650000"
-                                >£650,000
-                                </option>
-                                <option value="700000"
-                                >£700,000
-                                </option>
-                                <option value="800000"
-                                >£800,000
-                                </option>
-                                <option value="900000"
-                                >£900,000
-                                </option>
-                                <option value="1000000"
-                                >£1,000,000
-                                </option>
-                                <option value="1250000"
-                                >£1,250,000
-                                </option>
-                                <option value="1500000"
-                                >£1,500,000
-                                </option>
-                                <option value="1750000"
-                                >£1,750,000
-                                </option>
-                                <option value="2000000"
-                                >£2,000,000
-                                </option>
-                                <option value="2500000"
-                                >£2,500,000
-                                </option>
-                                <option value="3000000"
-                                >£3,000,000
-                                </option>
-                                <option value="4000000"
-                                >£4,000,000
-                                </option>
-                                <option value="5000000"
-                                >£5,000,000
-                                </option>
-                                <option value="7500000"
-                                >£7,500,000
-                                </option>
-                                <option value="10000000"
-                                >£10,000,000
-                                </option>
-                                <option value="15000000"
-                                >£15,000,000
-                                </option>
-                                <option value="20000000"
-                                >£20,000,000
-                                </option>
-                            </select>
-                        </form>
-                        <script>
-                            function pupdate() {
-                                console.log("new selection made")
-                                document.getElementById("update_max_price").submit();
-                            }
+                    </form>
+                </li>
+                <li>
+                    <form action="{{ url_for("update_max_price") }}" id="maxprice" id="selection" method="post"
+                          name="maxprice">
+                        <select class="selectclass" id="maxprice" name="maxprice"
+                                onmousedown="if(this.options.length>15){this.size=15;}"
+                                onmouseleave="if(this.options.length>15){this.size=0;}"
+                                style="border: none; background-color: #1A2090; color: white; width: auto; font-size: 15px;"
+                                onchange="this.form.submit()">
+                            <option value="100">Max Price: {{ session['maxprice'] }}</option>
+                            <option value="150">150 PCM</option>
+                            <option value="200">200 PCM</option>
+                            <option value="250">250 PCM</option>
+                            <option value="300">300 PCM</option>
+                            <option value="350">350 PCM</option>
+                            <option value="400">400 PCM</option>
+                            <option value="450">450 PCM</option>
+                            <option value="500">500 PCM</option>
+                            <option value="600">600 PCM</option>
+                            <option value="700">700 PCM</option>
+                            <option value="800">800 PCM</option>
+                            <option value="900">900 PCM</option>
+                            <option value="1000">1,000 PCM</option>
+                            <option value="1100">1,100 PCM</option>
+                            <option value="1200">1,200 PCM</option>
+                            <option value="1250">1,250 PCM</option>
+                            <option value="1300">1,300 PCM</option>
+                            <option value="1400">1,400 PCM</option>
+                            <option value="1500">1,500 PCM</option>
+                            <option value="1750">1,750 PCM</option>
+                            <option value="2000">2,000 PCM</option>
+                            <option value="2250">2,250 PCM</option>
+                            <option value="2500">2,500 PCM</option>
+                            <option value="2750">2,750 PCM</option>
+                            <option value="3000">3,000 PCM</option>
+                            <option value="3500">3,500 PCM</option>
+                            <option value="4000">4,000 PCM</option>
+                            <option value="4500">4,500 PCM</option>
+                            <option value="5000">5,000 PCM</option>
+                            <option value="5500">5,500 PCM</option>
+                            <option value="6000">6,000 PCM</option>
+                            <option value="6500">6,500 PCM</option>
+                            <option value="7000">7,000 PCM</option>
+                            <option value="8000">8,000 PCM</option>
+                            <option value="9000">9,000 PCM</option>
+                            <option value="10000">10,000 PCM</option>
+                            <option value="12500">12,500 PCM</option>
+                            <option value="15000">15,000 PCM</option>
+                            <option value="17500">17,500 PCM</option>
+                            <option value="20000">20,000 PCM</option>
+                            <option value="25000">25,000 PCM</option>
+                            <option value="30000">30,000 PCM</option>
+                            <option value="35000">35,000 PCM</option>
+                            <option value="40000">40,000 PCM</option>
+                        </select>
+                    </form>
+                    <script>
+                        function pupdate() {
+                            console.log("new selection made")
+                            document.getElementById("update_max_price").submit();
+                        }
 
-                            document.getElementById("maxprice").addEventListener("click", pupdate);
-                        </script>
-                    </li>
-
-                {% endif %}
-                {% if session['type'] == 'lettings' %}
-                    <li>
-                        <form action="{{ url_for("update_min_price") }}" id="minprice" id="selection" method="post" name="minprice">
-                            <select id="minpriceoptions" class="selectclass" name="minprice"
-                                    onmousedown="if(this.options.length>15){this.size=15;}"
-                                    onmouseleave="if(this.options.length>15){this.size=0;}"
-                                    style="border: none; background-color: #1A2090; color: white; width: auto; font-size: 15px;"
-                                    onchange="this.form.submit()">
-                                <option value="100">Min Price: {{ session['minprice'] }}</option>
-                                <option value="100">100 PCM</option>
-                                <option value="150">150 PCM</option>
-                                <option value="200">200 PCM</option>
-                                <option value="250">250 PCM</option>
-                                <option value="300">300 PCM</option>
-                                <option value="350">350 PCM</option>
-                                <option value="400">400 PCM</option>
-                                <option value="450">450 PCM</option>
-                                <option value="500">500 PCM</option>
-                                <option value="600">600 PCM</option>
-                                <option value="700">700 PCM</option>
-                                <option value="800">800 PCM</option>
-                                <option value="900">900 PCM</option>
-                                <option value="1000">1,000 PCM</option>
-                                <option value="1100">1,100 PCM</option>
-                                <option value="1200">1,200 PCM</option>
-                                <option value="1250">1,250 PCM</option>
-                                <option value="1300">1,300 PCM</option>
-                                <option value="1400">1,400 PCM</option>
-                                <option value="1500">1,500 PCM</option>
-                                <option value="1750">1,750 PCM</option>
-                                <option value="2000">2,000 PCM</option>
-                                <option value="2250">2,250 PCM</option>
-                                <option value="2500">2,500 PCM</option>
-                                <option value="2750">2,750 PCM</option>
-                                <option value="3000">3,000 PCM</option>
-                                <option value="3500">3,500 PCM</option>
-                                <option value="4000">4,000 PCM</option>
-                                <option value="4500">4,500 PCM</option>
-                                <option value="5000">5,000 PCM</option>
-                                <option value="5500">5,500 PCM</option>
-                                <option value="6000">6,000 PCM</option>
-                                <option value="6500">6,500 PCM</option>
-                                <option value="7000">7,000 PCM</option>
-                                <option value="8000">8,000 PCM</option>
-                                <option value="9000">9,000 PCM</option>
-                                <option value="10000">10,000 PCM</option>
-                                <option value="12500">12,500 PCM</option>
-                                <option value="15000">15,000 PCM</option>
-                                <option value="17500">17,500 PCM</option>
-                                <option value="20000">20,000 PCM</option>
-                                <option value="25000">25,000 PCM</option>
-                                <option value="30000">30,000 PCM</option>
-                                <option value="35000">35,000 PCM</option>
-                                <option value="40000">40,000 PCM</option>
-                            </select>
-                            <script>
-                                function pupdate() {
-                                    console.log("new selection made")
-                                    document.getElementById("update_min_price").submit();
-                                }
-
-                                document.getElementById("minpriceoptions").addEventListener("click", pupdate);
-                            </script>
-                        </form>
-                    </li>
-                    <li>
-                        <form action="{{ url_for("update_max_price") }}" id="maxprice" id="selection" method="post" name="maxprice">
-                            <select class="selectclass" id="maxprice" name="maxprice"
-                                    onmousedown="if(this.options.length>15){this.size=15;}"
-                                    onmouseleave="if(this.options.length>15){this.size=0;}"
-                                    style="border: none; background-color: #1A2090; color: white; width: auto; font-size: 15px;"
-                                    onchange="this.form.submit()">
-                                <option value="100">Max Price: {{ session['maxprice'] }}</option>
-                                <option value="150">150 PCM</option>
-                                <option value="200">200 PCM</option>
-                                <option value="250">250 PCM</option>
-                                <option value="300">300 PCM</option>
-                                <option value="350">350 PCM</option>
-                                <option value="400">400 PCM</option>
-                                <option value="450">450 PCM</option>
-                                <option value="500">500 PCM</option>
-                                <option value="600">600 PCM</option>
-                                <option value="700">700 PCM</option>
-                                <option value="800">800 PCM</option>
-                                <option value="900">900 PCM</option>
-                                <option value="1000">1,000 PCM</option>
-                                <option value="1100">1,100 PCM</option>
-                                <option value="1200">1,200 PCM</option>
-                                <option value="1250">1,250 PCM</option>
-                                <option value="1300">1,300 PCM</option>
-                                <option value="1400">1,400 PCM</option>
-                                <option value="1500">1,500 PCM</option>
-                                <option value="1750">1,750 PCM</option>
-                                <option value="2000">2,000 PCM</option>
-                                <option value="2250">2,250 PCM</option>
-                                <option value="2500">2,500 PCM</option>
-                                <option value="2750">2,750 PCM</option>
-                                <option value="3000">3,000 PCM</option>
-                                <option value="3500">3,500 PCM</option>
-                                <option value="4000">4,000 PCM</option>
-                                <option value="4500">4,500 PCM</option>
-                                <option value="5000">5,000 PCM</option>
-                                <option value="5500">5,500 PCM</option>
-                                <option value="6000">6,000 PCM</option>
-                                <option value="6500">6,500 PCM</option>
-                                <option value="7000">7,000 PCM</option>
-                                <option value="8000">8,000 PCM</option>
-                                <option value="9000">9,000 PCM</option>
-                                <option value="10000">10,000 PCM</option>
-                                <option value="12500">12,500 PCM</option>
-                                <option value="15000">15,000 PCM</option>
-                                <option value="17500">17,500 PCM</option>
-                                <option value="20000">20,000 PCM</option>
-                                <option value="25000">25,000 PCM</option>
-                                <option value="30000">30,000 PCM</option>
-                                <option value="35000">35,000 PCM</option>
-                                <option value="40000">40,000 PCM</option>
-                            </select>
-                        </form>
-                        <script>
-                            function pupdate() {
-                                console.log("new selection made")
-                                document.getElementById("update_max_price").submit();
-                            }
-
-                            document.getElementById("maxprice").addEventListener("click", pupdate);
-                        </script>
-                    </li>
-                {% endif %}
-            </ul>
-        </div>
+                        document.getElementById("maxprice").addEventListener("click", pupdate);
+                    </script>
+                </li>
+            {% endif %}
+        </ul>
     </div>
-    <div class="box6" style="background-color: #E9E9EB;">
-        <h5 style="padding-top: 100px; text-align: center; padding-left: 10%; padding-right: 10%;">
-            Property {{ session['type'] }} results for: {{ session['display'] }} in the range of
-            £{{ session['minprice'] }} to £{{ session['maxprice'] }} for properties with {{ session['brooms'] }}
-            to {{ session['maxrooms'] }} rooms.</h5>
+</div>
+<div class="box6" style="background-color: #E9E9EB; text-align: center;">
 
-            <button id="sortbutton" class="btn" onClick="GFG_Fun()">
-                Sort price Low to High
-            </button>
-            <button id="sortbutton" class="btn" onClick="High_Low()">
-                Sort price High to Low
-            </button>
-            <h4 id="sessionvariable" style="padding-top: 100px;"></h4>
-        <div id="forsale" class="container" style="max-width: 80%; justify-items: center; padding-top: 30px;">
-        </div>
-        <script>
-
-            function GFG_Fun() {
-                var $wrap = $('#forsale');
-                $wrap.find('.child').sort(function (a, b) {
-                    console.log("a sort: " + a);
-                    console.log("b sort: " + b);
-                    return +a.dataset.percentage -
-                        +b.dataset.percentage;
-                })
-                    .appendTo($wrap);
-            }
-
-            function High_Low() {
-                var $wrap = $('#forsale');
-                $wrap.find('.child').sort(function (a, b) {
-                    return +b.dataset.percentage -
-                        +a.dataset.percentage;
-                })
-                    .appendTo($wrap);
-            }
-        </script>
-
+    <h5 style="padding-top: 100px; text-align: center; padding-left: 10%; padding-right: 10%;">
+        Property {{ session['type'] }} results for: {{ session['display'] }} in the radius of {{ session['radius'] }}
+        mile
+        in the range of £{{ session['minprice'] }} to £{{ session['maxprice'] }} for properties
+        with {{ session['brooms'] }}
+        to {{ session['maxrooms'] }} rooms.</h5>
+    <button id="sortbutton" class="btn" onClick="GFG_Fun()" style="margin: 0 auto;">
+        Sort price Low to High
+    </button>
+    <button id="sortbutton" class="btn" onClick="High_Low()">
+        Sort price High to Low
+    </button>
+    <h4 id="sessionvariable" style="padding-top: 100px;"></h4>
+    <div id="forsale" class="container" style="max-width: 80%; justify-items: center; padding-top: 30px;">
     </div>
+    <script>
+
+        function GFG_Fun() {
+            var $wrap = $('#forsale');
+            $wrap.find('.child').sort(function (a, b) {
+                console.log("a sort: " + a);
+                console.log("b sort: " + b);
+                return +a.dataset.percentage -
+                    +b.dataset.percentage;
+            })
+                .appendTo($wrap);
+        }
+
+        function High_Low() {
+            var $wrap = $('#forsale');
+            $wrap.find('.child').sort(function (a, b) {
+                return +b.dataset.percentage -
+                    +a.dataset.percentage;
+            })
+                .appendTo($wrap);
+        }
+    </script>
+
+</div>
 </div>
 <script>
     $(document).foundation();

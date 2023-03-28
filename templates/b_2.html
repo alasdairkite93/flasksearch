@@ -8,18 +8,21 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
 
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='foundation.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='foundation.css') }}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.4/dist/css/foundation.min.css" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.5/dist/js/foundation.min.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.4/dist/css/foundation.min.css"
+          crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.5/dist/js/foundation.min.js"
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.0.1/js/vendor/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/js/foundation.min.js"
-       crossorigin="anonymous">
-     </script>
+            crossorigin="anonymous">
+    </script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,168 +32,172 @@
         h1, body {
             font-family: 'Montserrat', sans-serif;
         }
-     @media only screen and (max-width: 500px) {
+
+        @media only screen and (max-width: 500px) {
 
 
-         #h-heading {
-             padding-top:40%;
-         }
-        #rowtag {
-            display: inline-grid;
-            justify-items: center;
-
-        }
-
-         #logosizing {
-             width: auto;
-             height: 50px;
-         }
-
-        .wrapper {
-            grid-template-columns: 0.6fr;
-             display: inline-grid;
-         }
-
-         .boxstart {
-             grid-column-start: 0;
-             grid-column-end: 1;
-             grid-row-start: 0;
-             grid-row-end: 1;
-         }
-
-         .box1 {
-             padding-left: 5%;
-             padding-right: 5%;
-             grid-column-start: 0;
-             grid-column-end: 3;
-             grid-row-start: 0;
-             grid-row-end: 4;
-         }
-
-         .box3 {
-             grid-column-start: 0;
-             grid-column-end: 3;
-             grid-row-start: 8;
-             grid-row-end: 13;
-         }
-         .column {
-
-          padding: 10px;
-          height: auto; /* Should be removed. Only for demonstration */
-        }
-
-     }
-
-     @media only screen and (min-width: 500px) and (max-width: 800px){
-
-
-         #logosizing {
-             width: auto;
-             height: auto;
-         }
-
-         #image {
-             width: 300px;
-             height: 300px;
-         }
-
-         .wrapper {
-             display: inline-grid;
-             grid-template-columns: repeat(3, 1fr);
-             grid-auto-rows: 10%;
-         }
-
-         #boxstart {
-             grid-column-start: 1;
-             grid-column-end: 2;
-             grid-row-start: 0;
-             grid-row-end: 1;
-         }
-
-         .box1 {
-             grid-column-start: 2;
-             grid-column-end: 3;
-             grid-row-start: 2;
-             grid-row-end: 4;
-             min-width: 500px;
-         }
-
-         .box3 {
-             grid-column-start: 2;
-             grid-column-end: 3;
-             grid-row-start: 9;
-             grid-row-end: 14;
-         }
-      .column {
-          float: left;
-          width: 33.33%;
-          padding: 10px;
-          height: auto; /* Should be removed. Only for demonstration */
-        }
-     }
-
-     @media only screen and (min-width: 800px) {
-
-
-         #logosizing {
-             width: auto;
-             height: auto;
-         }
-
-         #image {
-             width: 300px;
-             height: 300px;
-         }
-
-         .wrapper {
-             display: inline-grid;
-             grid-template-columns: repeat(3, 1fr);
-             grid-auto-rows: 10%;
-         }
-
-         .boxstart {
-             grid-column-start: 1;
-             grid-column-end: 2;
-             grid-row-start: 0;
-             grid-row-end: 1;
-         }
-
-         .box1 {
-             grid-column-start: 2;
-             grid-column-end: 3;
-             grid-row-start: 2;
-             grid-row-end: 4;
-             min-width: 500px;
-         }
-
-         .box3 {
-             grid-column-start: 2;
-             grid-column-end: 3;
-             grid-row-start: 9;
-             grid-row-end: 14;
-         }
-
-          .column {
-              float: left;
-              width: 33.33%;
-              padding: 10px;
-              height: auto; /* Should be removed. Only for demonstration */
+            #h-heading {
+                padding-top: 40%;
             }
 
-     }
+            #rowtag {
+                display: inline-grid;
+                justify-items: center;
 
-      .h2style {
+            }
+
+            #logosizing {
+                width: auto;
+                height: 50px;
+            }
+
+            .wrapper {
+                grid-template-columns: 0.6fr;
+                display: inline-grid;
+            }
+
+            .boxstart {
+                grid-column-start: 0;
+                grid-column-end: 1;
+                grid-row-start: 0;
+                grid-row-end: 1;
+            }
+
+            .box1 {
+                padding-left: 5%;
+                padding-right: 5%;
+                grid-column-start: 0;
+                grid-column-end: 3;
+                grid-row-start: 0;
+                grid-row-end: 4;
+            }
+
+            .box3 {
+                grid-column-start: 0;
+                grid-column-end: 3;
+                grid-row-start: 8;
+                grid-row-end: 13;
+            }
+
+            .column {
+
+                padding: 10px;
+                height: auto; /* Should be removed. Only for demonstration */
+            }
+
+        }
+
+        @media only screen and (min-width: 500px) and (max-width: 800px) {
+
+
+            #logosizing {
+                width: auto;
+                height: auto;
+            }
+
+            #image {
+                width: 300px;
+                height: 300px;
+            }
+
+            .wrapper {
+                display: inline-grid;
+                grid-template-columns: repeat(3, 1fr);
+                grid-auto-rows: 10%;
+            }
+
+            #boxstart {
+                grid-column-start: 1;
+                grid-column-end: 2;
+                grid-row-start: 0;
+                grid-row-end: 1;
+            }
+
+            .box1 {
+                grid-column-start: 2;
+                grid-column-end: 3;
+                grid-row-start: 2;
+                grid-row-end: 4;
+                min-width: 500px;
+            }
+
+            .box3 {
+                grid-column-start: 2;
+                grid-column-end: 3;
+                grid-row-start: 9;
+                grid-row-end: 14;
+            }
+
+            .column {
+                float: left;
+                width: 33.33%;
+                padding: 10px;
+                height: auto; /* Should be removed. Only for demonstration */
+            }
+        }
+
+        @media only screen and (min-width: 800px) {
+
+
+            #logosizing {
+                width: auto;
+                height: auto;
+            }
+
+            #image {
+                width: 300px;
+                height: 300px;
+            }
+
+            .wrapper {
+                display: inline-grid;
+                grid-template-columns: repeat(3, 1fr);
+                grid-auto-rows: 10%;
+            }
+
+            .boxstart {
+                grid-column-start: 1;
+                grid-column-end: 2;
+                grid-row-start: 0;
+                grid-row-end: 1;
+            }
+
+            .box1 {
+                grid-column-start: 2;
+                grid-column-end: 3;
+                grid-row-start: 2;
+                grid-row-end: 4;
+                min-width: 500px;
+            }
+
+            .box3 {
+                grid-column-start: 2;
+                grid-column-end: 3;
+                grid-row-start: 9;
+                grid-row-end: 14;
+            }
+
+            .column {
+                float: left;
+                width: 33.33%;
+                padding: 10px;
+                height: auto; /* Should be removed. Only for demonstration */
+            }
+
+        }
+
+        .h2style {
             color: black;
             font-size: 20px;
         }
 
-      .flexcontainer {
-        display: flex;
-        flex-direction: column;
-      }
+        .flexcontainer {
+            display: flex;
+            flex-direction: column;
+        }
 
         * {
-          box-sizing: border-box;
+            box-sizing: border-box;
         }
 
         /* Create three equal columns that floats next to each other */
@@ -205,480 +212,613 @@
     </style>
     <script>
 
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
 
-    if ( window.history.replaceState ) {
-  window.history.replaceState( null, null, window.location.href );
-}
+
+
     </script>
 </head>
 <body>
 <header>
 </header>
 <div class="flexcontainer">
-<div class="wrapper">
-<div class="boxstart">
+    <div class="wrapper">
+        <div class="boxstart">
 
-      <nav class="navbar navbar-light bg-light justify-content-between" id="boxstart">
-          <a class="navbar-brand"><img src="/static/images/mainlogo.png" id="large_marg" alt="mainlogo" id="image" ></a>
-    </nav>
-</div>
-    <div class="box1">
+            <nav class="navbar navbar-light bg-light justify-content-between" id="boxstart">
+                <a class="navbar-brand"><img src="/static/images/mainlogo.png" id="large_marg" alt="mainlogo"
+                                             id="image"></a>
+            </nav>
+        </div>
+        <div class="box1">
 
 
-        <h5 class="h2style" id="h-heading">{{ session['type'] }} results for: {{ session['display'] }}</h5>
-        <p>Enter the parameters of your search query.</p>
-          <form action="{{ url_for("search_p2")}}" style="padding-right: 20px;" method="post" name="search" onsubmit="return validateForm()">
-              <div class="form-row" style="padding-top: 20px;">
-                <div class="form-group row" >
-                    <label for="rooms" class="col-sm-3 col-form-label" >Min Rooms:</label>
-                    <div class="col-sm-3">
-                        <select id="minrooms"  onmousedown="if(this.options.length>8){this.size=8;}" onchange='this.size=0;' onblur="this.size=0;" class="form-control" name="minrooms" style="font-size: 12px;">
-                            <option>{{ session['minrooms'] }}</option>
-                            <option value="studio">Studio</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                        </select>
-                    </div>
-                    <label for="rooms" class="col-sm-3 col-form-label" >Max Rooms:</label>
-                    <div class="col-sm-3">
-                        <select id="maxrooms" class="form-control"  onmousedown="if(this.options.length>8){this.size=8;}" onchange='this.size=0;' onblur="this.size=0;" name="maxrooms" style="font-size: 12px;">
-                            <option>{{ session['maxrooms'] }}</option>
-                            <option>Studio</option>
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                        </select>
-                    </div>
-                </div>
-              </div>
-                {% if session['type'] == 'sales' %}
-               <div class="form-row" id="formrow" style="padding-top: 20px;">
+            <h5 class="h2style" id="h-heading">{{ session['type'] }} results for: {{ session['display'] }}</h5>
+            <p>Enter the parameters of your search query.</p>
+            <form action="{{ url_for("search_p2") }}" style="padding-right: 20px;" method="post" name="search"
+                  onsubmit="return validateForm()">
+                <div class="form-row" style="padding-top: 20px;">
                     <div class="form-group row">
-                        <label for="minprice" class="col-sm-3 col-form-label" >Select minimum price</label>
+                        <label for="rooms" class="col-sm-3 col-form-label">Min Rooms:</label>
                         <div class="col-sm-3">
-                            <select id="minprice" class="form-control" onmousedown="if(this.options.length>8){this.size=8;}" onchange='this.size=0;'  name="minprice" style="font-size: 12px;">
-                                <option>£{{ session['minprice'] }}</option>
-                                 <option value="50000"
-                                >£50,000</option>
-                                    <option value="60000"
-                                >£60,000</option>
-                                    <option value="70000"
-                                >£70,000</option>
-                                    <option value="80000"
-                                >£80,000</option>
-                                    <option value="90000"
-                                >£90,000</option>
-                                    <option value="100000"
-                                >£100,000</option>
-                                    <option value="110000"
-                                >£110,000</option>
-                                    <option value="120000"
-                                >£120,000</option>
-                                    <option value="125000"
-                                >£125,000</option>
-                                    <option value="130000"
-                                >£130,000</option>
-                                    <option value="140000"
-                                >£140,000</option>
-                                    <option value="150000"
-                                >£150,000</option>
-                                    <option value="160000"
-                                >£160,000</option>
-                                    <option value="170000"
-                                >£170,000</option>
-                                    <option value="175000"
-                                >£175,000</option>
-                                    <option value="180000"
-                                >£180,000</option>
-                                    <option value="190000"
-                                >£190,000</option>
-                                    <option value="200000"
-                                >£200,000</option>
-                                    <option value="210000"
-                                >£210,000</option>
-                                    <option value="220000"
-                                >£220,000</option>
-                                    <option value="230000"
-                                >£230,000</option>
-                                    <option value="240000"
-                                >£240,000</option>
-                                    <option value="250000"
-                                >£250,000</option>
-                                    <option value="260000"
-                                >£260,000</option>
-                                    <option value="270000"
-                                >£270,000</option>
-                                    <option value="280000"
-                                >£280,000</option>
-                                    <option value="290000"
-                                >£290,000</option>
-                                    <option value="300000"
-                                >£300,000</option>
-                                    <option value="325000"
-                                >£325,000</option>
-                                    <option value="350000"
-                                >£350,000</option>
-                                    <option value="375000"
-                                >£375,000</option>
-                                    <option value="400000"
-                                >£400,000</option>
-                                    <option value="425000"
-                                >£425,000</option>
-                                    <option value="450000"
-                                >£450,000</option>
-                                    <option value="475000"
-                                >£475,000</option>
-                                    <option value="500000"
-                                >£500,000</option>
-                                    <option value="550000"
-                                >£550,000</option>
-                                    <option value="600000"
-                                >£600,000</option>
-                                    <option value="650000"
-                                >£650,000</option>
-                                    <option value="700000"
-                                >£700,000</option>
-                                    <option value="800000"
-                                >£800,000</option>
-                                    <option value="900000"
-                                >£900,000</option>
-                                    <option value="1000000"
-                                >£1,000,000</option>
-                                    <option value="1250000"
-                                >£1,250,000</option>
-                                    <option value="1500000"
-                                >£1,500,000</option>
-                                    <option value="1750000"
-                                >£1,750,000</option>
-                                    <option value="2000000"
-                                >£2,000,000</option>
-                                    <option value="2500000"
-                                >£2,500,000</option>
-                                    <option value="3000000"
-                                >£3,000,000</option>
-                                    <option value="4000000"
-                                >£4,000,000</option>
-                                    <option value="5000000"
-                                >£5,000,000</option>
-                                    <option value="7500000"
-                                >£7,500,000</option>
-                                    <option value="10000000"
-                                >£10,000,000</option>
-                                    <option value="15000000"
-                                >£15,000,000</option>
-                                    <option value="20000000"
-                                >£20,000,000</option>
+                            <select id="minrooms" onmousedown="if(this.options.length>4){this.size=5;}"
+                                    onchange='this.size=0;' onblur="this.size=0;" class="form-control" name="minrooms"
+                                    style="font-size: 12px;">
+                                <option>{{ session['minrooms'] }}</option>
+                                <option value="studio">Studio</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
                             </select>
                         </div>
-                        <label for="maxprice" class="col-sm-3 col-form-label">Select max price</label>
+                        <label for="rooms" class="col-sm-3 col-form-label">Max Rooms:</label>
                         <div class="col-sm-3">
-                        <select id="maxprice" class="form-control" onmousedown="if(this.options.length>8){this.size=8;}"  onblur="this.size=0;" onchange='this.size=0;' name="maxprice">
-                    <option>£{{ session['maxprice'] }}</option>
-                     <option value="50000"
-                    >£50,000</option>
-                        <option value="60000"
-                    >£60,000</option>
-                        <option value="70000"
-                    >£70,000</option>
-                        <option value="80000"
-                    >£80,000</option>
-                        <option value="90000"
-                    >£90,000</option>
-                        <option value="100000"
-                    >£100,000</option>
-                        <option value="110000"
-                    >£110,000</option>
-                        <option value="120000"
-                    >£120,000</option>
-                        <option value="125000"
-                    >£125,000</option>
-                        <option value="130000"
-                    >£130,000</option>
-                        <option value="140000"
-                    >£140,000</option>
-                        <option value="150000"
-                    >£150,000</option>
-                        <option value="160000"
-                    >£160,000</option>
-                        <option value="170000"
-                    >£170,000</option>
-                        <option value="175000"
-                    >£175,000</option>
-                        <option value="180000"
-                    >£180,000</option>
-                        <option value="190000"
-                    >£190,000</option>
-                        <option value="200000"
-                    >£200,000</option>
-                        <option value="210000"
-                    >£210,000</option>
-                        <option value="220000"
-                    >£220,000</option>
-                        <option value="230000"
-                    >£230,000</option>
-                        <option value="240000"
-                    >£240,000</option>
-                        <option value="250000"
-                    >£250,000</option>
-                        <option value="260000"
-                    >£260,000</option>
-                        <option value="270000"
-                    >£270,000</option>
-                        <option value="280000"
-                    >£280,000</option>
-                        <option value="290000"
-                    >£290,000</option>
-                        <option value="300000"
-                    >£300,000</option>
-                        <option value="325000"
-                    >£325,000</option>
-                        <option value="350000"
-                    >£350,000</option>
-                        <option value="375000"
-                    >£375,000</option>
-                        <option value="400000"
-                    >£400,000</option>
-                        <option value="425000"
-                    >£425,000</option>
-                        <option value="450000"
-                    >£450,000</option>
-                        <option value="475000"
-                    >£475,000</option>
-                        <option value="500000"
-                    >£500,000</option>
-                        <option value="550000"
-                    >£550,000</option>
-                        <option value="600000"
-                    >£600,000</option>
-                        <option value="650000"
-                    >£650,000</option>
-                        <option value="700000"
-                    >£700,000</option>
-                        <option value="800000"
-                    >£800,000</option>
-                        <option value="900000"
-                    >£900,000</option>
-                        <option value="1000000"
-                    >£1,000,000</option>
-                        <option value="1250000"
-                    >£1,250,000</option>
-                        <option value="1500000"
-                    >£1,500,000</option>
-                        <option value="1750000"
-                    >£1,750,000</option>
-                        <option value="2000000"
-                    >£2,000,000</option>
-                        <option value="2500000"
-                    >£2,500,000</option>
-                        <option value="3000000"
-                    >£3,000,000</option>
-                        <option value="4000000"
-                    >£4,000,000</option>
-                        <option value="5000000"
-                    >£5,000,000</option>
-                        <option value="7500000"
-                    >£7,500,000</option>
-                        <option value="10000000"
-                    >£10,000,000</option>
-                        <option value="15000000"
-                    >£15,000,000</option>
-                        <option value="20000000"
-                    >£20,000,000</option>
-                </select>
+                            <select id="maxrooms" class="form-control"
+                                    onmousedown="if(this.options.length>4){this.size=5;}" onchange='this.size=0;'
+                                    onblur="this.size=0;" name="maxrooms" style="font-size: 12px;">
+                                <option>{{ session['maxrooms'] }}</option>
+                                <option>Studio</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-               </div>
+                {% if session['type'] == 'sales' %}
+                    <div class="form-row" id="formrow" style="padding-top: 20px;">
+                        <div class="form-group row">
+                            <label for="minprice" class="col-sm-3 col-form-label">Select minimum price</label>
+                            <div class="col-sm-3">
+                                <select id="minprice" class="form-control"
+                                        onmousedown="if(this.options.length>8){this.size=8;}" onchange='this.size=0;'
+                                        name="minprice">
+                                    <option>£{{ session['minprice'] }}</option>
+                                    <option value="50000"
+                                    >£50,000
+                                    </option>
+                                    <option value="60000"
+                                    >£60,000
+                                    </option>
+                                    <option value="70000"
+                                    >£70,000
+                                    </option>
+                                    <option value="80000"
+                                    >£80,000
+                                    </option>
+                                    <option value="90000"
+                                    >£90,000
+                                    </option>
+                                    <option value="100000"
+                                    >£100,000
+                                    </option>
+                                    <option value="110000"
+                                    >£110,000
+                                    </option>
+                                    <option value="120000"
+                                    >£120,000
+                                    </option>
+                                    <option value="125000"
+                                    >£125,000
+                                    </option>
+                                    <option value="130000"
+                                    >£130,000
+                                    </option>
+                                    <option value="140000"
+                                    >£140,000
+                                    </option>
+                                    <option value="150000"
+                                    >£150,000
+                                    </option>
+                                    <option value="160000"
+                                    >£160,000
+                                    </option>
+                                    <option value="170000"
+                                    >£170,000
+                                    </option>
+                                    <option value="175000"
+                                    >£175,000
+                                    </option>
+                                    <option value="180000"
+                                    >£180,000
+                                    </option>
+                                    <option value="190000"
+                                    >£190,000
+                                    </option>
+                                    <option value="200000"
+                                    >£200,000
+                                    </option>
+                                    <option value="210000"
+                                    >£210,000
+                                    </option>
+                                    <option value="220000"
+                                    >£220,000
+                                    </option>
+                                    <option value="230000"
+                                    >£230,000
+                                    </option>
+                                    <option value="240000"
+                                    >£240,000
+                                    </option>
+                                    <option value="250000"
+                                    >£250,000
+                                    </option>
+                                    <option value="260000"
+                                    >£260,000
+                                    </option>
+                                    <option value="270000"
+                                    >£270,000
+                                    </option>
+                                    <option value="280000"
+                                    >£280,000
+                                    </option>
+                                    <option value="290000"
+                                    >£290,000
+                                    </option>
+                                    <option value="300000"
+                                    >£300,000
+                                    </option>
+                                    <option value="325000"
+                                    >£325,000
+                                    </option>
+                                    <option value="350000"
+                                    >£350,000
+                                    </option>
+                                    <option value="375000"
+                                    >£375,000
+                                    </option>
+                                    <option value="400000"
+                                    >£400,000
+                                    </option>
+                                    <option value="425000"
+                                    >£425,000
+                                    </option>
+                                    <option value="450000"
+                                    >£450,000
+                                    </option>
+                                    <option value="475000"
+                                    >£475,000
+                                    </option>
+                                    <option value="500000"
+                                    >£500,000
+                                    </option>
+                                    <option value="550000"
+                                    >£550,000
+                                    </option>
+                                    <option value="600000"
+                                    >£600,000
+                                    </option>
+                                    <option value="650000"
+                                    >£650,000
+                                    </option>
+                                    <option value="700000"
+                                    >£700,000
+                                    </option>
+                                    <option value="800000"
+                                    >£800,000
+                                    </option>
+                                    <option value="900000"
+                                    >£900,000
+                                    </option>
+                                    <option value="1000000"
+                                    >£1,000,000
+                                    </option>
+                                    <option value="1250000"
+                                    >£1,250,000
+                                    </option>
+                                    <option value="1500000"
+                                    >£1,500,000
+                                    </option>
+                                    <option value="1750000"
+                                    >£1,750,000
+                                    </option>
+                                    <option value="2000000"
+                                    >£2,000,000
+                                    </option>
+                                    <option value="2500000"
+                                    >£2,500,000
+                                    </option>
+                                    <option value="3000000"
+                                    >£3,000,000
+                                    </option>
+                                    <option value="4000000"
+                                    >£4,000,000
+                                    </option>
+                                    <option value="5000000"
+                                    >£5,000,000
+                                    </option>
+                                    <option value="7500000"
+                                    >£7,500,000
+                                    </option>
+                                    <option value="10000000"
+                                    >£10,000,000
+                                    </option>
+                                    <option value="15000000"
+                                    >£15,000,000
+                                    </option>
+                                    <option value="20000000"
+                                    >£20,000,000
+                                    </option>
+                                </select>
+                            </div>
+                            <label for="maxprice" class="col-sm-3 col-form-label">Select max price</label>
+                            <div class="col-sm-3">
+                                <select id="maxprice" class="form-control"
+                                        onmousedown="if(this.options.length>8){this.size=8;}" onblur="this.size=0;"
+                                        onchange='this.size=0;' name="maxprice">
+                                    <option>£{{ session['maxprice'] }}</option>
+                                    <option value="50000"
+                                    >£50,000
+                                    </option>
+                                    <option value="60000"
+                                    >£60,000
+                                    </option>
+                                    <option value="70000"
+                                    >£70,000
+                                    </option>
+                                    <option value="80000"
+                                    >£80,000
+                                    </option>
+                                    <option value="90000"
+                                    >£90,000
+                                    </option>
+                                    <option value="100000"
+                                    >£100,000
+                                    </option>
+                                    <option value="110000"
+                                    >£110,000
+                                    </option>
+                                    <option value="120000"
+                                    >£120,000
+                                    </option>
+                                    <option value="125000"
+                                    >£125,000
+                                    </option>
+                                    <option value="130000"
+                                    >£130,000
+                                    </option>
+                                    <option value="140000"
+                                    >£140,000
+                                    </option>
+                                    <option value="150000"
+                                    >£150,000
+                                    </option>
+                                    <option value="160000"
+                                    >£160,000
+                                    </option>
+                                    <option value="170000"
+                                    >£170,000
+                                    </option>
+                                    <option value="175000"
+                                    >£175,000
+                                    </option>
+                                    <option value="180000"
+                                    >£180,000
+                                    </option>
+                                    <option value="190000"
+                                    >£190,000
+                                    </option>
+                                    <option value="200000"
+                                    >£200,000
+                                    </option>
+                                    <option value="210000"
+                                    >£210,000
+                                    </option>
+                                    <option value="220000"
+                                    >£220,000
+                                    </option>
+                                    <option value="230000"
+                                    >£230,000
+                                    </option>
+                                    <option value="240000"
+                                    >£240,000
+                                    </option>
+                                    <option value="250000"
+                                    >£250,000
+                                    </option>
+                                    <option value="260000"
+                                    >£260,000
+                                    </option>
+                                    <option value="270000"
+                                    >£270,000
+                                    </option>
+                                    <option value="280000"
+                                    >£280,000
+                                    </option>
+                                    <option value="290000"
+                                    >£290,000
+                                    </option>
+                                    <option value="300000"
+                                    >£300,000
+                                    </option>
+                                    <option value="325000"
+                                    >£325,000
+                                    </option>
+                                    <option value="350000"
+                                    >£350,000
+                                    </option>
+                                    <option value="375000"
+                                    >£375,000
+                                    </option>
+                                    <option value="400000"
+                                    >£400,000
+                                    </option>
+                                    <option value="425000"
+                                    >£425,000
+                                    </option>
+                                    <option value="450000"
+                                    >£450,000
+                                    </option>
+                                    <option value="475000"
+                                    >£475,000
+                                    </option>
+                                    <option value="500000"
+                                    >£500,000
+                                    </option>
+                                    <option value="550000"
+                                    >£550,000
+                                    </option>
+                                    <option value="600000"
+                                    >£600,000
+                                    </option>
+                                    <option value="650000"
+                                    >£650,000
+                                    </option>
+                                    <option value="700000"
+                                    >£700,000
+                                    </option>
+                                    <option value="800000"
+                                    >£800,000
+                                    </option>
+                                    <option value="900000"
+                                    >£900,000
+                                    </option>
+                                    <option value="1000000"
+                                    >£1,000,000
+                                    </option>
+                                    <option value="1250000"
+                                    >£1,250,000
+                                    </option>
+                                    <option value="1500000"
+                                    >£1,500,000
+                                    </option>
+                                    <option value="1750000"
+                                    >£1,750,000
+                                    </option>
+                                    <option value="2000000"
+                                    >£2,000,000
+                                    </option>
+                                    <option value="2500000"
+                                    >£2,500,000
+                                    </option>
+                                    <option value="3000000"
+                                    >£3,000,000
+                                    </option>
+                                    <option value="4000000"
+                                    >£4,000,000
+                                    </option>
+                                    <option value="5000000"
+                                    >£5,000,000
+                                    </option>
+                                    <option value="7500000"
+                                    >£7,500,000
+                                    </option>
+                                    <option value="10000000"
+                                    >£10,000,000
+                                    </option>
+                                    <option value="15000000"
+                                    >£15,000,000
+                                    </option>
+                                    <option value="20000000"
+                                    >£20,000,000
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 {% endif %}
                 {% if session['type'] == 'lettings' %}
                     <div class="form-row" style="padding-top: 20px;">
-                    <div class="form-group row">
-                        <label for="minprice" class="col-sm-3 col-form-label" >Select minimum price</label>
-                        <div class="col-sm-3">
-                            <select id="minpriceoptions" class="form-control" onmousedown="if(this.options.length>8){this.size=8;}" onchange='this.size=0;' onblur="this.size=0;" name="minprice" style="font-size: 12px;">
-                                <option value="100">{{ session['minprice'] }} PCM</option>
-                                <option value="150">150 PCM</option>
-                                <option value="200">200 PCM</option>
-                                <option value="250">250 PCM</option>
-                                <option value="300">300 PCM</option>
-                                <option value="350">350 PCM</option>
-                                <option value="400">400 PCM</option>
-                                <option value="450">450 PCM</option>
-                                <option value="500">500 PCM</option>
-                                <option value="600">600 PCM</option>
-                                <option value="700">700 PCM</option>
-                                <option value="800">800 PCM</option>
-                                <option value="900">900 PCM</option>
-                                <option value="1000">1,000 PCM</option>
-                                <option value="1100">1,100 PCM</option>
-                                <option value="1200">1,200 PCM</option>
-                                <option value="1250">1,250 PCM</option>
-                                <option value="1300">1,300 PCM</option>
-                                <option value="1400">1,400 PCM</option>
-                                <option value="1500">1,500 PCM</option>
-                                <option value="1750">1,750 PCM</option>
-                                <option value="2000">2,000 PCM</option>
-                                <option value="2250">2,250 PCM</option>
-                                <option value="2500">2,500 PCM</option>
-                                <option value="2750">2,750 PCM</option>
-                                <option value="3000">3,000 PCM</option>
-                                <option value="3500">3,500 PCM</option>
-                                <option value="4000">4,000 PCM</option>
-                                <option value="4500">4,500 PCM</option>
-                                <option value="5000">5,000 PCM</option>
-                                <option value="5500">5,500 PCM</option>
-                                <option value="6000">6,000 PCM</option>
-                                <option value="6500">6,500 PCM</option>
-                                <option value="7000">7,000 PCM</option>
-                                <option value="8000">8,000 PCM</option>
-                                <option value="9000">9,000 PCM</option>
-                                <option value="10000">10,000 PCM</option>
-                                <option value="12500">12,500 PCM</option>
-                                <option value="15000">15,000 PCM</option>
-                                <option value="17500">17,500 PCM</option>
-                                <option value="20000">20,000 PCM</option>
-                                <option value="25000">25,000 PCM</option>
-                                <option value="30000">30,000 PCM</option>
-                                <option value="35000">35,000 PCM</option>
-                                <option value="40000">40,000 PCM</option>
-                            </select>
-                        </div>
-                        <label for="maxprice" class="col-sm-3 col-form-label">Select max price</label>
-                        <div class="col-sm-3">
-                        <select id="maxprice" class="form-control" onmousedown="if(this.options.length>8){this.size=8;}" onchange='this.size=0;' onblur="this.size=0;" name="maxprice">
-                            <option value="100">{{ session['minprice'] }} PCM</option>
-                            <option value="150">150 PCM</option>
-                            <option value="200">200 PCM</option>
-                            <option value="250">250 PCM</option>
-                            <option value="300">300 PCM</option>
-                            <option value="350">350 PCM</option>
-                            <option value="400">400 PCM</option>
-                            <option value="450">450 PCM</option>
-                            <option value="500">500 PCM</option>
-                            <option value="600">600 PCM</option>
-                            <option value="700">700 PCM</option>
-                            <option value="800">800 PCM</option>
-                            <option value="900">900 PCM</option>
-                            <option value="1000">1,000 PCM</option>
-                            <option value="1100">1,100 PCM</option>
-                            <option value="1200">1,200 PCM</option>
-                            <option value="1250">1,250 PCM</option>
-                            <option value="1300">1,300 PCM</option>
-                            <option value="1400">1,400 PCM</option>
-                            <option value="1500">1,500 PCM</option>
-                            <option value="1750">1,750 PCM</option>
-                            <option value="2000">2,000 PCM</option>
-                            <option value="2250">2,250 PCM</option>
-                            <option value="2500">2,500 PCM</option>
-                            <option value="2750">2,750 PCM</option>
-                            <option value="3000">3,000 PCM</option>
-                            <option value="3500">3,500 PCM</option>
-                            <option value="4000">4,000 PCM</option>
-                            <option value="4500">4,500 PCM</option>
-                            <option value="5000">5,000 PCM</option>
-                            <option value="5500">5,500 PCM</option>
-                            <option value="6000">6,000 PCM</option>
-                            <option value="6500">6,500 PCM</option>
-                            <option value="7000">7,000 PCM</option>
-                            <option value="8000">8,000 PCM</option>
-                            <option value="9000">9,000 PCM</option>
-                            <option value="10000">10,000 PCM</option>
-                            <option value="12500">12,500 PCM</option>
-                            <option value="15000">15,000 PCM</option>
-                            <option value="17500">17,500 PCM</option>
-                            <option value="20000">20,000 PCM</option>
-                            <option value="25000">25,000 PCM</option>
-                            <option value="30000">30,000 PCM</option>
-                            <option value="35000">35,000 PCM</option>
-                            <option value="40000">40,000 PCM</option>
-                            </select>
+                        <div class="form-group row">
+                            <label for="minprice" class="col-sm-3 col-form-label">Select minimum price</label>
+                            <div class="col-sm-3">
+                                <select id="minpriceoptions" class="form-control"
+                                        onmousedown="if(this.options.length>8){this.size=8;}" onchange='this.size=0;'
+                                        onblur="this.size=0;" name="minprice">
+                                    <option value="100">{{ session['minprice'] }} PCM</option>
+                                    <option value="150">150 PCM</option>
+                                    <option value="200">200 PCM</option>
+                                    <option value="250">250 PCM</option>
+                                    <option value="300">300 PCM</option>
+                                    <option value="350">350 PCM</option>
+                                    <option value="400">400 PCM</option>
+                                    <option value="450">450 PCM</option>
+                                    <option value="500">500 PCM</option>
+                                    <option value="600">600 PCM</option>
+                                    <option value="700">700 PCM</option>
+                                    <option value="800">800 PCM</option>
+                                    <option value="900">900 PCM</option>
+                                    <option value="1000">1,000 PCM</option>
+                                    <option value="1100">1,100 PCM</option>
+                                    <option value="1200">1,200 PCM</option>
+                                    <option value="1250">1,250 PCM</option>
+                                    <option value="1300">1,300 PCM</option>
+                                    <option value="1400">1,400 PCM</option>
+                                    <option value="1500">1,500 PCM</option>
+                                    <option value="1750">1,750 PCM</option>
+                                    <option value="2000">2,000 PCM</option>
+                                    <option value="2250">2,250 PCM</option>
+                                    <option value="2500">2,500 PCM</option>
+                                    <option value="2750">2,750 PCM</option>
+                                    <option value="3000">3,000 PCM</option>
+                                    <option value="3500">3,500 PCM</option>
+                                    <option value="4000">4,000 PCM</option>
+                                    <option value="4500">4,500 PCM</option>
+                                    <option value="5000">5,000 PCM</option>
+                                    <option value="5500">5,500 PCM</option>
+                                    <option value="6000">6,000 PCM</option>
+                                    <option value="6500">6,500 PCM</option>
+                                    <option value="7000">7,000 PCM</option>
+                                    <option value="8000">8,000 PCM</option>
+                                    <option value="9000">9,000 PCM</option>
+                                    <option value="10000">10,000 PCM</option>
+                                    <option value="12500">12,500 PCM</option>
+                                    <option value="15000">15,000 PCM</option>
+                                    <option value="17500">17,500 PCM</option>
+                                    <option value="20000">20,000 PCM</option>
+                                    <option value="25000">25,000 PCM</option>
+                                    <option value="30000">30,000 PCM</option>
+                                    <option value="35000">35,000 PCM</option>
+                                    <option value="40000">40,000 PCM</option>
+                                </select>
+                            </div>
+                            <label for="maxprice" class="col-sm-3 col-form-label">Select max price</label>
+                            <div class="col-sm-3">
+                                <select id="maxprice" class="form-control"
+                                        onmousedown="if(this.options.length>8){this.size=8;}" onchange='this.size=0;'
+                                        onblur="this.size=0;" name="maxprice">
+                                    <option value="100">{{ session['minprice'] }} PCM</option>
+                                    <option value="150">150 PCM</option>
+                                    <option value="200">200 PCM</option>
+                                    <option value="250">250 PCM</option>
+                                    <option value="300">300 PCM</option>
+                                    <option value="350">350 PCM</option>
+                                    <option value="400">400 PCM</option>
+                                    <option value="450">450 PCM</option>
+                                    <option value="500">500 PCM</option>
+                                    <option value="600">600 PCM</option>
+                                    <option value="700">700 PCM</option>
+                                    <option value="800">800 PCM</option>
+                                    <option value="900">900 PCM</option>
+                                    <option value="1000">1,000 PCM</option>
+                                    <option value="1100">1,100 PCM</option>
+                                    <option value="1200">1,200 PCM</option>
+                                    <option value="1250">1,250 PCM</option>
+                                    <option value="1300">1,300 PCM</option>
+                                    <option value="1400">1,400 PCM</option>
+                                    <option value="1500">1,500 PCM</option>
+                                    <option value="1750">1,750 PCM</option>
+                                    <option value="2000">2,000 PCM</option>
+                                    <option value="2250">2,250 PCM</option>
+                                    <option value="2500">2,500 PCM</option>
+                                    <option value="2750">2,750 PCM</option>
+                                    <option value="3000">3,000 PCM</option>
+                                    <option value="3500">3,500 PCM</option>
+                                    <option value="4000">4,000 PCM</option>
+                                    <option value="4500">4,500 PCM</option>
+                                    <option value="5000">5,000 PCM</option>
+                                    <option value="5500">5,500 PCM</option>
+                                    <option value="6000">6,000 PCM</option>
+                                    <option value="6500">6,500 PCM</option>
+                                    <option value="7000">7,000 PCM</option>
+                                    <option value="8000">8,000 PCM</option>
+                                    <option value="9000">9,000 PCM</option>
+                                    <option value="10000">10,000 PCM</option>
+                                    <option value="12500">12,500 PCM</option>
+                                    <option value="15000">15,000 PCM</option>
+                                    <option value="17500">17,500 PCM</option>
+                                    <option value="20000">20,000 PCM</option>
+                                    <option value="25000">25,000 PCM</option>
+                                    <option value="30000">30,000 PCM</option>
+                                    <option value="35000">35,000 PCM</option>
+                                    <option value="40000">40,000 PCM</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                </div>
 
                 {% endif %}
-              <div class="form-row" style="padding-top: 20px;">
+                <div class="form-row" style="padding-top: 20px;">
                     <div class="form-group row">
-                    <label for="searchradius" class="col-sm-3 col-form-label">Search radius:</label>
-                    <div class="col-sm-3">
-                    <select id="radius" class="form-control" onmousedown="if(this.options.length>8){this.size=8;}" onchange='this.size=0;' onblur="this.size=0;" name="radius" style="font-size: 12px;">
-                        <option>{{ session['radius'] }}</option>
-                        <option value="0">+0 miles</option>
-                        <option value="0.25">+0.25 miles</option>
-                        <option value="o.5">+0.5 miles</option>
-                        <option value="1">+1 miles</option>
-                        <option value="3">+3 miles</option>
-                        <option value="5">+5 miles</option>
-                        <option value="10">+10 miles</option>
-                        <option value="15">+15 miles</option>
-                        <option value="30">+30 miles</option>
-                        <option value="50">+50 miles</option>
-                    </select>
+                        <label for="searchradius" class="col-sm-3 col-form-label">Search radius:</label>
+                        <div class="col-sm-3">
+                            <select id="radius" class="form-control"
+                                    onmousedown="if(this.options.length>3){this.size=9;}" onchange='this.size=0;'
+                                    onblur="this.size=0;" name="radius">
+                                <option>{{ session['radius'] }}</option>
+                                <option value="0">+0 miles</option>
+                                <option value="0.25">+0.25 miles</option>
+                                <option value="o.5">+0.5 miles</option>
+                                <option value="1">+1 miles</option>
+                                <option value="3">+3 miles</option>
+                                <option value="5">+5 miles</option>
+                                <option value="10">+10 miles</option>
+                                <option value="15">+15 miles</option>
+                                <option value="30">+30 miles</option>
+                                <option value="50">+50 miles</option>
+                            </select>
+                        </div>
+                        <label for="propertytype" class="col-sm-3 col-form-label">Property Type:</label>
+                        <div class="col-sm-3">
+                            <select id="propertytype" class="form-control"
+                                    onmousedown="if(this.options.length>2){this.size=4;}" onchange='this.size=0;'
+                                    onblur="this.size=0;"
+                                    name="propertytype">
+                                <option>{{ session['propertytype'] }}</option>
+                                <option value="houses">Houses</option>
+                                <option value="flats">Flats/ Apartments</option>
+                                <option value="bungalows">Bungalows</option>
+                            </select>
+                        </div>
                     </div>
-                    <label for="propertytype" class="col-sm-3 col-form-label" >Property Type:</label>
-                    <div class="col-sm-3">
-                        <select id="propertytype"  onmousedown="if(this.options.length>8){this.size=8;}" onchange='this.size=0;' onblur="this.size=0;" class="form-control" name="propertytype" style="font-size: 12px;">
-                            <option>{{ session['propertytype'] }}</option>
-                            <option value="houses">Houses</option>
-                            <option value="flats">Flats/ Apartments</option>
-                            <option value="bungalows">Bungalows</option>
+
+                    <div class="col-sm-10">
+                        <input type="hidden" name="sales" value="sales">
+                        <select class="form-select" aria-label="Default select example" style="width: 200px;
+                    min-height: 70px; border-radius: 10px; background-color: #FF1423;  color: white;"
+                                onchange='this.form.submit();'
+                                name="option">
+                            <option><b>Find Properties</b></option>
+                            <option value="all">All Results</option>
+                            <option value="gumtree">Gumtree</option>
+                            <option value="rightmove">Rightmove</option>
+                            <option value="onthemarket">OnTheMarket</option>
                         </select>
                     </div>
-              </div>
-
-                <div class="col-sm-10">
-                    <input type="hidden" name="sales" value="sales">
-                    <select class="form-select" aria-label="Default select example" style="font-size: 12px; width: 200px;
-                    height: 60px; border-radius: 10px; background-color: #FF1423;  color: white;"
-                            onchange="this.form.submit()" name="option">
-                        <option><b>Find Properties</b></option>
-                        <option value="all">All Results</option>
-                        <option value="gumtree">Gumtree</option>
-                        <option value="rightmove">Rightmove</option>
-                        <option value="onthemarket">OnTheMarket</option>
-                </select>
                 </div>
-              </div>
             </form>
-          </div>
-    <div class="box3" style="background-color: #E9E9EB; border: #cacaca; border-style: solid; color: black; padding-top: 50px;">
-        <div class="row" id="rowpadding" style="text-align: center">
-          <div class="column">Landing Page</div>
-          <div class="column">Search</div>
-          <div class="column">About</div>
         </div>
+        <div class="box3"
+             style="background-color: #E9E9EB; border: #cacaca; border-style: solid; color: black; padding-top: 50px;">
+            <div class="row" id="rowpadding" style="text-align: center">
+                <div class="column">Landing Page</div>
+                <div class="column">Search</div>
+                <div class="column">About</div>
+            </div>
 
-        <div class="row" style="padding-left: 5%; padding-right: 5%;" id="rowtag">
-          <div class="column" >
-            <img src="/static/images/gumtree.jpeg" alt="" id="logosizing" />
-          </div>
-            <div class="column">
-                <img src="/static/images/crystalroof.png" style="padding-top: 10px;"  id="logosizing" />
+            <div class="row" style="padding-left: 5%; padding-right: 5%;" id="rowtag">
+                <div class="column">
+                    <img src="/static/images/gumtree.jpeg" alt="" id="logosizing"/>
+                </div>
+                <div class="column">
+                    <img src="/static/images/crystalroof.png" style="padding-top: 10px;" id="logosizing"/>
+                </div>
+                <div class="column">
+                    <img src="/static/images/OTM.png" style="padding-top: 10px;" id="logosizing"/>
+                </div>
+                <div class="column">
+                    <img src="/static/images/registry.png" style="padding-top: 10px;" id="logosizing"/>
+                </div>
+                <div class="column">
+                    <img src="/static/images/rmove.png" style="padding-top: 10px;" id="logosizing"/>
+                </div>
             </div>
-            <div class="column">
-                <img src="/static/images/OTM.png" style="padding-top: 10px;"  id="logosizing"  />
+            <div class="row" style="text-align: center">
+                <ul style="list-style: none">
+                    <li>Suite 2021</li>
+                    <li>Letraset Building</li>
+                    <li>Wotton Road</li>
+                    <li>Ashford Kent</li>
+                    <li>TN23 6LN</li>
+                    <br>
+                    <li>0333 332 1895</li>
+                </ul>
             </div>
-            <div class="column">
-                <img src="/static/images/registry.png" style="padding-top: 10px;"  id="logosizing"   />
-            </div>
-            <div class="column">
-                <img src="/static/images/rmove.png" style="padding-top: 10px;"  id="logosizing"  />
-            </div>
-          </div>
-         <div class="row" style="text-align: center">
-            <ul style="list-style: none">
-                <li>Suite 2021</li>
-                <li>Letraset Building</li>
-                <li>Wotton Road</li>
-                <li>Ashford Kent</li>
-                <li>TN23 6LN</li>
-                <br>
-                <li>0333 332 1895</li>
-            </ul>
         </div>
-    </div>
     </div>
 </div>
 <script>

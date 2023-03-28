@@ -179,7 +179,7 @@ class Rightmove:
         else:
             search_url = f'https://www.rightmove.co.uk/{rent}/search.html?searchLocation='
 
-        if len(self.pcode) <= 4:
+        if len(self.pcode) <= 5:
             self.pcode = self.pcode
 
 
@@ -404,12 +404,8 @@ class CrystalRoof:
 
     def stats(self):
 
-
-
-        postcode = UKPostcode(self.pcode)
-        pc = postcode.outward_code.upper()+postcode.inward_code.upper()
-
-        search_url = f"https://crystalroof.co.uk/report/postcode/{pc}/overview"
+        search_url = f"https://crystalroof.co.uk/report/postcode/{self.pcode}/overview"
+        print(search_url)
         response = urllib.request.urlopen(search_url)
         data = response.read()  # a `bytes` object
         soup = BeautifulSoup(data, 'html.parser')

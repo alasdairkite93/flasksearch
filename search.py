@@ -127,12 +127,12 @@ def update_pcode():
 
         if match != None:
             print("MATCH: ", match.group())
-            session['postcode'] = match.group()
+            session['postcode'] = match.group().replace(' ', '')
             session['display'] = update
             return render_template('base.html')
 
         else:
-            POSTCODE = '([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?)'
+            POSTCODE = '([A-Za-z][A-Ha-hJ-Yj-y][0-9][0-9]?)'
             print("partial postcode regex")
             match = re.search(POSTCODE, update)
             print("MATCH: ", match.group())
@@ -317,7 +317,7 @@ def search():
     print("SEARCH ")
     if request.method == "POST":
         search_query = request.form.get("pcode")
-
+        print("Search query: ", search_query)
         geolocator = Nominatim(user_agent="GeoPy")
         location = geolocator.geocode(search_query)
         print(location.address)
@@ -333,8 +333,9 @@ def search():
         # print(response.text)
 
         print("SEARCH QUERY: ", address_display)
-        POSTCODE = '([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})'
-        match = re.search(POSTCODE, address_display)
+
+        POSTCODE = '([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})|([A-Za-z][A-Ha-hJ-Yj-y][0-9][0-9]?)'
+        match = re.search(POSTCODE, search_query)
         print("MATCH: ", match.group())
 
 
@@ -568,10 +569,11 @@ def create_app(test_config=None):
 
     @app.route('/rightmovesale/', methods=["GET"])
     def rmove_sales():
+        print("rmove sales")
         rmove = sites.Rightmove(session['postcode'], "SALE", session['radius'], session['brooms'], session['minprice'],
                                 session['maxprice'], session['resnum'], session['maxrooms'], session['propertytype'])
         rmove_results = rmove.requestScrape()
-
+        print("rmove response return")
         return jsonify(rmove_results)
 
     @app.route('/gumtreesales', methods=["GET"])
@@ -644,26 +646,6 @@ def create_app(test_config=None):
             session['propertytype'] = type
             return render_template('base.html')
         return render_template('base.html')
-
-    # @app.route('/pcodeupdate', methods=["GET", "POST"])
-    # def update_pcode():
-    #
-    #     print("update pcode method")
-    #
-    #     if request.method == "POST":
-    #         update = request.form.get("pcodeupdate")
-    #         print("PCODE UPDATE: ", update)
-    #         session['postcode'] = update.upper()
-    #
-    #         if len(update) <= 4:
-    #             session['display'] = update.upper()+' 1AA'
-    #
-    #         else:
-    #             session['display'] = update.upper()
-    #
-    #         return render_template('base.html')
-    #
-    #     return render_template('base.html')
 
     @app.route('/pandr_update', methods=["GET", "POST"])
     def update_pcode_radius():

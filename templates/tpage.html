@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
@@ -317,54 +317,13 @@
                                     {
                                         {#'locality', 'neighborhood', 'plus_code', 'street_address' 'postal_code', 'post_code_prefix', 'postal_code_suffix', #}
                                         types: ['postal_code'],
-                                        componentRestrictions: { country : ['UK'] },
+                                        componentRestrictions: {country: ['UK']},
                                         fields: ['address_components', 'postal_code']
                                     });
                             }
                         </script>
-                        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBDK8Krhrf3X_qTmLIeLOSBX89Qk2Zp2o&libraries=places&callback=initAutocomplete" async defer></script>
-{#                        <input class="searchbar" type="text" id="postcode" name="pcode" title="Search"#}
-{#                               list="postcodeinputs" placeholder="Enter an address..." required>#}
-{#                        <datalist id="postcodeinputs" style="max-height: 500px;">#}
-{##}
-{#                        </datalist>#}
-{#                        <script>#}
-{##}
-{#                            const idel = document.getElementById("postcode");#}
-{#                            idel.addEventListener("input", autocompleteAName);#}
-{##}
-{##}
-{#                            async function autocompleteAName(e) {#}
-{##}
-{#                                let pcode = e.target.value;#}
-{#                                const url = 'https://api.geoapify.com/v1/geocode/autocomplete?text=';#}
-{#                                const url_end = '&format=json&apiKey=f6158bd8aa4846fb9a97b27077d9a132';#}
-{#                                const api_url = url + pcode + url_end;#}
-{##}
-{#                                const myjson = await fetch(api_url);#}
-{#                                var data = await myjson.json();#}
-{##}
-{#                                console.log(data);#}
-{#                                show(data);#}
-{#                            }#}
-{##}
-{##}
-{#                            function show(data) {#}
-{#                                console.log("data.results[0]: " + data.results);#}
-{#                                var datalist = document.getElementById("postcodeinputs");#}
-{##}
-{#                                for (var i = 0; i < data.results.length; i++) {#}
-{#                                    var n_option = document.createElement('option');#}
-{##}
-{#                                    console.log("data[i]: " + data.results[i].address_line2);#}
-{#                                    var option_txt = document.createTextNode(data.results[i].address_line2);#}
-{#                                    n_option.setAttribute("value", data.results[i].postcode);#}
-{#                                    n_option.appendChild(option_txt);#}
-{#                                    datalist.append(n_option);#}
-{##}
-{#                                }#}
-{#                            }#}
-{#                        </script>#}
+                        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQugco0qDg4hEiieAj99EhInwk_T8eFsU&libraries=places&callback=initAutocomplete"
+                                async defer></script>
                     </div>
                     <div class="buttons">
                         <button class="button" type="submit" id="optionbutton" name="sales" value="sales"><b>Sales</b>
