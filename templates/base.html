@@ -89,8 +89,8 @@
             section.innerHTML = "";
             const button = document.createElement("button");
             button.setAttribute("class", "buttonload");
-            button.setAttribute("style", "font-size: 20px; background-color: white; border: 1px solid black; padding-bottom: 20px;  border-radius: 5px; padding-top: 15px; padding-bottom: 15px;")
-            button.innerText = "Property Scanner is searching the portals.";
+            button.setAttribute("style", "font-size: 20px; background-color: white; border: 1px solid black; padding-left: 20px; padding-right: 20px; padding-bottom: 20px;  border-radius: 5px; padding-top: 15px; padding-top: 15px;")
+            button.innerText = "Searching for properties this may take a few seconds.";
             const i = document.createElement('i');
             i.setAttribute('class', 'fa fa-circle-o-notch fa-spin');
             i.setAttribute('style', 'font-size: 100px; margin-top: 40px;');
@@ -433,7 +433,7 @@
             } else {
                 const message = document.createElement('p');
                 message.textContent = "No Results to Display";
-                message.setAttribute("style", "text-aling: center;")
+                message.setAttribute("style", "text-align: center; border: 2px solid black; background-color: white; padding: 20px;")
                 section.appendChild(message);
             }
         }
