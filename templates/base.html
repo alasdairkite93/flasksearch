@@ -87,10 +87,15 @@
 
             const section = document.getElementById("forsale");
             section.innerHTML = "";
+            const button = document.createElement("button");
+            button.setAttribute("class", "buttonload");
+            button.setAttribute("style", "font-size: 20px; background-color: white; border: 1px solid black; padding-bottom: 20px;  border-radius: 5px; padding-top: 15px; padding-bottom: 15px;")
+            button.innerText = "Property Scanner is searching the portals.";
             const i = document.createElement('i');
             i.setAttribute('class', 'fa fa-circle-o-notch fa-spin');
-            i.setAttribute('style', 'font-size: 100px')
-            section.appendChild(i);
+            i.setAttribute('style', 'font-size: 100px; margin-top: 40px;');
+            button.appendChild(i);
+            section.appendChild(button);
         }
 
         /**Land Registry**/
@@ -868,6 +873,9 @@
     </script>
     <style>
 
+        .buttonload {
+
+        }
 
         #spinner {
             animation: spin 1s linear infinite;
@@ -886,6 +894,7 @@
         }
 
         .spinner i {
+            padding-top: 20px;
             margin-top: 10px;
             margin-left: 50px;
         }
@@ -2025,7 +2034,8 @@
         Sort price High to Low
     </button>
     <h4 id="sessionvariable" style="padding-top: 100px;"></h4>
-    <div id="forsale" class="container" style="max-width: 80%; justify-items: center; padding-top: 30px;">
+    <div id="forsale" class="container" style="max-width: 80%; justify-items: center; text-align: center; padding-top: 30px;">
+        <div id="message"></div>
     </div>
     <script>
 
