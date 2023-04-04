@@ -195,7 +195,9 @@ def update_radius():
         session['radius'] = radius
         return render_template('base.html')
 
-
+@app.route("/googleef90634c0cbd5779.html")
+def google_site_verf():
+    return render_template("googleef90634c0cbd5779.html")
 @app.route('/priceupdate', methods=["POST"])
 def update_min_price():
     if request.method == "POST":
