@@ -325,21 +325,7 @@ def search():
     if request.method == "POST":
         search_query = request.form.get("pcode")
         print("Search query: ", search_query)
-        # geolocator = Nominatim(user_agent="GeoPy")
-        # location = geolocator.geocode(search_query)
-        # print(location.address)
-        # data = location.raw
-        # print("DATA: ", data['display_name'])
-        # address_display = data['display_name']
-        #
-        #
-        # # url = f"https://maps.googleapis.com/maps/api/place/textsearch/json?query={search_query}&key=AIzaSyBBDK8Krhrf3X_qTmLIeLOSBX89Qk2Zp2o"
-        # # payload = {}
-        # # headers = {}
-        # # response = requests.request("GET", url, headers=headers, data=payload)
-        # # print(response.text)
-        #
-        # print("SEARCH QUERY: ", address_display)
+
 
         POSTCODE = '([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})|([A-Za-z][A-Ha-hJ-Yj-y][0-9][0-9]?)'
         match = re.search(POSTCODE, search_query)
