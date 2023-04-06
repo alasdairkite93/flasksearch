@@ -1299,7 +1299,9 @@
                                 <i class="fa fa-line-chart" style="justify-content: center;" aria-hidden="true"></i>
                                 Sold Properties</a>
                             <ul class="dropdown-menu" style="background-color:#1a2090; display: none;">
+                            {% if session['postcode']|length > 5 %}
                                 <li><a style="color: white;" id=soldpricejson>Land Registry Sold</a></li>
+                            {% endif %}
                                 <li><a style="color: white;" id=rmovesold>RightMove Sold</a></li>
                             </ul>
                         </div>
@@ -1370,7 +1372,7 @@
                          input.addEventListener("click", message, { once: true });
 
                         function message() {
-                            alert("Use a full postcode to access local statistics.")
+                            alert("Try using a full postcode to unlock local statistics and sold prices from the land registry.")
                         }
 
                     </script>
