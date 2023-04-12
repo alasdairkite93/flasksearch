@@ -309,9 +309,6 @@ class OnTheMarket:
                    ('154.95.36.199', 6893),
                    ('45.94.47.66', 8110)]
 
-        PROXY_USERNAME = "woaokexr"
-        PROXY_PASS = "6tq2q8b4e15q"
-
         proxy = random.choice(proxies)
 
         PROXY_ADDRESS = proxy[0]
@@ -344,11 +341,8 @@ class OnTheMarket:
         elif self.radius == 0:
             url2 = f'https://www.onthemarket.com/{self.channel}/{self.bedrooms}-bed-property/{self.pcode.lower()}/?max-bedrooms={self.maxrooms}&max-price={self.maxprice}&min-price={self.minprice}&view=grid'
 
-        r = requests.get('https://httpbin.org/ip', proxies=proxies)
-        print(r.text)
 
         r = requests.get(url2, proxies=proxies, headers=headers)
-        print("PAGE REQUEST STATUS: ", r.status_code)
         pagesource = r.text
         otm_li = []
 
@@ -579,28 +573,29 @@ class Gumtree:
         except:
             pass
 
-        options = webdriver.ChromeOptions()
-        options.add_argument("--headless")
-        options.add_argument("--no-sandbox")
-        options.add_argument("--disable-gpu")
-        proxy_options = {
-            'proxy': {
-                'https': 'https://woaokexr:6tq2q8b4e15q@185.199.229.156:7492',
-            }
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Mobile Safari/537.36'}
+
+        proxies = [('2.56.119.93', 5074),
+                   ('185.199.229.156', 7492),
+                   ('185.199.228.220', 7300),
+                   ('188.74.210.207', 6286),
+                   ('188.74.183.10', 8279),
+                   ('188.74.210.21', 6100),
+                   ('45.155.68.129', 8133),
+                   ('154.95.36.199', 6893),
+                   ('45.94.47.66', 8110)]
+
+        proxy = random.choice(proxies)
+
+        PROXY_ADDRESS = proxy[0]
+        PROXY_PORT = proxy[1]
+        PROXY_USERNAME = "woaokexr"
+        PROXY_PASS = "6tq2q8b4e15q"
+
+        proxies = {
+            "https": f"http://{PROXY_USERNAME}:{PROXY_PASS}@{PROXY_ADDRESS}:{PROXY_PORT}"
         }
-
-        options.add_experimental_option("excludeSwitches", ["enable-automation"])
-        options.add_experimental_option('useAutomationExtension', False)
-        driver = webdriver.Chrome(options=options, seleniumwire_options=proxy_options)
-
-        stealth(driver,
-                languages=["en-US", "en"],
-                vendor="Google Inc.",
-                platform="Win32",
-                webgl_vendor="Intel Inc.",
-                renderer="Intel Iris OpenGL Engine",
-                fix_hairline=True,
-                )
 
         if self.radius < 1:
             self.radius = math.ceil(self.radius)
@@ -611,10 +606,17 @@ class Gumtree:
         elif self.channel == "to-rent":
             url = f"https://www.gumtree.com/search?search_category=property-to-rent&search_location={self.pcode}&distance={self.radius}&property_number_beds={self.beds}-bedroom&max_price={self.minprice}&min_price={self.maxprice}"
         print("gumtree URL: ", url)
-        driver.get(url)
-        time.sleep(2)
 
-        pagesource = driver.page_source
+        r = requests.get('https://httpbin.org/ip', proxies=proxies)
+        print(r.text)
+
+        r = requests.get(url, proxies=proxies, headers=headers)
+        print("PAGE REQUEST STATUS: ", r.status_code)
+
+        # driver.get(url)
+        # time.sleep(2)
+
+        pagesource = r.text
         soup = BeautifulSoup(pagesource, 'html.parser')
         articles = soup.findAll('article', {"class", "listing-maxi"})
         props = []
