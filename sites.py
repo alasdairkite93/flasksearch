@@ -607,9 +607,6 @@ class Gumtree:
             url = f"https://www.gumtree.com/search?search_category=property-to-rent&search_location={self.pcode}&distance={self.radius}&property_number_beds={self.beds}-bedroom&max_price={self.minprice}&min_price={self.maxprice}"
         print("gumtree URL: ", url)
 
-        r = requests.get('https://httpbin.org/ip', proxies=proxies)
-        print(r.text)
-
         r = requests.get(url, proxies=proxies, headers=headers)
         print("PAGE REQUEST STATUS: ", r.status_code)
 
