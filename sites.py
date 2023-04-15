@@ -13,10 +13,7 @@ import random
 import threading
 from time import sleep
 import sys
-from seleniumwire import webdriver
-from selenium_stealth import stealth
 import time
-from selenium.webdriver.common.by import By
 from lxml import etree
 from os import path
 from postcode_validator.uk.uk_postcode_validator import UKPostcode
