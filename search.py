@@ -23,6 +23,10 @@ def planning_data():
     plans = planapps.request()
     return jsonify(plans)
 
+@app.route('/googleef90634c0cbd5779.html', methods=["GET"])
+def returnpage():
+    return render_template('googleef90634c0cbd5779.html')
+
 @app.route('/landregistry')
 def sold_prices():
     landregister = sites.LandRegistry(session['postcode'])
