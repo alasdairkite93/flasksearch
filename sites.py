@@ -105,45 +105,19 @@ class Utility:
             except ValueError:
                 pos = match + 1
 
-class Zoopla:
+class Query:
 
-    def __init__(self, query, channel, beds, minprice, maxprice):
-        self.searchquery = query
+    def __init__(self, query, channel, radius, bedrooms, minprice, maxprice, resnum, maxrooms, type):
+        self.pcode = query
         self.channel = channel
-        self.beds = beds
-        self.price_min = minprice
-        self.price_max = maxprice
+        self.radius = radius
+        self.bedrooms = bedrooms
+        self.minprice = minprice
+        self.maxprice = maxprice
+        self.resnum = resnum
+        self.maxrooms = maxrooms
+        self.type = type
 
-    def requests(self):
-
-        util = Utility()
-        proxy = Proxies()
-
-        searchurl = f'https://www.zoopla.co.uk/{self.channel}/property/{self.searchquery}/?q={self.searchquery}&results_sort=newest_listings&search_source={self.channel}&beds_max={self.beds}&price_min={self.price_min}&price_max={self.price_max}'
-
-        baseurl = 'https://www.zoopla.co.uk/'
-
-        zoop_l = []
-
-        with open('zoopla.json', 'r') as r:
-            data = json.loads(r.read())
-            listings = data['props']['pageProps']['regularListingsFormatted']
-
-            for listing in listings:
-                li = []
-                li.append(listing['address'])
-                li.append(listing['branch']['name'])
-                li.append(listing['features'][0]['content'])
-                li.append(listing['price'])
-                li.append('http://www.zoopla.co.uk' + listing['listingUris']['detail'])
-                try:
-                    li.append(listing['image']['src'])
-                except KeyError:
-                    li.append(" ")
-                li.append("zoopla")
-                zoop_l.append(li)
-
-        return zoop_l
 
 class Rightmove:
 
