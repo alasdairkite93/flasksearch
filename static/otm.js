@@ -10,7 +10,7 @@ puppeteer.use(StealthPlugin())
 // puppeteer usage as normal
 
 function scrapeUrl(url, proxy) {
-    console.log("puppeteer using: "+url);
+    console.log("puppeteer using: " + url);
 
     puppeteer.launch({
         headless: true, executablePath: executablePath(), args: [proxy]
@@ -30,15 +30,15 @@ function scrapeUrl(url, proxy) {
     });
 }
 
-function readFile(){
+function readFile() {
     console.log("read file method")
     var text = fs.readFileSync("/home/alasdairkite/flasksearch/static/urls.txt");
     console.log(text.toString())
     const vals = text.toString().split(',');
     const url = vals[0].toString();
-    console.log("url: "+url);
+    console.log("url: " + url);
     const proxy = vals[1].toString();
-    console.log("proxy: "+proxy);
+    console.log("proxy: " + proxy);
     scrapeUrl(url, proxy);
 }
 

@@ -70,16 +70,16 @@ class Proxies:
 
     def getProxy(self):
 
-        prox_list = ['185.199.229.156:7492',
-                    '185.199.228.220:7300',
-                    '185.199.231.45:8382',
-                    '188.74.210.207:6286',
-                    '188.74.183.10:8279',
-                    '188.74.210.21:6100',
-                    '45.155.68.129:8133',
-                    '154.95.36.199:6893',
-                    '45.94.47.66:8110',
-                    '144.168.217.88:8780']
+        prox_list = ['2.56.119.93:5074',
+                 '185.199.229.156:7492',
+                 '185.199.228.220:7300',
+                 '185.199.231.45:8382',
+                 '188.74.210.207:6286',
+                 '188.74.183.10:8279',
+                 '188.74.210.21:6100',
+                 '45.155.68.129:8133',
+                 '154.95.36.199:6893',
+                 '45.94.47.66:8110']
 
         proxlen = len(prox_list)-1
         print("proxlen: ", proxlen)
@@ -284,8 +284,8 @@ class OnTheMarket:
 
         PROXY_ADDRESS = proxy[0]
         PROXY_PORT = proxy[1]
-        PROXY_USERNAME = "woaokexr"
-        PROXY_PASS = "6tq2q8b4e15q"
+        PROXY_USERNAME = "mekkgqpc"
+        PROXY_PASS = "l5e4tpawsn20"
 
         proxies = {
             "https": f"http://{PROXY_USERNAME}:{PROXY_PASS}@{PROXY_ADDRESS}:{PROXY_PORT}"
@@ -561,8 +561,8 @@ class Gumtree:
 
         PROXY_ADDRESS = proxy[0]
         PROXY_PORT = proxy[1]
-        PROXY_USERNAME = "woaokexr"
-        PROXY_PASS = "6tq2q8b4e15q"
+        PROXY_USERNAME = "mekkgqpc"
+        PROXY_PASS = "l5e4tpawsn20"
 
         proxies = {
             "https": f"http://{PROXY_USERNAME}:{PROXY_PASS}@{PROXY_ADDRESS}:{PROXY_PORT}"

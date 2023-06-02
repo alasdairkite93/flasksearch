@@ -1,1 +1,13 @@
-{"props":{"pageProps":{}},"page":"/for-sale/_static/v1/[...search-path]","query":{},"buildId":"mS-YYg-S5ahBTd2Q8QWUS","assetPrefix":"https://cdn.prod.zoopla.co.uk","nextExport":true,"autoExport":true,"isFallback":false,"scriptLoader":[]}
+{
+  "props": {
+    "pageProps": {}
+  },
+  "page": "/for-sale/_static/v1/[...search-path]",
+  "query": {},
+  "buildId": "mS-YYg-S5ahBTd2Q8QWUS",
+  "assetPrefix": "https://cdn.prod.zoopla.co.uk",
+  "nextExport": true,
+  "autoExport": true,
+  "isFallback": false,
+  "scriptLoader": []
+}

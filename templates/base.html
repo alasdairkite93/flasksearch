@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-M9L1LM9C7V"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M9L1LM9C7V"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
 
-  gtag('config', 'G-M9L1LM9C7V');
-</script>
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-M9L1LM9C7V');
+    </script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="refresh"/>
@@ -47,9 +51,7 @@
             crossorigin="anonymous">
     </script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src=
-                    "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
-    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type=text/javascript>
 
         window.addEventListener("popstate", (event) => {
@@ -448,7 +450,7 @@
             }
         }
 
-        function planning(json_data) {
+        function  planning(json_data) {
             const section = document.getElementById('forsale');
             section.innerHTML = "";
 
@@ -1145,6 +1147,10 @@
         @media only screen and (min-width: 1800px) {
 
 
+            .affiliateright {
+
+            }
+
             .box2 {
                 grid-area: nv;
                 background-color: #1A2090;
@@ -1297,22 +1303,22 @@
                             Local Planning</a></div>
                     </li>
                     {% if session['postcode']|length > 5 %}
-                    <li id="listyle">
-                        <div class="dropdown"><a id=crysdata class="toggle" style="color: white;">
-                            <i class="fa fa-signal" aria-hidden="true" style="justify-content: center;"></i>
-                            Local Area Statistics
-                        </a></div>
-                    </li>
-                        {% endif %}
+                        <li id="listyle">
+                            <div class="dropdown"><a id=crysdata class="toggle" style="color: white;">
+                                <i class="fa fa-signal" aria-hidden="true" style="justify-content: center;"></i>
+                                Local Area Statistics
+                            </a></div>
+                        </li>
+                    {% endif %}
                     <li>
                         <div class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" style="color: white;">
                                 <i class="fa fa-line-chart" style="justify-content: center;" aria-hidden="true"></i>
                                 Sold Properties</a>
                             <ul class="dropdown-menu" style="background-color:#1a2090; display: none;">
-                            {% if session['postcode']|length > 5 %}
-                                <li><a style="color: white;" id=soldpricejson>Land Registry Sold</a></li>
-                            {% endif %}
+                                {% if session['postcode']|length > 5 %}
+                                    <li><a style="color: white;" id=soldpricejson>Land Registry Sold</a></li>
+                                {% endif %}
                                 <li><a style="color: white;" id=rmovesold>RightMove Sold</a></li>
                             </ul>
                         </div>
@@ -1337,12 +1343,12 @@
                         </div>
                     </li>
                     {% if session['postcode']|length > 5 %}
-                    <li id="listyle">
-                        <div class="dropdown"><a id=crysdata class="toggle" style="color: white;">
-                            <i class="fa fa-signal" aria-hidden="true" style="justify-content: center;"></i>
-                            Local Area Statistics
-                        </a></div>
-                    </li>
+                        <li id="listyle">
+                            <div class="dropdown"><a id=crysdata class="toggle" style="color: white;">
+                                <i class="fa fa-signal" aria-hidden="true" style="justify-content: center;"></i>
+                                Local Area Statistics
+                            </a></div>
+                        </li>
                     {% endif %}
                 </ul>
             {% endif %}
@@ -1354,7 +1360,7 @@
                 <form action="{{ url_for("update_pcode") }}" method="post" name="exampleform"
                       style="padding-top: 13px;">
                     <input style="min-width: 200px; font-size: 10px;" id="autocomplete" name="pcodeupdate"
-                           placeholder="Enter a postcode..." type="text" />
+                           placeholder="Enter a postcode..." type="text"/>
                     <script>
 
 
@@ -1380,7 +1386,7 @@
 
                         var input = document.getElementById('autocomplete');
 
-                         input.addEventListener("click", message, { once: true });
+                        input.addEventListener("click", message, {once: true});
 
                         function message() {
                             alert("Try using a full postcode to unlock local statistics and sold prices from the land registry.")
@@ -2047,7 +2053,8 @@
         Sort price High to Low
     </button>
     <h4 id="sessionvariable" style="padding-top: 100px;"></h4>
-    <div id="forsale" class="container" style="max-width: 80%; justify-items: center; text-align: center; padding-top: 30px;">
+    <div id="forsale" class="container"
+         style="max-width: 80%; justify-items: center; text-align: center; padding-top: 30px;">
         <div id="message"></div>
     </div>
     <script>

@@ -2,14 +2,18 @@
 <html lang="en">
 <head>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-M9L1LM9C7V"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M9L1LM9C7V"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
 
-  gtag('config', 'G-M9L1LM9C7V');
-</script>
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-M9L1LM9C7V');
+    </script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="refresh"/>
@@ -43,9 +47,27 @@
 
         @media only screen and (max-width: 500px) {
 
+             .kindle {
+                grid-column-start: 1;
+                grid-column-end: 5;
+                grid-row-start: 0;
+                grid-row-end: 1;
+                margin: 0 auto;
+            }
 
+
+            .newbox {
+                display: none;
+            }
             #h-heading {
                 padding-top: 40%;
+            }
+
+            .newbox {
+                grid-column-start: 3;
+                grid-column-end: 5;
+                grid-row-start: 2;
+                grid-row-end: 2;
             }
 
             #rowtag {
@@ -69,6 +91,7 @@
                 grid-column-end: 1;
                 grid-row-start: 0;
                 grid-row-end: 1;
+                display: none;
             }
 
             .box1 {
@@ -78,6 +101,13 @@
                 grid-column-end: 3;
                 grid-row-start: 0;
                 grid-row-end: 4;
+            }
+
+             .affiliate {
+                grid-column-start: 2;
+                grid-column-end: 3;
+                grid-row-start: 15;
+                grid-row-end: 16;
             }
 
             .box3 {
@@ -96,6 +126,16 @@
         }
 
         @media only screen and (min-width: 500px) and (max-width: 800px) {
+
+
+            .kindle {
+                grid-column-start: 1;
+                grid-column-end: 5;
+                grid-row-start: 0;
+                grid-row-end: 1;
+                margin: 0 auto;
+                display: none;
+            }
 
 
             #logosizing {
@@ -129,12 +169,29 @@
                 min-width: 500px;
             }
 
+            .affiliate {
+                grid-column-start: 2;
+                grid-column-end: 3;
+                grid-row-start:12;
+                grid-row-end: 12;
+            }
+
             .box3 {
                 grid-column-start: 2;
                 grid-column-end: 3;
                 grid-row-start: 9;
-                grid-row-end: 14;
+                grid-row-end: 11;
             }
+             .newbox {
+                grid-column-start: 3;
+                grid-column-end: 5;
+                grid-row-start: 2;
+                grid-row-end: 4;
+            }
+
+             .newbox {
+                 display: none;
+             }
 
             .column {
                 float: left;
@@ -146,6 +203,20 @@
 
         @media only screen and (min-width: 800px) {
 
+            .affiliatetop {
+                grid-column-start: 2;
+                grid-column-end: 3;
+                grid-row-start: 0;
+                grid-row-end: 1;
+            }
+
+            .kindle {
+                grid-column-start: 1;
+                grid-column-end: 4;
+                grid-row-start: 0;
+                grid-row-end: 1;
+                margin: 0 auto;
+            }
 
             #logosizing {
                 width: auto;
@@ -169,6 +240,14 @@
                 grid-row-start: 0;
                 grid-row-end: 1;
             }
+            .affiliate {
+                grid-column-start: 2;
+                grid-column-end: 3;
+                grid-row-start: 13;
+                grid-row-end: 13;
+                width: 100%;
+                margin: 0 auto;
+            }
 
             .box1 {
                 grid-column-start: 2;
@@ -178,11 +257,19 @@
                 min-width: 500px;
             }
 
+            .newbox {
+                grid-column-start: 3;
+                grid-column-end: 5;
+                grid-row-start: 2;
+                grid-row-end: 4;
+                max-width: 100%;
+            }
+
             .box3 {
                 grid-column-start: 2;
                 grid-column-end: 3;
-                grid-row-start: 9;
-                grid-row-end: 14;
+                grid-row-start: 8;
+                grid-row-end: 12;
             }
 
             .column {
@@ -225,29 +312,27 @@
         }
 
 
-
     </script>
 </head>
 <body>
-<!-- TrustBox widget - Micro Review Count -->
-<div class="trustpilot-widget" data-locale="en-GB" data-template-id="5419b6a8b0d04a076446a9ad" data-businessunit-id="643e423179f7dbb4ceb2376a" data-style-height="24px" data-style-width="100%" data-theme="light" data-min-review-count="10" data-without-reviews-preferred-string-id="1" data-style-alignment="center">
-  <a href="https://uk.trustpilot.com/review/propertyscanneruk.co.uk" target="_blank" rel="noopener">Trustpilot</a>
-</div>
-<!-- End TrustBox widget -->
 <header>
 </header>
 <div class="flexcontainer">
-    <div class="wrapper">
-        <div class="boxstart">
 
+    <div class="wrapper">
+        <div class="boxstart" >
+           <div>
             <nav class="navbar navbar-light bg-light justify-content-between" id="boxstart">
                 <a class="navbar-brand"><img src="/static/images/mainlogo.png" id="large_marg" alt="mainlogo"
                                              id="image"></a>
-            </nav>
+            </nav></div>
         </div>
+
+        <div class="newbox">
+            <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=11&l=ur1&category=pcvideogames&banner=0G6FH6T7ED809MBYTFR2&f=ifr&linkID=02be44ab87b7d84026029cb8426c254c&t=256308e-21&tracking_id=256308e-21" width="100" height="600" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+        </div>
+
         <div class="box1">
-
-
             <h5 class="h2style" id="h-heading">{{ session['type'] }} results for: {{ session['display'] }}</h5>
             <p>Enter the parameters of your search query.</p>
             <form action="{{ url_for("search_p2") }}" style="padding-right: 20px;" method="post" name="search"
@@ -795,6 +880,9 @@
                 </div>
             </form>
         </div>
+       <div class="affiliatetop">
+            <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=48&l=ur1&category=musicunlimited&banner=0J7A5KTR9QCM2ZRGDSR2&f=ifr&linkID=ed65ac8e730e2d0165a364c1fb8b89d9&t=256308e-21&tracking_id=256308e-21" width="0" height="90" scrolling="no" border="0" marginwidth="0" style="border:none; margin: 0 auto; width: 100%;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+        </div>
         <div class="box3"
              style="background-color: #E9E9EB; border: #cacaca; border-style: solid; color: black; padding-top: 50px;">
             <div class="row" style="padding-left: 5%; padding-right: 5%;" id="rowtag">
@@ -814,21 +902,25 @@
                     <img src="/static/images/rmove.png" style="padding-top: 10px;" id="logosizing"/>
                 </div>
             </div>
-                 <div class="row" style="text-align: left; padding-left: 20px;">
+            <div class="row" style="text-align: left; padding-left: 20px;">
                 <ul style="list-style: none">
                     <li style="font-size: 20px;">Contact</li>
                     <li>info@propertyscanneruk.co.uk</li>
                 </ul>
             </div>
         </div>
+        <div class="affiliate">
+            <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=48&l=ur1&category=musicunlimited&banner=0J7A5KTR9QCM2ZRGDSR2&f=ifr&linkID=ed65ac8e730e2d0165a364c1fb8b89d9&t=256308e-21&tracking_id=256308e-21" width="0" height="90" scrolling="no" border="0" marginwidth="0" style="border:none; margin: 0 auto; width: 100%;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+        </div>
     </div>
+
 </div>
 <script>
     $(document).foundation();
 
 </script>
-
 <!-- TrustBox widget - Micro Review Count -->
 <!-- End TrustBox widget -->
+
 </body>
 </html>

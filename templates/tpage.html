@@ -2,23 +2,29 @@
 <html lang="en">
 <head>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-M9L1LM9C7V"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M9L1LM9C7V"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
 
-  gtag('config', 'G-M9L1LM9C7V');
-</script>
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-M9L1LM9C7V');
+    </script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="refresh"/>
     <meta name="trustpilot-one-time-domain-verification-id" content="5a6f6de5-1782-4a5b-bfe4-a48f53d8d418"/>
-    <meta name="google-site-verification" content="-ZmrpDX-hMar0v1lDPCwU2pHI3gxRH-J-dyp-uNZ8cM" />
+    <meta name="google-site-verification" content="-ZmrpDX-hMar0v1lDPCwU2pHI3gxRH-J-dyp-uNZ8cM"/>
 
-    <title>Property Scanner - Find a home and look up sold house prices by searching the best websites to rent or buy a house.</title>
-    <meta name="description" content="The only property portal that blends data from all three of the leading property search sites.">
+    <title>Property Scanner - Find a home and look up sold house prices by searching the best websites to rent or buy a
+        house.</title>
+    <meta name="description"
+          content="The only property portal that blends data from all three of the leading property search sites.">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -47,12 +53,35 @@
 
 
 
+
         @media only screen and (max-width: 600px) {
 
-             h1, h2, h5, button {
+             #videogames {
+             display: none;
+            }
+
+          .affiliateleft {
+                grid-column-start: 1;
+                grid-column-end: 2;
+                grid-row-start: 1;
+                grid-row-end: 2;
+              display: none;
+            }
+
+
+            .bannerbottom {
+                margin-top: 30px;
+                 margin-bottom: 50px;
+                grid-column-start: 1;
+                grid-column-end: 1;
+                grid-row-start: 15;
+                grid-row-end: 16;
+                display: none;
+            }
+            h1, h2, h5, button {
                 font-family: 'Montserrat', sans-serif;
-                 font-size: 20px;
-             }
+                font-size: 20px;
+            }
 
             #optionbutton {
                 width: 300px;
@@ -61,6 +90,7 @@
             .wrapper {
                 display: inline-grid;
                 grid-template-columns: repeat(1, 1fr);
+                grid-auto-rows: 250px;
             }
 
             .box1 {
@@ -74,7 +104,7 @@
                 grid-column-start: 2;
                 grid-column-end: 3;
                 grid-row-start: 2;
-                grid-row-end: 3;
+                grid-row-end: 2;
                 border-radius: 4px;
                 min-width: 50%;
             }
@@ -84,6 +114,7 @@
                 grid-column-end: 4;
                 grid-row-start: 3;
                 grid-row-end: 4;
+                margin: auto 0;
             }
 
             .searchbox {
@@ -98,8 +129,8 @@
             .landingpage {
                 grid-column-start: 1;
                 grid-column-end: 4;
-                grid-row-start: 5;
-                grid-row-end: 6;
+                grid-row-start: 7;
+                grid-row-end: 8;
             }
 
             #grid {
@@ -114,6 +145,15 @@
         }
 
         @media only screen and (min-width: 601px) and (max-width: 1000px) {
+            .bannerbottom {
+                margin-top: 30px;
+                margin-bottom: 50px;
+                grid-column-start: 1;
+                grid-column-end: 2;
+                grid-row-start: 15;
+                grid-row-end: 16;
+                display: none;
+            }
 
             .wrapper {
                 display: inline-grid;
@@ -142,7 +182,7 @@
                 grid-column-start: 1;
                 grid-column-end: 4;
                 grid-row-start: 7;
-                grid-row-end: 19;
+                grid-row-end: 17;
             }
 
             .searchbox {
@@ -158,9 +198,18 @@
             .landingpage {
                 grid-column-start: 1;
                 grid-column-end: 4;
-                grid-row-start: 17;
-                grid-row-end: 19;
+                grid-row-start: 20;
+                grid-row-end: 23;
             }
+
+            .affiliateleft {
+                grid-column-start: 1;
+                grid-column-end: 2;
+                grid-row-start: 1;
+                grid-row-end: 2;
+                display: none;
+            }
+
 
             #grid {
                 display: grid;
@@ -174,11 +223,13 @@
             }
 
         }
+        @media only screen and (min-width: 1800px) {
 
 
-        @media only screen and (min-width: 1000px) {
-
-             h1, h2, h5, button {
+               #videogames {
+             display: none;
+            }
+            h1, h2, h5, button {
                 font-family: 'Montserrat', sans-serif;
             }
 
@@ -186,7 +237,116 @@
                 display: inline-grid;
                 grid-template-columns: repeat(3, 1fr);
                 grid-auto-rows: 100px;
-                padding-bottom: 100px;
+            }
+
+            .box1 {
+                grid-column-start: 1;
+                grid-column-end: 4;
+                grid-row-start: 1;
+                grid-row-end: 3;
+            }
+
+            .affiliateleft {
+                grid-column-start: 1;
+                grid-column-end: 2;
+                grid-row-start: 1;
+                grid-row-end: 2;
+            }
+
+            .box2 {
+                grid-column-start: 2;
+                grid-column-end: 3;
+                grid-row-start: 3;
+                grid-row-end: 5;
+                border-radius: 4px;
+                min-width: 500px;
+            }
+
+            .affiliateleft {
+                grid-column-start: 1;
+                grid-column-end: 1;
+                grid-row-start: 6;
+                grid-row-end: 10;
+            }
+
+
+            .box3b {
+                grid-column-start: 1;
+                grid-column-end: 4;
+                grid-row-start: 7;
+                grid-row-end: 10;
+                margin-left: 150px;
+            }
+
+            .searchbox {
+                width: 100%;
+                background-color: #1A2090;
+                display: inline-block;
+                border-radius: 4px;
+                text-align: center;
+                padding: 24px 8px 24px 8px;
+                min-width: auto;
+
+            }
+
+            .landingpage {
+                margin-top: 30px;
+                grid-column-start: 1;
+                grid-column-end: 4;
+                grid-row-start: 12;
+                grid-row-end: 15;
+            }
+
+            #grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(25%, 1fr));
+                grid-gap: 5px;
+            }
+
+            #grid > div {
+                padding: .5em;
+                text-align: center;
+            }
+
+            .flex-item-right {
+                flex: 15%;
+                padding: 10px;
+            }
+
+            .flex-item-center {
+                flex: 95%;
+                padding 10px;
+            }
+
+            .flex-item-left {
+                flex: 10%;
+                padding: 10px;
+            }
+
+             .bannerbottom {
+                margin-top: 30px;
+                 margin-bottom: 50px;
+                grid-column-start: 1;
+                grid-column-end: 4;
+                grid-row-start: 15;
+                grid-row-end: 16;
+            }
+        }
+
+        @media only screen and (min-width: 1000px) and (max-width: 1800px) {
+
+             #videogames {
+             display: none;
+            }
+
+            h1, h2, h5, button {
+                font-family: 'Montserrat', sans-serif;
+            }
+
+            .wrapper {
+                display: inline-grid;
+                grid-template-columns: repeat(3, 1fr);
+                grid-auto-rows: 100px;
             }
 
             .box1 {
@@ -205,11 +365,22 @@
                 min-width: 500px;
             }
 
+             .affiliateleft {
+                grid-column-start: 1;
+                grid-column-end: 1;
+                grid-row-start: 6;
+                grid-row-end: 10;
+                 display: none;
+            }
+
+
+
             .box3b {
                 grid-column-start: 1;
                 grid-column-end: 4;
                 grid-row-start: 7;
                 grid-row-end: 10;
+                padding-left: 75px;
             }
 
             .searchbox {
@@ -224,21 +395,45 @@
             }
 
             .landingpage {
+                margin-top: 30px;
                 grid-column-start: 1;
                 grid-column-end: 4;
                 grid-row-start: 12;
-                grid-row-end: 15;
+                grid-row-end: 16;
             }
 
             #grid {
                 display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(33%, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(25%, 1fr));
                 grid-gap: 5px;
             }
 
             #grid > div {
                 padding: .5em;
                 text-align: center;
+            }
+
+             .flex-item-right {
+                flex: 15%;
+                padding: 10px;
+            }
+
+            .flex-item-center {
+                flex: 95%;
+                padding 10px;
+            }
+
+            .flex-item-left {
+                flex: 10%;
+                padding: 10px;
+            }
+
+            .bannerbottom {
+                margin-top: 30px;
+                grid-column-start: 1;
+                grid-column-end: 4;
+                grid-row-start: 16;
+                grid-row-end: 16;
             }
         }
 
@@ -297,6 +492,8 @@
             display: table;
             clear: both;
         }
+
+
     </style>
     <script>
         if (window.history.replaceState) {
@@ -309,17 +506,26 @@
 <body>
 
 <!-- End TrustBox widget -->
-<div style="height: 100px; ">
+<div style="height: 100px; padding-bottom: 20px;">
     <a class="navbar-brand"><img src="/static/images/mainlogo.png" alt="mainlogo" width="150" height="150"
                                  style="justify-items: left;"></a>
+
 </div>
-<div style="text-align: center;">
-        <h5 style="color: black; display: inline-block; font-size: 1.5vw;">The search engine that displays properties <i>For Sale, To Let, Sold prices, planning information and Local Area Statistics.</i> The one <u>one-stop</u> shop for all your property needs.</h5>
+    <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=26&l=ur1&category=kindle_unlimited&banner=130X0D4GBSVPWC4ZTFR2&f=ifr&linkID=22b4efab2a9b46e5592be489ba5d8889&t=256308e-21&tracking_id=256308e-21" width="100px;" height="120" scrolling="no" border="0" marginwidth="0" style="border:none; padding-top: 10px; display: block; margin: 0 auto;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+
+<div style="text-align: center; margin-left: 50px; margin-right: 50px;">
+    <h5 style="color: black; display: inline-block; font-size: 1.5vw;">The search engine that displays properties <i>For
+        Sale, To Let, Sold prices, planning information and Local Area Statistics.</i> The one <u>one-stop</u> shop for
+        all your property needs.</h5>
 </div>
-<div class="flexcontainer">
+<div class="flexcontainer" style="margin-left: 5px; margin-right: 5px;">
     <div class="wrapper">
         <div class="box1">
-            <img src="/static/images/background.jpeg">
+
+             <img src="/static/images/background.jpeg">
+        </div>
+        <div class="affiliateleft">
+            <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=29&l=ur1&category=homegarden&banner=10YTN5ZGV6MZ3ZXZ1302&f=ifr&linkID=8badeeab3e3fd0ae2394f9b2017bc1a4&t=256308e-21&tracking_id=256308e-21" width="120" height="600" scrolling="no" border="0" marginwidth="0" style="border:none; margin-right: 50px;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
         </div>
         <div class="box2">
             <div class="searchbox">
@@ -355,19 +561,27 @@
                 </form>
             </div>
         </div>
-        <div class="box3b">
-            <div id="grid">
-                <div><a href="https://energyperformancecertificates.co.uk/"><img src="/static/images/epc.png"
+
+        <div class="box3b" style="display:flex;">
+            <div id="grid" style="flex: 90%;">
+                <div>
+                    <div style="display: flex">
+
+                        <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=11&l=ur1&category=pcvideogames&banner=0G6FH6T7ED809MBYTFR2&f=ifr&linkID=02be44ab87b7d84026029cb8426c254c&t=256308e-21&tracking_id=256308e-21" width="120" height="600" scrolling="no" border="0" id="videogames" marginwidth="0" style="border:none;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+                    <a href="https://energyperformancecertificates.co.uk/"><img src="/static/images/epc.png"
                                                                                  id="gridimage" alt="a balloon"></a>
+                    </div>
                 </div>
                 <div><a href="https://www.gassaferegister.co.uk/find-an-engineer-or-check-the-register/"><img
                         src="/static/images/gassaf.png" id="gridimage" alt="a balloon"></a></div>
                 <div><a href="https://www.uswitch.com/"><img src="/static/images/utility.png" id="gridimage"></a></div>
             </div>
         </div>
+
         <div class="landingpage"
-             style="background-color: #E9E9EB; border: #cacaca; border-style: solid; color: black; padding-top: 50px;">
+             style="background-color: #E9E9EB; border: #cacaca; border-style: solid; color: black; padding-top: 10px;">
             <div style=" display: flex; justify-content: left;">
+
                 <div class="row" style="margin-left: 5%;">
                     <ul style="list-style: none">
                         <li style="font-size: 20px;">Contact</li>
@@ -394,10 +608,13 @@
 
             </div>
         </div>
+
     </div>
+
 </div>
-<p style="margin-left: 10%; font-size: 12px;">Site designed and created by @AlasdairKite
-    alasdairkite@onlinewebservices.uk</p>
+  <div class="bannerbottom">
+            <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=48&l=ur1&category=musicunlimited&banner=0J7A5KTR9QCM2ZRGDSR2&f=ifr&linkID=ed65ac8e730e2d0165a364c1fb8b89d9&t=256308e-21&tracking_id=256308e-21" width="" height="90" scrolling="no" border="0" marginwidth="0" style="display: block; border:none; margin: 0 auto;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+</div>
 <!-- TrustBox widget - Micro Review Count -->
 
 <!-- End TrustBox widget -->

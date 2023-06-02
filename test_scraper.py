@@ -14,7 +14,6 @@ from bs4 import BeautifulSoup
 from selenium.webdriver.common.by import By
 
 
-
 class Utility():
 
     def find_json_objects(self, text: str, decoder=json.JSONDecoder()):
@@ -103,7 +102,6 @@ def test_rmovesales_request(client):
 
 
 def test_gumtreerent_requestanddata(client):
-
     url = 'https://www.gumtree.com/search?search_category=property-to-rent&search_location=SE100AA&property_number_beds=100-bedroom&max_price=25000&min_price=1'
 
     options = webdriver.ChromeOptions()
@@ -127,6 +125,7 @@ def test_gumtreerent_requestanddata(client):
     source = driver.page_source
     rent_text = "rent"
     assert "404" not in status and rent_text in source
+
 
 def test_rmovelets_request(client):
     search_url = 'https://www.rightmove.co.uk/property-to-rent/search.html?searchLocation='
@@ -171,9 +170,7 @@ def test_rmovelets_dataresponse(client):
 
 
 def test_otmsales_request(client):
-
     util = Utility()
-
 
     options = webdriver.ChromeOptions()
     options.add_argument("--headless")
@@ -196,7 +193,6 @@ def test_otmsales_request(client):
     url2 = 'https://www.onthemarket.com/for-sale/2-bed-detached/se10-0aa/?max-bedrooms=4&max-price=1250000&radius=1&view=grid'
     driver.get(url2)
 
-
     pagesource = driver.page_source
 
     li = list(util.find_json_objects(pagesource))
@@ -211,8 +207,8 @@ def test_otmsales_request(client):
         except:
             pass
 
-def test_otmrent_request(client):
 
+def test_otmrent_request(client):
     options = webdriver.ChromeOptions()
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-gpu")
@@ -247,6 +243,7 @@ def test_otmrent_request(client):
     #     except:
     #         pass
 
+
 def test_crystalstates(client):
     search_url = "https://crystalroof.co.uk/report/postcode/SE12EA/overview"
     response = urllib.request.urlopen(search_url)
@@ -259,7 +256,6 @@ def test_crystalstates(client):
     assert len(data) == 15
 
 
-
 def send_simple_message():
     return requests.post(
         "https://api.mailgun.net/v3/sandbox85b0a26ea8a84fa69641ff672b7b4c76.mailgun.org/messages",
@@ -270,7 +266,8 @@ def send_simple_message():
               "subject": "Warning Test Failed",
               "text": "One of the web scrapers have failed. Please review the test results and undertake maintenance."})
 
-if __name__== "__main__":
+
+if __name__ == "__main__":
     os.system('pytest --html=report.html')
     data = open('report.html').read()
     soup = BeautifulSoup(data, 'html.parser')

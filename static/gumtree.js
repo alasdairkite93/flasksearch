@@ -11,7 +11,7 @@ var text = fs.readFileSync('/home/alasdairkite/flasksearch/static/urls.txt').toS
 let list = text.split('\n');
 let url = list[0];
 let prox = list[1]
-let ar_var = '--proxy-server='+prox;
+let ar_var = '--proxy-server=' + prox;
 
 const proxy = prox;
 const username = 'woaokexr';
@@ -19,7 +19,8 @@ const password = '6tq2q8b4e15q';
 
 console.log(url);
 // puppeteer usage as normal
-puppeteer.launch({ headless: true, ignoreHTTPSErrors: true, executablePath: executablePath(), args: [ar_var ]
+puppeteer.launch({
+    headless: true, ignoreHTTPSErrors: true, executablePath: executablePath(), args: [ar_var]
 }).then(async browser => {
 
     const page = await browser.newPage()
@@ -39,7 +40,7 @@ puppeteer.launch({ headless: true, ignoreHTTPSErrors: true, executablePath: exec
     });
 
 
-    fs.writeFile('/home/alasdairkite/flasksearch/static/temp.txt', (innerText), (err) =>{
+    fs.writeFile('/home/alasdairkite/flasksearch/static/temp.txt', (innerText), (err) => {
         if (err) throw err;
     })
 

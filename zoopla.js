@@ -10,35 +10,34 @@ var text = fs.readFileSync("./static/urls.txt").toString('utf-8');
 let list = text.split('\n');
 let url = list[0];
 let prox = list[1]
-let ar_var = '--proxy-server='+prox;
+let ar_var = '--proxy-server=' + prox;
 
-console.log("going to: "+url+" ar_var: "+ar_var);
+console.log("going to: " + url + " ar_var: " + ar_var);
 
 puppeteer.launch({
-headless: true, executablePath: executablePath(), args: [prox], ignoreHTTPSErrors: true,
+    headless: true, executablePath: executablePath(), args: [prox], ignoreHTTPSErrors: true,
 }).then(async browser => {
 
 
-console.log('Running tests..')
-const page = await browser.newPage()
-await page.goto(url, {
-    waitUntil: "load", timeout: 0,
-});
-await page.content();
+    console.log('Running tests..')
+    const page = await browser.newPage()
+    await page.goto(url, {
+        waitUntil: "load", timeout: 0,
+    });
+    await page.content();
 
 
-
-innerText = await page.evaluate(() => {
-    console.log(JSON.parse(document.querySelector('#__NEXT_DATA__').innerHTML));
-    return JSON.parse(document.querySelector('#__NEXT_DATA__').innerHTML);
-});
-
-
-fs.writeFile('zoopla.json', JSON.stringify(innerText), (err) => {
-    if (err) throw err;
-})
+    innerText = await page.evaluate(() => {
+        console.log(JSON.parse(document.querySelector('#__NEXT_DATA__').innerHTML));
+        return JSON.parse(document.querySelector('#__NEXT_DATA__').innerHTML);
+    });
 
 
-await page.waitForTimeout(5000)
-await browser.close()
+    fs.writeFile('zoopla.json', JSON.stringify(innerText), (err) => {
+        if (err) throw err;
+    })
+
+
+    await page.waitForTimeout(5000)
+    await browser.close()
 });
