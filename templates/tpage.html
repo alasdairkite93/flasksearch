@@ -52,32 +52,57 @@
     <style>
 
 
-
+{#* 1920×1080 (9.94%)#}
+{#* 1366×768 (6.22%)#}
+{#* 360×640 (5.88%)#}
+{#* 414×896 (4.21%)#}
+{#* 1536×864 (3.94%)#}
+{#* 375×667 (3.74%)#}
 
         @media only screen and (max-width: 600px) {
+
+            .bannerbottommobile {
+                margin-top: 30px;
+                margin-bottom: 50px;
+            }
+
+            .bannerbottomsmallscreen {
+                display: none;
+            }
+
+            .bannerbottommidscreen {
+                display: none;
+            }
+
+            .homeandgardenbox {
+                display: none;
+            }
+
+            .affiliatebox {
+                display: none;
+            }
+
+              #smallerscreen {
+                display: none;
+            }
+
+            #vsmallscreen {
+                display: none;
+            }
+
+              #headbannermidscreen {
+                display: none;
+            }
+
 
              #videogames {
              display: none;
             }
 
-          .affiliateleft {
-                grid-column-start: 1;
-                grid-column-end: 2;
-                grid-row-start: 1;
-                grid-row-end: 2;
-              display: none;
-            }
-
-
             .bannerbottom {
-                margin-top: 30px;
-                 margin-bottom: 50px;
-                grid-column-start: 1;
-                grid-column-end: 1;
-                grid-row-start: 15;
-                grid-row-end: 16;
                 display: none;
             }
+
             h1, h2, h5, button {
                 font-family: 'Montserrat', sans-serif;
                 font-size: 20px;
@@ -104,7 +129,7 @@
                 grid-column-start: 2;
                 grid-column-end: 3;
                 grid-row-start: 2;
-                grid-row-end: 2;
+                grid-row-end: 3;
                 border-radius: 4px;
                 min-width: 50%;
             }
@@ -129,7 +154,7 @@
             .landingpage {
                 grid-column-start: 1;
                 grid-column-end: 4;
-                grid-row-start: 7;
+                grid-row-start: 8;
                 grid-row-end: 8;
             }
 
@@ -142,16 +167,65 @@
             #grid > div {
                 padding: .5em;
             }
+            #headbannerfullscreen {
+                display: none;
+            }
+
+            .weddingbox {
+                display: none;
+            }
         }
 
         @media only screen and (min-width: 601px) and (max-width: 1000px) {
-            .bannerbottom {
-                margin-top: 30px;
-                margin-bottom: 50px;
+
+            .bannerbottommobile {
+                display: none;
+            }
+
+            #energyperformance {
+                margin-left: 30%;
+            }
+
+            #gridiframe {
+                display: none;
+            }
+
+             .bannerbottom {
+                display: none;
+            }
+
+             .bannerbottommidscreen {
+                 display: none;
+             }
+
+            .homeandgardenbox {
                 grid-column-start: 1;
-                grid-column-end: 2;
-                grid-row-start: 15;
-                grid-row-end: 16;
+                grid-column-end: 3;
+                grid-row-start: 7;
+                grid-row-end: 8;
+                margin-left: 250px;
+
+            }
+
+
+            .weddingbox {
+               display: none;
+            }
+
+          .affiliatebox {
+                display: none;
+            }
+
+            #mobilescreen {
+                display: none;
+            }
+
+
+            #smallerscreen {
+                display: none;
+            }
+
+            #headbannermidscreen {
                 display: none;
             }
 
@@ -181,7 +255,7 @@
             .box3b {
                 grid-column-start: 1;
                 grid-column-end: 4;
-                grid-row-start: 7;
+                grid-row-start: 11;
                 grid-row-end: 17;
             }
 
@@ -198,18 +272,9 @@
             .landingpage {
                 grid-column-start: 1;
                 grid-column-end: 4;
-                grid-row-start: 20;
+                grid-row-start: 21;
                 grid-row-end: 23;
             }
-
-            .affiliateleft {
-                grid-column-start: 1;
-                grid-column-end: 2;
-                grid-row-start: 1;
-                grid-row-end: 2;
-                display: none;
-            }
-
 
             #grid {
                 display: grid;
@@ -221,14 +286,78 @@
                 padding: .5em;
                 text-align: center;
             }
+            #headbannerfullscreen {
+                display: none;
+            }
 
         }
-        @media only screen and (min-width: 1800px) {
+
+        @media only screen and (min-width: 1000px) and (max-width: 1500px) {
+
+            .bannerbottommobile {
+                display: none;
+            }
+
+            #gridiframe {
+                display: none;
+            }
+
+            .bannerbottommidscreen {
+                display: none;
+            }
+
+             .bannerbottom {
+                display: none;
+            }
+
+              .homeandgardenbox {
+                display: none;
+            }
+
+            .weddingbox {
+                grid-column-start: 2;
+                grid-column-end: 3;
+                grid-row-start: 7;
+                grid-row-end: 8;
+                float: left;
+                margin-left: 100px;
+            }
+
+            .affiliatebox {
+                display: none;
+            }
+
+            #mobilescreen {
+                display: none;
+            }
 
 
-               #videogames {
+            #vsmallscreen {
+                display: none;
+            }
+
+            #headbannerfullscreen {
+                display: none;
+            }
+
+            #headbannermidscreen {
+                display: none;
+            }
+
+             #videogames {
              display: none;
             }
+
+
+             .bannerbottomsmallscreen {
+                 margin-top: 30px;
+                margin-bottom: 100px;
+                grid-column-start: 1;
+                grid-column-end: 4;
+                grid-row-start: 16;
+                grid-row-end: 16;
+             }
+
             h1, h2, h5, button {
                 font-family: 'Montserrat', sans-serif;
             }
@@ -246,13 +375,6 @@
                 grid-row-end: 3;
             }
 
-            .affiliateleft {
-                grid-column-start: 1;
-                grid-column-end: 2;
-                grid-row-start: 1;
-                grid-row-end: 2;
-            }
-
             .box2 {
                 grid-column-start: 2;
                 grid-column-end: 3;
@@ -262,20 +384,12 @@
                 min-width: 500px;
             }
 
-            .affiliateleft {
-                grid-column-start: 1;
-                grid-column-end: 1;
-                grid-row-start: 6;
-                grid-row-end: 10;
-            }
-
-
             .box3b {
                 grid-column-start: 1;
                 grid-column-end: 4;
-                grid-row-start: 7;
+                grid-row-start: 10;
                 grid-row-end: 10;
-                margin-left: 150px;
+                padding-left: 75px;
             }
 
             .searchbox {
@@ -293,8 +407,287 @@
                 margin-top: 30px;
                 grid-column-start: 1;
                 grid-column-end: 4;
-                grid-row-start: 12;
-                grid-row-end: 15;
+                grid-row-start: 14;
+                grid-row-end: 16;
+            }
+
+            #grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(25%, 1fr));
+                grid-gap: 5px;
+            }
+
+            #grid > div {
+                padding: .5em;
+                text-align: center;
+            }
+
+             .flex-item-right {
+                flex: 15%;
+                padding: 10px;
+            }
+
+            .flex-item-center {
+                flex: 95%;
+                padding 10px;
+            }
+
+            .flex-item-left {
+                flex: 10%;
+                padding: 10px;
+            }
+
+        }
+
+        @media only screen and (min-width: 1500px) and (max-width: 1800px) {
+
+            .bannerbottommobile {
+                display: none;
+            }
+
+            .bannerbottommidscreen {
+                margin-top: 30px;
+                margin-bottom: 100px;
+                grid-column-start: 1;
+                grid-column-end: 4;
+                grid-row-start: 16;
+                grid-row-end: 16;
+            }
+
+
+             .bannerbottomsmallscreen {
+                 display: none;
+             }
+
+             .bannerbottom {
+                display: none;
+            }
+
+              #gridiframe {
+                display: none;
+            }
+
+            #marginimage {
+                margin-left: 30px;
+            }
+
+          .homeandgardenbox {
+                display: none;
+            }
+
+            .weddingbox {
+                display: none;
+            }
+
+             .affiliatebox {
+                grid-column-start: 2;
+                grid-column-end: 3;
+                grid-row-start: 7;
+                grid-row-end: 8;
+                float: left;
+                margin-left: 170px;
+            }
+
+            #mobilescreen {
+                display: none;
+            }
+
+
+            #vsmallscreen {
+                display: none;
+            }
+
+            #smallerscreen {
+                display: none;
+            }
+
+            #headbannerfullscreen {
+                display: none;
+            }
+
+             #videogames {
+             display: none;
+            }
+
+            h1, h2, h5, button {
+                font-family: 'Montserrat', sans-serif;
+            }
+
+            .wrapper {
+                display: inline-grid;
+                grid-template-columns: repeat(3, 1fr);
+                grid-auto-rows: 100px;
+            }
+
+            .box1 {
+                grid-column-start: 1;
+                grid-column-end: 4;
+                grid-row-start: 1;
+                grid-row-end: 3;
+            }
+
+            .box2 {
+                grid-column-start: 2;
+                grid-column-end: 3;
+                grid-row-start: 3;
+                grid-row-end: 5;
+                border-radius: 4px;
+                min-width: 500px;
+            }
+
+            .box3b {
+                grid-column-start: 1;
+                grid-column-end: 4;
+                grid-row-start: 10;
+                grid-row-end: 12;
+                padding-left: 75px;
+            }
+
+            .searchbox {
+                width: 100%;
+                background-color: #1A2090;
+                display: inline-block;
+                border-radius: 4px;
+                text-align: center;
+                padding: 24px 8px 24px 8px;
+                min-width: auto;
+
+            }
+
+            .landingpage {
+                margin-top: 30px;
+                grid-column-start: 1;
+                grid-column-end: 4;
+                grid-row-start: 14;
+                grid-row-end: 16;
+            }
+
+            #grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(25%, 1fr));
+                grid-gap: 5px;
+            }
+
+            #grid > div {
+                padding: .5em;
+                text-align: center;
+            }
+
+             .flex-item-right {
+                flex: 15%;
+                padding: 10px;
+            }
+
+            .flex-item-center {
+                flex: 95%;
+                padding 10px;
+            }
+
+            .flex-item-left {
+                flex: 10%;
+                padding: 10px;
+            }
+
+        }
+
+        @media only screen and (min-width: 1800px) {
+
+            .bannerbottommobile {
+                display: none;
+            }
+
+            .bannerbottommidscreen {
+                display: none;
+            }
+
+              #gridiframe {
+                display: none;
+            }
+
+            .homeandgardenbox {
+                display: none;
+            }
+
+            #mobilescreen {
+                display: none;
+            }
+
+            #vsmallscreen {
+                display: none;
+            }
+
+            #smallerscreen {
+                display: none;
+            }
+
+            #videogames {
+             display: none;
+            }
+
+            h1, h2, h5, button {
+                font-family: 'Montserrat', sans-serif;
+            }
+
+            .wrapper {
+                display: inline-grid;
+                grid-template-columns: repeat(3, 1fr);
+                grid-auto-rows: 100px;
+            }
+
+            .box1 {
+                grid-column-start: 1;
+                grid-column-end: 4;
+                grid-row-start: 1;
+                grid-row-end: 3;
+            }
+
+            .box2 {
+                grid-column-start: 2;
+                grid-column-end: 3;
+                grid-row-start: 3;
+                grid-row-end: 5;
+                border-radius: 4px;
+                min-width: 500px;
+            }
+
+            .affiliatebox {
+                grid-column-start: 2;
+                grid-column-end: 3;
+                grid-row-start: 7;
+                grid-row-end: 8;
+                float: left;
+                margin: 0 auto;
+            }
+
+            .box3b {
+                grid-column-start: 1;
+                grid-column-end: 4;
+                grid-row-start: 10;
+                grid-row-end: 12;
+                margin-left: 150px;
+            }
+
+            .searchbox {
+                width: 100%;
+                background-color: #1A2090;
+                display: inline-block;
+                border-radius: 4px;
+                text-align: center;
+                padding: 24px 8px 24px 8px;
+                min-width: auto;
+
+            }
+
+            .weddingbox {
+                display: none;
+            }
+
+            .landingpage {
+                margin-top: 30px;
+                grid-column-start: 1;
+                grid-column-end: 4;
+                grid-row-start: 14;
+                grid-row-end: 16;
             }
 
             #grid {
@@ -331,110 +724,15 @@
                 grid-row-start: 15;
                 grid-row-end: 16;
             }
-        }
 
-        @media only screen and (min-width: 1000px) and (max-width: 1800px) {
-
-             #videogames {
-             display: none;
-            }
-
-            h1, h2, h5, button {
-                font-family: 'Montserrat', sans-serif;
-            }
-
-            .wrapper {
-                display: inline-grid;
-                grid-template-columns: repeat(3, 1fr);
-                grid-auto-rows: 100px;
-            }
-
-            .box1 {
-                grid-column-start: 1;
-                grid-column-end: 4;
-                grid-row-start: 1;
-                grid-row-end: 3;
-            }
-
-            .box2 {
-                grid-column-start: 2;
-                grid-column-end: 3;
-                grid-row-start: 3;
-                grid-row-end: 5;
-                border-radius: 4px;
-                min-width: 500px;
-            }
-
-             .affiliateleft {
-                grid-column-start: 1;
-                grid-column-end: 1;
-                grid-row-start: 6;
-                grid-row-end: 10;
+             .bannerbottomsmallscreen {
                  display: none;
+             }
+
+               #headbannermidscreen {
+                display: none;
             }
 
-
-
-            .box3b {
-                grid-column-start: 1;
-                grid-column-end: 4;
-                grid-row-start: 7;
-                grid-row-end: 10;
-                padding-left: 75px;
-            }
-
-            .searchbox {
-                width: 100%;
-                background-color: #1A2090;
-                display: inline-block;
-                border-radius: 4px;
-                text-align: center;
-                padding: 24px 8px 24px 8px;
-                min-width: auto;
-
-            }
-
-            .landingpage {
-                margin-top: 30px;
-                grid-column-start: 1;
-                grid-column-end: 4;
-                grid-row-start: 12;
-                grid-row-end: 16;
-            }
-
-            #grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(25%, 1fr));
-                grid-gap: 5px;
-            }
-
-            #grid > div {
-                padding: .5em;
-                text-align: center;
-            }
-
-             .flex-item-right {
-                flex: 15%;
-                padding: 10px;
-            }
-
-            .flex-item-center {
-                flex: 95%;
-                padding 10px;
-            }
-
-            .flex-item-left {
-                flex: 10%;
-                padding: 10px;
-            }
-
-            .bannerbottom {
-                margin-top: 30px;
-                grid-column-start: 1;
-                grid-column-end: 4;
-                grid-row-start: 16;
-                grid-row-end: 16;
-            }
         }
 
         .h1style {
@@ -493,6 +791,10 @@
             clear: both;
         }
 
+        iframe {
+            margin: 0 auto;
+            display: block;
+        }
 
     </style>
     <script>
@@ -511,8 +813,21 @@
                                  style="justify-items: left;"></a>
 
 </div>
-    <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=26&l=ur1&category=kindle_unlimited&banner=130X0D4GBSVPWC4ZTFR2&f=ifr&linkID=22b4efab2a9b46e5592be489ba5d8889&t=256308e-21&tracking_id=256308e-21" width="100px;" height="120" scrolling="no" border="0" marginwidth="0" style="border:none; padding-top: 10px; display: block; margin: 0 auto;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
-
+<div id="mobilescreen">
+    <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=20&l=ur1&category=ukhandcrafteddiy&banner=0QWC1KVEV24XDPA12502&f=ifr&linkID=64d904c6fd187b397da9a7b89d8e1f77&t=256308e-21&tracking_id=256308e-21" width="120" height="90" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+</div>
+<div id="vsmallscreen">
+    <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=42&l=ur1&category=ukhandcrafteddiy&banner=03AA4PYWXZH93QA4H382&f=ifr&linkID=9e94c7471fe93d79ce2d9c45be2439ee&t=256308e-21&tracking_id=256308e-21" width="234" height="60" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+</div>
+<div id="smallerscreen">
+    <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=12&l=ur1&category=ukhandcrafteddiy&banner=0H3XTRBJA0CGS8SNQT82&f=ifr&linkID=f3ef8575664ef23cf37cbaa14289ecea&t=256308e-21&tracking_id=256308e-21" width="300" height="250" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+</div>
+<div id="headbannerfullscreen">
+    <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=13&l=ur1&category=ukhandcrafteddiy&banner=02KYT02WPPCH7H64YM82&f=ifr&linkID=77786250e5e0ac31bcda0aa5c2a9fd3d&t=256308e-21&tracking_id=256308e-21" width="468" height="60" scrolling="no" border="0" marginwidth="0" style="border:none; " frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+</div>
+<div id="headbannermidscreen">
+    <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=13&l=ur1&category=ukhandcrafteddiy&banner=02KYT02WPPCH7H64YM82&f=ifr&linkID=77786250e5e0ac31bcda0aa5c2a9fd3d&t=256308e-21&tracking_id=256308e-21" width="468" height="60" scrolling="no" border="0" marginwidth="0" style="border:none; " frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+</div>
 <div style="text-align: center; margin-left: 50px; margin-right: 50px;">
     <h5 style="color: black; display: inline-block; font-size: 1.5vw;">The search engine that displays properties <i>For
         Sale, To Let, Sold prices, planning information and Local Area Statistics.</i> The one <u>one-stop</u> shop for
@@ -521,12 +836,9 @@
 <div class="flexcontainer" style="margin-left: 5px; margin-right: 5px;">
     <div class="wrapper">
         <div class="box1">
-
              <img src="/static/images/background.jpeg">
         </div>
-        <div class="affiliateleft">
-            <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=29&l=ur1&category=homegarden&banner=10YTN5ZGV6MZ3ZXZ1302&f=ifr&linkID=8badeeab3e3fd0ae2394f9b2017bc1a4&t=256308e-21&tracking_id=256308e-21" width="120" height="600" scrolling="no" border="0" marginwidth="0" style="border:none; margin-right: 50px;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
-        </div>
+
         <div class="box2">
             <div class="searchbox">
                 <h1 class="h1style"><b>Property Scanner</b></h1>
@@ -561,20 +873,29 @@
                 </form>
             </div>
         </div>
-
+         <div class="affiliatebox">
+            <div><iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=12&l=ur1&category=homegarden&banner=0PBRTC5BAHKFFV0YGPG2&f=ifr&linkID=aeea27cbe73d2433fb178f366fac271a&t=256308e-21&tracking_id=256308e-21" width="300" height="250" scrolling="no" border="0" marginwidth="0" style="border:none; position: absolute;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe></div>
+         </div>
+        <div class="weddingbox">
+            <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=12&l=ur1&category=wedding_registry&banner=04X7K9G7BSEC4CZ5B3G2&f=ifr&linkID=78cd0df57c0d787aeec5cf11263e6328&t=256308e-21&tracking_id=256308e-21" width="300" height="250" scrolling="no" border="0" marginwidth="0" style="border:none; position: absolute;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+        </div>
+        <div class="homeandgardenbox">
+            <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=22&l=ur1&category=baby&banner=0T719BX6D11FRKX89R82&f=ifr&linkID=8898f977c5ae39f31d72261c81ca9dc4&t=256308e-21&tracking_id=256308e-21" width="250" height="250" scrolling="no" border="0" marginwidth="0" style="border:none; position: absolute;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+        </div>
         <div class="box3b" style="display:flex;">
-            <div id="grid" style="flex: 90%;">
+            <div id="grid" style="flex: 90%; margin-top: 20px;">
+                <div id="gridiframe">
+<iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=20&l=ur1&category=homegarden&banner=0MX08KHDN8A3BF4NGV82&f=ifr&linkID=4ec849580afae38e63d89614212eb8f3&t=256308e-21&tracking_id=256308e-21" width="120" height="90" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>                  </div>
                 <div>
-                    <div style="display: flex">
+                    <div style="display: flex; margin: 0 auto;">
 
-                        <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=11&l=ur1&category=pcvideogames&banner=0G6FH6T7ED809MBYTFR2&f=ifr&linkID=02be44ab87b7d84026029cb8426c254c&t=256308e-21&tracking_id=256308e-21" width="120" height="600" scrolling="no" border="0" id="videogames" marginwidth="0" style="border:none;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
                     <a href="https://energyperformancecertificates.co.uk/"><img src="/static/images/epc.png"
-                                                                                 id="gridimage" alt="a balloon"></a>
+                                                                                 id="energyperformance" alt="a balloon"></a>
                     </div>
                 </div>
-                <div><a href="https://www.gassaferegister.co.uk/find-an-engineer-or-check-the-register/"><img
-                        src="/static/images/gassaf.png" id="gridimage" alt="a balloon"></a></div>
-                <div><a href="https://www.uswitch.com/"><img src="/static/images/utility.png" id="gridimage"></a></div>
+                <div style="margin: 0 auto;"><a href="https://www.gassaferegister.co.uk/find-an-engineer-or-check-the-register/"><img
+                        src="/static/images/gassaf.png" id="gridimage" alt="a balloon" id="marginimage"></a></div>
+                <div style="margin: 0 auto;"><a href="https://www.uswitch.com/"><img src="/static/images/utility.png" id="gridimage"></a></div>
             </div>
         </div>
 
@@ -613,7 +934,16 @@
 
 </div>
   <div class="bannerbottom">
-            <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=48&l=ur1&category=musicunlimited&banner=0J7A5KTR9QCM2ZRGDSR2&f=ifr&linkID=ed65ac8e730e2d0165a364c1fb8b89d9&t=256308e-21&tracking_id=256308e-21" width="" height="90" scrolling="no" border="0" marginwidth="0" style="display: block; border:none; margin: 0 auto;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+<iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=48&l=ur1&category=pcvideogames&banner=0ARHTTTPV6PH0V84N202&f=ifr&linkID=591eb72486f6cfeec8d0ecc4da41d189&t=256308e-21&tracking_id=256308e-21" width="728" height="90" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+  </div>
+<div class="bannerbottommidscreen">
+    <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=26&l=ur1&category=pcvideogames&banner=1EZH10GZG35XXVXEHQ02&f=ifr&linkID=b5189cfbc6c37bc70718dc4f6dee4c46&t=256308e-21&tracking_id=256308e-21" width="468" height="60" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+</div>
+<div class="bannerbottomsmallscreen">
+    <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=42&l=ur1&category=pcvideogames&banner=15ZT0Y0XGWWEASSYT402&f=ifr&linkID=150fa0641a3e8f4672fe5888a216b4c5&t=256308e-21&tracking_id=256308e-21" width="234" height="60" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+</div>
+<div class="bannerbottommobile">
+    <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=40&l=ur1&category=pcvideogames&banner=1QEX8W9PST0KY6VNEV02&f=ifr&linkID=224dcd2921c1fd32e94f05d5d140c12b&t=256308e-21&tracking_id=256308e-21" width="120" height="60" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
 </div>
 <!-- TrustBox widget - Micro Review Count -->
 
