@@ -1058,6 +1058,10 @@
                 grid-area: hd;
             }
 
+            .leftaffiliate {
+                display: none;
+            }
+
             #cardwidth {
                 width: 70%;
             }
@@ -1122,9 +1126,27 @@
                 grid-template-areas:
                 "lg .. .. "
                 " .. hd ..   "
-                ".. nv ..  "
-                ".. cont .."
+                "ra nv la  "
+                "ra cont la"
                 "ft ft ft ";
+            }
+
+
+            @media only screen and (min-width: 1200px) {
+                .rightaffiliate {
+                    z-index: -1;
+                    grid-area: ra;
+                }
+            }
+
+            @media only screen and (max-width: 1200px) {
+                .rightaffiliate {
+                    display: none;
+                }
+
+                .leftaffiliate {
+                    display: none;
+                }
             }
 
             #forsale {
@@ -1134,6 +1156,11 @@
             .box1 {
                 grid-area: hd;
                 justify-self: center;
+            }
+
+            .leftaffiliate {
+                padding-left: 50px;
+                grid-area: la;
             }
 
         }
@@ -1147,9 +1174,6 @@
         @media only screen and (min-width: 1800px) {
 
 
-            .affiliateright {
-
-            }
 
             .box2 {
                 grid-area: nv;
@@ -1203,12 +1227,23 @@
                 grid-auto-rows: minmax(75px, auto);
                 grid-template-areas:
             "lg hd hd hd   hd   hd   hd   hd   hd"
-            ".. nv nv nv   nv   nv   nv   ..   .."
-            ".. cont cont cont cont cont cont .. .."
+            "ra nv nv nv   nv   nv   nv   la   la"
+            "ra cont cont cont cont cont cont la la"
             ".. ft ft ft   ft   ft   ft   ft   ..";
             }
 
+            .leftaffiliate {
+                padding-left: 50px;
+                grid-area: la;
+            }
+
+            .rightaffiliate {
+                  z-index: -1;
+                grid-area: ra;
+            }
+
             .box1 {
+
                 grid-area: hd;
                 justify-self: center;
             }
@@ -2038,6 +2073,7 @@
         </ul>
     </div>
 </div>
+
 <div class="box6" style="background-color: #E9E9EB; text-align: center;">
 
     <h5 style="padding-top: 100px; text-align: center; padding-left: 10%; padding-right: 10%;">
@@ -2080,6 +2116,12 @@
         }
     </script>
 
+</div>
+<div class="rightaffiliate">
+    <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=14&l=ur1&category=pcvideogames&banner=0W3AN9S2F9G41BWHFD02&f=ifr&linkID=a0ec3dc90813f329f67d8167f4569db5&t=256308e-21&tracking_id=256308e-21" width="160" height="600" scrolling="no" border="0" marginwidth="0" style="border:none; position:fixed;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+</div>
+<div class="leftaffiliate">
+    <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=14&l=ur1&category=baby&banner=0FSQZ5E33PEKXQ325P82&f=ifr&linkID=2c13582f52c4aacaaba8d1aa3e15c2f5&t=256308e-21&tracking_id=256308e-21" width="160" height="600" scrolling="no" border="0" marginwidth="0" style="border:none; position: fixed;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
 </div>
 </div>
 <script>
