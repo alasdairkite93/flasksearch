@@ -47,6 +47,14 @@
 
         @media only screen and (max-width: 500px) {
 
+            .affiliatesmallscreen {
+                display: none;
+            }
+
+            .squareaffiliate {
+               display: none;
+            }
+
              .kindle {
                 grid-column-start: 1;
                 grid-column-end: 5;
@@ -55,6 +63,13 @@
                 margin: 0 auto;
             }
 
+            .largeaffiliate {
+                display: none;
+            }
+
+            .mediumaffiliate {
+                display: none;
+            }
 
             .newbox {
                 display: none;
@@ -104,10 +119,7 @@
             }
 
              .affiliate {
-                grid-column-start: 2;
-                grid-column-end: 3;
-                grid-row-start: 15;
-                grid-row-end: 16;
+                display: none;
             }
 
             .box3 {
@@ -127,7 +139,24 @@
 
         @media only screen and (min-width: 500px) and (max-width: 800px) {
 
+            .affiliatesmallscreen {
+              grid-column-start: 2;
+                grid-column-end: 3;
+                grid-row-start: 10;
+                grid-row-end: 12;
+                margin-top: 50px;
+            }
+            .affiliatetop2 {
+                    margin-top: 100px;
+                }
 
+            .affiliatetop {
+                display: none;
+            }
+
+            .squareaffiliate {
+                display: none;
+            }
             .kindle {
                 grid-column-start: 1;
                 grid-column-end: 5;
@@ -137,6 +166,9 @@
                 display: none;
             }
 
+            .largeaffiliate {
+                display: none;
+            }
 
             #logosizing {
                 width: auto;
@@ -164,29 +196,31 @@
             .box1 {
                 grid-column-start: 2;
                 grid-column-end: 3;
-                grid-row-start: 2;
-                grid-row-end: 4;
+                grid-row-start: 3;
+                grid-row-end: 5;
                 min-width: 500px;
             }
 
             .affiliate {
-                grid-column-start: 2;
-                grid-column-end: 3;
-                grid-row-start:12;
-                grid-row-end: 12;
+                display: none;
             }
 
             .box3 {
                 grid-column-start: 2;
                 grid-column-end: 3;
-                grid-row-start: 9;
-                grid-row-end: 11;
+                grid-row-start: 12;
+                grid-row-end: 15;
+                margin-top: 50px;
             }
              .newbox {
                 grid-column-start: 3;
                 grid-column-end: 5;
                 grid-row-start: 2;
                 grid-row-end: 4;
+            }
+
+            .mediumaffiliate {
+                display: none;
             }
 
              .newbox {
@@ -201,7 +235,35 @@
             }
         }
 
-        @media only screen and (min-width: 800px) {
+        @media only screen and (min-width: 800px) and (max-width: 1300px) {
+
+            .affiliatesmallscreen {
+                display: none;
+            }
+
+            .affiliatetop2 {
+                    margin-top: 100px;
+                }
+
+            .affiliatetop {
+                display: none;
+            }
+
+            .squareaffiliate {
+                display: none;
+            }
+
+            .mediumbox {
+                grid-column-start: 3;
+                grid-column-end: 5;
+                grid-row-start: 2;
+                grid-row-end: 4;
+                max-width: 100%;
+            }
+
+            .largeaffiliate {
+                display: none;
+            }
 
             .affiliatetop {
                 grid-column-start: 2;
@@ -241,6 +303,128 @@
                 grid-row-end: 1;
             }
             .affiliate {
+                display: none;
+            }
+
+            .mediumaffiliate {
+                grid-column-start: 2;
+                grid-column-end: 4;
+                grid-row-start: 13;
+                grid-row-end: 13;
+                width: 100%;
+                margin: 0 auto;
+            }
+
+            .box1 {
+                grid-column-start: 2;
+                grid-column-end: 3;
+                grid-row-start: 2;
+                grid-row-end: 4;
+                min-width: 500px;
+            }
+
+            .newbox {
+                display: none;
+            }
+
+            .box3 {
+                grid-column-start: 2;
+                grid-column-end: 3;
+                grid-row-start: 8;
+                grid-row-end: 12;
+                margin-top: 50px;
+            }
+
+            .column {
+                float: left;
+                width: 33.33%;
+                padding: 10px;
+                height: auto; /* Should be removed. Only for demonstration */
+            }
+
+        }
+
+        @media only screen and (min-width: 1300px) and (max-width: 1600px){
+
+             .affiliatesmallscreen {
+                display: none;
+            }
+
+            .affiliatetop {
+                grid-column-start: 2;
+                grid-column-end: 3;
+                grid-row-start: 0;
+                grid-row-end: 1;
+                margin-top: 100px;
+            }
+
+            @media only screen and (min-width: 1500px) {
+
+                .squareaffiliate {
+                    grid-column-start: 1;
+                    grid-column-end: 2;
+                    grid-row-start: 4;
+                    grid-row-end: 5;
+                    margin-left: 150px;
+                }
+                .affiliatetop2 {
+                    display: none;
+                }
+            }
+
+            @media only screen and (max-width: 1500px){
+
+                .affiliatetop2 {
+                    margin-top: 100px;
+                }
+
+                .squareaffiliate {
+                    display: none;
+                }
+                .affiliatetop {
+                    display: none;
+                }
+            }
+
+            .largeaffiliate {
+                display: none;
+            }
+
+            .kindle {
+                grid-column-start: 1;
+                grid-column-end: 4;
+                grid-row-start: 0;
+                grid-row-end: 1;
+                margin: 0 auto;
+            }
+
+            #logosizing {
+                width: auto;
+                height: auto;
+            }
+
+            #image {
+                width: 300px;
+                height: 300px;
+            }
+
+            .wrapper {
+                display: inline-grid;
+                grid-template-columns: repeat(3, 1fr);
+                grid-auto-rows: 10%;
+            }
+
+            .boxstart {
+                grid-column-start: 1;
+                grid-column-end: 2;
+                grid-row-start: 0;
+                grid-row-end: 1;
+            }
+            .affiliate {
+                display: none;
+            }
+
+            .mediumaffiliate {
                 grid-column-start: 2;
                 grid-column-end: 3;
                 grid-row-start: 13;
@@ -257,12 +441,109 @@
                 min-width: 500px;
             }
 
+            .box3 {
+                grid-column-start: 2;
+                grid-column-end: 3;
+                grid-row-start: 8;
+                grid-row-end: 12;
+                margin-top: 50px;
+            }
+
+            .column {
+                float: left;
+                width: 33.33%;
+                padding: 10px;
+                height: auto; /* Should be removed. Only for demonstration */
+            }
+
             .newbox {
                 grid-column-start: 3;
                 grid-column-end: 5;
                 grid-row-start: 2;
                 grid-row-end: 4;
                 max-width: 100%;
+            }
+        }
+
+        @media only screen and (min-width: 1600px) and (max-width: 1800px) {
+
+             .affiliatesmallscreen {
+                display: none;
+            }
+
+            .affiliatetop2 {
+                display: none;
+            }
+
+            .affiliatetop {
+                grid-column-start: 2;
+                grid-column-end: 3;
+                grid-row-start: 0;
+                grid-row-end: 1;
+                margin-top: 100px;
+            }
+
+            .kindle {
+                grid-column-start: 1;
+                grid-column-end: 4;
+                grid-row-start: 0;
+                grid-row-end: 1;
+                margin: 0 auto;
+            }
+
+            .mediumaffiliate {
+                display: none;
+            }
+
+            #logosizing {
+                width: auto;
+                height: auto;
+            }
+
+            #image {
+                width: 300px;
+                height: 300px;
+            }
+
+            .largeaffiliate {
+                display: none;
+            }
+
+            .squareaffiliate {
+                grid-column-start: 1;
+                grid-column-end: 2;
+                grid-row-start: 4;
+                grid-row-end: 5;
+                margin-left: 150px;
+            }
+
+            .wrapper {
+                display: inline-grid;
+                grid-template-columns: repeat(3, 1fr);
+                grid-auto-rows: 10%;
+            }
+
+            .boxstart {
+                grid-column-start: 1;
+                grid-column-end: 2;
+                grid-row-start: 0;
+                grid-row-end: 1;
+            }
+            .affiliate {
+                grid-column-start: 2;
+                grid-column-end: 3;
+                grid-row-start: 13;
+                grid-row-end: 13;
+                width: 100%;
+                margin: 0 auto;
+            }
+
+            .box1 {
+                grid-column-start: 2;
+                grid-column-end: 3;
+                grid-row-start: 2;
+                grid-row-end: 4;
+                min-width: 500px;
             }
 
             .box3 {
@@ -279,6 +560,117 @@
                 height: auto; /* Should be removed. Only for demonstration */
             }
 
+            .newbox {
+                grid-column-start: 3;
+                grid-column-end: 5;
+                grid-row-start: 2;
+                grid-row-end: 4;
+                max-width: 100%;
+            }
+        }
+
+        @media only screen and (min-width: 1800px) {
+
+            .affiliatesmallscreen {
+                display: none;
+            }
+
+            .affiliatetop2 {
+                display: none;
+            }
+
+            .affiliatetop {
+                grid-column-start: 2;
+                grid-column-end: 3;
+                grid-row-start: 0;
+                grid-row-end: 1;
+                margin-top: 100px;
+            }
+
+            .affiliate {
+                display: none;
+            }
+
+            .kindle {
+                grid-column-start: 1;
+                grid-column-end: 4;
+                grid-row-start: 0;
+                grid-row-end: 1;
+                margin: 0 auto;
+            }
+
+            .mediumaffiliate {
+                display: none;
+            }
+
+            #logosizing {
+                width: auto;
+                height: auto;
+            }
+
+            #image {
+                width: 300px;
+                height: 300px;
+            }
+
+            .wrapper {
+                display: inline-grid;
+                grid-template-columns: repeat(3, 1fr);
+                grid-auto-rows: 10%;
+            }
+
+            .boxstart {
+                grid-column-start: 1;
+                grid-column-end: 2;
+                grid-row-start: 0;
+                grid-row-end: 1;
+            }
+
+            .squareaffiliate {
+                grid-column-start: 1;
+                grid-column-end: 2;
+                grid-row-start: 4;
+                grid-row-end: 5;
+                margin-left: 150px;
+            }
+
+            .largeaffiliate {
+                grid-column-start: 1;
+                grid-column-end: 3;
+                grid-row-start: 13;
+                grid-row-end: 13;
+                margin: 0 auto;
+            }
+
+            .box1 {
+                grid-column-start: 2;
+                grid-column-end: 3;
+                grid-row-start: 2;
+                grid-row-end: 4;
+                min-width: 500px;
+            }
+
+            .box3 {
+                grid-column-start: 2;
+                grid-column-end: 3;
+                grid-row-start: 8;
+                grid-row-end: 12;
+            }
+
+            .column {
+                float: left;
+                width: 33.33%;
+                padding: 10px;
+                height: auto; /* Should be removed. Only for demonstration */
+            }
+
+            .newbox {
+                grid-column-start: 3;
+                grid-column-end: 5;
+                grid-row-start: 2;
+                grid-row-end: 4;
+                max-width: 100%;
+            }
         }
 
         .h2style {
@@ -327,10 +719,14 @@
                                              id="image"></a>
             </nav></div>
         </div>
+        <div class="squareaffiliate">
+            <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=12&l=ur1&category=homegarden&banner=0PBRTC5BAHKFFV0YGPG2&f=ifr&linkID=aeea27cbe73d2433fb178f366fac271a&t=256308e-21&tracking_id=256308e-21" width="300" height="250" scrolling="no" border="0" marginwidth="0" style="border:none; position: absolute;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+        </div>
 
         <div class="newbox">
             <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=11&l=ur1&category=pcvideogames&banner=0G6FH6T7ED809MBYTFR2&f=ifr&linkID=02be44ab87b7d84026029cb8426c254c&t=256308e-21&tracking_id=256308e-21" width="100" height="600" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
         </div>
+
 
         <div class="box1">
             <h5 class="h2style" id="h-heading">{{ session['type'] }} results for: {{ session['display'] }}</h5>
@@ -880,9 +1276,16 @@
                 </div>
             </form>
         </div>
+    <div class="affiliatetop2">
+        <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=42&l=ur1&category=homegarden&banner=19XS2GQT2TQ8VFETFB02&f=ifr&linkID=e2e64d2a0c54a42c05b04fb9a372739f&t=256308e-21&tracking_id=256308e-21" width="234" height="60" scrolling="no" border="0" marginwidth="0" style="border:none; position: absolute;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+
+    </div>
        <div class="affiliatetop">
-            <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=48&l=ur1&category=musicunlimited&banner=0J7A5KTR9QCM2ZRGDSR2&f=ifr&linkID=ed65ac8e730e2d0165a364c1fb8b89d9&t=256308e-21&tracking_id=256308e-21" width="0" height="90" scrolling="no" border="0" marginwidth="0" style="border:none; margin: 0 auto; width: 100%;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
-        </div>
+            <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=26&l=ur1&category=homegarden&banner=1DXAWQEZBJENVE7CW3G2&f=ifr&linkID=258ae4b16ec397f4f3c911402b552d23&t=256308e-21&tracking_id=256308e-21" width="468" height="60" scrolling="no" border="0" marginwidth="0" style="border:none; position: absolute;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+       </div>
+    `<div class="affiliatesmallscreen">
+        <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=22&l=ur1&category=baby&banner=0T719BX6D11FRKX89R82&f=ifr&linkID=8898f977c5ae39f31d72261c81ca9dc4&t=256308e-21&tracking_id=256308e-21" width="250" height="250" scrolling="no" border="0" marginwidth="0" style="border:none; position: absolute;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+    </div>
         <div class="box3"
              style="background-color: #E9E9EB; border: #cacaca; border-style: solid; color: black; padding-top: 50px;">
             <div class="row" style="padding-left: 5%; padding-right: 5%;" id="rowtag">
@@ -909,8 +1312,15 @@
                 </ul>
             </div>
         </div>
+
         <div class="affiliate">
-            <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=48&l=ur1&category=musicunlimited&banner=0J7A5KTR9QCM2ZRGDSR2&f=ifr&linkID=ed65ac8e730e2d0165a364c1fb8b89d9&t=256308e-21&tracking_id=256308e-21" width="0" height="90" scrolling="no" border="0" marginwidth="0" style="border:none; margin: 0 auto; width: 100%;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+            <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=26&l=ur1&category=wedding_registry&banner=0CZKR1E58GKWE94TYAG2&f=ifr&linkID=20730f9a460a9f5c2ac6090d6465dfdd&t=256308e-21&tracking_id=256308e-21" width="468" height="60" scrolling="no" border="0" marginwidth="0" style="border:none; position: absolute; margin: 0 auto;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+        </div>
+        <div class="mediumaffiliate" style="margin: 0 auto;">
+            <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=22&l=ur1&category=wedding_registry&banner=1QER9G9JZE3E6T9E6XR2&f=ifr&linkID=cad9eb1498add04e931384057832a1cc&t=256308e-21&tracking_id=256308e-21" width="250" height="250" scrolling="no" border="0" marginwidth="0" style="border:none; position: absolute;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+        </div>
+        <div class="largeaffiliate">
+            <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=48&l=ur1&category=wedding_registry&banner=0PGXD7TAREJAJRYSSFR2&f=ifr&linkID=8976c5453b4b92590b88f88abc9c4521&t=256308e-21&tracking_id=256308e-21" width="728" height="90" scrolling="no" border="0" marginwidth="0" style="border:none; position: absolute;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
         </div>
     </div>
 
