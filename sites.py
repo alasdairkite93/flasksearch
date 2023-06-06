@@ -17,8 +17,9 @@ import time
 from lxml import etree
 from os import path
 from postcode_validator.uk.uk_postcode_validator import UKPostcode
+import queue
 
-
+que = queue.Queue()
 
 class Proxies:
 
@@ -118,6 +119,39 @@ class Query:
         self.maxrooms = maxrooms
         self.type = type
 
+    def scrape(self):
+        rmove = Rightmove(self.pcode, self.channel, self.radius, self.bedrooms,
+                          self.minprice, self.maxprice, 0, self.maxrooms, self.type)
+        rmove_thread = threading.Thread(target=rmove.requestScrape)
+        otm = OnTheMarket(self.pcode, self.channel, self.radius, self.bedrooms,
+                          self.minprice, self.maxprice, 0, self.maxrooms, self.type)
+        otm_thread = threading.Thread(target=otm.request())
+        gum = Gumtree(self.pcode, self.channel, self.bedrooms, self.minprice, self.maxprice,
+                      self.radius, self.type)
+        gum_thread = threading.Thread(target=gum.request())
+
+        rmove_thread.start()
+        otm_thread.start()
+        gum_thread.start()
+
+        rmove_thread.join()
+        otm_thread.join()
+        gum_thread.join()
+
+        que.put(rmove_thread)
+        que.put(otm_thread)
+        que.put(gum_thread)
+
+        print('queue size: ', que.qsize())
+
+        li = []
+
+        for i in range(que.qsize()):
+            el = que.get()
+            li.append(el)
+            print('el: ', el)
+
+        return li
 
 class Rightmove:
 
@@ -161,9 +195,14 @@ class Rightmove:
         txt = results
         x = re.findall("[^^]*$", txt)
         code = x[0]
-        print("OUTCODE: ", code)
         properties = []
         urls = []
+
+        print('rmove channel: ', self.channel)
+        if self.channel == 'for-sale':
+            self.channel = 'SALE'
+        if self.channel == 'to-rent':
+            self.channel = 'LETTINGS'
 
         for ind in range(3):
             ind = ind*24
@@ -184,7 +223,6 @@ class Rightmove:
             print("USing: ", urls[i])
             soup = BeautifulSoup(req_url.text, 'lxml')
             results = soup.findAll('script')
-
             json_r = ''
 
             for r in results:
@@ -192,7 +230,6 @@ class Rightmove:
                 for res in l_r:
                     if len(res) > 0:
                         json_r = res['properties']
-
             try:
 
                 url = 'https://www.rightmove.co.uk/properties/'
@@ -211,6 +248,7 @@ class Rightmove:
                     json_data.append(li)
             except IndexError:
                 pass
+
         return json_data
 
     def requestSold(self):
@@ -571,15 +609,14 @@ class Gumtree:
         if self.radius < 1:
             self.radius = math.ceil(self.radius)
 
+        print('Gumtree channel: ', self.channel)
+
         if self.channel == 'for-sale':
             # url = f"https://www.gumtree.com/search?search_category=property-for-sale&search_location={self.pcode}&property_number_beds={self.beds}-bedroom&max_price={self.minprice}&min_price={self.maxprice}"
             url = f'https://www.gumtree.com/search?search_category=property-for-sale&search_location={self.pcode}&distance={self.radius}&min_price={self.minprice}&max_price={self.maxprice}&min_property_number_beds={self.beds}&max_property_number_beds={self.beds}'
         elif self.channel == "to-rent":
             url = f"https://www.gumtree.com/search?search_category=property-to-rent&search_location={self.pcode}&distance={self.radius}&property_number_beds={self.beds}-bedroom&max_price={self.minprice}&min_price={self.maxprice}"
-        print("gumtree URL: ", url)
 
-        r = requests.get('https://httpbin.org/ip', proxies=proxies)
-        print(r.text)
 
         r = requests.get(url, proxies=proxies, headers=headers)
         print("PAGE REQUEST STATUS: ", r.status_code)

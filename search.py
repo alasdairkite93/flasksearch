@@ -65,7 +65,7 @@ def rmove_sales():
 
 @app.route('/gumtreesales', methods=["GET"])
 def gumtree_scrape():
-    gum = sites.Gumtree('for-sale', session['postcode'], session['brooms'], session['minprice'], session['maxprice'],
+    gum = sites.Gumtree(session['postcode'], 'for-sale', session['brooms'], session['minprice'], session['maxprice'],
                         session['radius'], session['type'])
     gumresults = gum.request()
     # session['proxindex'] = proxies.increaseProxVar(session['proxindex'])
@@ -76,7 +76,7 @@ def gumtree_scrape():
 @app.route('/gumtreesales', methods=["GET"])
 def gumtree_lets():
     print("gumtree lets")
-    gum = sites.Gumtree('to-rent', session['postcode'], session['brooms'], session['minprice'], session['maxprice'],
+    gum = sites.Gumtree(session['postcode'], 'to-rent', session['brooms'], session['minprice'], session['maxprice'],
                         session['radius'], session['type'])
     gumresults = gum.request()
 
@@ -287,41 +287,43 @@ def letsform():
 @app.route('/returnall', methods=["GET"])
 def returnAll():
     if session['type'] == 'sales':
+#
+#         print("Return all")
+#
+#         query = sites.Query(session['postcode'], "for-sale", session['radius'], session['brooms'],
+#                                     session['minprice'], session['maxprice'], session['resnum'], session['maxrooms'],
+#                                     session['propertytype'])
+#         res = query.scrape()
+#         print('return type: ', type(res))
+#         print('contents: ', res)
+#         li = list(res.queue)
+#         print('returnall: ', len(li))
+#         return jsonify(li)
 
-        print("Return all")
-
-        query = sites.Query(session['postcode'], "for-sale", session['radius'], session['brooms'],
+        otmsale = sites.OnTheMarket(session['postcode'], "for-sale", session['radius'], session['brooms'],
                                     session['minprice'], session['maxprice'], session['resnum'], session['maxrooms'],
                                     session['propertytype'])
-        res = query.scrape()
-        li = list(res.queue)
-        print('returnall: ', len(li))
-        return jsonify(li)
+        otm_results = otmsale.request()
+        print("returned results of a")
 
-        # otmsale = sites.OnTheMarket(session['postcode'], "for-sale", session['radius'], session['brooms'],
-        #                             session['minprice'], session['maxprice'], session['resnum'], session['maxrooms'],
-        #                             session['propertytype'])
-        # otm_results = otmsale.request()
-        # print("returned results of a")
-        #
-        # rmove = sites.Rightmove(session['postcode'], "SALE", session['radius'], session['brooms'], session['minprice'],
-        #                         session['maxprice'], session['resnum'], session['maxrooms'], session['propertytype'])
-        # rmove_results = rmove.requestScrape()
-        # print("returned results of b")
-        #
-        # gum = sites.Gumtree('for-sale', session['postcode'], session['brooms'], session['minprice'],
-        #                     session['maxprice'], session['radius'], session['type'])
-        # gumresults = gum.request()
-        # print("returned results of c")
-        #
-        # # zoop = sites.Zoopla(session['postcode'], "for-sale")
-        # # zooplaresults = zoop.requests()
-        # # print("returned results of d")
-        #
-        # res = otm_results + rmove_results + gumresults
-        #
-        # # Removed otm from the list
-        # return jsonify(res)
+        rmove = sites.Rightmove(session['postcode'], "SALE", session['radius'], session['brooms'], session['minprice'],
+                                session['maxprice'], session['resnum'], session['maxrooms'], session['propertytype'])
+        rmove_results = rmove.requestScrape()
+        print("returned results of b")
+
+        gum = sites.Gumtree('for-sale', session['postcode'], session['brooms'], session['minprice'],
+                            session['maxprice'], session['radius'], session['type'])
+        gumresults = gum.request()
+        print("returned results of c")
+
+        # zoop = sites.Zoopla(session['postcode'], "for-sale")
+        # zooplaresults = zoop.requests()
+        # print("returned results of d")
+
+        res = otm_results + rmove_results + gumresults
+
+        # Removed otm from the list
+        return jsonify(res)
 
     elif session['type'] == 'lettings':
 
@@ -335,7 +337,7 @@ def returnAll():
                                 session['maxprice'], session['resnum'], session['maxrooms'], session['propertytype'])
         rmove_results = rmove.requestScrape()
 
-        gum = sites.Gumtree('to-rent', session['postcode'], session['brooms'], session['minprice'],
+        gum = sites.Gumtree(session['postcode'], 'to-rent', session['brooms'], session['minprice'],
                             session['maxprice'], session['radius'], session['type'])
         gumresults = gum.request()
 
@@ -418,7 +420,7 @@ def get_results():
 
         if session['searchtype'] == 'gumtree' and session['type'] == 'sales':
             print("get results gumtree sales")
-            gum = sites.Gumtree('for-sale', session['postcode'], session['brooms'], session['minprice'],
+            gum = sites.Gumtree(session['postcode'], 'for-sale', session['brooms'], session['minprice'],
                                 session['maxprice'], session['radius'], session['type'])
             gumresults = gum.request()
             return jsonify(gumresults)
@@ -442,7 +444,7 @@ def get_results():
         if session['searchtype'] == 'gumtree' and session['type'] == 'lettings':
             print("get results gumtree sales")
 
-            gum = sites.Gumtree('to-rent', session['postcode'], session['brooms'], session['minprice'],
+            gum = sites.Gumtree(session['postcode'], 'to-rent', session['brooms'], session['minprice'],
                                 session['maxprice'], session['radius'], session['type'])
             gumresults = gum.request()
 
@@ -617,7 +619,7 @@ def create_app(test_config=None):
     @app.route('/gumtreesales', methods=["GET"])
     def gumtree_scrape():
 
-        gum = sites.Gumtree('for-sale', session['postcode'], session['brooms'], session['minprice'],
+        gum = sites.Gumtree(session['postcode'], 'for-sale', session['brooms'], session['minprice'],
                             session['maxprice'], session['radius'], session['type'])
         gumresults = gum.request()
         # session['proxindex'] = proxies.increaseProxVar(session['proxindex'])
@@ -628,7 +630,7 @@ def create_app(test_config=None):
     def gumtree_lets():
 
         print("gumtree lets")
-        gum = sites.Gumtree('to-rent', session['postcode'], session['brooms'], session['minprice'], session['maxprice'],
+        gum = sites.Gumtree(session['postcode'], 'to-rent', session['brooms'], session['minprice'], session['maxprice'],
                             session['radius'], session['type'])
         gumresults = gum.request()
 
@@ -784,7 +786,7 @@ def create_app(test_config=None):
             rmove_results = rmove.requestScrape()
             print("returned results of b")
 
-            gum = sites.Gumtree('for-sale', session['postcode'], session['brooms'], session['minprice'],
+            gum = sites.Gumtree(session['postcode'], 'for-sale', session['brooms'], session['minprice'],
                                 session['maxprice'], session['radius'], session['type'])
             gumresults = gum.request()
             print("returned results of c")
@@ -811,7 +813,7 @@ def create_app(test_config=None):
                                     session['propertytype'])
             rmove_results = rmove.requestScrape()
 
-            gum = sites.Gumtree('to-rent', session['postcode'], session['brooms'], session['minprice'],
+            gum = sites.Gumtree(session['postcode'], 'to-rent', session['brooms'], session['minprice'],
                                 session['maxprice'], session['radius'], session['type'])
             gumresults = gum.request()
 
@@ -840,7 +842,7 @@ def create_app(test_config=None):
 
             if session['searchtype'] == 'gumtree' and session['type'] == 'sales':
                 print("get results gumtree sales")
-                gum = sites.Gumtree('for-sale', session['postcode'], session['brooms'], session['minprice'],
+                gum = sites.Gumtree(session['postcode'], 'for-sale', session['brooms'], session['minprice'],
                                     session['maxprice'], session['radius'], session['type'])
                 gumresults = gum.request()
                 return jsonify(gumresults)
@@ -864,7 +866,7 @@ def create_app(test_config=None):
             if session['searchtype'] == 'gumtree' and session['type'] == 'lettings':
                 print("get results gumtree sales")
 
-                gum = sites.Gumtree('to-rent', session['postcode'], session['brooms'], session['minprice'],
+                gum = sites.Gumtree(session['postcode'], 'to-rent', session['brooms'], session['minprice'],
                                     session['maxprice'], session['radius'], session['type'])
                 gumresults = gum.request()
 
