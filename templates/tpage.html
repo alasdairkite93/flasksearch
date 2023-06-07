@@ -59,7 +59,128 @@
 {#* 1536×864 (3.94%)#}
 {#* 375×667 (3.74%)#}
 
-        @media only screen and (max-width: 600px) {
+        @media only screen and (max-width: 400px){
+
+             #gridiframe {
+                display: none;
+            }
+
+            .bannerbottommobile {
+                margin-top: 30px;
+                margin-bottom: 50px;
+            }
+
+            .bannerbottomsmallscreen {
+                display: none;
+            }
+
+            .bannerbottommidscreen {
+                display: none;
+            }
+
+            .homeandgardenbox {
+                display: none;
+            }
+
+            .affiliatebox {
+                display: none;
+            }
+
+              #smallerscreen {
+                display: none;
+            }
+
+            #vsmallscreen {
+                display: none;
+            }
+
+              #headbannermidscreen {
+                display: none;
+            }
+
+
+             #videogames {
+             display: none;
+            }
+
+            .bannerbottom {
+                display: none;
+            }
+
+            h1, h2, h5, button {
+                font-family: 'Montserrat', sans-serif;
+                font-size: 20px;
+            }
+
+            #optionbutton {
+                width: 300px;
+            }
+
+            .wrapper {
+                display: inline-grid;
+                grid-template-columns: repeat(1, 1fr);
+                grid-auto-rows: 250px;
+            }
+
+            .box1 {
+                grid-column-start: 1;
+                grid-column-end: 4;
+                grid-row-start: 1;
+                grid-row-end: 2;
+            }
+
+            .box2 {
+                grid-column-start: 2;
+                grid-column-end: 3;
+                grid-row-start: 2;
+                grid-row-end: 3;
+                border-radius: 4px;
+                min-width: 50%;
+            }
+
+            .box3b {
+                grid-column-start: 1;
+                grid-column-end: 4;
+                grid-row-start: 3;
+                grid-row-end: 4;
+                margin: auto 0;
+            }
+
+            .searchbox {
+                width: 100%;
+                background-color: #1A2090;
+                display: inline-block;
+                border-radius: 4px;
+                text-align: center;
+                min-width: auto;
+            }
+
+            .landingpage {
+                grid-column-start: 1;
+                grid-column-end: 4;
+                grid-row-start: 8;
+                grid-row-end: 8;
+            }
+
+            #grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+                grid-gap: 5px;
+            }
+
+            #grid > div {
+                padding: .5em;
+            }
+            #headbannerfullscreen {
+                display: none;
+            }
+
+            .weddingbox {
+                display: none;
+            }
+        }
+
+        @media only screen and (min-width: 400px) and (max-width: 600px) {
 
             .bannerbottommobile {
                 margin-top: 30px;
@@ -198,13 +319,22 @@
                  display: none;
              }
 
-            .homeandgardenbox {
-                grid-column-start: 1;
-                grid-column-end: 3;
-                grid-row-start: 7;
-                grid-row-end: 8;
-                margin-left: 250px;
+            @media only screen and (min-width: 800px) and (max-width: 1000px) {
 
+                .homeandgardenbox {
+                    grid-column-start: 1;
+                    grid-column-end: 3;
+                    grid-row-start: 7;
+                    grid-row-end: 8;
+                    margin-left: 250px;
+
+                }
+            }
+
+            @media only screen and (max-width: 800px){
+                .homeandgardenbox {
+                    display: none;
+                }
             }
 
 
