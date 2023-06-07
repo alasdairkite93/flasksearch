@@ -311,7 +311,7 @@ def returnAll():
         rmove_results = rmove.requestScrape()
         print("returned results of b")
 
-        gum = sites.Gumtree('for-sale', session['postcode'], session['brooms'], session['minprice'],
+        gum = sites.Gumtree(session['postcode'],'for-sale', session['brooms'], session['minprice'],
                             session['maxprice'], session['radius'], session['type'])
         gumresults = gum.request()
         print("returned results of c")

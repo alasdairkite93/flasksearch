@@ -565,7 +565,7 @@ class Planning:
 
 class Gumtree:
 
-    def __init__(self, channel, pcode, radius, beds, minprice, maxprice, type):
+    def __init__(self, pcode, channel, radius, beds, minprice, maxprice, type):
         self.pcode = pcode
         self.channel = channel
         self.beds = beds
@@ -610,6 +610,8 @@ class Gumtree:
             self.radius = math.ceil(self.radius)
 
         print('Gumtree channel: ', self.channel)
+        if self.channel == 'sales':
+            self.channel = 'for-sale'
 
         if self.channel == 'for-sale':
             # url = f"https://www.gumtree.com/search?search_category=property-for-sale&search_location={self.pcode}&property_number_beds={self.beds}-bedroom&max_price={self.minprice}&min_price={self.maxprice}"
