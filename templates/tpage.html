@@ -34,6 +34,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='foundation.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='textanimation.css') }}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -52,16 +53,16 @@
     <style>
 
 
-{#* 1920×1080 (9.94%)#}
-{#* 1366×768 (6.22%)#}
-{#* 360×640 (5.88%)#}
-{#* 414×896 (4.21%)#}
-{#* 1536×864 (3.94%)#}
-{#* 375×667 (3.74%)#}
+        {#* 1920×1080 (9.94%)#}
+        {#* 1366×768 (6.22%)#}
+        {#* 360×640 (5.88%)#}
+        {#* 414×896 (4.21%)#}
+        {#* 1536×864 (3.94%)#}
+        {#* 375×667 (3.74%)#}
 
-        @media only screen and (max-width: 400px){
+        @media only screen and (max-width: 400px) {
 
-             #gridiframe {
+            #gridiframe {
                 display: none;
             }
 
@@ -86,7 +87,7 @@
                 display: none;
             }
 
-              #smallerscreen {
+            #smallerscreen {
                 display: none;
             }
 
@@ -94,13 +95,13 @@
                 display: none;
             }
 
-              #headbannermidscreen {
+            #headbannermidscreen {
                 display: none;
             }
 
 
-             #videogames {
-             display: none;
+            #videogames {
+                display: none;
             }
 
             .bannerbottom {
@@ -171,6 +172,7 @@
             #grid > div {
                 padding: .5em;
             }
+
             #headbannerfullscreen {
                 display: none;
             }
@@ -203,7 +205,7 @@
                 display: none;
             }
 
-              #smallerscreen {
+            #smallerscreen {
                 display: none;
             }
 
@@ -211,13 +213,13 @@
                 display: none;
             }
 
-              #headbannermidscreen {
+            #headbannermidscreen {
                 display: none;
             }
 
 
-             #videogames {
-             display: none;
+            #videogames {
+                display: none;
             }
 
             .bannerbottom {
@@ -288,6 +290,7 @@
             #grid > div {
                 padding: .5em;
             }
+
             #headbannerfullscreen {
                 display: none;
             }
@@ -307,42 +310,36 @@
                 margin-left: 30%;
             }
 
-            #gridiframe {
-                display: none;
-            }
-
-             .bannerbottom {
-                display: none;
-            }
-
-             .bannerbottommidscreen {
-                 display: none;
-             }
-
             @media only screen and (min-width: 800px) and (max-width: 1000px) {
-
-                .homeandgardenbox {
-                    grid-column-start: 1;
-                    grid-column-end: 3;
-                    grid-row-start: 7;
-                    grid-row-end: 8;
-                    margin-left: 250px;
-
-                }
-            }
-
-            @media only screen and (max-width: 800px){
-                .homeandgardenbox {
+                #gridiframe {
                     display: none;
+                    position: relative;
                 }
             }
 
+            .bannerbottom {
+                display: none;
+            }
+
+            .bannerbottommidscreen {
+                display: none;
+            }
+
+
+            .homeandgardenbox {
+                grid-column-start: 1;
+                grid-column-end: 3;
+                grid-row-start: 7;
+                grid-row-end: 8;
+                margin-left: 250px;
+
+            }
 
             .weddingbox {
-               display: none;
+                display: none;
             }
 
-          .affiliatebox {
+            .affiliatebox {
                 display: none;
             }
 
@@ -416,6 +413,7 @@
                 padding: .5em;
                 text-align: center;
             }
+
             #headbannerfullscreen {
                 display: none;
             }
@@ -436,11 +434,11 @@
                 display: none;
             }
 
-             .bannerbottom {
+            .bannerbottom {
                 display: none;
             }
 
-              .homeandgardenbox {
+            .homeandgardenbox {
                 display: none;
             }
 
@@ -474,19 +472,19 @@
                 display: none;
             }
 
-             #videogames {
-             display: none;
+            #videogames {
+                display: none;
             }
 
 
-             .bannerbottomsmallscreen {
-                 margin-top: 30px;
+            .bannerbottomsmallscreen {
+                margin-top: 30px;
                 margin-bottom: 100px;
                 grid-column-start: 1;
                 grid-column-end: 4;
                 grid-row-start: 16;
                 grid-row-end: 16;
-             }
+            }
 
             h1, h2, h5, button {
                 font-family: 'Montserrat', sans-serif;
@@ -552,7 +550,7 @@
                 text-align: center;
             }
 
-             .flex-item-right {
+            .flex-item-right {
                 flex: 15%;
                 padding: 10px;
             }
@@ -585,15 +583,15 @@
             }
 
 
-             .bannerbottomsmallscreen {
-                 display: none;
-             }
-
-             .bannerbottom {
+            .bannerbottomsmallscreen {
                 display: none;
             }
 
-              #gridiframe {
+            .bannerbottom {
+                display: none;
+            }
+
+            #gridiframe {
                 display: none;
             }
 
@@ -601,7 +599,7 @@
                 margin-left: 30px;
             }
 
-          .homeandgardenbox {
+            .homeandgardenbox {
                 display: none;
             }
 
@@ -609,7 +607,7 @@
                 display: none;
             }
 
-             .affiliatebox {
+            .affiliatebox {
                 grid-column-start: 2;
                 grid-column-end: 3;
                 grid-row-start: 7;
@@ -635,8 +633,8 @@
                 display: none;
             }
 
-             #videogames {
-             display: none;
+            #videogames {
+                display: none;
             }
 
             h1, h2, h5, button {
@@ -703,7 +701,7 @@
                 text-align: center;
             }
 
-             .flex-item-right {
+            .flex-item-right {
                 flex: 15%;
                 padding: 10px;
             }
@@ -730,7 +728,7 @@
                 display: none;
             }
 
-              #gridiframe {
+            #gridiframe {
                 display: none;
             }
 
@@ -751,7 +749,7 @@
             }
 
             #videogames {
-             display: none;
+                display: none;
             }
 
             h1, h2, h5, button {
@@ -846,20 +844,20 @@
                 padding: 10px;
             }
 
-             .bannerbottom {
+            .bannerbottom {
                 margin-top: 30px;
-                 margin-bottom: 50px;
+                margin-bottom: 50px;
                 grid-column-start: 1;
                 grid-column-end: 4;
                 grid-row-start: 15;
                 grid-row-end: 16;
             }
 
-             .bannerbottomsmallscreen {
-                 display: none;
-             }
+            .bannerbottomsmallscreen {
+                display: none;
+            }
 
-               #headbannermidscreen {
+            #headbannermidscreen {
                 display: none;
             }
 
@@ -944,19 +942,102 @@
 
 </div>
 <div id="mobilescreen">
-    <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=20&l=ur1&category=ukhandcrafteddiy&banner=0QWC1KVEV24XDPA12502&f=ifr&linkID=64d904c6fd187b397da9a7b89d8e1f77&t=256308e-21&tracking_id=256308e-21" width="120" height="90" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+    <div id="contentmobile" class="container">
+        <img id="logo" src="static/images/amazonlogo.png" style="height: 40%; width: auto;">
+        <a href="https://www.amazon.co.uk/Yaak-Sleeper-Bolster-Loveseat-Appartment/dp/B0C1G36M73?crid=319BZR9DIEPM1&keywords=sofa&qid=1686427812&sprefix=sofa%2Caps%2C102&sr=8-1-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&psc=1&linkCode=li1&tag=256308e-21&linkId=dd23b141d6f5c96d6b26b9cf37e6e130&ref_=as_li_ss_il"
+           target="_blank">
+            <img border="0"
+                 src="//ws-eu.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B0C1G36M73&Format=_SL110_&ID=AsinImage&MarketPlace=GB&ServiceVersion=20070822&WS=1&tag=256308e-21">
+        </a><img src="https://ir-uk.amazon-adsystem.com/e/ir?t=256308e-21&l=li1&o=2&a=B0C1G36M73" width="1" height="1"
+                 border="0" alt="" style="border:none !important; margin:0px !important;"/>
+        <h2 class="titlelarge">
+            <span class="title-word title-word-1">Sofas</span>
+            <span class="title-word title-word-2">and</span>
+            <span class="title-word title-word-3">Household</span>
+            <span class="title-word title-word-4">Sale</span>
+        </h2>
+        <a target="_blank"
+           href="https://www.amazon.co.uk/Furniture-Kitchen-Home-Garden/b?ie=UTF8&amp;node=10745681&_encoding=UTF8&tag=256308e-21&linkCode=ur2&linkId=3c6bc83dfea1c9c2bb30d45d4f1f774e&camp=1634&creative=6738">
+            <p style="color: black;">Shop now</p></a></div>
 </div>
 <div id="vsmallscreen">
-    <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=42&l=ur1&category=ukhandcrafteddiy&banner=03AA4PYWXZH93QA4H382&f=ifr&linkID=9e94c7471fe93d79ce2d9c45be2439ee&t=256308e-21&tracking_id=256308e-21" width="234" height="60" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+    <div id="content" class="container">
+        <img id="logo" src="static/images/amazonlogo.png" style="height: 20%; width: auto;">
+        <a href="https://www.amazon.co.uk/Yaak-Sleeper-Bolster-Loveseat-Appartment/dp/B0C1G36M73?crid=319BZR9DIEPM1&keywords=sofa&qid=1686427812&sprefix=sofa%2Caps%2C102&sr=8-1-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&psc=1&linkCode=li2&tag=256308e-21&linkId=72004b18e0a6d838831f0202704d1df9&ref_=as_li_ss_il"
+           target="_blank">
+            <img border="0"
+                 src="//ws-eu.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B0C1G36M73&Format=_SL160_&ID=AsinImage&MarketPlace=GB&ServiceVersion=20070822&WS=1&tag=256308e-21"></a>
+        <img src="https://ir-uk.amazon-adsystem.com/e/ir?t=256308e-21&l=li2&o=2&a=B0C1G36M73" width="1" height="1"
+             border="0" alt="" style="border:none !important; margin:0px !important;"/>
+        <h2 class="titlelarge">
+            <span class="title-word title-word-1">Sofas</span>
+            <span class="title-word title-word-2">and</span>
+            <span class="title-word title-word-3">Household</span>
+            <span class="title-word title-word-4">Sale</span>
+        </h2>
+        <a target="_blank"
+           href="https://www.amazon.co.uk/Furniture-Kitchen-Home-Garden/b?ie=UTF8&amp;node=10745681&_encoding=UTF8&tag=256308e-21&linkCode=ur2&linkId=3c6bc83dfea1c9c2bb30d45d4f1f774e&camp=1634&creative=6738">
+            <p style="color: black;">Shop now</p></a></div>
 </div>
 <div id="smallerscreen">
-    <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=12&l=ur1&category=ukhandcrafteddiy&banner=0H3XTRBJA0CGS8SNQT82&f=ifr&linkID=f3ef8575664ef23cf37cbaa14289ecea&t=256308e-21&tracking_id=256308e-21" width="300" height="250" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+    <div id="content" class="container">
+        <img id="logo" src="static/images/amazonlogo.png" style="height: 20%; width: auto;">
+        <a href="https://www.amazon.co.uk/Yaak-Sleeper-Bolster-Loveseat-Appartment/dp/B0C1G36M73?crid=319BZR9DIEPM1&keywords=sofa&qid=1686427812&sprefix=sofa%2Caps%2C102&sr=8-1-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&psc=1&linkCode=li2&tag=256308e-21&linkId=72004b18e0a6d838831f0202704d1df9&ref_=as_li_ss_il"
+           target="_blank">
+            <img border="0"
+                 src="//ws-eu.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B0C1G36M73&Format=_SL160_&ID=AsinImage&MarketPlace=GB&ServiceVersion=20070822&WS=1&tag=256308e-21"></a>
+        <img src="https://ir-uk.amazon-adsystem.com/e/ir?t=256308e-21&l=li2&o=2&a=B0C1G36M73" width="1" height="1"
+             border="0" alt="" style="border:none !important; margin:0px !important;"/>
+        <h2 class="titlelarge">
+            <span class="title-word title-word-1">Sofas</span>
+            <span class="title-word title-word-2">and</span>
+            <span class="title-word title-word-3">Household</span>
+            <span class="title-word title-word-4">Sale</span>
+        </h2>
+        <a target="_blank"
+           href="https://www.amazon.co.uk/Furniture-Kitchen-Home-Garden/b?ie=UTF8&amp;node=10745681&_encoding=UTF8&tag=256308e-21&linkCode=ur2&linkId=3c6bc83dfea1c9c2bb30d45d4f1f774e&camp=1634&creative=6738">
+            <p style="color: black;">Shop now</p></a></div>
 </div>
 <div id="headbannerfullscreen">
-    <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=13&l=ur1&category=ukhandcrafteddiy&banner=02KYT02WPPCH7H64YM82&f=ifr&linkID=77786250e5e0ac31bcda0aa5c2a9fd3d&t=256308e-21&tracking_id=256308e-21" width="468" height="60" scrolling="no" border="0" marginwidth="0" style="border:none; " frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+    <div id="content" class="container">
+        <img id="logo" src="static/images/amazonlogo.png" style="height: 20%; width: auto;">
+        <a href="https://www.amazon.co.uk/Yaak-Sleeper-Bolster-Loveseat-Appartment/dp/B0C1G36M73?crid=319BZR9DIEPM1&keywords=sofa&qid=1686427812&sprefix=sofa%2Caps%2C102&sr=8-1-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&psc=1&linkCode=li2&tag=256308e-21&linkId=72004b18e0a6d838831f0202704d1df9&ref_=as_li_ss_il"
+           target="_blank">
+            <img border="0"
+                 src="//ws-eu.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B0C1G36M73&Format=_SL160_&ID=AsinImage&MarketPlace=GB&ServiceVersion=20070822&WS=1&tag=256308e-21"></a>
+        <img src="https://ir-uk.amazon-adsystem.com/e/ir?t=256308e-21&l=li2&o=2&a=B0C1G36M73" width="1" height="1"
+             border="0" alt="" style="border:none !important; margin:0px !important;"/>
+        <h2 class="titlelarge">
+            <span class="title-word title-word-1">Sofas</span>
+            <span class="title-word title-word-2">and</span>
+            <span class="title-word title-word-3">Household</span>
+            <span class="title-word title-word-4">Sale</span>
+        </h2>
+        <a target="_blank"
+           href="https://www.amazon.co.uk/Furniture-Kitchen-Home-Garden/b?ie=UTF8&amp;node=10745681&_encoding=UTF8&tag=256308e-21&linkCode=ur2&linkId=3c6bc83dfea1c9c2bb30d45d4f1f774e&camp=1634&creative=6738">
+            <p style="color: black;">Shop now</p></a>
+    </div>
+
+    {#    <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=13&l=ur1&category=ukhandcrafteddiy&banner=02KYT02WPPCH7H64YM82&f=ifr&linkID=77786250e5e0ac31bcda0aa5c2a9fd3d&t=256308e-21&tracking_id=256308e-21" width="468" height="60" scrolling="no" border="0" marginwidth="0" style="border:none; " frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>#}
 </div>
 <div id="headbannermidscreen">
-    <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=13&l=ur1&category=ukhandcrafteddiy&banner=02KYT02WPPCH7H64YM82&f=ifr&linkID=77786250e5e0ac31bcda0aa5c2a9fd3d&t=256308e-21&tracking_id=256308e-21" width="468" height="60" scrolling="no" border="0" marginwidth="0" style="border:none; " frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+    <div id="content" class="container">
+        <img id="logo" src="static/images/amazonlogo.png" style="height: 20%; width: auto;">
+        <a href="https://www.amazon.co.uk/Yaak-Sleeper-Bolster-Loveseat-Appartment/dp/B0C1G36M73?crid=319BZR9DIEPM1&keywords=sofa&qid=1686427812&sprefix=sofa%2Caps%2C102&sr=8-1-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&psc=1&linkCode=li2&tag=256308e-21&linkId=72004b18e0a6d838831f0202704d1df9&ref_=as_li_ss_il"
+           target="_blank">
+            <img border="0"
+                 src="//ws-eu.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B0C1G36M73&Format=_SL160_&ID=AsinImage&MarketPlace=GB&ServiceVersion=20070822&WS=1&tag=256308e-21"></a>
+        <img src="https://ir-uk.amazon-adsystem.com/e/ir?t=256308e-21&l=li2&o=2&a=B0C1G36M73" width="1" height="1"
+             border="0" alt="" style="border:none !important; margin:0px !important;"/>
+        <h2 class="titlelarge">
+            <span class="title-word title-word-1">Sofas</span>
+            <span class="title-word title-word-2">and</span>
+            <span class="title-word title-word-3">Household</span>
+            <span class="title-word title-word-4">Sale</span>
+        </h2>
+        <a target="_blank"
+           href="https://www.amazon.co.uk/Furniture-Kitchen-Home-Garden/b?ie=UTF8&amp;node=10745681&_encoding=UTF8&tag=256308e-21&linkCode=ur2&linkId=3c6bc83dfea1c9c2bb30d45d4f1f774e&camp=1634&creative=6738">
+            <p style="color: black;">Shop now</p></a></div>
 </div>
 <div style="text-align: center; margin-left: 50px; margin-right: 50px;">
     <h5 style="color: black; display: inline-block; font-size: 1.5vw;">The search engine that displays properties <i>For
@@ -966,7 +1047,7 @@
 <div class="flexcontainer" style="margin-left: 5px; margin-right: 5px;">
     <div class="wrapper">
         <div class="box1">
-             <img src="/static/images/background.jpeg">
+            <img src="/static/images/background.jpeg">
         </div>
 
         <div class="box2">
@@ -1003,29 +1084,90 @@
                 </form>
             </div>
         </div>
-         <div class="affiliatebox">
-            <div><iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=12&l=ur1&category=homegarden&banner=0PBRTC5BAHKFFV0YGPG2&f=ifr&linkID=aeea27cbe73d2433fb178f366fac271a&t=256308e-21&tracking_id=256308e-21" width="300" height="250" scrolling="no" border="0" marginwidth="0" style="border:none; position: absolute;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe></div>
-         </div>
-        <div class="weddingbox">
-            <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=12&l=ur1&category=wedding_registry&banner=04X7K9G7BSEC4CZ5B3G2&f=ifr&linkID=78cd0df57c0d787aeec5cf11263e6328&t=256308e-21&tracking_id=256308e-21" width="300" height="250" scrolling="no" border="0" marginwidth="0" style="border:none; position: absolute;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+        <div class="affiliatebox">
+            <div id="content" class="container">
+                <img id="logo" src="static/images/amazonlogo.png" style="height: 20%; width: auto;">
+                <a target="_blank"
+                   href="https://www.amazon.co.uk/s?k=computers&amp;crid=316S3GJZD0C6U&amp;sprefix=computer%252Caps%252C82&amp;ref=nb_sb_noss_1&_encoding=UTF8&tag=256308e-21&linkCode=ur2&linkId=3cdd0f3ffc3413570eb390208940580b&camp=1634&creative=6738">
+                    <a href="https://www.amazon.co.uk/enabled-Complete-Dell-OptiPlex-Computer/dp/B012AUCJ8I?crid=316S3GJZD0C6U&keywords=computers&qid=1686470127&sprefix=computer%2Caps%2C82&sr=8-3&linkCode=li2&tag=256308e-21&linkId=dfbbe0b44f08a05ad314e8f6a4e957c9&ref_=as_li_ss_il"
+                       target="_blank"><img border="0"
+                                            src="//ws-eu.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B012AUCJ8I&Format=_SL160_&ID=AsinImage&MarketPlace=GB&ServiceVersion=20070822&WS=1&tag=256308e-21"></a>
+                    <img src="https://ir-uk.amazon-adsystem.com/e/ir?t=256308e-21&l=li2&o=2&a=B012AUCJ8I" width="1"
+                         height="1" border="0" alt="" style="border:none !important; margin:0px !important;"/>
+                    <img src="https://ir-uk.amazon-adsystem.com/e/ir?t=256308e-21&l=li2&o=2&a=B0C1G36M73" width="1"
+                         height="1" border="0" alt="" style="border:none !important; margin:0px !important;"/>
+                    <h2 class="titlemedium">
+                        <span class="title-word title-word-1">Electronics</span>
+                        <span class="title-word title-word-2">and</span>
+                        <span class="title-word title-word-3">Computing</span>
+                        <span class="title-word title-word-4">Equipment</span>
+                    </h2>
+                    <a target="_blank"
+                       href="https://www.amazon.co.uk/Furniture-Kitchen-Home-Garden/b?ie=UTF8&amp;node=10745681&_encoding=UTF8&tag=256308e-21&linkCode=ur2&linkId=3c6bc83dfea1c9c2bb30d45d4f1f774e&camp=1634&creative=6738">
+                        <p style="color: black;">Shop now</p></a></a>
+            </div>
         </div>
-        <div class="homeandgardenbox">
-            <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=22&l=ur1&category=baby&banner=0T719BX6D11FRKX89R82&f=ifr&linkID=8898f977c5ae39f31d72261c81ca9dc4&t=256308e-21&tracking_id=256308e-21" width="250" height="250" scrolling="no" border="0" marginwidth="0" style="border:none; position: absolute;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+        <div class="weddingbox">
+            <div id="content" class="container">
+                <img id="logo" src="static/images/amazonlogo.png" style="height: 20%; width: auto;">
+                <a target="_blank"
+                   href="https://www.amazon.co.uk/s?k=computers&amp;crid=316S3GJZD0C6U&amp;sprefix=computer%252Caps%252C82&amp;ref=nb_sb_noss_1&_encoding=UTF8&tag=256308e-21&linkCode=ur2&linkId=3cdd0f3ffc3413570eb390208940580b&camp=1634&creative=6738">
+                    <a href="https://www.amazon.co.uk/enabled-Complete-Dell-OptiPlex-Computer/dp/B012AUCJ8I?crid=316S3GJZD0C6U&keywords=computers&qid=1686470127&sprefix=computer%2Caps%2C82&sr=8-3&linkCode=li2&tag=256308e-21&linkId=dfbbe0b44f08a05ad314e8f6a4e957c9&ref_=as_li_ss_il"
+                       target="_blank"><img border="0"
+                                            src="//ws-eu.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B012AUCJ8I&Format=_SL160_&ID=AsinImage&MarketPlace=GB&ServiceVersion=20070822&WS=1&tag=256308e-21"></a>
+                    <img src="https://ir-uk.amazon-adsystem.com/e/ir?t=256308e-21&l=li2&o=2&a=B012AUCJ8I" width="1"
+                         height="1" border="0" alt="" style="border:none !important; margin:0px !important;"/>
+                    <img src="https://ir-uk.amazon-adsystem.com/e/ir?t=256308e-21&l=li2&o=2&a=B0C1G36M73" width="1"
+                         height="1" border="0" alt="" style="border:none !important; margin:0px !important;"/>
+                    <h2 class="titlemedium">
+                        <span class="title-word title-word-1">Electronics</span>
+                        <span class="title-word title-word-2">and</span>
+                        <span class="title-word title-word-3">Computing</span>
+                        <span class="title-word title-word-4">Equipment</span>
+                    </h2>
+                    <a target="_blank"
+                       href="https://www.amazon.co.uk/Furniture-Kitchen-Home-Garden/b?ie=UTF8&amp;node=10745681&_encoding=UTF8&tag=256308e-21&linkCode=ur2&linkId=3c6bc83dfea1c9c2bb30d45d4f1f774e&camp=1634&creative=6738">
+                        <p style="color: black;">Shop now</p></a></a>
+            </div>
+        </div>
+        <div class="homeandgardenbox" style="margin: 0 auto;">
+            <div id="content" class="container">
+                <img id="logo" src="static/images/amazonlogo.png" style="height: 20%; width: auto;">
+                <a target="_blank"
+                   href="https://www.amazon.co.uk/s?k=computers&amp;crid=316S3GJZD0C6U&amp;sprefix=computer%252Caps%252C82&amp;ref=nb_sb_noss_1&_encoding=UTF8&tag=256308e-21&linkCode=ur2&linkId=3cdd0f3ffc3413570eb390208940580b&camp=1634&creative=6738">
+                    <a href="https://www.amazon.co.uk/enabled-Complete-Dell-OptiPlex-Computer/dp/B012AUCJ8I?crid=316S3GJZD0C6U&keywords=computers&qid=1686470127&sprefix=computer%2Caps%2C82&sr=8-3&linkCode=li2&tag=256308e-21&linkId=dfbbe0b44f08a05ad314e8f6a4e957c9&ref_=as_li_ss_il"
+                       target="_blank"><img border="0"
+                                            src="//ws-eu.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B012AUCJ8I&Format=_SL160_&ID=AsinImage&MarketPlace=GB&ServiceVersion=20070822&WS=1&tag=256308e-21"></a>
+                    <img src="https://ir-uk.amazon-adsystem.com/e/ir?t=256308e-21&l=li2&o=2&a=B012AUCJ8I" width="1"
+                         height="1" border="0" alt="" style="border:none !important; margin:0px !important;"/>
+                    <img src="https://ir-uk.amazon-adsystem.com/e/ir?t=256308e-21&l=li2&o=2&a=B0C1G36M73" width="1"
+                         height="1" border="0" alt="" style="border:none !important; margin:0px !important;"/>
+                    <h2 class="titlemedium">
+                        <span class="title-word title-word-1">Electronics</span>
+                        <span class="title-word title-word-2">and</span>
+                        <span class="title-word title-word-3">Computing</span>
+                        <span class="title-word title-word-4">Equipment</span>
+                    </h2>
+                    <a target="_blank"
+                       href="https://www.amazon.co.uk/Furniture-Kitchen-Home-Garden/b?ie=UTF8&amp;node=10745681&_encoding=UTF8&tag=256308e-21&linkCode=ur2&linkId=3c6bc83dfea1c9c2bb30d45d4f1f774e&camp=1634&creative=6738">
+                        <p style="color: black;">Shop now</p></a></a>
+            </div>
         </div>
         <div class="box3b" style="display:flex;">
             <div id="grid" style="flex: 90%; margin-top: 20px;">
-                <div id="gridiframe">
-<iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=20&l=ur1&category=homegarden&banner=0MX08KHDN8A3BF4NGV82&f=ifr&linkID=4ec849580afae38e63d89614212eb8f3&t=256308e-21&tracking_id=256308e-21" width="120" height="90" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>                  </div>
                 <div>
                     <div style="display: flex; margin: 0 auto;">
 
-                    <a href="https://energyperformancecertificates.co.uk/"><img src="/static/images/epc.png"
-                                                                                 id="energyperformance" alt="a balloon"></a>
+                        <a href="https://energyperformancecertificates.co.uk/"><img src="/static/images/epc.png"
+                                                                                    id="energyperformance"
+                                                                                    alt="a balloon"></a>
                     </div>
                 </div>
-                <div style="margin: 0 auto;"><a href="https://www.gassaferegister.co.uk/find-an-engineer-or-check-the-register/"><img
+                <div style="margin: 0 auto;"><a
+                        href="https://www.gassaferegister.co.uk/find-an-engineer-or-check-the-register/"><img
                         src="/static/images/gassaf.png" id="gridimage" alt="a balloon" id="marginimage"></a></div>
-                <div style="margin: 0 auto;"><a href="https://www.uswitch.com/"><img src="/static/images/utility.png" id="gridimage"></a></div>
+                <div style="margin: 0 auto;"><a href="https://www.uswitch.com/"><img src="/static/images/utility.png"
+                                                                                     id="gridimage"></a></div>
             </div>
         </div>
 
@@ -1039,7 +1181,7 @@
                         <li>info@propertyscanneruk.co.uk</li>
                     </ul>
                 </div>
-                <div class="row" style="padding-left: 10%; justify-content: right">
+                <div class="row" style="padding-left: 10%; justify-content: right; min-width: 100px;">
                     <div class="column">
                         <img src="/static/images/gumtree.jpeg" width="150" height="auto" src=alt=""/>
                     </div>
@@ -1063,17 +1205,81 @@
     </div>
 
 </div>
-  <div class="bannerbottom">
-<iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=48&l=ur1&category=pcvideogames&banner=0ARHTTTPV6PH0V84N202&f=ifr&linkID=591eb72486f6cfeec8d0ecc4da41d189&t=256308e-21&tracking_id=256308e-21" width="728" height="90" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
-  </div>
+<div class="bannerbottom">
+    <div id="content" class="container">
+        <img id="logo" src="static/images/amazonlogo.png" style="height: 20%; width: auto;">
+        <a href="https://www.amazon.co.uk/Sony-CUH-2216A-PlayStation-Console-Refurbished/dp/B07QCT6LSV?keywords=game+consoles&qid=1686470346&rnid=1642204031&s=videogames&sprefix=game+console%2Caps%2C78&sr=1-4&linkCode=li2&tag=256308e-21&linkId=6591eb6ec6c5bc0627cc0994a7bf6c75&ref_=as_li_ss_il"
+           target="_blank"><img border="0"
+                                src="//ws-eu.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B07QCT6LSV&Format=_SL160_&ID=AsinImage&MarketPlace=GB&ServiceVersion=20070822&WS=1&tag=256308e-21"></a><img
+            src="https://ir-uk.amazon-adsystem.com/e/ir?t=256308e-21&l=li2&o=2&a=B07QCT6LSV" width="1" height="1"
+            border="0" alt="" style="border:none !important; margin:0px !important;"/>
+        <a target="_blank"
+           href="https://www.amazon.co.uk/s?k=game+consoles&amp;rh=n%253A300703&amp;dc&amp;ds=v1%253AQr1psfAPupVqP%252B9%252FpfnBb0z%252BBqwuzeuzYj8hZIeE69s&amp;qid=1686470336&amp;rnid=1642204031&amp;sprefix=game+console%252Caps%252C78&amp;ref=sr_nr_n_4&_encoding=UTF8&tag=256308e-21&linkCode=ur2&linkId=57e30b20c3ef5e2fb791c2100f90636d&camp=1634&creative=6738">
+            <h2 class="titlemedium">
+                <span class="title-word title-word-1">Electronics</span>
+                <span class="title-word title-word-2">and</span>
+                <span class="title-word title-word-3">Computers</span>
+                <span class="title-word title-word-4">Deals</span>
+            </h2>
+            <p style="color: black;">Shop now</p></a>
+    </div>
+</div>
 <div class="bannerbottommidscreen">
-    <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=26&l=ur1&category=pcvideogames&banner=1EZH10GZG35XXVXEHQ02&f=ifr&linkID=b5189cfbc6c37bc70718dc4f6dee4c46&t=256308e-21&tracking_id=256308e-21" width="468" height="60" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+    <div id="content" class="container">
+        <img id="logo" src="static/images/amazonlogo.png" style="height: 20%; width: auto;">
+        <a href="https://www.amazon.co.uk/Sony-CUH-2216A-PlayStation-Console-Refurbished/dp/B07QCT6LSV?keywords=game+consoles&qid=1686470346&rnid=1642204031&s=videogames&sprefix=game+console%2Caps%2C78&sr=1-4&linkCode=li2&tag=256308e-21&linkId=6591eb6ec6c5bc0627cc0994a7bf6c75&ref_=as_li_ss_il"
+           target="_blank"><img border="0"
+                                src="//ws-eu.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B07QCT6LSV&Format=_SL160_&ID=AsinImage&MarketPlace=GB&ServiceVersion=20070822&WS=1&tag=256308e-21"></a><img
+            src="https://ir-uk.amazon-adsystem.com/e/ir?t=256308e-21&l=li2&o=2&a=B07QCT6LSV" width="1" height="1"
+            border="0" alt="" style="border:none !important; margin:0px !important;"/>
+        <a target="_blank"
+           href="https://www.amazon.co.uk/s?k=game+consoles&amp;rh=n%253A300703&amp;dc&amp;ds=v1%253AQr1psfAPupVqP%252B9%252FpfnBb0z%252BBqwuzeuzYj8hZIeE69s&amp;qid=1686470336&amp;rnid=1642204031&amp;sprefix=game+console%252Caps%252C78&amp;ref=sr_nr_n_4&_encoding=UTF8&tag=256308e-21&linkCode=ur2&linkId=57e30b20c3ef5e2fb791c2100f90636d&camp=1634&creative=6738">
+            <h2 class="titlemedium">
+                <span class="title-word title-word-1">Electronics</span>
+                <span class="title-word title-word-2">and</span>
+                <span class="title-word title-word-3">Computers</span>
+                <span class="title-word title-word-4">Deals</span>
+            </h2>
+            <p style="color: black;">Shop now</p></a>
+    </div>
 </div>
 <div class="bannerbottomsmallscreen">
-    <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=42&l=ur1&category=pcvideogames&banner=15ZT0Y0XGWWEASSYT402&f=ifr&linkID=150fa0641a3e8f4672fe5888a216b4c5&t=256308e-21&tracking_id=256308e-21" width="234" height="60" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+    <div id="content" class="container">
+        <img id="logo" src="static/images/amazonlogo.png" style="height: 20%; width: auto;">
+        <a href="https://www.amazon.co.uk/Sony-CUH-2216A-PlayStation-Console-Refurbished/dp/B07QCT6LSV?keywords=game+consoles&qid=1686470346&rnid=1642204031&s=videogames&sprefix=game+console%2Caps%2C78&sr=1-4&linkCode=li2&tag=256308e-21&linkId=6591eb6ec6c5bc0627cc0994a7bf6c75&ref_=as_li_ss_il"
+           target="_blank"><img border="0"
+                                src="//ws-eu.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B07QCT6LSV&Format=_SL160_&ID=AsinImage&MarketPlace=GB&ServiceVersion=20070822&WS=1&tag=256308e-21"></a><img
+            src="https://ir-uk.amazon-adsystem.com/e/ir?t=256308e-21&l=li2&o=2&a=B07QCT6LSV" width="1" height="1"
+            border="0" alt="" style="border:none !important; margin:0px !important;"/>
+        <a target="_blank"
+           href="https://www.amazon.co.uk/s?k=game+consoles&amp;rh=n%253A300703&amp;dc&amp;ds=v1%253AQr1psfAPupVqP%252B9%252FpfnBb0z%252BBqwuzeuzYj8hZIeE69s&amp;qid=1686470336&amp;rnid=1642204031&amp;sprefix=game+console%252Caps%252C78&amp;ref=sr_nr_n_4&_encoding=UTF8&tag=256308e-21&linkCode=ur2&linkId=57e30b20c3ef5e2fb791c2100f90636d&camp=1634&creative=6738">
+            <h2 class="titlemedium">
+                <span class="title-word title-word-1">Electronics</span>
+                <span class="title-word title-word-2">and</span>
+                <span class="title-word title-word-3">Computers</span>
+                <span class="title-word title-word-4">Deals</span>
+            </h2>
+            <p style="color: black;">Shop now</p></a>
+    </div>
 </div>
 <div class="bannerbottommobile">
-    <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=2&p=40&l=ur1&category=pcvideogames&banner=1QEX8W9PST0KY6VNEV02&f=ifr&linkID=224dcd2921c1fd32e94f05d5d140c12b&t=256308e-21&tracking_id=256308e-21" width="120" height="60" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
+    <div id="contentvsmall" class="container">
+        <img id="logo" src="static/images/amazonlogo.png" style="height: 20%; width: auto;">
+        <a href="https://www.amazon.co.uk/Sony-CUH-2216A-PlayStation-Console-Refurbished/dp/B07QCT6LSV?keywords=game+consoles&qid=1686470346&rnid=1642204031&s=videogames&sprefix=game+console%2Caps%2C78&sr=1-4&linkCode=li2&tag=256308e-21&linkId=6591eb6ec6c5bc0627cc0994a7bf6c75&ref_=as_li_ss_il"
+           target="_blank"><img border="0"
+                                src="//ws-eu.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B07QCT6LSV&Format=_SL160_&ID=AsinImage&MarketPlace=GB&ServiceVersion=20070822&WS=1&tag=256308e-21"></a><img
+            src="https://ir-uk.amazon-adsystem.com/e/ir?t=256308e-21&l=li2&o=2&a=B07QCT6LSV" width="1" height="1"
+            border="0" alt="" style="border:none !important; margin:0px !important;"/>
+        <a target="_blank"
+           href="https://www.amazon.co.uk/s?k=game+consoles&amp;rh=n%253A300703&amp;dc&amp;ds=v1%253AQr1psfAPupVqP%252B9%252FpfnBb0z%252BBqwuzeuzYj8hZIeE69s&amp;qid=1686470336&amp;rnid=1642204031&amp;sprefix=game+console%252Caps%252C78&amp;ref=sr_nr_n_4&_encoding=UTF8&tag=256308e-21&linkCode=ur2&linkId=57e30b20c3ef5e2fb791c2100f90636d&camp=1634&creative=6738">
+            <h2 class="titlemedium">
+                <span class="title-word title-word-1">Electronics</span>
+                <span class="title-word title-word-2">and</span>
+                <span class="title-word title-word-3">Computers</span>
+                <span class="title-word title-word-4">Deals</span>
+            </h2>
+            <p style="color: black;">Shop now</p></a>
+    </div>
 </div>
 <!-- TrustBox widget - Micro Review Count -->
 
