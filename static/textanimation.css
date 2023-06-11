@@ -1,0 +1,161 @@
+.title-word {
+  animation: color-animation 4s linear infinite;
+}
+
+.title-word-1 {
+  --color-1: #251f21;
+  --color-2: #ee992a;
+  --color-3: #251f21;
+}
+
+.title-word-2 {
+  --color-1: #ee992a;
+  --color-2: #251f21;
+  --color-3: #ee992a;
+}
+
+.title-word-3 {
+  --color-1: #251f21;
+  --color-2: #ee992a;
+  --color-3: #251f21;
+}
+
+.title-word-4 {
+  --color-1: #ee992a;
+  --color-2: #251f21;
+  --color-3: #ee992a;
+}
+
+@keyframes color-animation {
+  0%    {color: var(--color-1)}
+  32%   {color: var(--color-1)}
+  33%   {color: var(--color-2)}
+  65%   {color: var(--color-2)}
+  66%   {color: var(--color-3)}
+  99%   {color: var(--color-3)}
+  100%  {color: var(--color-1)}
+}
+
+/* Here are just some visual styles. 🖌 */
+
+.container {
+  display: grid;
+  place-items: center;
+  text-align: center;
+  height: 30vh
+}
+
+.titlelarge {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 800;
+  font-size: 1.5vw;
+  text-transform: uppercase;
+}
+
+.titlemedium {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 800;
+  font-size: 1vw;
+  text-transform: uppercase;
+}
+
+.titlesmall {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 800;
+  font-size: 0.5vw;
+  text-transform: uppercase;
+}
+
+#content {
+  position: relative;
+  border-style: solid;
+  border-width: thin;
+  border-radius: 25px;
+  width: 600px;
+  margin-bottom: 30px;
+}
+
+#gridcontent {
+  position: relative;
+  border-style: solid;
+  border-width: thin;
+  border-radius: 25px;
+  width: 300px;
+  margin-bottom: 30px;
+}
+
+#contentmobile {
+    position: relative;
+  border-style: solid;
+  border-width: thin;
+  border-radius: 25px;
+  width: 200px;
+  margin-bottom: 30px;
+}
+
+#contentvsmall {
+  position: relative;
+  border-style: solid;
+  border-width: thin;
+  border-radius: 25px;
+  width: 300px;
+  height: auto;
+  margin-bottom: 30px;
+}
+
+#contentsmall {
+  position: relative;
+  border-style: solid;
+  border-width: thin;
+  border-radius: 25px;
+  width: 300px;
+  margin-bottom: 30px;
+}
+
+#content #logo {
+  padding-top: 10px;
+  padding-left: 10px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+#b_2square {
+  position: relative;
+  border-style: solid;
+  border-width: thin;
+  border-radius: 25px;
+  width: 300px;
+  height: auto;
+  margin-bottom: 30px;
+  background-color: #ff9a00;
+  animation: colorchange 1s infinite;
+}
+
+#squareaffiliatetop {
+  height: 200px;
+
+}
+
+@keyframes colorchange {
+  from {background-color: #ff9a00;}
+  to {background-color: #FFFFFF; }
+}
+
+@keyframes blacktowhite {
+  from {background-color: #000000;}
+  to {background-color: #FFFFFF; }
+}
+
+
+#rightdiv {
+  margin-left: 90px;
+    position: relative;
+  border-style: solid;
+  border-width: thin;
+  border-radius: 25px;
+  width: 150px;
+  height: 500px;
+  margin-bottom: 30px;
+  background-color: #ff9a00;
+}
