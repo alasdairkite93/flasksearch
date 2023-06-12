@@ -75,6 +75,16 @@
   margin-bottom: 30px;
 }
 
+#contentbeds {
+  position: relative;
+  border-style: solid;
+  border-width: thin;
+  border-radius: 25px;
+  width: 400px;
+  margin-bottom: 30px;
+  height: auto;
+}
+
 #gridcontent {
   position: relative;
   border-style: solid;
@@ -125,6 +135,7 @@
   border-style: solid;
   border-width: thin;
   border-radius: 25px;
+  margin-right: 60px;
   width: 300px;
   height: auto;
   margin-bottom: 30px;
