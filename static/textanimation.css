@@ -75,6 +75,7 @@
   margin-bottom: 30px;
 }
 
+
 #contentbeds {
   position: relative;
   border-style: solid;
@@ -169,4 +170,13 @@
   height: 500px;
   margin-bottom: 30px;
   background-color: #ff9a00;
+}
+
+#contentbase {
+  position: relative;
+  border-style: solid;
+  border-width: thin;
+  border-radius: 25px;
+  width: auto;
+  margin-bottom: 30px;
 }
