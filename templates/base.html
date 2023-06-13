@@ -21,7 +21,6 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='foundation.css') }}">
     <link rel="stylesheet" href="https://cdn.korzh.com/metroui/v4/css/metro-all.min.css">
 
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
@@ -450,7 +449,7 @@
             }
         }
 
-        function  planning(json_data) {
+        function planning(json_data) {
             const section = document.getElementById('forsale');
             section.innerHTML = "";
 
@@ -984,6 +983,14 @@
                 display: none;
             }
 
+            .rightaffiliatemedium {
+                display: none;
+            }
+
+           .leftaffiliatemedium {
+                display: none;
+            }
+
             .box2 {
                 grid-area: nv;
                 background-color: #1A2090;
@@ -1069,10 +1076,170 @@
                 width: 70%;
             }
 
+            #content #logo {
+                padding-top: 10px;
+                padding-left: 10px;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+            }
+
+            .container2 {
+                display: grid;
+                place-items: center;
+                text-align: center;
+                height: auto;
+                position: fixed;
+                font-family: "Montserrat", sans-serif;
+                font-weight: 600;
+                text-transform: uppercase;
+            }
+
+            .leftaffiliatesmall {
+                display: none;
+            }
+
+            .rightaffiliatesmall {
+                display: none;
+            }
+
         }
 
-        @media only screen and (min-width: 741px) and (max-width: 1800px) {
+        @media only screen and (min-width: 741px) and (max-width: 1600px) {
 
+            .leftaffiliatesmall {
+                padding-left: 10px;
+                grid-area: la;
+                display: grid;
+                place-items: center;
+                text-align: center;
+                height: auto;
+                width: 80%;
+            }
+
+            .rightaffiliatesmall {
+                padding-left: 10px;
+                grid-area: ra;
+                display: grid;
+                place-items: center;
+                text-align: center;
+                height: auto;
+                width: 80%;
+            }
+
+           .rightaffiliatemedium {
+                display: none;
+            }
+
+            .box2 {
+                grid-area: nv;
+                background-color: #1A2090;
+                width: auto;
+                display: flex;
+            }
+
+            .selectclass {
+                padding-top: 10px;
+            }
+
+            select {
+                flex-shrink: 1;
+                width: auto;
+
+            }
+
+            #newdivattribute {
+                width: 65%;
+            }
+
+            #sortbutton {
+                margin-left: 150px;
+            }
+
+            #containerpadding {
+                padding-left: 10px;
+            }
+
+            #ulbar {
+                flex-wrap: wrap;
+                display: flex;
+                flex-direction: row;
+                gap: 10px;
+                padding-top: 25px;
+                justify-content: left;
+            }
+
+            #listyle {
+                padding-right: 20px;
+                text-align: center;
+            }
+
+            #logosize {
+                width: 100%;
+                height: auto;
+            }
+
+            .wrapper {
+                display: grid;
+                grid-template-columns: 15% 70% 15%;
+                grid-auto-rows: minmax(75px, auto);
+                grid-template-areas:
+                "lg .. .. "
+                " ra hd la   "
+                "ra nv la"
+                "ra cont la"
+                "ft ft ft ";
+            }
+
+
+            .rightaffiliate {
+                display: none;
+            }
+
+            .leftaffiliate {
+                display: none;
+            }
+
+
+            #forsale {
+                padding-top: 25px;
+            }
+
+            .box1 {
+                grid-area: hd;
+                justify-self: center;
+            }
+
+            #content #logo {
+                padding-top: 10px;
+                padding-left: 10px;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+            }
+
+            .container2 {
+                display: grid;
+                place-items: center;
+                text-align: center;
+                height: auto;
+                position: fixed;
+                font-family: "Montserrat", sans-serif;
+                font-weight: 600;
+                text-transform: uppercase;
+            }
+
+            .leftaffiliatemedium {
+                display: none;
+            }
+
+            .rightaffiliatemedium {
+                display: none;
+            }
+        }
+
+
+        @media only screen and (min-width: 1600px) and (max-width: 1800px) {
 
             .box2 {
                 grid-area: nv;
@@ -1129,27 +1296,13 @@
                 grid-template-areas:
                 "lg .. .. "
                 " .. hd ..   "
-                "ra nv la  "
+                "ra nv la "
                 "ra cont la"
                 "ft ft ft ";
             }
 
-
-            @media only screen and (min-width: 1200px) {
-                .rightaffiliate {
-                    z-index: -1;
-                    grid-area: ra;
-                }
-            }
-
-            @media only screen and (max-width: 1200px) {
-                .rightaffiliate {
-                    display: none;
-                }
-
-                .leftaffiliate {
-                    display: none;
-                }
+            .rightaffiliate {
+                display: none;
             }
 
             #forsale {
@@ -1162,21 +1315,72 @@
             }
 
             .leftaffiliate {
-                padding-left: 50px;
+                display: none;
+            }
+
+            #content #logo {
+                padding-top: 10px;
+                padding-left: 10px;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+            }
+
+            .container2 {
+                display: grid;
+                place-items: center;
+                text-align: center;
+                height: auto;
+                position: fixed;
+                font-family: "Montserrat", sans-serif;
+                font-weight: 200;
+                text-transform: uppercase;
+            }
+
+            .leftaffiliatemedium {
+                padding-left: 10px;
                 grid-area: la;
+                display: grid;
+                place-items: center;
+                text-align: center;
+                height: 500px;
+                margin-right: 20px;
+                margin-left: 20px;
+                width: 80%;
             }
 
-        }
+            .rightaffiliatemedium {
+                  padding-left: 10px;
+                grid-area: ra;
+                display: grid;
+                place-items: center;
+                text-align: center;
+                height: 500px;
+                margin-right: 20px;
+                margin-left: 20px;
+                width: 80%;
 
-        @media only screen and (min-width: 1200px) and (max-width: 1450px) {
-            #cardwidth {
-                width: 60%;
             }
+
+            .leftaffiliatesmall {
+                display: none;
+            }
+
+            .rightaffiliatesmall {
+                display: none;
+            }
+
+             span {
+                 font-weight: 300;
+                    }
+
         }
 
         @media only screen and (min-width: 1800px) {
 
-
+             span {
+                 font-weight: 500;
+                    }
 
             .box2 {
                 grid-area: nv;
@@ -1226,23 +1430,42 @@
 
             .wrapper {
                 display: grid;
-                grid-template-columns: repeat(9, 1fr);
+                grid-template-columns: repeat(10, 1fr);
                 grid-auto-rows: minmax(75px, auto);
                 grid-template-areas:
-            "lg hd hd hd   hd   hd   hd   hd   hd"
-            "ra nv nv nv   nv   nv   nv   la   la"
-            "ra cont cont cont cont cont cont la la"
-            ".. ft ft ft   ft   ft   ft   ft   ..";
+            "lg lg hd hd hd   hd   hd   hd   hd   hd"
+            "ra ra nv nv nv   nv   nv   nv   la   la"
+            "ra ra cont cont cont cont cont cont la la"
+            ".. .. ft ft ft   ft   ft   ft   ft   ..";
             }
 
             .leftaffiliate {
-                padding-left: 50px;
                 grid-area: la;
+                display: grid;
+                place-items: center;
+                text-align: center;
+                height: 500px;
+            }
+
+            .leftaffiliatemedium {
+                display: none;
+            }
+
+            .leftaffiliatesmall {
+                display: none;
             }
 
             .rightaffiliate {
-                  z-index: -1;
+                z-index: -1;
                 grid-area: ra;
+                display: grid;
+                place-items: center;
+                text-align: center;
+                height: 500px;
+            }
+
+            .rightaffiliatemedium {
+                display: none;
             }
 
             .box1 {
@@ -1250,7 +1473,84 @@
                 grid-area: hd;
                 justify-self: center;
             }
+
+            #content #logo {
+                padding-top: 10px;
+                padding-left: 10px;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+            }
+
+            .container2 {
+                display: grid;
+                place-items: center;
+                text-align: center;
+                height: auto;
+                position: fixed;
+                font-family: "Montserrat", sans-serif;
+                font-weight: 500;
+                text-transform: uppercase;
+            }
+
+            .rightaffiliatesmall {
+                display: none;
+            }
         }
+
+
+        .title-word {
+            animation: color-animation 4s linear infinite;
+        }
+
+        .title-word-1 {
+            --color-1: #251f21;
+            --color-2: #ee992a;
+            --color-3: #251f21;
+        }
+
+        .title-word-2 {
+            --color-1: #ee992a;
+            --color-2: #251f21;
+            --color-3: #ee992a;
+        }
+
+        .title-word-3 {
+            --color-1: #251f21;
+            --color-2: #ee992a;
+            --color-3: #251f21;
+        }
+
+        .title-word-4 {
+            --color-1: #ee992a;
+            --color-2: #251f21;
+            --color-3: #ee992a;
+        }
+
+        @keyframes color-animation {
+            0% {
+                color: var(--color-1)
+            }
+            32% {
+                color: var(--color-1)
+            }
+            33% {
+                color: var(--color-2)
+            }
+            65% {
+                color: var(--color-2)
+            }
+            66% {
+                color: var(--color-3)
+            }
+            99% {
+                color: var(--color-3)
+            }
+            100% {
+                color: var(--color-1)
+            }
+        }
+
 
 
     </style>
@@ -1309,6 +1609,84 @@
         </div>
     {% endif %}
 
+<div class="leftaffiliate">
+    <div id="content" class="container2"
+         style="margin-left: 20px; margin-right: 20px;">
+        <a href="https://www.amazon.co.uk/Umite-Chef-Utensils-Non-Stick-Resistant/dp/B08D8KPQSL?crid=1CZDEPL0XQVJ4&keywords=kitchen&qid=1686642742&sprefix=kitchen%2Caps%2C73&sr=8-8&linkCode=li2&tag=256308e-21&linkId=d13c27e732fdd06e0489f7d9577c2443&ref_=as_li_ss_il"
+           target="_blank">
+            <img border="0"
+                 src="//ws-eu.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B08D8KPQSL&Format=_SL160_&ID=AsinImage&MarketPlace=GB&ServiceVersion=20070822&WS=1&tag=256308e-21"></a>
+        <img src="https://ir-uk.amazon-adsystem.com/e/ir?t=256308e-21&l=li2&o=2&a=B08D8KPQSL" width="1" height="1"
+             border="0" alt="" style="border:none !important; margin:0px !important;"/>
+        <h2 class="titlemedium">
+            <span class="title-word title-word-1">Kitchen</span>
+            <span class="title-word title-word-2">and</span>
+            <span class="title-word title-word-3">Utensils</span>
+        </h2>
+        <a target="_blank"
+           href="https://www.amazon.co.uk/s?k=kitchen&amp;crid=1CZDEPL0XQVJ4&amp;sprefix=kitchen%252Caps%252C73&amp;ref=nb_sb_noss_1&_encoding=UTF8&tag=256308e-21&linkCode=ur2&linkId=5843ba08f8f20791f7dce2044e38d127&camp=1634&creative=6738">
+            <p style="color: black;">Shop now</p></a></a>
+    </div>
+</div>
+<div class="leftaffiliatemedium">
+    <div id="content" class="container2">
+   <a href="https://www.amazon.co.uk/Umite-Chef-Utensils-Non-Stick-Resistant/dp/B08D8KPQSL?crid=1CZDEPL0XQVJ4&keywords=kitchen&qid=1686642742&sprefix=kitchen%2Caps%2C73&sr=8-8&linkCode=li1&tag=256308e-21&linkId=ee9678faa287225c658f960a7cfc6f92&ref_=as_li_ss_il" target="_blank">
+       <img border="0" src="//ws-eu.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B08D8KPQSL&Format=_SL110_&ID=AsinImage&MarketPlace=GB&ServiceVersion=20070822&WS=1&tag=256308e-21" ></a>
+        <img src="https://ir-uk.amazon-adsystem.com/e/ir?t=256308e-21&l=li1&o=2&a=B08D8KPQSL" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+        <h2 class="titlemedium">
+            <span class="title-word title-word-1">Kitchen</span>
+            <span class="title-word title-word-2">and</span>
+            <span class="title-word title-word-3">Utensils</span>
+        </h2>
+        <a target="_blank"
+           href="https://www.amazon.co.uk/s?k=kitchen&amp;crid=1CZDEPL0XQVJ4&amp;sprefix=kitchen%252Caps%252C73&amp;ref=nb_sb_noss_1&_encoding=UTF8&tag=256308e-21&linkCode=ur2&linkId=5843ba08f8f20791f7dce2044e38d127&camp=1634&creative=6738">
+            <p style="color: black;">Shop now</p></a></a>
+    </div>
+</div>
+<div class="leftaffiliatesmall">
+<iframe sandbox="allow-popups allow-scripts allow-modals allow-forms allow-same-origin" style="width:120px;height:500px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-eu.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=GB&source=ss&ref=as_ss_li_til&ad_type=product_link&tracking_id=256308e-21&marketplace=amazon&region=GB&placement=B08D8KPQSL&asins=B08D8KPQSL&linkId=29c2d32ad2e6dbd589a3acae77527b05&show_border=true&link_opens_in_new_window=true"></iframe></div>
+
+<div class="rightaffiliate">
+    <div id="content" class="container2"
+         style="margin-left: 20px; margin-right: 20px;">
+        <a href="https://www.amazon.co.uk/George-Foreman-25810-Medium-Grill/dp/B082FSBGT6?crid=1HPS2174PQ29G&keywords=grill&qid=1686646731&sprefix=grill%2Caps%2C81&sr=8-4&linkCode=li2&tag=256308e-21&linkId=a59c1ce65c510b1d467be8b39afaa0f1&ref_=as_li_ss_il"
+           target="_blank">
+            <img border="0"
+                 src="//ws-eu.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B082FSBGT6&Format=_SL160_&ID=AsinImage&MarketPlace=GB&ServiceVersion=20070822&WS=1&tag=256308e-21"></a>
+        <img src="https://ir-uk.amazon-adsystem.com/e/ir?t=256308e-21&l=li2&o=2&a=B082FSBGT6" width="1" height="1"
+             border="0" alt="" style="border:none !important; margin:0px !important;"/>
+        <h2 class="titlemedium">
+            <span class="title-word title-word-1">Grills</span>
+            <span class="title-word title-word-2">and</span>
+            <span class="title-word title-word-3">Griddles</span>
+        </h2>
+        <a target="_blank"
+           href="https://www.amazon.co.uk/s?k=kitchen&amp;crid=1CZDEPL0XQVJ4&amp;sprefix=kitchen%252Caps%252C73&amp;ref=nb_sb_noss_1&_encoding=UTF8&tag=256308e-21&linkCode=ur2&linkId=5843ba08f8f20791f7dce2044e38d127&camp=1634&creative=6738">
+            <p style="color: black;">Shop now</p></a></a>
+    </div>
+</div>
+<div class="rightaffiliatemedium">
+    <div id="content" class="container2"
+         style="margin-left: 20px; margin-right: 20px;">
+        <a href="https://www.amazon.co.uk/George-Foreman-25810-Medium-Grill/dp/B082FSBGT6?crid=1HPS2174PQ29G&keywords=grill&qid=1686646731&sprefix=grill%2Caps%2C81&sr=8-4&linkCode=li2&tag=256308e-21&linkId=a59c1ce65c510b1d467be8b39afaa0f1&ref_=as_li_ss_il"
+           target="_blank">
+            <img border="0"
+                 src="//ws-eu.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B082FSBGT6&Format=_SL160_&ID=AsinImage&MarketPlace=GB&ServiceVersion=20070822&WS=1&tag=256308e-21"></a>
+        <img src="https://ir-uk.amazon-adsystem.com/e/ir?t=256308e-21&l=li2&o=2&a=B082FSBGT6" width="1" height="1"
+             border="0" alt="" style="border:none !important; margin:0px !important;"/>
+        <h2 class="titlemedium">
+            <span class="title-word title-word-1">Grills</span>
+            <span class="title-word title-word-2">and</span>
+            <span class="title-word title-word-3">Griddles</span>
+        </h2>
+        <a target="_blank"
+           href="https://www.amazon.co.uk/s?k=kitchen&amp;crid=1CZDEPL0XQVJ4&amp;sprefix=kitchen%252Caps%252C73&amp;ref=nb_sb_noss_1&_encoding=UTF8&tag=256308e-21&linkCode=ur2&linkId=5843ba08f8f20791f7dce2044e38d127&camp=1634&creative=6738">
+            <p style="color: black;">Shop now</p></a></a>
+    </div>
+</div>
+<div class="rightaffiliatesmall">
+    <iframe sandbox="allow-popups allow-scripts allow-modals allow-forms allow-same-origin" style="width:120px;height:500px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-eu.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=GB&source=ss&ref=as_ss_li_til&ad_type=product_link&tracking_id=256308e-21&marketplace=amazon&region=GB&placement=B082FSBGT6&asins=B082FSBGT6&linkId=e6be85a9adb1d9f59bad2e785401ad46&show_border=true&link_opens_in_new_window=true"></iframe>
+</div>
 
 <div class="box2">
     <div class="container" id="containerpadding" style="width: 90%; padding-top: 5%;">
@@ -1479,6 +1857,8 @@
                     document.getElementById("pcode&radius").addEventListener("click", pupdate);
                 </script>
             </li>
+        </ul>
+        <ul class="nav navbar-nav" id="ulbar">
             <li>
                 <form action="{{ url_for("update_radius") }}" method="post" name="radiusform" id="selection">
                     <select onmousedown="if(this.options.length>1){this.size=7;}"
@@ -1499,7 +1879,6 @@
                         <option value="30">+30 miles</option>
                         <option value="50">+50 miles</option>
                     </select>
-                </form>
                 </form>
             </li>
             <li>
